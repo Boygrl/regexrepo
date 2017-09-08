@@ -1,0 +1,151 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Vericept Monitor" logInterval="1" logLocation="/var/log/local3.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Vericept Monitor" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="vericeptmonitor" toolType="Data Loss Prevention" version="$Revision: #4 $" vendor="Vericept/Trustwave" fullDescription="Collects communication events from devices running Vericept Monitor software." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Vericept Monitor" id="vericeptmonitor" version="19" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, WebTrafficAudit: www" matcher="(\d+) ([-\w.]+) (\w+): CEF:0\|vericept\|(\w+)\|[\d.]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: CEF:0\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;www-[-\w]+&quot; shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="www-resp[-\w]*" description="www-resp" format="URL Response from &quot;$9&quot;" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, App: $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="www-(?:req|post)-ssl" description="www-req-post-ssl" format="https://$15" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-(?:req|post)" description="www-req-post" format="http://$15" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-resp-ssl" description="www-resp-ssl" format="https://$14" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-resp" description="www-resp" format="http://$14" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="&quot;(.*)&quot;" description="quotes" format="$18" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="2, MailTrafficAudit: imap, pop, smtp" matcher="(\d+) ([-\w.]+) (\w+): CEF:0\|vericept\|(\w+)\|[\d.]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: CEF:0\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;(?:pop|smtp|imap)[-\w]*&quot; shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$13 traffic from &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, Signature ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemTrafficAudit" description="3, FileSystemTrafficAudit: netbios" matcher="(\d+) ([-\w.]+) (\w+): CEF:0\|vericept\|(\w+)\|[\d.]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: CEF:0\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;netbios&quot; shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$13 traffic from &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, Signature ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="4, ApplicationTrafficAudit: catch all" matcher="(\d+) ([-\w.]+) (\w+): CEF:0\|vericept\|(\w+)\|[\d.]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: CEF:0\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;[-\w]+&quot; shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$13 traffic from &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, Signature ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="5, WebTrafficAudit: warning; www" matcher="(\d+) ([-\w.]+) (\w+): WARNING:\|vericept\|(\w+)\|[\d.]+\|[^|]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; (.*?) ?shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: WARNING:\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;www-[-\w]+&quot; .*? ?shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="www-resp[-\w]*" description="www-resp" format="URL Response from &quot;$9&quot;" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, App: $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fname=&quot;.+&quot; cn2=\d+ suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="fname-cn2-suser-duser" format="Product: $4, Severity: $7, App: $13, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="fname=&quot;.+&quot; suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="fname-suser-duser" format="Product: $4, Severity: $7, App: $13, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="cn2=\d+ suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="cn2-suser-duser" format="Product: $4, Severity: $7, App: $13, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="suser-duser" format="Product: $4, Severity: $7, App: $13, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Possible Information Disclosure" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="www-(?:req|post)-ssl, fname=&quot;(.+?)&quot;" description="www-req-post-ssl-fname" format="https://$16/$19" matcherInput="$13, $14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-(?:req|post), fname=&quot;(.+?)&quot;" description="www-req-post-fname" format="http://$16/$19" matcherInput="$13, $14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-resp-ssl, fname=&quot;(.+?)&quot;" description="www-resp-ssl-fname" format="https://$15/$19" matcherInput="$13, $14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-resp, fname=&quot;(.+?)&quot;" description="www-resp-fname" format="http://$15/$19" matcherInput="$13, $14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-(?:req|post)-ssl" description="www-req-post-ssl" format="https://$16" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-(?:req|post)" description="www-req-post" format="http://$16" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-resp-ssl" description="www-resp-ssl" format="https://$15" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="www-resp" description="www-resp" format="http://$15" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="fname=&quot;(.+?)&quot;" description="fname" format="$19" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&quot;(.*)&quot;" description="quotes" format="$19" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="6, MailTrafficAudit: warning; imap, pop, smtp" matcher="(\d+) ([-\w.]+) (\w+): WARNING:\|vericept\|(\w+)\|[\d.]+\|[^|]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; (.*?) ?shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: WARNING:\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;(?:pop|smtp|imap)[-\w]*&quot; .*? ?shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$13 traffic from &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, Signature ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fname=&quot;(.+)&quot; cn2=\d+ suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="fname-cn2-suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$20&quot;, Dst User: &quot;$21&quot;, File: &quot;$19&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="fname=&quot;(.+)&quot; suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="fname-suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$20&quot;, Dst User: &quot;$21&quot;, File: &quot;$19&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="fname=&quot;(.+?)&quot;" description="fname" format="Product: $4, Severity: $7, Signature ID: $5, File: &quot;$19&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="cn2=\d+ suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="cn2-suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Possible Information Disclosure" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="7, ApplicationTrafficAudit: warning; catch all" matcher="(\d+) ([-\w.]+) (\w+): WARNING:\|vericept\|(\w+)\|[\d.]+\|[^|]+\|([^|]+)\|([^|]+)\|(\d+)\|rt=(\d+) src=&quot;([\d.]+)&quot; dst=&quot;([\d.]+)&quot; sport=(\d+) dport=(\d+) app=&quot;([-\w]+)&quot; (.*?) ?shost=&quot;([-\\\w.]+)&quot; dhost=&quot;([-\\\w.]+)&quot; externalId=&quot;([-a-f\d]+)&quot;.*" pattern="\d+ [-\w.]+ \w+: WARNING:\|vericept\|\w+\|[\d.]+\|[^|]+\|[^|]+\|[^|]+\|\d+\|rt=\d+ src=&quot;[\d.]+&quot; dst=&quot;[\d.]+&quot; sport=\d+ dport=\d+ app=&quot;[-\w]+&quot; .*? ?shost=&quot;[-\\\w.]+&quot; dhost=&quot;[-\\\w.]+&quot; externalId=&quot;[-a-f\d]+&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$13 traffic from &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Product: $4, Severity: $7, Signature ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fname=&quot;(.+)&quot; cn2=\d+ suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="fname-cn2-suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$20&quot;, Dst User: &quot;$21&quot;, File: &quot;$19&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="fname=&quot;(.+)&quot; suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="fname-suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$20&quot;, Dst User: &quot;$21&quot;, File: &quot;$19&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="fname=&quot;(.+?)&quot;" description="fname" format="Product: $4, Severity: $7, Signature ID: $5, File: &quot;$19&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="cn2=\d+ suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="cn2-suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="suser=&quot;(.+)&quot; duser=&quot;(.+)&quot;" description="suser-duser" format="Product: $4, Severity: $7, Signature ID: $5, Src User: &quot;$19&quot;, Dst User: &quot;$20&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Possible Information Disclosure" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data 1" matcher="(\d+) ([-\w.]+).* CEF:0\|vericept\|.*" pattern="\d+ [-\w.]+.* CEF:0\|vericept\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Vericept data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data 2" matcher="(\d+) ([-\w.]+).* WARNING:\|vericept\|.*" pattern="\d+ [-\w.]+.* WARNING:\|vericept\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Vericept data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

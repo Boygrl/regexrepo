@@ -1,0 +1,585 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Netgear FV Series" logInterval="1" logLocation="/var/log/local3.log" logManagementOutput="" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Netgear FV" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="NetgearFV" toolType="Firewalls" version="$Revision: #4 $" vendor="Netgear" fullDescription="Collects events from Netgear FV series firewall appliances." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Netgear FV Series" id="NetgearFV" version="6" version_type="int">
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="^\d+ [^ ]+ [^\(]+[^\)]+\) [^ ]+ .*\[Forward\].*" version="2" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="^\d+ [^ ]+ [^\(]+[^\)]+\) [^ ]+ TCP Connection.*\[Receive\].*" version="2" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="^\d+ [^ ]+ [^\(]+[^\)]+\) [^ ]+ TCP Packet.*\[Receive\].*" version="2" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="^\d+ [^ ]+ [^\(]+[^\)]+\) [^ ]+ UDP Packet.*\[Receive\].*" version="2" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="^\d+ [^ ]+ [^\(]+[^\)]+\) [^ ]+ ICMP Packet.*\[Receive\].*" version="2" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="^\d+ [^ ]+ [^\(]+[^\)]+\) [^ ]+ Login screen timed out.*" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="Administrator action" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (Admin)istrator Action - ([^]]+\]) ([^^]+).*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Administrator Action.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="is (Moved to) (.+)" description="moved to index" format="$6 &quot;$9 $10&quot;" matcherInput="$7" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="is (changed to) (.+)" description="changed to" format="$6 $9 &quot;$10&quot;" matcherInput="$7" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="is (.+)" description="is" format="$6 &quot;$9&quot;" matcherInput="$7" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="200" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="is (Moved to) (.+)" description="moved to index" format="$6 &quot;$9 $10&quot;" matcherInput="$7" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="is (changed to) (.+)" description="changed to" format="$6 $9 &quot;$10&quot;" matcherInput="$7" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="is (.+)" description="is" format="$6 &quot;$9&quot;" matcherInput="$7" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="Administrator interface" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (Administrator Interface Connecting)\[(.+)\] - Source:([^,]+),(\d+) - Destination:([^,]+),(\d+)(.*)\[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Administrator Interface Connecting.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 $5 from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="101" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="Administrator login failure" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (Administrator) login fail, (.+) error - IP:([0-9.]+)(.*)" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Administrator login fail.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="300" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6 error" fieldName="FailureReason" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="Administrator login success" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (Administrator) (.+) - IP:([0-9.]+).*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Administrator login successful.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="400" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="Administrator logout" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (Administrator) (.+) - IP:([0-9.]+).*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Administrator logout.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="500" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="AH/ESP packet" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (AH|ESP) (.+) - Source:([^,]+),(\d+)[^ ]* - Destination:([^,]+),(\d+).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) AH|ESP Packet.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 $6 from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="600" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="Attempt blocked site access" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*)(.*)" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Attempt to access blocked sites.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Block HTTP from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="700" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="http://$8" fieldName="URL" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="IPSEC packet" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+)[^]]*\] ([^ ]+).* - \[(.*)\] \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) IPSEC Packet.*\[HTTP\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="701" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IPSEC" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PPTPTrafficAudit" description="GRE packet" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (GRE.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) GRE Packet.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="800" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="GRE" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPFloodDenial" description="ICMP Flood denial" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ICMP (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*) \[([^]]+)\].* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*ICMP Flood\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="900" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMP Packet malformed" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (ICMP [^ ]+).*(Malformed).* - Source:([^ ]+).* - Destination:[ ]*([^ ]+).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ICMP Packet.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$9 $5 from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="A01" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP CODE Bad Length" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMP Packet echo reply" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (ICMP [^ ]+).*\[(Echo Reply)\] - Source:([^,]+).* - Destination:([^,]+),([A-Z]+) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ICMP Packet.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5 from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="A02" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP Echo Reply" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMP Packet" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (ICMP .*)\[(.+)\] - Source:([^,]+),([A-Z]*).* - Destination:([^,]+),([^ ]*) (?:\[(.*)\].* )?- \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ICMP Packet.*" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null action" format="$12 $5 from &quot;$7&quot;" matcherInput="$11" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="A01" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP $6" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="IP spoof" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*) \[(.*)\].* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*IP Spoofing\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="B00" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Spoofed" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="IP ping of death" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*) \[(.*)\].* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Ping of Death\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="C00" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP Ping Of Death" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlDenial" description="Targa3 attack" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*) \[(.*)\].* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Targa3 Attack\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 &quot;$11&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="D00" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TeardropDenial" description="Teardrop" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*) \[(.*)\].* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) IP.*Teardrop\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 &quot;$11&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="E00" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP Teardrop" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPFragmentationAccess" description="Fragment attack" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),([0-9A-Z]*).* - Destination:([^,]+),([0-9A-Z]*) \[(.*)\].* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) IP.*Fragment Attack\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 &quot;$11&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="F00" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP Fragment" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="IP packet" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ([^[]+).* - Source:([^,]+),?(\d*).* - *Destination:([^,]+),?(\d*).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) IP Packet.*" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null action" format="$5from &quot;$6&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="Log emailed" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (Log emailed).*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Log emailed.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="102" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="Netgear activated" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.*)" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) NETGEAR.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="NETGEAR activated on &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="104" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="NTP reply invalid" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ([^d]*d).*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) NTP Reply Invalid.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Invalid NTP reply" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="105" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="Proto message" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) ([^:]+): (\d+).*(Malformed).* - Source:([^ ]+).* - Destination:[ ]*([^ ]+).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Proto:.*\[Malformed.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5 Malformed from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(123)" description="Protocol number 123" format="$10 PTP $7 from &quot;$8&quot;" matcherInput="$6" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([^1][^2][^3])" description="Other protocols" format="$10 Proto $7 from &quot;$8&quot;" matcherInput="$6" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1001" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP Bad Packet Length" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NTPTrafficAudit" description="NTP send/receive" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.*[from|to] )([0-9.]+).*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) Receive NTP|Send out NTP.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5&quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="106" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="0" version_type="int">
+				<FastFormatter _type="null" condition="(Send.*)" description="send source" format="$4" matcherInput="$5" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Receive.*)" description="receive source" format="$6" matcherInput="$5" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="0" version_type="int">
+				<FastFormatter _type="null" condition="(Send.*)" description="send dest" format="$6" matcherInput="$5" version="-1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Receive.*)" description="receive dest" format="$4" matcherInput="$5" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP full xmas scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Full Xmas Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP All flags set" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP SYN RES set" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*TCP SYN RES Set\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2001" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP full head/sapu scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Head|Sapu Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2002" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP brute force" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Brute Force\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2003" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP SYN FIN scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*SYN FIN Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2004" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP FIN and SYN bits set" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP null scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(Null.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Null|FIN|Other Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2005" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP No bits set" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP fin/other scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Null|FIN|Other Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2005" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int">
+				<FastFormatter _type="null" condition="(FIN.*)" description="fin alert" format="TCP FIN bit set" matcherInput="$12" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="TCP Nmap Xmas scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Nmap Xmas Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2006" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP All flags set" fieldName="AlertActivityType" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SYNFloodDenial" description="TCP syn problem" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*\[First TCP Packet.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP Missing SYN Flag" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SYNFloodDenial" description="TCP syn with data" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*SYN with Data\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3001" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SYNFloodDenial" description="TCP syn flood" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+).*,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*SYN Flood\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3002" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualTCPTraffic" description="TCP bad traffic" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*\[TCP .*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2007" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="TCP Vecna scan" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Vecna Scan\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2008" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="TCP packet malformed" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (TCP Packet) \[(Malformed)(.+) - Source:([^ ]*).* - Destination:[ ]*([^ ]*).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) TCP Packet \[Malformed.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $5 from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2009" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5 $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="TCP packet/connection" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\w+).* - Destination:([^,]+),(\d+)[^,]*,([^ ]+)*.*(?:\[(.*)\] )?- \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) TCP (?:Packet|Connection)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null action" format="$12 $5 from &quot;$6&quot;" matcherInput="$11" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPBombDenial" description="UDP big bomb" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) .*Big Bomb\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPFragmentationDenial" description="UDP fragment attack" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[(.*)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) UDP.*Fragment Attack\].*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 &quot;$12&quot; $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5001" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChargenDenial" description="UDP packet w/interface" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d+).* - Destination:([^,]+),(\d+) ,([^ ]*) \[([^]]+)\] - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) UDP Packet.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$11 $5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="UDP packet" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (.+) - Source:([^,]+),(\d*).* - Destination:([^,]+),(\d*).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) UDP Packet.*" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10 UDP from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null action" format="UDP from &quot;$6&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6000" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualUDPTraffic" description="UDP packet malformed" matcher="(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) (UDP Packet) \[(Malformed)(.+) - Source:([^ ]*).* - Destination:[ ]*([^ ]*).* - \[(.*)\].*" pattern="^(\d+) ([^ ]+) [^\(]+([^\)]+\)) ([^ ]+) UDP Packet \[Malformed.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 $6 $5 from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6001" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5 $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="New Tool Data" matcher="(\d+) ([^ ]+) (.*)" pattern="(\d+) ([-.\w]+)" version="102" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Netgear FV Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

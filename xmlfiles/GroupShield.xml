@@ -1,0 +1,350 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Group Shield/Outbreak for Exchange Server" eventIds="257" logInterval="1" logLocation="application" logManagementOutput="10.254.10.18" logManagementPort="10102" logStartPoint="-1" logType="NtReader" node="spop" readerName="Group Shield" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="GroupShield" toolType="Anti-Virus" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="false" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Group Shield/Outbreak for Exchange Server" id="GroupShield" sysVersion="3.0" version="1" version_type="int">
+		<FastPattern _type="null" alertName="" description="Information (eventType=&quot;4&quot;) - ignore" matcher=".*" pattern="eventId=&quot;257&quot;.*eventType=&quot;4&quot;" version="29" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" description="Alert Manager Service - Ignore - Maybe Alert: ServiceInfo?" matcher=".*Alert Manager Service:.*" pattern="eventId=&quot;257&quot;" version="24" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Virus detected for version 6.0" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*.*The item (.*) is infected with (.*)(Detected .*)\s*\&lt;/String1&gt;.*" pattern="eventId=&quot;257&quot;.*eventType=&quot;2&quot;" version="94" version_type="int">
+			<FastField _type="null" defaultValue="Virus detected." fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Unable to determine action taken." fieldName="ActionTaken" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*boot record.*" description="boot record" format="boot record" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="file (.*)" description="file" format="$12" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; detected." fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="GroupShield Exchange - Warning Message" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;(.*?)&lt;/String1&gt;.*" pattern="eventId=&quot;257&quot;.*eventType=&quot;2&quot;" version="94" version_type="int">
+			<FastField _type="null" defaultValue="$1 $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve username.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="5" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Outbreak Internal Error" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="GroupShield Outbreak" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="GroupShield Exchange - Infected file found / access denied." matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*The file (.*) is infected with (.*). (Detected .*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The file .* is infected with" version="98" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="([^\s]+).*Access to the file was denied.*" description="Virus Name" format="$10" matcherInput="$7" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Scanner Timed Out.*" description="Scanner timed out" format="Unknown Virus" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="16" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="[^\s]+\s(.*)\.\sAccess to the file was denied.*" description="Access Denied" format="VirusType $10.  $8" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="InfectedFile" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Infected File" format="$6" matcherInput="$6" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="ActionTaken" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition="([^\s]+).*Access to the file was denied.*" description="Access Denied" format="Left Alone" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([^\s]+).*Access to the file was denied.*" description="Access Denied" format="Left Alone" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(Access to the file was denied).*" description="Access Denied" format="$10" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Scanner Timed Out.*" description="Scanner Timed Out" format="$7" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="GroupShield Exchange - Infected file (found / access denied)" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="([^\s]+).*Access to the file was denied.*" description="Access Denied" format="Virus: &quot;$10&quot;.  Left Alone" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Scanner Timed Out.*" description="Scanner timed out" format="Unknown Virus" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected file deleted" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*Heuristics has detected that (file .*) is infected with ([^\s]+) (.*) The file was successfully deleted.(.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*Heuristics has detected that " version="94" version_type="int">
+			<FastField _type="null" defaultValue="Infected file deleted" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $8 $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*boot record.*" description="boot record" format="boot record" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="file (.*)" description="file" format="$11" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; Deleted" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="File moved to quarantine" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*Heuristics has detected that (file .*) is infected with ([^\s]+) (.*) and has (.*)\. (Detected using .*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*Heuristics has detected that " version="88" version_type="int">
+			<FastField _type="null" defaultValue="File moved to quarantine" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $8.  $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="ActionTaken" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*boot record.*" description="boot record" format="boot record" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="file (.*)" description="file" format="$12" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; Quarantined" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected file successfully Cleaned." matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*The file (.*) was infected with ([^\s]+) (.*) The file was successfully cleaned with (.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The file was successfully cleaned" version="92" version_type="int">
+			<FastField _type="null" defaultValue="Infected file successfully Cleaned" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $8 $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="ActionTaken" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*boot record.*" description="boot record" format="boot record" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="file (.*)" description="file" format="$11" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; Cleaned" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Unable to (*perform action on*) infected file" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*.* file (.*) is infected with ([^\s]+) (.*)\.\s\s?Unable to (.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*Unable to .* file" version="95" version_type="int">
+			<FastField _type="null" defaultValue="Unable to (*perform action on*) infected file" fieldName="ProviderSID" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="move the file to the quarantine area.*" description="quarantine" format="Unable to move infected file to quarantine" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="clean.*" description="clean" format="Unable to clean infected file" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="delete.*" description="delete" format="Unable to delete infected file" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $8." fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(Scan engine version.*)" description="Scan engine" format="VirusType: $8.  $11" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Unknown Action" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="clean.*" description="clean" format="Cleaned" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="delete.*" description="delete" format="Deleted" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="move the file to the quarantine area.*" description="Quarantine" format="Quarantined" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus $8: Left Alone" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="clean.*" description="clean error" format="Virus $8: Clean Error" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="delete.*" description="Delete Error" format="Virus $8: Delete Error" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="move the file to the quarantine area.*" description="Quarantine Error" format="Virus $8: Quarantine Error" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Error cleaning virus" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*The scan encountered an error attempting to ([^\s]+) (.*) infected with ([^\s]+) (.*)\. (Detected using Scan Engine version .* DAT version .*)\.\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The scan encountered an error attempting to" version="84" version_type="int">
+			<FastField _type="null" defaultValue="Error while cleaning boot sector virus" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="VirusDetected" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $9.  $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="InfectedFile" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*boot record.*" description="boot record" format="boot record" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus $8: Cleaning Error" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected email detected" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*(An email for .* is infected with the virus) (.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*An email for .* is infected with" version="85" version_type="int">
+			<FastField _type="null" defaultValue="Infected email detected" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Email Virus &quot;$7&quot; detected. Left Alone" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected mail item deleted" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*(An email for .* with the virus) (.*)\. The email has been deleted.\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The email has been deleted" version="85" version_type="int">
+			<FastField _type="null" defaultValue="Infected mail item deleted" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Email Virus &quot;$7&quot; detected. Deleted" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected email quarantined" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*(An email for .* is infected with the virus) (.*)\. The email has been (.*).\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The email has been quarantined." version="87" version_type="int">
+			<FastField _type="null" defaultValue="Infected email quarantined" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="ActionTaken" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Email Virus &quot;$7&quot; detected. Quarantined" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="SoftwareUpdate: GroupShield Exchange - Warning Message" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;(.*?)&lt;/String1&gt;.*" pattern="eventId=&quot;257&quot;.*source=&quot;AlertManager&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^(]*)\.\s*\(.*" description="info" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Install Failed" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* user \S+ running (.+ \d+\.\d+).*" description="version" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FeaturePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* user \S+ running (.+) \d+\.\d+.*" description="version" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Version" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* user \S+ running .+ (\d+\.\d+).*" description="version" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SoftwareSource" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* IP ([\d.]+).*" description="version" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Mail virus quarantined and possibly cleaned" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*(An email from .* infected with the virus) (.*) in attachment (.*)\. (.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*cleaned" version="90" version_type="int">
+			<FastField _type="null" defaultValue="Mail virus quarantined and  possibly cleaned" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6.  $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="16" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*cleaned and quarantined.*" description="clean" format="Cleaned" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="ActionTaken" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Email Virus &quot;$7&quot; Quarantined" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition=".*cleaned and quarantined.*" description="cleaned" format="Email Virus &quot;$7&quot; Quarantined and Cleaned" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected email cleaned/Unable to be cleaned" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*(An email from .* was infected with the virus) (.*) in attachment (.*). The infected attachment (.*).\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The infected attachment .* cleaned." version="89" version_type="int">
+			<FastField _type="null" defaultValue="Infected email cleaned / Unable to be cleaned" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="could not be cleaned with (.*)" description="Unable to be cleaned" format="$6 detected with $11" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="13" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="could not be cleaned.*" description="Unable to clean" format="Deleted" matcherInput="$9" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="ActionTaken" type="1" type_type="int" version="16" version_type="int">
+				<FastFormatter _type="null" condition="could not be cleaned.*" description="Unable to clean" format="Deleted" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="InfectedFile" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Email Virus &quot;$7&quot; detected. Cleaned" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="could not be cleaned.*" description="Unable to clean" format="Email Virus &quot;$7&quot; Deleted" matcherInput="$9" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Infected boot record found." matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*The scan found a (boot record) infected with ([^\s]+) (.*)\. (Detected .*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*The scan found a boot record infected with" version="88" version_type="int">
+			<FastField _type="null" defaultValue="Infected boot record found." fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="VirusDetected" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Virus Name" format="$7" matcherInput="$7" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $8.  $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="12" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="12" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="InfectedFile" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Infected File" format="$6" matcherInput="$6" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; detected. Left alone." fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Macro deleted from/in file" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*A macro was deleted.*within (.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*macro" version="96" version_type="int">
+			<FastField _type="null" defaultValue="Macro deleted from/in file" fieldName="ProviderSID" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Macro" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve &gt;&gt; SYSTEM" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Macro Deleted from file $6" fieldName="EventInfo" type="1" type_type="int" version="13" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Memory infected" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*System memory is infected with the ([^\s]+) (.*)\. (.*)\.\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*System memory is infected" version="88" version_type="int">
+			<FastField _type="null" defaultValue="Memory infected" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="12" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="VirusType: $7.  $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="12" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Memeory Virus: &quot;$6&quot; detected." fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="OutBreak Rule Name" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\s*.*outbreak of type \'([^\']+)\'\. (.*)\s\s\&lt;/String1.*" pattern="eventId=&quot;257&quot;.*Network Associates Outbreak Manager" version="91" version_type="int">
+			<FastField _type="null" defaultValue="OutBreak Rule Name" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="13" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve.*" description="Unable to resolve" format="SYSTEM" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="12" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="OutBreak detected:  Left Alone" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;.*" pattern="eventId=&quot;257&quot;" version="94" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Groupshield Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int"></FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

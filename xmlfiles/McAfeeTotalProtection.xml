@@ -1,0 +1,80 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="McAfee Total Protection" logInterval="1" logLocation="C:\Program Files\McAfee\Managed VirusScan\myAgent.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="McAfeeTotalProtectionLogReader" node="spop" readerName="McAfee Total Protection" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="McAfeeTotalProtection" toolType="Anti-Virus" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="McAfee Total Protection" id="McAfeeTotalProtection" version="0" version_type="int">
+		<FastPattern _type="null" alertName="VirusAttack" description="On Access: Malware Found" matcher="([\d-]+ [\d:]+).*ItemType,VT_BSTR,([^&quot;]+).*ItemName,VT_BSTR,([^&quot;]+).*ItemPath,VT_BSTR,([^&quot;]+).*VirusName,VT_BSTR,([^&quot;]+).*Action,VT_BSTR,([^&quot;]+).*" pattern="RunUserProgram" version="42" version_type="int">
+			<FastField _type="null" defaultValue="0" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(File deleted)" description="delete" format="Delete" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Triggered by on access scan." fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ActionTaken" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(Failed to delete file.)" description="left alone" format="Left Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(File deleted)" description="deleted" format="Deleted" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(No action taken)" description="left alone 2" format="Left Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4\$3" fieldName="InfectedFile" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected. File $6" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition="SPY -- (Failed to delete file.)" description="spy - left alone" format="Spyware &quot;$5&quot; detected. File Left Alone" matcherInput="$2 -- $6" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SPY -- (No action taken)" description="spy - left alone 2" format="Spyware &quot;$5&quot; detected. File Left Alone" matcherInput="$2 -- $6" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SPY -- (File deleted)" description="spy - deleted" format="Spyware &quot;$5&quot; detected. File Deleted" matcherInput="$2 -- $6" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Failed to delete file.)" description="left alone" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$6" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(File deleted)" description="deleted" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$6" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(No action taken)" description="left alone 2" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$6" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="On Demand: Malware Found" matcher="([\d-]+ [\d:]+).*ItemName: ([^\t]+)\sInfectionName: ([^\t]+) \tInfectionType: (\d+).*Status: (.*)" pattern="ScanEventCallback" version="41" version_type="int">
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="VirusDetected" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="(.*Clean failed.*)" description="clean failed" format="Clean" matcherInput="$5" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Deleted)" description="deleted" format="Delete" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Cleaned)" description="cleaned" format="Clean" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Triggered by on demand scan." fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="(Deleted.*Clean failed.*)" description="clean failed" format="Delete" matcherInput="$5" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ActionTaken" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="No Action Taken" description="left alone" format="Left Alone" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Deleted.*Clean failed.*)" description="clean failed" format="Deleted" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InfectedFile" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$3&quot; detected. File $5" fieldName="EventInfo" type="1" type_type="int" version="16" version_type="int">
+				<FastFormatter _type="null" condition="(?:5|17|100) -- No Action Taken" description="Spy - Left Alone" format="Spyware &quot;$3&quot; detected. File Left Alone" matcherInput="$4 -- $5" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:5|17|100) -- Delete failed.*" description="Spy - Left Alone 2" format="Virus &quot;$3&quot; detected. File Left Alone" matcherInput="$4 -- $5" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:5|17|100)" description="Spy - detected" format="Virus &quot;$3&quot; detected. File $5" matcherInput="$4" version="12" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="No Action Taken" description="Left Alone" format="Virus &quot;$3&quot; detected. File Left Alone" matcherInput="$5" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Delete failed.*" description="Left Alone 2" format="Virus &quot;$3&quot; detected. File Left Alone" matcherInput="$5" version="8" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="Firewall Disabled" matcher="([\d-]+ [\d:]+).*" pattern="Disabling firewall" version="12" version_type="int">
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Disabling firewall" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="McAfee Update" matcher="([\d-]+ [\d:]+).* ([\d^]+).*" pattern="Setting log activity to: myUpdate" version="19" version_type="int">
+			<FastField _type="null" defaultValue="McAfee updated successfully" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Upgrade" fieldName="InstallOperation" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SoftwarePackage" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="Version" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="OldVersion" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Catch All - (since last, get everything, ignore)" matcher=".*" pattern="" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched McAfee Total Protection Log Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,103 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="Windows Firewall" logInterval="1" logLocation="C:\WINDOWS\pfirewall.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="spop" readerName="Windows Firewall" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="windowsfirewall" toolType="Firewalls" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false" guiVersion="4"></string>
+		<integer attributeName="logManagementPort" enabled="false" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false" guiVersion="4"></integer>
+		<select attributeName="readerOutput" enabled="false" labelText="Output:" preferredOrder="90" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" selectItems="Alert;InDepth;Alert, InDepth" visible="false" guiVersion="4"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Windows Firewall" id="windowsfirewall" version="1" version_type="int">
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="UDP UDPTrafficAudit" matcher="([-\d:\s]+) ([-\w]+) (UDP) ([-.\w]+) ([-.\w]+) ([-\d]+) ([-\d]+) ([-\d]+) (-) (-) (-) (-) (-) (-) (-) ([-\w]+).*" pattern="UDP" version="22" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="InsertionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Packet size $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="-" format="" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="DROP" description="DROP" format="Dropped incoming $3 packet" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN" description="OPEN" format="Opening port $7 for $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN-INBOUND" description="OPEN-INBOUND" format="Opening port $7 for incoming $3 traffic" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="CLOSE" description="CLOSE" format="Closing port $7 to $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="TCP TCPTrafficAudit" matcher="([-\d:\s]+) ([-\w]+) (TCP) ([-.\w]+) ([-.\w]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-FURPAS]+) ([-\d]+) ([-\d]+) ([-\d]+) (-) (-) (-) ([-\w]+).*" pattern="TCP" version="36" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="InsertionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Packet size $8, SYN: $10, Ack: $11, Window: $12, TCP Flags: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="-" description="open / close" format="" matcherInput="$8" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="DROP" description="DROP" format="Dropped incoming $3 packet" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN" description="OPEN" format="Opening port $7 for $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN-INBOUND" description="OPEN-INBOUND" format="Opening port $7 for incoming $3 traffic" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="CLOSE" description="CLOSE" format="Closing port $7 to $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMP ICMPTrafficAudit" matcher="([-\d:\s]+) ([-\w]+) (ICMP) ([-.\w]+) ([-.\w]+) (-) (-) ([-\d]+) (-) (-) (-) (-) ([-\d]+) ([-\d]+) (-) ([-\w]+).*" pattern="ICMP" version="27" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="InsertionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Packet size $8, Type: $13, Code: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="-" description="-" format="" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="DROP" description="DROP" format="Dropped incoming $3 packet" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN" description="OPEN" format="Accepting $3 traffic" matcherInput="$2" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN-INBOUND" description="OPEN-INBOUND" format="Accepting incoming $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="CLOSE" description="CLOSE" format="Not accepting $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="INFO-EVENTS-LOST IPTrafficAudit" matcher="^([-\d:\s]+) ([-\w]+) (-) (-) (-) (-) (-) (-) (-) (-) (-) (-) (-) (-) ([-\d]+) (-).*" pattern="INFO-EVENTS-LOST" version="26" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="InsertionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15 events occurred but were not recorded in the log from the time of the last occurrence of this event type" fieldName="ExtraneousInfo" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15 firewall events not logged" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="UnknownProtocol IPTrafficAudit" matcher="^([-\d:\s]+) ([-\w]+) (\d+) ([-.\w]+) ([-.\w]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w]+).*" pattern="^([-\d:\s]+) ([-\w]+) (\d+)" version="24" version_type="int">
+			<FastField _type="null" defaultValue="$3 $2" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="-" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="InsertionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Packet size $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="-" format="" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="-" format="" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3 $2" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="DROP" description="DROP" format="Dropped incoming $3 packet" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN" description="OPEN" format="Opening port $7 for $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="OPEN-INBOUND" description="OPEN-INBOUND" format="Opening port $7 for incoming $3 traffic" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="CLOSE" description="CLOSE" format="Closing port $7 to $3 traffic" matcherInput="$2" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="^([-\d:\s]+) ([-\w]+) ([-\w]+) ([-.\w]+) ([-.\w]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w]+).*" pattern="^[-\d]+ [:\d]+ [-\w]+ [-\w]+ [-.\w]+ [-.\w]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\d]+ [-\w]+.*" version="28" version_type="int">
+			<FastField _type="null" defaultValue="$3 $2" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Windows Firewall New Tool Data" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="." version="29" version_type="int">
+			<FastField _type="null" defaultValue="$3 $2" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Windows Firewall Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int"></FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

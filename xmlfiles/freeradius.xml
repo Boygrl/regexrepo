@@ -1,0 +1,554 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="FreeRADIUS" logInterval="1" logLocation="/usr/local/var/log/radius.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logType="BufferedReader" node="spop" readerName="FreeRADIUS" readerOutput="Alert" stateVars="logStartPoint, readerName" toolId="freeradius" toolType="Identity and Access Management" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="FreeRADIUS" id="freeradius" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="UserAuthAudit" description="1, UserAuthAudit: Auth: rlm_unix: password expired" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): \[(.+)\]:.*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_unix: \[.+\]: password has expired" version="1" version_type="int">
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Module: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="User $7 password expired" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="AuthSuspicious" description="2, AuthSuspicious: Auth: multiple logins, outside allowed timespan" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+): \[(.+)\] \(from client (.+) port (\d+)(.*)\).*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: (?:Multiple logins|Outside allowed timespan).*: \[.+\] \(from client .+ port \d+.*\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Client $8, Port: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(&lt;.+)" description="no-user-name" format="Client: $8, Port: $9, More: $12" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\S+/(&lt;.+)" description="psw-attribute" format="Client: $8, Port: $9, More: $12" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*cli (\d+\.\d+\.\d+\.\d+.*)" description="cli" format="$12" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;no User-Name attribute&gt;.*" description="no-user-name-attribute" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+)/.+" description="user" format="$12" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="User $7 $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;no User-Name attribute&gt;.*" description="no-user-name-attribute" format="User $6" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+)/.+" description="user" format="User $12 $6" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="AuthSuspicious" description="3, AuthSuspicious: Auth: rlm_unix: invalid shell" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): \[(.+)\]:(.*)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_unix: \[.+\]: invalid shell" version="1" version_type="int">
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Module: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="User $7 had invalid shell" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*invalid shell \[(.+)\]" description="more" format="User $7 had invalid shell ($10)" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="4, ServiceInfo: Auth: rlm_eap: got notification" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_eap: Got NOTIFICATION" version="1" version_type="int">
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5: $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="5, ServiceInfo: Auth: rlm_krb5: krb5_cc_initialize, krb5_cc_resolve" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_krb5: \[.+\] krb5_cc_(?:initialize|resolve)\(\):" version="1" version_type="int">
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5: $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="6, ServiceInfo: Auth: rlm_krb5: krb5_init ok" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_krb5: krb5_init ok" version="1" version_type="int">
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5: $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="7, ServiceStart: Info: reading configuration files" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: Starting - reading configuration files.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5: $6" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="8, ServiceStart: Info: rlm_radumtp: nas rebooted, restarted" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): ((NAS .+) \(.+\)).*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: rlm_radutmp: NAS .+ (?:rebooted|restarted) \(.+\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5: $7" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="9, ServiceWarning: Auth: attribute required for authentication" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.*)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: \w+: Attribute &quot;[-\w]+&quot; is required for authentication" version="1" version_type="int">
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5: $7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) Cannot use.*" description="cannot-use" format="$9" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="10, ServiceWarning: Info: variable missing end-brace" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: .+\[\d+\]: (?:Environment )?[Vv]ariable expansion missing \}" version="1" version_type="int">
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(eap|eapsim|Exec-Program|rlm_\w+|rlm_\w+|sql_\w+)\b.+" description="modules" format="radiusd ($8)" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="11, ServiceWarning: Info: rlm_eap_leap: no password configured" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: rlm_eap_leap: No User-Password or NT-Password configured for this user" version="1" version_type="int">
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12, ServiceWarning: Info: rlm_eap_md5: password required for eap-md5" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: rlm_eap_md5: User-Password is required for EAP-MD5 authentication" version="1" version_type="int">
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="13, ServiceWarning: Info: warning" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): WARNING:? (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: WARNING:? .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserDisable" description="14, UserDisable: Auth: rlm_unix: account locked" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): \[(.+)\]:.*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_unix: \[.+\]: account locked" version="1" version_type="int">
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Module: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="User $7 account locked" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="15, UserLogon: Auth: login ok" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): Login OK(.*): \[(.+)\] \(from client (.+) port (\d+)(.*)\).*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: Login OK.*: \[.+\] \(from client .+ port \d+.*\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Port: $9, NAS: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(&lt;.+)" description="no-user-name" format="Port: $9, NAS: $8, More: $12" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\S+/(&lt;.+)" description="psw-attribute" format="Port: $9, NAS: $8, More: $12" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;no User-Name attribute&gt;.*" description="no-user-name-attribute" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+)/.+" description="user" format="$12" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*cli (\d+\.\d+\.\d+\.\d+.*)" description="cli" format="$12" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="RADIUS" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Logon &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;no User-Name attribute&gt;.*" description="no-user-name-attribute" format="User logon ok $6" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+)/.+" description="user" format="Logon &quot;$12&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="16, UserLogonFailure: Auth: invalid user, login incorrect" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (Invalid user|Login incorrect)(.*): \[(.+)\] \(from client (.+) port (\d+)(.*)\).*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: (?:Invalid user|Login incorrect).*: \[.+\] \(from client .+ port \d+.*\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Port: $10, NAS: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(&lt;.+)" description="no-user-name" format="Port: $10, NAS: $9, More: $13" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\S+/(&lt;.+)" description="psw-attribute" format="Port: $10, NAS: $9, More: $13" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;no User-Name attribute&gt;.*" description="no-user-name-attribute" format="" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+)/.+" description="user" format="$13" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*cli (\d+\.\d+\.\d+\.\d+.*)" description="cli" format="$13" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6$7" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="RADIUS" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Logon Failure &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;no User-Name attribute&gt;.*" description="no-user-name-attribute" format="Logon Failure ($6)" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+)/.+" description="user" format="Logon Failure &quot;$13&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="17, ServiceWarning: Info: rlm* ssl_read error" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: rlm_\w+: SSL_read Error" version="1" version_type="int">
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="18, ServiceWarning: Info: rlm* warning" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (\w+): WARNING:? (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: rlm_\w+: WARNING:? .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd ($6)" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: Auth: rlm_unix: invalid password" matcher=".*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: rlm_unix: \[.+\]: invalid password" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="19, ServiceInfo: Info:*" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Info: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(eap|eapsim|Exec-Program|rlm_\w+|rlm_\w+|sql_\w+)\b.+" description="modules" format="radiusd ($8)" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:eap|eapsim|Exec-Program|rlm_\w+|rlm_\w+|sql_\w+): +(.+)" description="modules" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="20, ServiceInfo: Proxy:*" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Proxy: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5: $6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(eap|eapsim|Exec-Program|rlm_\w+|rlm_\w+|sql_\w+)\b.+" description="modules" format="radiusd ($8)" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="21, ServiceWarning: Auth:*" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Auth: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5: $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\w+: (.+)" description="module" format="$5: $8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\w+): .+" description="module" format="radiusd ($8)" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\w+: +(.+)" description="modules" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="22, ServiceWarning: Error:*" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Error: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5: $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:eap|eapsim|Exec-Program|rlm_\w+|rlm_\w+|sql_\w+): +(.+)" description="modules" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="radiusd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(eap|eapsim|Exec-Program|rlm_\w+|rlm_\w+|sql_\w+)\b.+" description="modules" format="radiusd ($8)" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: Debug:*" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) : (\w+): (.+)" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : Debug: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="\w{3} (\w{3}) +(\d+) ([\d:]{8}) (\d{4}) :.*" pattern="\w{3} \w{3} +\d+ [\d:]{8} \d{4} : \w+: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Jan" description="jan" format="$4-1-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Feb" description="feb" format="$4-2-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Mar" description="mar" format="$4-3-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Apr" description="apr" format="$4-4-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="May" description="may" format="$4-5-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jun" description="jun" format="$4-6-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Jul" description="jul" format="$4-7-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Aug" description="aug" format="$4-8-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Sep" description="sep" format="$4-9-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oct" description="oct" format="$4-10-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Nov" description="nov" format="$4-11-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Dec" description="dec" format="$4-12-$2 $3" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched FreeRadius Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,1218 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Postfix" fullDescription="Collects events from Postfix Mail Server." logInterval="1" logLocation="/var/log/maillog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Postfix" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="postfix" toolType="Network Services" vendor="Open Source" version="$Revision: #17 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log Directory or File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Postfix" id="postfix" version="81" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd       1   connect|disconnect from" matcher="(\d+) (\S+) (postfix/[^[:]+)\[\d+\]:\s*(\S+) from ([^[]+)\[([.\d]+)\].*" pattern="postfix/smtpd\[\d+\]: (?:dis)?connect from" version="1" version_type="int">
+			<FastField _type="null" defaultValue="smpt $4 from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtpd?      2   warning:" matcher="^(\d+) (.*) (postfix/[^[:]+)\[(\d+)\]:\s+warning: (.*)" pattern="postfix/smtpd?\[\d+\]: warning:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([.\d]+): address not listed for hostname (\S+).*" description="address not listed for hostname" format="&quot;$7&quot; not listed for hostname &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Illegal address syntax from unknown\[([.\d]+)\] in (\S+) command: (\S+).*" description="illegal address syntax" format="Illegal address syntax from &quot;$7&quot; in $8 command &quot;$9&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([.\d]+): \S+=(\S+): validation failed" description="validation failed" format="&quot;$7&quot; validation failed for &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd       3   client" matcher="(\d+) (\S+) (postfix/[^[:]+)\[\d+\]:\s*([A-Z0-9]+): client=([^[]+)\[([.\d]+)\].*" pattern="postfix/smtpd\[\d+\]: [A-Z0-9]+: client=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="smpt client traffic from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd       4   lost connection|timeout" matcher="^(\d+) (.*) (postfix/[^[:]+)\[(\d+)\]:\s+((?:lost connection|timeout) after .*) from ([^[]+)\[([.\d]+)\].*" pattern="postfix/smtpd\[\d+\]: (?:lost connection|timeout)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/smtpd?      5   no_queue_id; rule; Host offered" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*(.*)" pattern="postfix/smtpd?\[\d+\]: .*(?:no_queue_id|\S+: [-\w]+ rule=\d+ triggered but ignored|Host offered)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd       6   reject:" matcher="(\d+) (\S+) (postfix/[^[:]+)\[\d+\]:\s*([A-Z0-9]+): reject: ([^[]+) from ([^[]+)\[([-\w.]+)\]: \d+(?: [\d.]+)?.*(?: &lt;[^>]+>)?:? ([^;]+); (.*)" pattern="postfix/smtpd\[\d+\]: [A-Z0-9]+: reject:" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Reject $5 from &quot;$6&quot;, $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* helo=&lt;([-\w.]*).*" description="helo" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*proto=(\S+).*" description="proto" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd       7   TLS connection established from" matcher="(\d+) (\S+) (postfix/[^[:]+)\[\d+\]:\s*(TLS connection established from) ([^[]+)\[([.\d]+)\]: (.*)" pattern="postfix/smtpd\[\d+\]: TLS connection established from" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtpd?      8   improper command pipelining; discarding EHLO keywords" matcher="^(\d+) (.*) (postfix/[^[:]+)\[(\d+)\]:(?:\S+:)?\s+(.*)" pattern="postfix/smtpd?\[\d+\]: .*(?:improper command pipelining|discarding \S+ keywords|Cannot start TLS: handshake failure)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.* from) ([^[]+)\[.*" description="from quotes" format="$7 &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* from ([^[]+)\[.*" description="from" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/smtpd       -   QUEUE ID: &lt;session>" matcher="^(\d+) (.*) (postfix/[^[:]+)\[(\d+)\]:\s+[A-Z0-9]+: (.*)" pattern="postfix/smtpd\[\d+\]: [A-Z0-9]+: \[[A-Z0-9]{4}\]," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/smtpd       -   &lt;session>,,Queue ID" matcher=".*" pattern="postfix/smtpd\[\d+\]: \[[A-Z0-9]+\],[^,]*,[A-F0-9]+," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        1   to=" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+([A-F0-9]+): to=([^,]*), (?:orig_to=([^,]*), )?relay=([^,[]*)\S*, (?:conn_use=\d+, )?delay=([^,]*).* status=([^,]*)\(([^)]*)\).*" pattern="postfix/smtp\[\d+\]: [A-F0-9]+: to=" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Mail queued for delivery to $6 via &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="" description="empty destination" format="Remote mail queued for delivery" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5 ($11)" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        3   (refused|timed out|dropped|timeout|reset|unreachable)" matcher="^(\d+) (.*) (postfix/[^[:]+)(\[\d+\]):\s+connect to ([^[]+)\[([.\d]+)\]: \S+ .*(refused|timed out|dropped|timeout|reset|unreachable).* \(([^)]+)\).*" pattern="postfix/smtp\[\d+\]: .* \S+ .*(?:refused|timed out|dropped|timeout|reset|unreachable)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Connect to $6 $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="port (\d+)" description="port" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Mail receipt" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp        4   host said:" matcher="^(\d+) (.*) (postfix/[^[:]+)(\[\d+\]): ([A-Z\d]+): host (\S+) said: (.*) \(in reply to ([^)]+) command\).*" pattern="postfix/smtp\[\d+\]: [A-Z\d]+: host \S+ said:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Host &quot;$6&quot; reply to &quot;$8&quot; command" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp        6   connect to &lt;host> &lt;error>" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*connect to ([.\d]+)\S* (.*)" pattern="postfix/smtp\[\d+\]: connect to \S+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Connect to host &quot;$4&quot; error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp        7   lost connection with" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*([A-F0-9]+): lost connection with ([^[]+)\S* (.*)" pattern="postfix/smtp\[\d+\]: [A-F0-9]+: lost connection with" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Lost connection to &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Lost connection $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp        8   Peer certficate could not be verified" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*(.*)" pattern="postfix/smtp\[\d+\]: Peer certficate could not be verified" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp        9   SSL_connect error" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*(.*)" pattern="postfix/smtp\[\d+\]: .*SSL_connect error" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp       10   error" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*\d+:error:[A-Z0-9]+:([^:]+):(.*)" pattern="postfix/smtp\[\d+\]: \d+:error:[A-Z0-9]+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        11   (refused|timed out|dropped|timeout|reset|unreachable)" matcher="^(\d+) (.*) (postfix/[^[:]+)(\[\d+\]):\s+connect to ([^[]+)\[([-:\w.]+)\]: *(\d*): ([\w ]*) (refused|timed out|dropped|timeout|reset|unreachable).*" pattern="postfix/smtp\[\d+\]: .*?connect to [^[]+\[[-:\w.]+\] *:\d* *: *.*?(?:refused|timed out|dropped|timeout|reset|unreachable)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Connect to &quot;$5&quot; ($6)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8 $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Mail receipt" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/smtp        -   &lt;session info>" matcher=".*" pattern="postfix/smtp\[\d+\]: [A-F0-9]+: \[[A-Z0-9]+\]," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        -   verification failed" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+(.*) verification failed for ([.\d]+): (.*)" pattern="postfix/smtp\[\d+\]: .* verification failed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 verification failed for $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Mail receipt" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        -   Verified:" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+Verified: subject_CN=([^,]*), issuer=([^,]*).*" pattern="postfix/smtp\[\d+\]: Verified:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="client $5 verified as $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/smtp        -   verify error:" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+verify error:(.*)" pattern="postfix/smtp\[\d+\]: verify error:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 Verification Error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning    postfix/smtp        -   SASL authentication failed" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]): ([A-F0-9]+): SASL authentication failed; server (\S+)\[([\d.]+)\] said: (.*)" pattern="postfix/smtp\[\d+\]: [A-F0-9]+: SASL authentication failed;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="SASL authentication failed from server &quot;$6[$7]&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        -   setting up connection to" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+setting up (\w+) connection to ([.\d]+).*" pattern="postfix/smtp\[\d+\]: setting up \w+ connection to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="setting up $5 connection to $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Mail receipt" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        -   connection established to" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+(\w+) connection established to ([^:]+): (\w+) with cipher ([-.\w]+) \(([^)]+)\).*" pattern="postfix/smtp\[\d+\]: \w+ connection established to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 connection established to $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Mail receipt" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7 with cipher $8 ($9)" fieldName="Interface" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        -   queued as" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+([^:]+): to=([^,]*), (?:orig_to=([^,]*), )?relay=([^,]*), delay=([^,]*), status=([^,]*).*queued as ([^)]*).*" pattern="postfix/smtp\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Remote mail queued for delivery to $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Message ID $5 Queued as $11 via relay $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp        -   workaround" matcher="^(\d+) (.*) (postfix/smtp)(\[\d+\]):\s+([^:]+): enabling (.*) workaround for (.*)" pattern="postfix/smtp\[\d+\]: [^:]+: enabling .* workaround for" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Enabling $6 workaround for $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Message ID $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert           postfix/smtp        -   certificate messages" matcher=".*" pattern="postfix/smtp.*certificate" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert           postfix/smtp        -   SSL_accept messages" matcher=".*" pattern="postfix/smtp.*SSL_accept" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert           postfix/smtp        -   TLS engine messages" matcher=".*" pattern="postfix/smtp.*TLS engine" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert           postfix/smtp        -   cert has expired" matcher="^\d+ .*postfix/smtp\[\d+\]:\s+cert has expired" pattern="postfix/smtp" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/S+      1   to=" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+ (\w+): to=([^,]+),.*relay=([^,]+), delay=\d+.* status=(\S+)\s*(.*)" pattern="postfix/\S+\[\d+\]: \w+: to=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Local mail to $5 $7 $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $4, $7 via $6 relay" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/local       2   no_queue_id" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*(.*)" pattern="postfix/local\[\d+\]: no_queue_id" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/local       -   &lt;session>" matcher=".*" pattern="postfix/local\[\d+\]: [A-Z0-9]+: \[[A-Z0-9]{4}\]," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/pickup      1" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([^:]+): uid=(\d+) from=(.*)" pattern="postfix/pickup\[\d+\]: [A-F0-9]+: uid=\d+ from=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Mail Pickup from $7 (UID $6)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/scache      1" matcher="^(\d+) (.*) (postfix/scache)(\[\d+\]):\s+statistics: (.*)" pattern="postfix/scache\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Scache statistics" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/anvil       1   statistics" matcher="(\d+) (\S+) (postfix/[^:[]+)\S+\s*statistics: ([^\d]+) (.*) (at .*)" pattern="postfix/anvil\[\d+\]: statistics" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 $4 ($6)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4: $5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/bounce      1   sender non-delivery notification:" matcher="^(\d+) (.*) (postfix/[^[:]+)(\[\d+\]): ([A-Z\d]+): sender ([-\w ]+) notification: (.*)" pattern="postfix/bounce\[\d+\]: [A-Z\d]+: sender [-\w ]+ notification:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Sender $6 notification: $7" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Sender $6 notification: $7" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     1   message-id;postmaster notification sent" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/cleanup\[\d+\]: [A-F0-9]+: (?:(?:resent-)?message-id=|postmaster notification sent)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message ID info for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     2   DomainKeys" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): DomainKeys: (.*)" pattern="postfix/cleanup\[\d+\]: [A-F0-9]+: DomainKeys" version="1" version_type="int">
+			<FastField _type="null" defaultValue="DomainKeys info for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     3   rcpt" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/cleanup\[\d+\]: [A-F0-9]+: rcpt=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message Receipt info for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     4   reject/warning:" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([^:]+): \S+: ([^:]+):\s+(.*): ([^(]+).*" pattern="postfix/cleanup\[\d+\]: [^:]+: (?:reject|warning): " version="1" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6: $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/cleanup     5   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+warning: ([^:]+): (.*)" pattern="postfix/cleanup\[\d+\]: warning:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message queue warning" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     6   rule triggered" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/cleanup\[\d+\]: [A-F0-9]+: \S+ rule=.*triggered" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Rule triggered on &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     7   STA: not trained" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/cleanup\[\d+\]: [A-F0-9]+: STA: not trained" version="1" version_type="int">
+			<FastField _type="null" defaultValue="STA not trained for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/cleanup     8   restarting" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/cleanup\[\d+\]: .* -- restarting" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/cleanup     9   unexpected tag; PBMF file not found" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/cleanup\[\d+\]: \S+: (?:unexpected tag|PBMF file not found)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo      postfix/cleanup     10   replace" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/cleanup\[\d+\]: \S+: replace" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/cleanup     -   entry_time=" matcher=".*" pattern="postfix/cleanup\[\d+\]: \S+: entry_time=" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/cleanup     -   &lt;relay info>" matcher=".*" pattern="postfix/cleanup\[\d+\]: [A-F0-9]+: \[[A-Z\d]+\]," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/cleanup     -   &lt;relay first>" matcher=".*" pattern="postfix/cleanup\[\d+\]: \[[A-Z\d]+\],[^,]*,[A-F0-9]+," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/error      1  delivery temporarily suspended" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/error\[\d+\]: \S+:.*?delivery temporarily suspended" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess        postfix/master      1   reload configuration" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/master\[\d+\]: reload configuration" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/postmap     1   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(warning: \S+): (.*)" pattern="postfix/postmap\[\d+\]: warning:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/postdrop    -   Assigned queue ID" matcher=".*" pattern="postfix/postdrop\[\d+\]: Assigned queue ID" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/n?qmgr      1   from" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/n?qmgr\[\d+\]: [A-F0-9]+: from=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message origin info for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/n?qmgr      2   to" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/n?qmgr\[\d+\]: [A-F0-9]+: to=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message destination info for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/n?qmgr      3   removed" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/n?qmgr\[\d+\]: [A-F0-9]+: removed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message &quot;$5&quot; removed from queue" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/n?qmgr      4   skipped" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/n?qmgr\[\d+\]: [A-F0-9]+: skipped," version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message &quot;$5&quot; $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/n?qmgr      5   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(\S+): (.*)" pattern="postfix/n?qmgr\[\d+\]: warning:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*/([A-F0-9]+): .*" description="Queue ID" format="Message &quot;$8&quot; warning" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*active id ([A-F0-9]+): .*" description="active id" format="Message &quot;$8&quot; warning" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*/([A-F0-9]+): .*" description="Queue ID" format="Queue ID: $8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/sta_scanner 1   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/sta_scanner\[\d+\]: warning:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/sta_scanner 2   spam_words_content" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): ([^=]+)=(.*)" pattern="postfix/sta_scanner\[\d+\]: [A-F0-9]+: spam_words_content" version="1" version_type="int">
+			<FastField _type="null" defaultValue="detected $6 in &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6: $7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/sta_scanner 3   invalid|malformed jpeg|gif" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): ([^:]+): (.*)" pattern="postfix/sta_scanner\[\d+\]: [A-F0-9]+: (?:invalid|malformed) (?:jpeg|gif)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="detected $6 in &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6: $7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/sta_scanner 4   unable to load|missing \S+ info" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+([A-F0-9]+): (.*)" pattern="postfix/sta_scanner\[\d+\]: [A-F0-9]+: (?:unable to load|missing \S+ info)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6 in &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           postfix/sta_scanner -   &lt;session info>" matcher=".*" pattern="postfix/sta_scanner\[\d+\]: [A-F0-9]+: \[[A-Z0-9]+\]," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/tdr_server  1   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/tdr_server\[\d+\]: warning:" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="[^,]+, (.*) ([.\d]+)" description="to comma" format="warning: $7 &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="warning: ([^,]+ client) ([.\d]+) ([^,]+),.*" description="to comma" format="$7 &quot;$8&quot; $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/tdr_server  2   no_queue_id" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/tdr_server\[\d+\]: (?:no_queue_id:|\S+: ip=[\d.]+,)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^,]+, (.*) ([.\d]+)" description="to comma" format="warning: $7 &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="warning: ([^,]+ client) ([.\d]+) ([^,]+),.*" description="to comma" format="$7 &quot;$8&quot; $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/postdrop 1   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(warning: \S+): (.*)" pattern="postfix/postdrop\[\d+\]: warning:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/sendmail 1   fatal" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(fatal: \S+): (.*)" pattern="postfix/sendmail\[\d+\]: fatal:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="VirusTrafficAccess  RESCAN              1   toc virus" matcher="(\d+) (.*) (RESCAN):\s+([A-F0-9]+): toc virus ip=([.\d]+), caught=(\d+), virus=(.*)" pattern="RESCAN: [A-F0-9]+: toc virus" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; detected from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Queue ID: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd        -   setting up TLS connection from" matcher="^(\d+) (.*) (postfix/smtpd)(\[\d+\]):\s+setting up (\w+) connection from ([-\w.]+)\[([\d.]+).*" pattern="postfix/smtpd\[\d+\]: setting up TLS connection from" version="2" version_type="int">
+			<FastField _type="null" defaultValue="setting up $5 connection from $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="DestinationDomain: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Mail receipt" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtpd        -   Anonymous TLS connection established from" matcher="^(\d+) (.*) (postfix/smtpd)(\[\d+\]):\s+(\w+) TLS connection established from [^\[]+\[([^:]+)\]: (\S+) with cipher ([-.\w]+) \(([^)]+)\).*" pattern="postfix/smtpd\[\d+\]: \w+ TLS connection established from" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 TLS connection established from $6" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="cipher: $8($9)" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="mail, MailTrafficAudit: smtp, host refused to talk" matcher="(\d+) ([-\w.]+) ([-/\w]+)\[\d+\]: ([A-F\d_]+): host ([-\w.]+)\[([\d.]+)\] refused to talk to me: (\d+) *(.+)" pattern="\d+ [-\w.]+ postfix[-/\w]*/smtp\[\d+\]: [A-F\d_]+: host [-\w.]+\[[\d.]+\] refused to talk to me: \d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="host &quot;$5&quot; refused to talk to me" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="unknown" description="host-unknown" format="host &quot;$6&quot; refused to talk to me" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Reason: &quot;$7 $8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+(Comcast .+ Reverse DNS entry\. .+)\. For more information.*" description="Reverse dns entry" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*421dnsnr" description="421dnsnr" format="Comcast requires all sending IP addresses have a valid rDNS. This error results when the lookup failed. This error should be treated as a temp-fail and can be retried." matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Connection Denied.*" description="554-reverse lookup" format="Connection Denied - Reverse Lookup Failure" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit: smtp, connect to" matcher="(\d+) ([-\w.]+) ([-/\w]+)\[\d+\]: connect to ([-\w.]+)\[([\d.]+)\]:(\d+): ([\w ]+)" pattern="\d+ [-\w.]+ postfix[-/\w]*/smtp\[\d+\]: connect to [-\w.]+\[[\d.]+\]:\d+: [\w ]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Connect to &quot;$4&quot;, $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit: smtp, enabling PIX workarounds" matcher="(\d+) ([-\w.]+) ([-/\w]+)\[\d+\]: ([A-F\d_]+): enabling PIX workarounds: ([\w ]+) for ([-\w.]+)\[([\d.]+)\]:(\d+).*" pattern="\d+ [-\w.]+ postfix[-/\w]*/smtp\[\d+\]: [A-F\d_]+: enabling PIX workarounds: [\w ]+ for [-\w.]+\[[\d.]+\]:\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="enabling PIX &quot;$5&quot; workaround for &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="unknown" description="unknown" format="enabling PIX &quot;$5&quot; workaround for &quot;$7&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="unknown" description="unknown" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: smtp, conversation timed out" matcher="(\d+) ([-\w.]+) ([-/\w]+)\[\d+\]: ([A-F\d_]+): conversation with ([-\w.]+)\[([\d.]+)\] timed out while receiving the initial server greeting.*" pattern="\d+ [-\w.]+ postfix[-/\w]*/smtp\[\d+\]: [A-F\d_]+: conversation with [-\w.]+\[[\d.]+\] timed out while receiving the initial server greeting" version="1" version_type="int">
+			<FastField _type="null" defaultValue="conversation with &quot;$5&quot; timed out" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="IP: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4: conversation with $5 timed out while receiving the initial server greeting" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/tdr_server  1   warning" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix\/smtpd\[\d+\]: too many errors" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/postfix-script refreshing the postfix" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix\/postfix-script\[\d+\]: refreshing the Postfix" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/master reload" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix\/master\[\d+\]: reload" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp         TLS connection to" matcher="(\d+) (\S+) (postfix/[^[:]+)\[\d+\]: \S+: ([\w ]+ TLS connection .*to) ([^[]+)\[([.\d]+)\]:(\d+).*" pattern="postfix/smtp\[\d+\]: \S+: [\w ]+ TLS connection .*to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit    postfix/smtp         conversation with" matcher="(\d+) (\S+) (postfix/[^[:]+)\[\d+\]: \S+: (.+) ([^[]+)\[([.\d]+)\] (.+)" pattern="postfix/smtp\[\d+\]: \S+: conversation with ([^[]+)\[([.\d]+)\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 &quot;$5&quot; $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="smtp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/mcafee_av        -   mcafee virus database has changed" matcher="^(\d+) (.*) (postfix/mcafee_av)(\[\d+\]):\s+(.*)" pattern="postfix/mcafee_av\[\d+\]: McAfee virus database has changed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 Verification Error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning      postfix/cleanup        -   fail to write data; lost connection" matcher="^(\d+) (.*) (postfix/cleanup)(\[\d+\]):\s+(.*)" pattern="postfix/cleanup\[\d+\]: [^:]+: (?:fail to write data|lost connection)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 Verification Error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo         postfix/web_analyzer" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+(.*)" pattern="postfix/web_analyzer\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^,]+, (.*) ([.\d]+)" description="to comma" format="warning: $7 &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="warning: ([^,]+ client) ([.\d]+) ([^,]+),.*" description="to comma" format="$7 &quot;$8&quot; $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning      postfix/master process" matcher="(\d+) (.*) (postfix/[^[]+)(\[\d+\]):\s+[^:]+: process (\S+) pid (\d+) (.+)" pattern="postfix\/master\[\d+\]: warning: process" version="1" version_type="int">
+			<FastField _type="null" defaultValue="process &quot;$5&quot; $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="process &quot;$5&quot; $7" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert           RESCAN              -   &lt;session info>" matcher=".*" pattern="RESCAN: [A-F0-9]+: \[[A-Z0-9]+\]," version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert           postfix/&lt;various>   -   table hash messages; acs_scanner" matcher=".*" pattern="postfix/.*(?:table hash|acs_scanner)(?:\[\d+\])?:" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert           postfix/&lt;various>   -   table has changed" matcher=".*" pattern="table has changed -- exiting" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="(\d+) (\S+).* (postfix/[^[]+)\[\d+\]: .*" pattern="postfix/[^[]+\[\d+\]:\s" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Postfix Data ($Revision: #17 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="." version="7" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Websense Data Security" fullDescription="Collects device/software events from Websense gateways." logInterval="1" logLocation="/var/log/local1.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="WebsenseDS" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="websenseds" toolType="Data Loss Prevention" vendor="Websense" version="$Revision: #8 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Websense Data Security" id="websenseds" version="31" version_type="int">
+		<FastPattern _type="null" alertName="AuthSuspicious" description="1, AuthSuspicious: DSS Incident" matcher="(\d+) ([-\w.]+) DSS Incident\|ID=(\d+)\|action=([\w ]+)\|severity=(\w+)\|policies=([-\w; ]+)\|source=([^|]+)\|destinations=([^|]+)\|channel=([\w ]+)\|matches=(\d+)\|details=(.*)" pattern="\d+ [-\w.]+ DSS Incident\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4 &quot;$6&quot; $9 incident by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Incident ID: $3, Severity: $5, Destinations: &quot;$8&quot;, Matches: $10, Details: &quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" description="source-ip" format="" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="HTTPS?: [-\w.]+\.\w+" description="http-host" format="" matcherInput="$9: $7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" description="source-ip" format="$7" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="HTTPS?: [-\w.]+\.\w+" description="http-host" format="$7" matcherInput="$9: $7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^@]+@([-\w.]+)" description="email" format="$13" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+\.\w+" description="host" format="$8" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, WebTrafficAudit:  URL Access" matcher="(\d+) ([-\w.]+) .*?action=(\w+).*?category=(\d+) user=(.+)src_host=([\d.]+) src_port=(\d+) dst_host=(.+) dst_ip=([\d.]+) dst_port=(\d+).*?http_method=([-\w]+).*?(?:url=(.*)).*" pattern="\d+ [-\w.]+ vendor=Websense product=Security product_version=[\d.]+ action=\w+ severity=\d+ category=\d+ user=\S+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Url Access &quot;$3&quot; by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="URL" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*DC=([^\\]+)\\.+" description="src_acc" format="$14" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*DC=(.*).*" description="src_acc" format="$14" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) ([-\w.]+).*" pattern="\d+ [-\w.]+ DSS Incident\|" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Websense Data Security Incident data ($Revision: #8 $)" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) ([-\w.]+).*" pattern="\d+ [-\w.]+ vendor=Websense product=Security" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Websense Security data ($Revision: #8 $)" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

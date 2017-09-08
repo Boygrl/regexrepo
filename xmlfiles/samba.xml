@@ -1,0 +1,404 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Samba" fullDescription="Collects  file and print sharing related events from devices running Samba." logInterval="1" logLocation="/var/log/messages" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Samba" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="samba" toolType="File Transfer and Sharing" vendor="Open Source" version="$Revision: #9 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Samba" id="samba" version="25" version_type="int">
+		<FastPattern _type="null" alertName="FileSystemTrafficAudit" description="1, FileSystemTrafficAudit: commands" matcher="^(\d+) ([-\w.]+) (\w+): ([^\s|]+?)\|([-\w.]+)\|([\w]+)\|([^|]+)\|(.*)" pattern="^\d+ [-\w.]+ smbd_audit: [^\s|]+\|[-\w.]+\|[\w]+\|[^|]+\|.*" version="4" version_type="int">
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fail \(Permission denied\).*" description="denied" format="Access Denied" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Result: $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="^unlink: .+" description="unlink" format="Result: $7, File: $8" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rename: ([^|]+)\|(\S.*)" description="rename" format="Result: $7, From: $10, To: $11" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^mkdir: (\S.*)" description="mkdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^opendir: (\S.*)" description="opendir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rmdir: (\S.*)" description="rmdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^open: (\w)\|(\S.*)" description="open" format="Result: $7, Code: $10, File: $11" matcherInput="$6: $8" version="3" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^stat: (\S.*)" description="stat" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^disk_free: (\S.*)" description="diskfree" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="chdir\|(.+)" description="chdir" format="Result: $7, Directory: $10" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\S.*" description="other" format="Result: $7, Details: $8" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Command &quot;$6&quot; by user &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="2, ServiceInfo: LDAP server connect" matcher="^(\d+) ([-\w.]+) ([\w\[\]]+): (.+)" pattern="^\d+ [-\w.]+ (?:smbd_audit|smbd\[\d+\]): nss_ldap: reconnect(?:ing|ed) to LDAP server" version="11" version_type="int">
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition="\w+: r([^.]+).*" description="event" format="R$6" matcherInput="$4" version="8" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="3, ServiceInfo: request timed out" matcher="^(\d+) ([-\w.]+) (\w+): (.+)" pattern="^\d+ [-\w.]+ kernel: smb_add_request: request \[[A-Fa-f0-9]+, mid=\d+\] timed out!" version="3" version_type="int">
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Request timed out" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="4, ServiceWarning: other samba" matcher="^(\d+) ([-\w.]+) (\w+): (.+)" pattern="^\d+ [-\w.]+ kernel: smb_\w+:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\w+: (.+)" description="event" format="$6" matcherInput="$4" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="5, ServiceWarning: other samba error/failure" matcher="^(\d+) ([-\w.]+) (smbd)\[\d+\]: +(.+)" pattern="^\d+ [-\w.]+ smbd\[\d+\]:   .*[Ee]rror" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="read_data: (.*client) ([.\d]+)\. Error = .*" description="read_data" format="$6 &quot;$7&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="getpeername failed\. Error was .*" description="getpeername failed" format="getpeername failed" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(Error writing \d+ bytes to client)\. .*" description="Error writing bytes to client" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="write_data: (.*client) ([.\d]+)\. Error .*" description="write_data" format="$6 &quot;$7&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[_a-z0-9]+: (.*client) ([.\d]+?)\.? .*[Ee]rror =? ?.*" description="process" format="$6 &quot;$7&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(read_data): .*client [.\d]+\. Error = (.*)" description="read_data" format="$6 Error: $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="getpeername failed\. Error was (.*)" description="getpeername failed" format="Error: $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Error writing \d+ bytes to client\. (.*)" description="Error writing bytes to client" format="Error: $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(write_data): .*client [.\d]+\. Error =? ?(.*)" description="write_data" format="$6 Error: $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([_a-z0-9]+): .*client [.\d]+?\.? (.*[Ee]rror) =? ?(.*)" description="process" format="$6 $7: $8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemTrafficAudit" description="6, FileSystemTrafficAudit: smbd commands" matcher="^(\d+) ([-\w.]+) (\S+): ([^\s|]+?)\|([-\w.]+)\|[^|]+\|[^|]+\|([^|]+)\|(ok)\|([-/\w.: ]+\|?[-/\w.: ]+)$" pattern="^\d+ [-\w.]+ smbd\[\d+\]: [^\s|]+\|[\w.]+(?:\|[-\d.]+)?\|[\w]+\|[^|]+\|.*" version="9" version_type="int">
+			<FastField _type="null" defaultValue="Command &quot;$6&quot; by user &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Result: $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^unlink: .+" description="unlink" format="Result: $7, File: $8" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rename: ([^|]+)\|(\S.*)" description="rename" format="Result: $7, From: $10, To: $11" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^mkdir: (\S.*)" description="mkdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^opendir: (\S.*)" description="opendir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^open: null" description="open1" format="Result: $7, Code: $9" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rmdir: (\S.*)" description="rmdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^open: (\w)\|(\S.*)" description="open" format="Result: $7, Code: $10, File: $11" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^stat: (\S.*)" description="stat" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^disk_free: (\S.*)" description="diskfree" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="chdir\|(.+)" description="chdir" format="Result: $7, Directory: $10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\S.*" description="other" format="Result: $7, Details: $8" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fail \(Permission denied\).*" description="denied" format="Access Denied" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="7, ServiceWarning: Currently not implemented" matcher="^(\d+) ([-\w.]+) (smbd\[\d+\]|smbd_audit): +([^(]+)\((\S+)\): Currently not implemented\." pattern="^\d+ [-\w.]+ (?:smbd\[\d+\]|smbd_audit):.*?Currently not implemented" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4 Currently not implemented" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 Currently not implemented" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="8, ServiceWarning: log_success() failed" matcher="^(\d+) ([-\w.]+) (\w+)(?:\[.*\])?:\s*(.*)" pattern="log_success\(\) failed to get" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="10, ServiceWarning: Unable to connect to CUPS" matcher="^(\d+) ([-\w.]+) (\w+)(?:\[.*\])?:\s*(.*)" pattern="Unable to connect to CUPS" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="11, ServiceInfo: printing/print_cups.c" matcher="^(\d+) ([-\w.]+) (\w+): (?:\[.*\])?\s*(.*)" pattern="printing/print_cups.c" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12, ServiceWarning: read failure for client" matcher="^(\d+) ([-\w.]+) (\w+)(?:\[.*\])?:\s*read_data: (.*) Error = (.*)" pattern="read failure for \d+ bytes to client [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="13, ServiceInfo: lib/util_sock.c" matcher="^(\d+) ([-\w.]+) (\w+): (?:\[.*\])?\s*(.*)" pattern="lib/util_sock.c" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="14, ServiceInfo: call_nt_transact_ioctl()" matcher="^(\d+) ([-\w.]+) (\w+): (?:\[.*\])?\s*(.*)" pattern="call_nt_transact_ioctl\([^)]+\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="15, ServiceInfo : vfs_full_audit.c:log_success(), make_connection" matcher="^(\d+) ([-\w.]+) (\w+): (?:\[.*\])?\s*(.*)" pattern="(?:vfs_full_audit.c:log_success\([^)]+\)|make_connection)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="16, ServiceWarning: couldn't find service" matcher="^(\d+) ([-\w.]+) (\w+)(?:\[.*\])?:\s*[\d.]+ \([\d.]+\) (.*)" pattern="couldn't find service \w+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemTrafficAudit" description="17, FileSystemTrafficAudit:smbd_audit commands" matcher="^(\d+) ([-\w.]+) (\S+): ([^\s|]+?)\|([-\w.]+)\|[^|]+\|[^|]+\|([^|]+)\|([^|]+)\|(.*)" pattern="^\d+ [-\w.]+ smbd_audit: [^\s|]+\|[-\w.]+(?:\|[-\w.]+)?\|[\w]+\|[^|]+\|.*" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Command &quot;$6&quot; by user &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Result: $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^unlink: .+" description="unlink" format="Result: $7, File: $8" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rename: ([^|]+)\|(\S.*)" description="rename" format="Result: $7, From: $10, To: $11" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^mkdir: (\S.*)" description="mkdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^opendir: (\S.*)" description="opendir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rmdir: (\S.*)" description="rmdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^open: (\w)\|(\S.*)" description="open" format="Result: $7, Code: $10, File: $11" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^stat: (\S.*)" description="stat" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^disk_free: (\S.*)" description="diskfree" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="chdir\|(.+)" description="chdir" format="Result: $7, Directory: $10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\S.*" description="other" format="Result: $7, Details: $8" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fail \(Permission denied\).*" description="denied" format="Access Denied" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemTrafficAudit" description="18, FileSystemTrafficAudit: smbd commands (format 2)" matcher="^(\d+) ([-\w.]+) (\S+): ([^\s|]+?)\|[^|]+\|([-\w.]+)\|[^|]+\|[^|]+\|([^|]+)\|([^|]+)\|(.*)" pattern="^\d+ [-\w.]+ smbd\[\d+\]: [^\s|]+\|[-\w]+\|[\w.]+\|[^|]+\|.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Command &quot;$6&quot; by user &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Result: $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^unlink: .+" description="unlink" format="Result: $7, File: $8" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rename: ([^|]+)\|(\S.*)" description="rename" format="Result: $7, From: $10, To: $11" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^mkdir: (\S.*)" description="mkdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^opendir: (\S.*)" description="opendir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^rmdir: (\S.*)" description="rmdir" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^open: (\w)\|(\S.*)" description="open" format="Result: $7, Code: $10, File: $11" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^stat: (\S.*)" description="stat" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="^disk_free: (\S.*)" description="diskfree" format="Result: $7, Directory: $10" matcherInput="$6: $8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="chdir\|(.+)" description="chdir" format="Result: $7, Directory: $10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\S.*" description="other" format="Result: $7, Details: $8" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="fail \(Permission denied\).*" description="denied" format="Access Denied" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: smbd call" matcher=".*" pattern="smbd\[\d+\]: \[\d{4}/\d{2}/\d{2} [:\d.]+, +\d+\] \S+:\w+\(\S+\)$" version="2" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: smbd_audit" matcher="^(\d+) ([-\w.]+) (\w+):.*" pattern="^\d+ [-\w.]+ smbd_audit:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched Samba ($3) Data ($Revision: #9 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: smbd" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]:.*" pattern="^\d+ [-\w.]+ smbd\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched Samba ($3) Data ($Revision: #9 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

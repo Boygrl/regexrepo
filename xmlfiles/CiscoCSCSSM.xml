@@ -1,0 +1,404 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration autoStart="true" description="Cisco Content Security and Control Security Services Module 6.1-6.2" logInterval="1" logLocation="/var/log/local7.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Cisco CSC SSM" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="CiscoCSCSSM" toolType="Proxy Servers and Content Filters" version="$Revision: #4 $" vendor="Cisco" fullDescription="Collects events from Cisco Content Security and Control Security Services Module 6.1-6.2." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Cisco Content Security and Control Security Services Module  6.1 - 6.2" id="CiscoCSCSSM" version="108" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: is-url-blocking, is-url-filtering" matcher="(\d+) ([\d.]+) ([^:]+): \d+/\d+/\d+ \d+:\d+:\d+\|([^|]+)\|([^|]+)\|([^|]+)\|.*" pattern="is-url-(?:blocking|filtering)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="is-url-blocking" description="Blocked" format="Blocked URL Access" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="is-url-filtering" description="Filtered" format="Filtered URL Access" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="is-url-blocking" description="rule if blocking event" format="Rule: $6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="is-url-filtering" description="category if filtering event" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack: is-protocol-virus" matcher="(\d+) ([\d.]+) ([^:]+): \d+/\d+/\d+ \d+:\d+:\d+\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|.*" pattern="is-\w+-(?:virus|grayware)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$4&quot; detected." fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="grayware:Delete" description="grayware - delete" format="Grayware &quot;$4&quot; detected. File Deleted" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="spyware:Delete" description="spyware - delete" format="Spyware &quot;$4&quot; detected. File Deleted" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="virus:Delete" description="virus - delete" format="Virus &quot;$4&quot; detected. File Deleted" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="grayware:Pass" description="grayware - pass" format="Grayware &quot;$4&quot; detected. File Left Alone" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="spyware:Pass" description="spyware - pass" format="Spyware &quot;$4&quot; detected. File Left Alone" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="virus:Pass" description="virus - pass" format="Virus &quot;$4&quot; detected. File Left Alone" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="grayware:Quarantine" description="grayware - quarantine" format="Grayware &quot;$4&quot; detected. File Quarantined" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="spyware:Quarantine" description="spyware - quarantine" format="Spyware &quot;$4&quot; detected. File Quarantined" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="virus:Quarantine" description="virus - quarantine" format="Virus &quot;$4&quot; detected. File Quarantined" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Action on Email: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Delete" description="delete" format="Delete" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Pass" description="pass" format="Leave Alone" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Quarantine" description="quarantine" format="Quarantine" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Delete" description="deleted" format="Deleted" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Pass" description="passed" format="Left Alone" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Quarantine" description="quarantined" format="Quarantined" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack: is-mail-intellitrap" matcher="(\d+) ([\d.]+) ([^:]+): \d+/\d+/\d+ \d+:\d+:\d+\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|.*" pattern="is-mail-intellitrap" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$4&quot; detected." fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="grayware:Delete" description="grayware - delete" format="Grayware &quot;$4&quot; detected. File Deleted" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="spyware:Delete" description="spyware - delete" format="Spyware &quot;$4&quot; detected. File Deleted" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="virus:Delete" description="virus - delete" format="Virus &quot;$4&quot; detected. File Deleted" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="grayware:Pass" description="grayware - pass" format="Grayware &quot;$4&quot; detected. File Left Alone" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="spyware:Pass" description="spyware - pass" format="Spyware &quot;$4&quot; detected. File Left Alone" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="virus:Pass" description="virus - pass" format="Virus &quot;$4&quot; detected. File Left Alone" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="grayware:Quarantine" description="grayware - quarantine" format="Grayware &quot;$4&quot; detected. File Quarantined" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="spyware:Quarantine" description="spyware - quarantine" format="Spyware &quot;$4&quot; detected. File Quarantined" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="virus:Quarantine" description="virus - quarantine" format="Virus &quot;$4&quot; detected. File Quarantined" matcherInput="$5:$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Action on Email: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Delete" description="delete" format="Delete" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Pass" description="pass" format="Leave Alone" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Quarantine" description="quarantine" format="Quarantine" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Delete" description="deleted" format="Deleted" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Pass" description="passed" format="Left Alone" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Quarantine" description="quarantined" format="Quarantined" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailSpamDenial" description="MailSpamDenial: is-anti-spam" matcher="(\d+) ([\d.]+) ([^:]+): \d+/\d+/\d+ \d+:\d+:\d+\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|([^|]+)\|.*" pattern="is-anti-spam" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Mail spam from &quot;$4&quot; to &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="&lt;(.*)&gt;" description="remove &lt;&gt; from toemail" format="Mail spam from &quot;$4&quot; to &quot;$10&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Subject: $6; Content Action: $7; Action On Email: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: CSCSSM" matcher="(\d+) ([\d.]+) ([^:]+): A (\S+) session has been disconnected from the client at (\S+) to the server at (\S+) due to internal timeout or error\.\s*" pattern="CSCSSM" version="1" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$4&quot; session has been disconnected due to timeout or error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="&lt;(.*)&gt;" description="remove &lt;&gt; from toemail" format="Mail spam from &quot;$4&quot; to &quot;$10&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Client: $5; Server: $6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: is-nrs" matcher="(\d+) ([\d.]+) ([^:]+): \d+/\d+/\d+ \d+:\d+:\d+\|([^|]*)\|([^|]*)\|([^|]*)\|([^|]*)\|\s*" pattern="is-nrs" version="3" version_type="int">
+			<FastField _type="null" defaultValue="IP &quot;$4&quot; checked against NRS databases" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5; $6; $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: is-syslog, Purge file" matcher="(\d+) ([\d.]+) ([^:]+): Purge (\S+)\. The file time was (\S+)\.\s*" pattern="is-syslog: Purge" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Purge &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="The file time was $5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: SysMonitor service is DOWN" matcher="(\d+) ([\d.]+) ([^:]+): \S+: (.*)" pattern="SysMonitor: \S+: \S+ service is DOWN" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\S+) service is DOWN, .*" description="FTP service is DOWN" format="&quot;$6&quot; service is DOWN" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\." description="remove period" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ service is DOWN, (.*)" description="FTP service is DOWN" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\." description="remove period" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SysMonitor service is UP" matcher="(\d+) ([\d.]+) ([^:]+): \S+: (.*)" pattern="SysMonitor: \S+: \S+ service is UP" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\S+) service is UP\.\s*" description="FTP service is DOWN" format="&quot;$6&quot; service is UP" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\." description="remove period" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\." description="remove period" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: SysMonitor Compact Flash free space" matcher="(\d+) (\S+) ([^:]+): \S+: \S+: Compact Flash free space (\S+) is below (\S+)\.\s" pattern="SysMonitor: \S+: \S+: Compact Flash free space \S+ is below \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Compact Flash free space &quot;$4&quot; is below &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Compact Flash free space $4 is below $5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing spaces" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SysMonitor Compact Flash free space is back to normal" matcher="(\d+) (\S+) ([^:]+): \S+: \S+: (.*)" pattern="SysMonitor: \S+: \S+: Compact Flash free space is back to normal" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Compact Flash free space is back to normal" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing spaces" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SysMonitor Set CSC SSM Application Status to" matcher="(\d+) ([\d.]+) ([^:]+): \S+: (.*)" pattern="SysMonitor" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing spaces" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing spaces" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: is-service-module (Application|Software) (name|state|version)" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: (?:Application|Software) (?:name|state|version):" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-failover-daemon FAILED" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-failover-daemon\[\d+\]: \S+ FAILED\.? Status code \d+; Status description:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Status description: (.*)\.\s*" description="parse for Status description" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Status code (\d+);.*" description="parse for Status code" format="Status code: $6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^.]+)\..*" description="request_type" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-failover-daemon (multiple messages)" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-failover-daemon\[\d+\]: " version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: ScanServer messages" matcher="(\d+) (\S+) ([^:]+): \(\d+\) -(?: [^:]+:)? (.*)" pattern="ScanServer: \(\d+\) -" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(Scan Server [^.]+)\. errno =.*" description="Scan Server unable to create shared memory" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(Unable to update pattern)\..*" description="Unable to update pattern" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\." description="remove period" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Scan Server [^.]+\. errno = (.*)\." description="Scan Server unable to create shared memory" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Unable to update pattern\. (.*)" description="Unable to update pattern (Error Code)" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\." description="remove period" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module Received unrecognized time sync request" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Received unrecognized time sync request" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module peer closed with no request sent" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: .* peer closed with no request sent" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module Bad request from Interscan" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Bad .* request from Interscan" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module ASA time sync failed" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: ASA time sync failed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module Could not get/send to/from the ASA" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Could not .* (?:from|to) the ASA" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module ASA auto time sync failed on SSM reboot" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: ASA auto time sync failed on SSM reboot" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module Cannot create/open" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Cannot (?:create|open)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: is-service-module Management port IP change report (?:to the ASA)? failed" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Management port IP change report(?: to the ASA)? failed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: is-service-module Could not increase the process priority" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Could not increase the process priority" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: is-service-module Increased process priority to" matcher="(\d+) ([\d.]+) ([^:]+): (.*)" pattern="is-service-module\[\d+\]: Increased process priority to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^[]+).*" description="remove process id" format="$6" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s*" description="remove period and trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: ScanServer and debug messages" matcher=".*" pattern="\d+ [\d.]+ (?:ScanServer|is-\w+-debug):" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="Nullalerts: is-syslog, ISSyslog Adaptor" matcher=".*" pattern="is-syslog: ISSyslog Adaptor \S+" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="(\d+) (\S+) ([^:]+): .*" pattern="\d+ \S+ (?:ActiveUpdate|CSCSSM|ScanServer|SysMonitor|is-(?:anti-spam|failover-daemon|service-module|nrs|syslog|(?:ftp|http|mail|url)-(?:virus|grayware|blocking|filtering)))(?:\[\d+\])?:" version="8" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Cisco ASA CSSM Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="30" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

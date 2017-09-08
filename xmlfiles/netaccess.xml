@@ -1,0 +1,186 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Net Access" eventIds="all" logInterval="1" logLocation="Application" logManagementOutput="10.254.10.18" logManagementPort="10102" logStartPoint="-1" logType="NtReader" node="spop" readerName="Net Access" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="netaccess" toolType="Identity and Access Management" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="false" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Net Access" id="netaccess" sysVersion="3.0" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff (Connection Closed)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*Connection Closed" version="33" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Destination IP - (\S+) .*" description="Destination IP" format="$17" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Session id - (\S+) .*Duration - (.*)" description="Session ID, Duration" format="Session ID: $17, Duration: $18" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Source IP - (\S+) .*" description="Source IP" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Username - (\S+) .*" description="Username" format="$17" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="User Logoff &quot;&quot; from &quot;&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* Username - (\S+) .*Source IP - (\S+) .*" description="User and Source" format="User Logoff &quot;$17&quot; from &quot;$18&quot;" matcherInput="$15" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit (User Authentication)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*User Authentication" version="35" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* Username - (\S+).*" description="User" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* Source IP - ([.\d]*).*" description="IP" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(.*) Username - (\S*) Source IP - ([.\d]*).*" description="info &quot;user&quot; from &quot;IP&quot;" format="$17 &quot;$18&quot; from &quot;$19&quot;" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon (New Connection Established)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*New Connection Established" version="38" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Destination IP - ([.\d]*) .*" description="Destination IP" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Source IP - ([.\d]*) .*" description="source IP" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Username - (\S*) .*" description="Username" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* Username - (\S*) Source IP - ([.\d]*).*" description="No description set" format="User Logon &quot;$17&quot; from &quot;$18&quot;" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* Connection Type - (.*)" description="Connection Type" format="Connection Type: $17" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon (NetAccess Administrator Session Established)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*NetAccess \S*\s*Session Established" version="47" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* UserName - (\S*).*" description="User" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* IP Address - ([.\d]*.*)" description="IP" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="NetAccess" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="User Logon &quot;&quot; from &quot;&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* UserName - (.*) IP Address - (.*)" description="user, IP" format="User Logon &quot;$17&quot; from &quot;$18&quot;" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Administrator" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure (connection rejected)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*.* [Cc]onnection [Rr]ejected" version="52" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Socket id - (.*)" description="Socket ID" format="Socket ID: $17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* UserName - (\S*) IP Address - ([.\d]*).*" description="user" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* UserName - (\S*) IP Address - ([.\d]*).*" description="IP" format="$18" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="NetAccess" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="New Client ([^-]*) - .*" description="reason" format="$17" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Logon Failure &quot;&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* UserName - (\S*) IP Address - ([.\d]*).*" description="username" format="Logon Failure &quot;$17&quot; from &quot;$18&quot;" matcherInput="$15" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="New Client" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure (Connection Error)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*.*Connection Error" version="36" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* IP Address - ([.\d]*).*" description="source" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="NetAccess" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Connection Error (.*) IP Address - .*" description="reason" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* IP Address - ([.\d]*).*" description="Logon Failure" format="Logon Failure from &quot;$17&quot;" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - Starting NetAccess SSL Service" matcher=".*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*Starting NetAccess SSL Service" version="3" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart (NetAccess Server version started)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*NetAccess Server version \S+ started" version="33" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff (Admin Session Closed)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*Admin Session Closed" version="41" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Administrator" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="User Logoff &quot;Administrator&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Administrator" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit (Expired password)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*Expired password" version="49" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) User - (\S*) IP Address .*" description="user" format="$18" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) User - (\S*) IP Address - ([.\d]*).*" description="IP" format="$19" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) User - (\S*) IP Address .*" description="user" format="$17 for &quot;$18&quot;" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) User - (\S*) IP Address - ([.\d]*).*" description="priveleges" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo (Reloading Listen Socket)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;\s*Reloading Listen Socket" version="49" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning (error &lt;number&gt;)" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?.*" pattern="source=&quot;NetAccess.*&lt;String1&gt;.*[Ee]rror[-\s]+\d+" version="67" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* [Ee](rror[-\s]+\d+).*" description="Error" format="E$17" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="((?:Bind|Connect) .* failed).*" description="Bind failed" format="$17" matcherInput="$15" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(send .*) Error.*" description="send failed" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(WSASocket.*error).*" description="WSASocket" format="$17" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.* returned) .* (in .*)" description="returned error in" format="$17 an error $18" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData Net Access" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;.*" pattern="source=&quot;NetAccess" version="25" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Net Access Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="24" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

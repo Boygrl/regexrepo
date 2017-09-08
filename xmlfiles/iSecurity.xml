@@ -1,0 +1,1176 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="iSecurity for OS400 (Raz-Lee)" fullDescription="" logInterval="1" logLocation="/var/log/local0.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="iSecurity" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="iSecurity" toolType="Operating Systems" vendor="" version="$Revision: #14 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="iSecurity for OS400 (Raz-Lee)" id="iSecurity" version="56" version_type="int">
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange: CA0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Authority of ([-~#$*/.@A-Za-z0-9_() ]+) changed for user profile ([*A-Z0-9_]*) or authorization list (.*?)\. Type of command used ([A-Z]{3})\. Access code ([ARN]?) \([-\w ]+\)\. Authorities marked by Y were changed: ([-*A-Z ]+)\. Job ([#$./@A-Z0-9_]+)(.*)" pattern="iSecurity/ : MCA0100\b" version="7" version_type="int">
+			<FastField _type="null" defaultValue="Authority changes (Changes to authority) by &quot;$11&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[*A-Z0-9_]+,.+" description="profile-authlist" format="Authority changes (Changes for user profile &quot;$6&quot; or authoritization list &quot;$7&quot;) by &quot;$11&quot;" matcherInput="$6,$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[*A-Z0-9_]+" description="profile" format="Authority changes (Changes for user profile &quot;$6&quot;) by &quot;$11&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="authlist" format="Authority changes (Changes for authoritization list &quot;$7&quot;) by &quot;$11&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$5&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-acct" format="$14" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="AccessRequested" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$14" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$14" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Changes: $10" fieldName="AccessProperties" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange: OW0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); Owner of object ([.#$*/@A-Z0-9_ ]+) changed\. Or owner of document (.*) in (.*) changed\. New owner is ([$A-Z0-9_]+)\. Previous owner was ([$A-Z0-9_]+)\. Office user ([$A-Z0-9_]*)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MOW0100\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Object ownership changed (Change of object owner) by &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;, New Owner: &quot;$9&quot;, Previous: &quot;$10&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="info" format="Level: &quot;$4&quot;, Object: &quot;$6&quot;, New Owner: &quot;$9&quot;, Previous: &quot;$10&quot;,  Info: &quot;Or owner of document $7 in $8 changed. Office user $11&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$14" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$14" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$14" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Change of object owner" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange: RA0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Authority changed for restored object ([#$*/@A-Z0-9_ ]+)\. (.+)" pattern="iSecurity/ : MRA0100\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Authority change during restore (Authority changed for restored object)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$5&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="AccessProperties" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Change to restored authority" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange: ZC0300 " matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); Change of object ([^*]+\*[A-Z]+)\. Access type ([^.]+)\. Access specific data ([^.]+)?\. ([/A-Za-z0-9'']+) object (.*)\. ASP name (\*[A-Z0-9]+), number (\d+)\. Job ([@#$%^&amp;*/.A-Za-z0-9_]+)\.?" pattern="iSecurity/ : MZC0300\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Change of object $6. ASP name $11, number $12" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$15" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Access type $8. Access specific data $9" fieldName="AccessProperties" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="Access specific data $9" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="File object change" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure: AF0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]*); Not authorized to object ([#$*/@A-Z0-9_ ]+) in program (.+)\..*" pattern="iSecurity/ : MAF0100\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Authority failure (not authorized to object) by &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot; in program &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure: AF1100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+) attempted to perform an operation on ([#$*/@A-Z0-9_ ]+) without the required Special Authority\. JOB ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MAF1100\b" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Authority failure (attempted to perform an operation without the required Special Authority) by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="FileCreate: OR0500" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); An existing object ([#$*/@A-Z0-9_ ]+) was restored to the system from library ([A-Z0-9_]+)\. Or document (.*) in (.*) restored from (.*)\. Office user ([$A-Z0-9_]*)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MOR0500\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Object restore (Existing object restored from library &quot;$7&quot;) by &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="info" format="Level: &quot;$4&quot;, Object: &quot;$6&quot;, Info: &quot;Or document $8 in $9 restored from $10. Office user $11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$14" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$14" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$14" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Object restored" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="FileCreate: CO1400" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); Object ([#$*./@A-Za-z0-9_ ]+) created\. Document (.*) in (.*) on behalf of user ([#$*./@A-Za-z0-9_ ]*)\. Job ([@#$*/0-9A-Z]+)\." pattern="iSecurity. : MCO1400\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Create object (Object created) by &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="doc" format="Level: &quot;$4&quot;, Object: &quot;$6&quot;, Info: &quot;Document $7 in $8 on behalf of user $9&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) \*SOCKET.*" description="File" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Object created" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="FileDelete: DO0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); Object ([-~#$*/@.A-Za-z0-9_ ]+) Deleted\. Document (.*) in (.*) on behalf of office user ([$A-Z0-9_]*)\.\s*(?:(Job .*))?.*" pattern="iSecurity/ : MDO0100\b" version="6" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="Delete object (Object deleted)" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="notnull" format="Delete object (Object deleted) by &quot;$10&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="doc" format="Level: &quot;$4&quot;, Object: &quot;$6&quot;, Info: &quot;Document $7 in $8 on behalf of user $9&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) \*FILE" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Object deleted" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewDomainMember" description="NewDomainMember: CP0100 (CRT)" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); User profile ([*A-Z0-9_]+) changed\. Type of command ([A-Z]{3})\. Status ([*A-Z]*)\. Password changed ([YN]?)\. Password is \S+ \. Password expired ([YN]?)\. User special authority: ([-*A-Z ]+)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MCP0100 .+ Type of command CRT\." version="1" version_type="int">
+			<FastField _type="null" defaultValue="Change to a user profile ($7)  by &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Status: &quot;$8&quot;, Password changed: &quot;$9&quot;, Password expired: &quot;$10&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: AD1500" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]*); ([A-Z]+) used to change auditing of object ([#$*/@\w._ ]+) The new value ([#$*/@A-Z0-9_]+)\. Job ([#$./@A-Z0-9_ ]+)\..*" pattern="iSecurity/ : MAD1500\b" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Auditing Change ($6) by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="New Value: &quot;$8&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: OM1800 " matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); Object Managment Change: Object ([@#$%*/ A-Z0-9]+) renamed to (\S+) \. Or document (.*) in (.*) renamed to (.*)\. Job ([/A-Z0-9]+)\." pattern="iSecurity/ : MOM1800\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Object Management Change: Object $6 renamed to $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Document $8 in $9 renamed to $10" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: SM1900" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) System Management Change: ([\w ]+)\. Access Type ([ACDRST]*) \([-\w ]+\)\. Action sequence number (\d+)\. Message ID ([A-Z0-9_]*)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MSM1900\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="System management changes ($5) by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-acct" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Access type: &quot;$6&quot;, Action Sequence Number: $7, Message ID: &quot;$8&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: SV0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]*); System value ([*A-Z0-9_ ]+) changed to ([*A-Z0-9_ ]+) from ([*A-Z0-9_ ]+)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MSV0100\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="System value changed (Change system value) by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Change system value &quot;$6&quot; from &quot;$8&quot; to &quot;$7&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: SV0400" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]*); System clock adjusted to Coordinated Universal Time \(UTI\) (\d+) from (\d+)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MSV0400\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="System value changed (System clock adjusted) by &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="System clock adjusted to Coordinated Universal Time (UTI) $6 from $7" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: IP0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]*); IPC \(Interprocess Comunication\): Ownership and/or authority changes \. Job ([#$./@A-Z0-9_]+)\. (.+)" pattern="iSecurity/ : MIP0100\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Interprocess communication (Ownership and/or authority changes) by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="user" format="$5" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-use" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Ownership and/or authority changes: $7" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="IPC type ([MNQS]*) \([-\w ]+\). New owner ([$A-Z0-9_]*), old ([$A-Z0-9_]*), authority (.*)\. New group ([$A-Z0-9_]*), old ([$A-Z0-9_]*), authority (.*)\. Public authority ([*RW]*) \([-*:\w ]+\). Semaphore name (.*)\..*" description="info" format="IPC type: &quot;$9&quot;, New Owner: &quot;$10&quot;, Old: &quot;$11&quot;, Authority: &quot;$12&quot;, New Group: &quot;$13&quot;, Old: &quot;$14&quot;, Authority: &quot;$15&quot;, Public Authority: &quot;$16&quot;, Semaphore Name: &quot;$17&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: JS0300, JS1400, JS1700, JS1800" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Job ([#$./@A-Z0-9_]+) ([\w ]+) by ([#$./@A-Z0-9_]+)\. Job type ([ABIMRSWX]) \([-,\w ]+\)\. Job subtype ([&quot;DEJPQTU ]*) \([-&quot;',\w ]+\)\. Device ([*A-Z0-9]*)\. Effective user for the thread ?([$A-Z0-9_]*)\.?(.*)" pattern="iSecurity/ : MJS(?:03|1[478])00\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Job action on &quot;$5&quot; ($6) by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$14" matcherInput="$5" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-use" format="$14" matcherInput="$5" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Job Type: &quot;$8&quot;, Subtype: &quot;$9&quot;, Device: &quot;$10&quot;, Effective User for Thread: &quot;$11&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: JS1900" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Job ([#$%^&amp;*@./0-9A-Za-z_/]+)" pattern="iSecurity/ : MJS1900" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Job $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/.*" description="PID" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Job $5" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart: JS1900" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Job ([#$./@A-Z0-9_]+) ([\w ]+) by ([#$./@A-Z0-9_]+)\. Job type ([ABIMRSWX]) \([-\w ]+\)\. Job subtype ([&quot;DEJPQTU ]*) \([-&quot;',\w ]+\)\. Device ([*A-Z0-9]*)\. Effective user for the thread ?([$A-Z0-9_]*)\.?" pattern="iSecurity/ : MJS1900\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Job action on &quot;$5&quot; ($6) by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Job Type: &quot;$8&quot;, Subtype: &quot;$9&quot;, Device: &quot;$10&quot;, Effective User for Thread: &quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$13" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-use" format="$13" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ParentPID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart: AP1900" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User (\S+); Adopted Authority of ([A-Z0-9/]+) started\. Program ([/A-Z0-9@_$]+) (\*[A-Z]+)\. Job ([#$%^&amp;*@./0-9A-Za-z]+).*" pattern="iSecurity/ : MAP1900" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Adopted Authority of $6 started by the Program $7 $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-use" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ParentPID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="ProcessStop: AP0500" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User (\S+); Adopted Authority of ([A-Z0-9/]+) ended\. Program ([/A-Z0-9@_$]+) (\*[A-Z]+)\. Job ([#$%^&amp;*@./0-9A-Za-z]+).*" pattern="iSecurity/ : MAP0500" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Adopted Authority of $6 ended by the Program $7 $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-use" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Adopted Authority of $6 ended by the Program $7 $8" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="ProcessStop: JS0500" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Job ([#$./@A-Z0-9_]+) ([\w ]+) by ([#$./@A-Z0-9_]+)\. Job type ([ABIMRSWX]) \([-\w ]+\)\. Job subtype ([&quot;DEJPQTU ]*) \([-&quot;',\w ]+\)\. Device ([*A-Z0-9]*)\. Effective user for the thread ?([$A-Z0-9_]*)\.?" pattern="iSecurity/ : MJS0500\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Job action on &quot;$5&quot; ($6) by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$13" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-use" format="$13" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Job Type: &quot;$8&quot;, Subtype: &quot;$9&quot;, Device: &quot;$10&quot;, Effective User for Thread: &quot;$11&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: PS1800" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) All profile tokens for a user have been removed. User profile ([*A-Z0-9_]+)\. Profile token type ([MRS]*) \([-\w ]+\)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MPS1800\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Profile swap (All profile tokens for a user have been removed)  by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-acct" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: PW1600" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) An incorrect password was entered\. User ([$A-Z0-9_]+)\. Device ([*A-Z0-9]*)\. Remote location (.*)\. Local location (.*)\. Network Id (.*)\..*" pattern="iSecurity/ : MPW1600\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?!,,$).*" description="info" format="Level: &quot;$4&quot;, Remote location: &quot;$7&quot;, Local location: &quot;$8&quot;,  Network Id: &quot;$9&quot;" matcherInput="$7,$8,$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="An incorrect password was entered" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: PW1700" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([*A-Z0-9_]+)\. Attempted signon \(user authentication\) failed because user ([*A-Z0-9_]+) profile was disabled\..*" pattern="iSecurity/ : MPW1700\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Attempted signon failed because user $6 profile was disabled" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: PW2100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User name (.+) not valid\. Device ([*A-Z0-9]*)\. Remote location (.*)\. Local location (.*)\. Network Id (.*)\..*" pattern="iSecurity/ : MPW2100\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?!,,$).*" description="info" format="Level: &quot;$4&quot;, Remote location: &quot;$7&quot;, Local location: &quot;$8&quot;,  Network Id: &quot;$9&quot;" matcherInput="$7,$8,$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User name not valid" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: VP1600" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^:]+); An incorrect network password was used\. Server (.*)\. Computer (.*)\..*" pattern="iSecurity/ : MVP1600\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$5&quot; from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?!,,$).*" description="info" format="Level: &quot;$4&quot;, Server: &quot;$6&quot;" matcherInput="$7,$8,$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="An incorrect password was used" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: CP0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); User profile ([*A-Z0-9_]+) changed\. Type of command ([A-Z]{3})\. Status ([*A-Z]*)\. Password changed ([YN]?)\. Password is \S+ \. Password expired ([YN]?)\. User special authority: ([-*A-Z ]+)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MCP0100\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Change to a user profile ($7)  by &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Status: &quot;$8&quot;, Password changed: &quot;$9&quot;, Password expired: &quot;$10&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: MCO1400, MOM1800, MZC0300" matcher="(\d+) (\S+) (\S+)/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) (\S+) ([^;]+); Object ([#$./* A-Z0-9a-z_]+) created\. ([^.]+) \. Job ([0-9/A-Z]+)\." pattern=" iSecurity/ : (?:MCO1400|MOM1800|MZC0300)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Object $8 created" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: CD0300" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^;]+); Pgm ([^:]+): (.+)?\. Job ([#$%^&amp;*@./0-9A-Za-z_/]+).*" pattern="iSecurity/ : MCD0300" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="Job $8" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/.*" description="PID" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([^/]+).*" description="job-user" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Job $8" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit : OR1400" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^;]+); New object (\S+) \*([^\.]+)\..*Job ([#$%^&amp;*@./0-9A-Za-z_/]+).*" pattern="iSecurity/ : MOR1400" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([^/]+).*" description="job-user" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="oname" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="AccessProperties" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: ST0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Service Tool ([^:]+): ([^\.]+).*" pattern="iSecurity/ : MST0100" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 Service Tool $5: $6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: SM0400" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) System Management Change: ([\w ]+)\. Access Type (\w+) \([^\)]+\)\. Action sequence number\s*(\d*)\. Message ID\s*([A-Z0-9_]*)\. .*?Job\s*([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MSM0400\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="System management changes ($5) by &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([$A-Z0-9_]+)/[#$.@A-Z0-9_]+" description="job-acct" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Access type: &quot;$6&quot;, Action Sequence Number: $7, Message ID: &quot;$8&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange: MPA1300" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); (.*?) Object ([#$*/@A-Z0-9_ ]+)\. Type (\*[A-Z]{3})\. Owner is ([A-Z]+)\. Primary group owner is (\*[A-Z]+)\. Job ([#$./@A-Z0-9_]+)\..*" pattern="iSecurity/ : MPA1300\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Change of object's user ID or group ID, or restricted name and unlink mode indicator" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$13" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Change of object's user ID or group ID, or restricted name and unlink mode indicator" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit : PG0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^;]+); ([^\.]+)\. Object (\S+) \*([^\.]+).* New primary group \*(\S+) has authorities: -([^\.]+)\..*Job ([#$%^&amp;*@./0-9A-Za-z_/]+).*" pattern="iSecurity/ : MPG0100" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([^/]+).*" description="job-user" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="oname" format="$13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="AccessProperties" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="FileCreate: CD3039 copy library" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); CPYLIB FROMLIB\(([^)]+)\) \?\?TOLIB\(([^)]+)\) \?\?CRTLIB\(\*([A-Z]+)\)\. Job (.*)" pattern="iSecurity/ : MCD3039\b.*?CPYLIB" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Copy library from library &quot;$6 to library &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="copy library" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="FileDelete: CD3039 sytem Delete spooled file" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); \*SYSTEM/DLTSPLF FILE\(([A-Z0-9_]+)\) JOB\(([_A-Z0-9/]+)\) SPLNBR\((\d+)\) JOBSYSNAME\(([A-Z0-9]+)\) CRTDATE\(([\d ]+)\)\. Job ([A-Z0-9/]+).*" pattern="iSecurity/ : MCD3039\b.*?SYSTEM/DLTSPLF" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="Delete object (Object deleted)" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="notnull" format="Delete spooled file (spooled file deleted) by &quot;$11&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, File: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$13" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete Spooled file" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="FileDelete: CD3039  {delete file, delete program}" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); (?:DLTF|(?:X: \*SYSTEM/)?DLTPGM) \??\*?(?:FILE|PGM)\(([#$*/@.A-Za-z0-9_ ]+)\)\. Job (.*).*" pattern="iSecurity/ : MCD3039\b.*?(?:DLTF|DLTPGM)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="Delete File (File deleted)" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="notnull" format="Delete File (File deleted) by &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="file" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="File deleted" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit : RP0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Restoring program (\S+) that adopt the owner's authority\. Owner (.*?)\. (\S+) object.*" pattern="iSecurity/ : MRP0100" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Restoring program &quot;$5&quot; that adopt the owner's authority. object &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="AccessProperties" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Save Restore" fieldName="OperationType" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="FileCreate: CD3039 Create save file" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); CRTSAVF FILE\((\S+)\).*?Job ([@#$*/0-9A-Z]+)\." pattern="iSecurity. : MCD3039\b.*? CRTSAVF FILE" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Create Save File &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Create Save File" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit : CD3039 Create Duplicate object" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^;]+); CRTDUPOBJ OBJ\((\S+)\) FROMLIB\(([^)]+)\) OBJTYPE\(\*([A-Z]+)\) \?\?TOLIB\((\S+)\) \?\?NEWOBJ\(([^)]+)\).*Job ([#$%^&amp;*@./0-9A-Za-z_/]+).*" pattern="iSecurity/ : MCD3039.*? CRTDUPOBJ" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Object: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([^/]+).*" description="job-user" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="oname" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="AccessProperties" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="FileDelete: CD3039 Delete spooled file" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([$A-Z0-9_]+); DLTSPLF \??\*?FILE\(([#$*/@.A-Za-z0-9_ ]+)\)\.?\s*(?:SELECT\(([A-Z0-9]+)\)\.)? (Job .*).*" pattern="iSecurity/ : MCD3039\b.*?DLTSPLF" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="Delete File (File deleted)" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="notnull" format="Delete spooled file (spooled file deleted) by &quot;$10&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Job (\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$10" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Job (\d+)/[$A-Z0-9_]+/[#$.@A-Z0-9_]+" description="job-number" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Job \d+/[$A-Z0-9_]+/([#$.@A-Z0-9_]+)" description="job-name" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Spooled File deleted" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: PW1800" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) Attempted signon \(user authentication\) failed because password was expired\..*" pattern="iSecurity/ : MPW1800\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Attempted signon failed because password was expired" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: MC@1600" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{1}@\d{4}) (\*[A-Z]+) System ([A-Z0-9_]+)\. Password and changes by (\S+): User profile ([A-Z0-9_]+) changed\. Password changed: \*([\w]+)\." pattern="iSecurity/ : MC@1600\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User profile changed to &quot;$7&quot;  by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Password changed: &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User profile $7 changed. Password changed: $8" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: MCD3039" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^;]+); (.+)?\. Job ([#$%^&amp;*@./0-9A-Za-z_/]+).*" pattern="iSecurity/ : MCD3039" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Job $7" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+/([^/]+).*" description="job-user" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6 Job $7" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: MPA0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d{4}) (\*[A-Z]+) User ([^;]+); (.+)?\. ([\w ]+)\. Job ([#$%^&amp;*@./0-9A-Za-z_/]+).*" pattern="iSecurity/ : MPA0100.* Program (\S+)\. Owner is (\S+)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ChangeDetails" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: MC@0100" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{1}@\d{4}) (\*[A-Z]+) System ([A-Z0-9_]+)\. Change user by (\S+): User profile ([A-Z0-9_]+) changed\..*" pattern="iSecurity/ : MC@0100\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User profile changed to &quot;$7&quot;  by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User profile $7 changed." fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewDomainMember" description="NewDomainMember: MC@0700 " matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{1}@\d{4}) (\*[A-Z]+) System ([$A-Z0-9_]+)\. Password, STATUS\(\*(\S+)\) and changes by ([^:]+): User profile ([A-Z0-9_]+) created\." pattern="iSecurity/ : MC@0700 " version="1" version_type="int">
+			<FastField _type="null" defaultValue="User profile $8 created." fieldName="EventInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: MC@0700" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{1}@\d{4}) (\*[A-Z]+) System ([A-Z0-9_]+)\. Password, STATUS\((\*\S+)\) and changes by (\S+): User profile ([A-Z0-9_]+) changed\. Status: \*ENABLED \(\*\S+\), Password changed: \*([\w]+)\." pattern="iSecurity/ : MC@0700\b.*?Password changed:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User profile changed to &quot;$8&quot;  by &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;, Password changed: &quot;$9&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User profile $8 changed. Password changed: $9" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: MC@0900" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{1}@\d{4}) (\*[A-Z]+) System ([A-Z0-9_]+)\. STATUS\(\*\S+\) and changes by (\S+): User profile ([A-Z0-9_]+) changed\.?(.*)" pattern="iSecurity/ : MC@0900\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User profile changed to &quot;$7&quot;  by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User profile $7 changed." fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: MC@1000" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{1}@\d{4}) (\*[A-Z]+) System ([A-Z0-9_]+)\. STATUS\(\*\S+\) and changes by (\S+): User profile ([A-Z0-9_]+) changed\.?(.*)" pattern="iSecurity/ : MC@1000\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User profile changed to &quot;$7&quot;  by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Level: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User profile $7 changed." fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: empty messages" matcher=".*" pattern="iSecurity/ : M[A-Z]{2}\d{4}\s*$" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: truncate messages" matcher=".*" pattern="iSecurity/ : M[A-Z]{2}\d{4}.*?;[^\.]+$" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: truncate messages 1" matcher=".*" pattern="iSecurity/ : M[A-Z]{2}\d{4} [^;:\.]+$" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) (\S+) iSecurity/ : (M[A-Z]{2}\d+)?.*" pattern="iSecurity/ :" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched iSecurity Data ($Revision: #14 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

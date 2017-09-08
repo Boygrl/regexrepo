@@ -1,0 +1,482 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="Trend ScanMail" eventIds="all" fullDescription="" logInterval="1" logLocation="application" logManagementOutput="10.254.10.18" logManagementPort="10102" logStartPoint="-1" logType="NtReader" node="spop" readerName="Trend ScanMail" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="TrendSM" toolType="Anti-Virus" vendor="" version="$Revision: #6 $">
+		<file _type="null" attributeName="logLocation" enabled="false" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Trend ScanMail" id="TrendSM" sysVersion="3.0" version="8" version_type="int">
+		<FastPattern _type="null" alertName="VirusAttack" description="5 VirusAttack: exe block" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(\S+) has been detected,(.*) has been taken (.*) Attachment name:\s*(\S+)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;5&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$6&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*clean.*" description="clean" format="Virus &quot;$6&quot; detected. File Cleaned" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*quarantine.*" description="quarantine" format="Virus &quot;$6&quot; detected. File Quarantined" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*delete.*" description="delete" format="Virus &quot;$6&quot; detected. File Quarantined" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*rename.*" description="rename" format="Virus &quot;$6&quot; detected. File Renamed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Sender:\s*(.*) Recipient: (.*); Subject:.*" description="info" format="Sender: &quot;$11&quot;, Recipient: &quot;$12&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[^,]*clean[^,]*,.*" description="clean" format="Clean" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*quarantine[^,]*,.*" description="quarantine" format="Quarantine" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*delete[^,]*,.*" description="delete" format="Delete" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*rename[^,]*,.*" description="rename" format="Rename" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*clean.*" description="clean" format="Clean" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*quarantine.*" description="quarantine" format="Quarantine" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*delete.*" description="delete" format="Delete" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*rename.*" description="rename" format="Rename" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*clean.*" description="clean" format="Cleaned" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*quarantine.*" description="quarantine" format="Quarantined" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*delete.*" description="delete" format="Deleted" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[^,]*,.*rename.*" description="rename" format="Renamed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Server: (\S+) .*" description="server" format="$11" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="6 MailTrafficAudit: exe block" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;6&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="The (.*) has been blocked, and (.*) has been taken.*" description="quote rule" format="&quot;$8&quot; blocked. &quot;$9&quot; action taken" matcherInput="$6" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Sender:\s*(.*) Recipient: (.*); Subject:.*" description="info" format="Sender: &quot;$8&quot;, Recipient: &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Server: (\S+) .*" description="server" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Blocked Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="7 MailTrafficAudit: rule block" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;7&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* violated the (.*) and (.*) has been taken.*" description="quote rule" format="Email has violated the &quot;$8&quot; rule. &quot;$9&quot; action taken" matcherInput="$6" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* Sender:\s*(.*) Recipient: (.*); Subject:.*" description="info" format="Sender: &quot;$8&quot;, Recipient: &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Server: (\S+) .*" description="server" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Blocked Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="8 MailTrafficAudit: Protected file detected, Pass taken" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*)\. Message details: Server:(\S+) Sender: (.*); Recipient:(.*); Subject:(.*) Attachment name:(.*)&lt;/String1&gt;.*" pattern="eventId=&quot;8&quot;.*source=&quot;Trend(?: Micro)? ScanMail.*Protected file has been detected,and Pass has been taken" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Sender: &quot;$8&quot;, Recipient: &quot;$9&quot;, Attachment: &quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="17,32 ServiceInfo: Update finished - no new components " matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;(17|32)&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*information: ([^.]+).*" description="information" format="$9 on &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*information: [^.]+[. ]+([^.]+)[. ]+([^.]+).*" description="components" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*" description="information" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*information: [^.]+[. ]+[^.]+[. ]+([^.]+).*" description="information" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="18 ServiceWarning: Update needed" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;1[78]&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*Reason: ([^.]+) Related information:.*" description="information" format="$9 on &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Related information: .* Components are (.*)" description="components" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*" description="information" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Related information: (.*) Components are .*" description="information" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="33 SoftwareUpdate: Update finished - new components" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;33&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*information: ([^.]+).*" description="information" format="$9 on &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Update is completed.\s+(.*)" description="spam" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Upgrade" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="FeaturePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* virus pattern (\S+) to ([^,]+),.*" description="virus pattern" format="Virus Pattern" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Version" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* virus pattern (\S+) to ([^,]+),.*" description="new" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OldVersion" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* virus pattern (\S+) to ([^,]+),.*" description="old" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12291 ServiceWarning: Service not started" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;12291&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="ScanMail Master Service is not started" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Please restart ScanMail Master Service" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="The transport scan module is unable to detect ScanMail or it does not have proper permission to access ScanMail related files or registries" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="4101 VirusAttack: Email Virus Detected" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;[\s\r\n]*ScanMail.*der\s=\s(.*).*Recipient\(s\)\s=\s(.*)\sSub.*ent\s(.*)\s.*contains\s(.*)\svirus.*has\s(.*)\sit.*\&lt;/String1&gt;(?:[\s\r\n]*&lt;String2&gt;[\s\r\n]*(.*?)[\s\r\n]*&lt;/String2&gt;[\s\r\n]*[\s\r\n]*&lt;String3&gt;[\s\r\n]*(.*?)[\s\r\n]*&lt;/String3&gt;[\s\r\n]*)?.*" pattern="eventId=&quot;4101&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Virus Sender: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Cleaned.*" description="Clean File" format="Clean File" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Deleted.*" description="Delete File" format="Delete File" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Quarantined.*|.*Moved.*" description="Quarantine File" format="Quarantine File" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Recpient: $7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Moved.*" description="Quarantined" format="Quarantined" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Cleaned.*" description="Cleaned" format="Cleaned" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Deleted.*" description="Deleted" format="Deleted" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$9&quot; detected. " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Moved.*" description="Quarantined" format="Virus &quot;$8&quot; quarantined." matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Cleaned.*" description="Cleaned" format="Virus &quot;$8&quot; detected. File cleaned." matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*Deleted.*" description="Deleted" format="Virus &quot;$8&quot; detected. File deleted." matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="4101 ServiceWarning: Attachment Blocked" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;[\s\r\n]*ScanMail.*blocked.*er\s=\s(.*)\sRecipient\(s\)\s=\s(.*)\sSub.*ent\s(.*)\sma.*has\s(.*)\sit.*[\s\r\n]*&lt;/String1&gt;.*" pattern="eventId=&quot;4101&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Email Sender: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Email Recipient: $7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Attachment $8 was $9" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ScanMail Blocked Mail Attachment for $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="4101 VirusAttack: Email Virus Detected 2" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;[\s\r\n]*ScanMail.*der\s=\s(.*)Recipient\(s\)\s=\s(.*)\s.*Subject\s=\s(.*)Scanning\sTime\s=\s((\d\d)/(\d\d)/(\d\d\d\d).*(\d\d:\d\d:\d\d))\sEngine.*contains\s(.*)\svirus.*has\s(.*)\sthe\smess.*\&lt;/String1&gt;(?:[\s\r\n]*&lt;String2&gt;[\s\r\n]*(.*?)[\s\r\n]*&lt;/String2&gt;[\s\r\n]*&lt;String3&gt;[\r\n\s]*(.*?) [\r\n\s]*&lt;/String3&gt;[\s\r\n]*)?.*" pattern="eventId=&quot;4101&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*[cC]leaned.*" description="Clean File" format="Clean File" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*[dD]eleted.*" description="Delete File" format="Delete File" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*[Qq]uarantined.*|.*[Mm]oved.*" description="Quarantine File" format="Quarantine File" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus Sender - $6, Subject: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Recipient: $7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Email Body" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*[mM]oved.*" description="Quarantined" format="Quarantined" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*[cC]leaned.*" description="Cleaned" format="Cleaned" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*[dD]eleted.*" description="Deleted" format="Deleted" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$14&quot; detected. " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*[mM]oved.*" description="Quarantined" format="Virus &quot;$14&quot; quarantined." matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*[cC]leaned.*" description="Cleaned" format="Virus &quot;$14&quot; detected. File cleaned." matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*[dD]eleted.*" description="Deleted" format="Virus &quot;$14&quot; detected. File deleted." matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusSummaryAttack" description="4101 VirusSummaryAttack: ScanMail Outbreak Alert" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;[\s\r\n]*(ScanMail Outbreak Alert:.*)\&lt;/String1&gt;(?:[\s\r\n]*&lt;String2&gt;[\s\r\n]*(.*?)[\s\r\n]*&lt;/String2&gt;[\s\r\n]*[\s\r\n]*&lt;String3&gt;[\s\r\n]*(.*?)[\s\r\n]*&lt;/String3&gt;[\s\r\n]*)?.*" pattern="eventId=&quot;4101&quot;.*source=&quot;Trend(?: Micro)? ScanMail.*ScanMail Outbreak Alert" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7, $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="20480 UserLogon Administrator" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;(\S+) (\S+) (.*) An Administrator has logged on\.&lt;/String1&gt;.*" pattern="eventId=&quot;20480&quot;.*source=&quot;Trend(?: Micro)? ScanMail.*logged on" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$6&quot; from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\\(.*)" description="user" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\\.*" description="domain" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Administrator" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="20480 UserLogoff Administrator" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;(\S+) (\S+) (.*) An Administrator has logged off\.&lt;/String1&gt;.*" pattern="eventId=&quot;20480&quot;.*source=&quot;Trend(?: Micro)? ScanMail.*logged off" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$6&quot; from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\\(.*)" description="user" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\\.*" description="domain" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Administrator" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="20482 ServiceInfo - quarantined messages resent" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;(\S+) (\S+) (.*) (\d+ quarantined email messages have been resent)\.&lt;/String1&gt;.*" pattern="eventId=&quot;20482&quot;.*source=&quot;Trend(?: Micro)? ScanMail.*quarantined email messages have been resent" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$9 by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Administrative Action via &quot;$8&quot; on &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\\(.*)" description="user" format="$11" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\\.*" description="domain" format="$11" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="28672 ServiceInfo - security risk scan" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[\s\r\n]*&lt;String1&gt;(.*)&lt;/String1&gt;.*" pattern="eventId=&quot;28672&quot;.*source=&quot;Trend(?: Micro)? ScanMail for Microsoft Exchange" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\\.*" description="domain" format="$11" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="Unmatched Trend Scan Mail data" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;.*" pattern="source=&quot;Trend(?: Micro)? ScanMail" version="26" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Trend ScanMail Data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="BlackHole" matcher=".*" pattern="" version="23" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="17 ServiceInfo: Update finished - no new components " matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;\s*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;.*" pattern="eventId=&quot;17&quot;.*source=&quot;Trend(?: Micro)? ScanMail" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*information: ([^.]+).*" description="information" format="$9 on &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*information: [^.]+[. ]+([^.]+)[. ]+([^.]+).*" description="components" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server: (\S+) .*" description="information" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*information: [^.]+[. ]+[^.]+[. ]+([^.]+).*" description="information" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

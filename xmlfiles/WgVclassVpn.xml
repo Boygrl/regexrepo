@@ -1,0 +1,66 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="WatchGuard Vclass (VPN)" logInterval="1" logLocation="/var/log/syslog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="WatchGuard Vclass VPN" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="WgVclassVpn" toolType="Firewalls" version="$Revision: #4 $" vendor="WatchGuard" fullDescription="" categoryTags="syslog">
+		<file attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false" guiVersion="4"></string>
+		<integer attributeName="logManagementPort" enabled="false" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false" guiVersion="4"></integer>
+		<select attributeName="readerOutput" enabled="false" labelText="Output:" preferredOrder="90" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" selectItems="Alert;InDepth;Alert, InDepth" visible="false" guiVersion="4"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="WatchGuard Vclass (VPN)" id="WgVclassVpn" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="WgVclassVpn-1, IPSecTrafficAudit: (1) phase 1" matcher="(^\d+) ([.\w-]+) [\d-]+ [\d:]+ [\w-]+ (?:iked|mia): (id=\d+ +peer=([\d.]+) mode=\S* auth_meth=\S* init_cookie=&quot;[^&quot;]*&quot; resp_cookie=&quot;[^&quot;]*&quot; dh_group=\S* create_time=&quot;[^&quot;]*&quot; life_time=\S* life_size=\S* acc_time=\S* acc_bytes=&quot;[^&quot;]*&quot;) msg=&quot;([^&quot;]+)&quot;.*" pattern="^\d+ [.\w-]+ [\d-]+ [\d:]+ [\w-]+ (?:iked|mia): id=\d+ +peer=[\d.]+ mode=\S* auth_meth=\S* init_cookie=&quot;[^&quot;]*&quot; resp_cookie=&quot;[^&quot;]*&quot; dh_group=\S* create_time=&quot;[^&quot;]*&quot; life_time=\S* life_size=\S* acc_time=\S* acc_bytes=&quot;[^&quot;]*&quot; msg=&quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclassVpn-1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="WgVclassVpn-2, IPSecTrafficAudit: (2) Phase 2" matcher="^(\d+) ([.\w-]+) [\d-]+ [\d:]+ [\w-]+ (?:iked|mia): policy=&quot;([^&quot;]*)&quot; peer=([\d.]+) (tunnel=\d+ key=\w+ mode=\w* dir=\w* sec=[\w-]* spi=\w+) local_ip=([\d.]*)/[)\w(]+ remote_ip=([\d.]*)/[)\w(]+ (service=\S* create_time=&quot;[^&quot;]*&quot; life_time=\w* life_size=\w* anti_replay=\d+) acc_time=(\S*) (acc_bytes=&quot;[^&quot;]*&quot;) msg=&quot;([^&quot;]+)&quot;.*" pattern="^\d+ [.\w-]+ [\d-]+ [\d:]+ [\w-]+ (?:iked|mia): policy=&quot;[^&quot;]*&quot; peer=[\d.]+ tunnel=\d+ key=\w+ mode=\w* dir=\w* sec=[\w-]* spi=\w+ local_ip=[\d.]*/[)\w(]+ remote_ip=[\d.]*/[)\w(]+ service=\S* create_time=&quot;[^&quot;]*&quot; life_time=\w* life_size=\w* anti_replay=\d+ acc_time=\S* acc_bytes=&quot;[^&quot;]*&quot; msg=&quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[\d.]+ [\d.]+" description="addresses" format="$11 between $6 and $7" matcherInput="$6 $7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5 $8 acc_time=&quot;$9&quot; $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclassVpn-2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="WgVclassVpn-3, IPSecTrafficAudit: (3) tunnel deleted" matcher="^(\d+) ([.\w-]+) [\d-]+ [\d:]+ [\w-]+ mia: (pri=\d+) msg=&quot;(Tunnel to peer ([\d.]+) has been deleted) &quot;.*" pattern="^\d+ [.\w-]+ [\d-]+ [\d:]+ [\w-]+ mia: pri=\d+ msg=&quot;Tunnel to peer [\d.]+ has been deleted &quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclassVpn-3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="WgVclassVpn-4, IPSecTrafficAudit: (4) ike packet" matcher="^(\d+) ([.\w-]+) (id=\S+ time=&quot;[^&quot;]+&quot; fw=\S+ pri=\d+ +rule=&quot;[^&quot;]+&quot;) src=([\d.]+) dst=([\d.]+) proto=(ike) sport=(\d+) dport=(\d+) (indev=\d+) inport=(\d+\(\w+\)) +(rc=\d+), msg=&quot;([^&quot;]+)&quot;.*" pattern="^\d+ [.\w-]+ id=\S+ time=&quot;[^&quot;]+&quot; fw=\S+ pri=\d+ +rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=ike sport=\d+ dport=\d+ indev=\d+ inport=\d+\(\w+\)  +rc=\d+, msg=&quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclassVpn-4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $9 $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="WgVclassVpn-5, IPSecTrafficAudit: (5) ipsec packet" matcher="^(\d+) ([.\w-]+) (id=\S+ time=&quot;[^&quot;]+&quot; fw=\S+ pri=\d+ +rule=&quot;[^&quot;]+&quot;) src=([\d.]+) dst=([\d.]+) proto=(\w+) (spi=\w+ indev=\d+) inport=(\d+\(\w+\))  +(rc=\d+) msg=&quot;([^&quot;]+)&quot;.*" pattern="^\d+ [.\w-]+ id=\S+ time=&quot;[^&quot;]+&quot; fw=\S+ pri=\d+ +rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=(?:ah|esp) spi=\w+ indev=\d+ inport=\d+\(\w+\)  +rc=\d+ msg=&quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="WgVclassVpn-5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 $7 $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,95 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Extreme Sentriant" logInterval="1" logLocation="/var/log/syslog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="spop,manager" readerName="Sentriant" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="sentriant" toolType="Identity and Access Management" version="$Revision: #4 $" vendor="Extreme Networks" fullDescription="Collects identity and access management events from Sentriant appliances." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Extreme Sentriant" id="sentriant" version="14" version_type="int">
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: grid_status:" matcher="(\d+) (\S+) Sentriant\S+: Time=&quot;[^&quot;]+&quot;,Host=&quot;([^&quot;]+)&quot;,Category=&quot;([^&quot;]+)&quot;,Generator=&quot;([^&quot;]+)&quot;,Type=&quot;([^&quot;]+)&quot;,Priority=&quot;([^&quot;]+)&quot;,Body=&quot;([^&quot;]+)&quot;.*" pattern="grid_status:\S+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*),State=[^,]+(.*)" description="all but state" format="$10$11" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="StatusMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*State=([^,]+).*" description="state" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: Category=&quot;configuration&quot; " matcher="(\d+) (\S+) Sentriant\S+: Time=&quot;[^&quot;]+&quot;,Host=&quot;([^&quot;]+)&quot;,Category=&quot;([^&quot;]+)&quot;,Generator=&quot;([^&quot;]+)&quot;,Type=&quot;([^&quot;]+)&quot;,Priority=&quot;([^&quot;]+)&quot;,Body=&quot;([^&quot;]+)&quot;.*" pattern="Category=&quot;configuration&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NetworkSuspicious" description="NetworkSuspicious: Category=&quot;fabric_network_activity&quot;,Generator=&quot;Unused Contact&quot;" matcher="(\d+) (\S+) Sentriant\S+: Time=&quot;[^&quot;]+&quot;,Host=&quot;([^&quot;]+)&quot;,Category=&quot;([^&quot;]+)&quot;,Generator=&quot;([^&quot;]+)&quot;,Type=&quot;([^&quot;]+)&quot;,Priority=&quot;([^&quot;]+)&quot;,Body=&quot;([^&quot;]+)&quot;.*" pattern="Category=&quot;fabric_network_activity&quot;,Generator=&quot;Unused Contact&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*),Duration=[^,]+(.*),Source IP=[^,]+,Source MAC=[^,]+(.*\S)\s*" description="remove IP,MAC" format="$10$11$12" matcherInput="$8" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Source IP=([^,]+).*" description="Source IP" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Source MAC=([^,]+).*" description="Source MAC" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: Security:Login Success" matcher="(\d+) (\S+) Sentriant\S+: Time=&quot;[^&quot;]+&quot;,Host=&quot;([^&quot;]+)&quot;,Category=&quot;([^&quot;]+)&quot;,Generator=&quot;([^&quot;]+)&quot;,Type=&quot;([^&quot;]+)&quot;,Priority=&quot;([^&quot;]+)&quot;,Body=&quot;([^&quot;]+)&quot;.*" pattern="Security:Login Success" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* (\S+) by .*remote: ([-.\w]+).*" description="user, remote" format="Logon &quot;$10&quot; from &quot;$11&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".* (\S+) by .*" description="user" format="Logon &quot;$10&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* (\S+) by .*" description="user" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*remote: ([-.\w]+).*" description="remote" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* by ([^[]*) .*" description="process" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: Security:Logout" matcher="(\d+) (\S+) Sentriant\S+: Time=&quot;[^&quot;]+&quot;,Host=&quot;([^&quot;]+)&quot;,Category=&quot;([^&quot;]+)&quot;,Generator=&quot;([^&quot;]+)&quot;,Type=&quot;([^&quot;]+)&quot;,Priority=&quot;([^&quot;]+)&quot;,Body=&quot;([^&quot;]+)&quot;.*" pattern="Security:Logout" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* (\S+) by .*remote: ([-.\w]+).*" description="user, remote" format="Logoff &quot;$10&quot; from &quot;$11&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".* (\S+) by .*" description="user" format="Logoff &quot;$10&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* (\S+) by .*" description="user" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*remote: ([-.\w]+).*" description="remote" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* by ([^[]*) .*" description="process" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData Sentriant" matcher="(\d+) (\S+) .*" pattern="Sentriant" version="40" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Sentriant Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="7" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="NTD" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="30" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

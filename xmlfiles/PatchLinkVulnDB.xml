@@ -1,0 +1,40 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" computerName="localhost" dateStartPoint="-1" description="PatchLink Vulnerability" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="PatchLinkVulnReader" node="spop" option=";IntegratedSecurity=true;SelectMethod=cursor" password="" port="1433" preQueryCheck="select count(*) from rpt_VulnerabilityResults where rpt_VulnerabilityResults.ResultScanDate &gt;= ?" protocol="sqlserver" queryString="select rpt_VulnerabilityResults.ResultScanDate, rpt_VulnerabilityResults.AgentID, rpt_Agent_to_IP.DNSName, rpt_Agent_to_IP.IPAddress, rpt_VulnerabilityResults.VulnerabilityID, rpt_vulnerabilities.Impact, rpt_vulnerabilities.VulnerabilityName, rpt_vulnerabilities.VulnerabilityDescription, rpt_vulnerabilities.VendorName, rpt_vulnerabilities.CVEList, rpt_vulnerabilities.PlatformInfo, rpt_vulnerabilities.ReleaseDate from rpt_VulnerabilityResults join rpt_Agent_to_IP on rpt_VulnerabilityResults.AgentID = rpt_Agent_to_IP.AgentID join rpt_vulnerabilities on rpt_VulnerabilityResults.VulnerabilityID = rpt_vulnerabilities.VulnerabilityID where rpt_VulnerabilityResults.Result &lt;&gt; 'Patched' and rpt_VulnerabilityResults.ResultScanDate &gt;= ? order by rpt_VulnerabilityResults.AgentID, rpt_VulnerabilityResults.ResultScanDate" readerName="Patchlink" readerOutput="Alert" repositoryDriverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" repositoryName="PLUS" sleepBetweenQueries="3600" stateVars="logStartPoint,readerName,dateStartPoint,preCheckSize" toolId="PatchLinkVuln" toolType="System Scan Reporters" username="" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<string _type="null" attributeName="computerName" enabled="true" formatRule="" formatted="false" labelText="PatchLink Server Host Name:" preferredOrder="1" toolTipText="Hostname to read from" visible="true"></string>
+		<string _type="null" attributeName="port" enabled="true" formatRule="" formatted="false" labelText="PatchLink Server Port:" preferredOrder="2" toolTipText="Server port number" visible="true"></string>
+		<string _type="null" attributeName="protocol" enabled="true" formatRule="" formatted="false" labelText="PatchLink Server Protocol:" preferredOrder="3" toolTipText="Database protocol" visible="true"></string>
+		<string _type="null" attributeName="username" enabled="true" formatRule="" formatted="false" labelText="PatchLink Server Username:" preferredOrder="4" toolTipText="Database username" visible="true"></string>
+		<password _type="null" attributeName="password" enabled="true" formatRule="" formatted="false" labelText="PatchLink Server Password:" preferredOrder="5" toolTipText="Database password" visible="true"></password>
+		<string _type="null" attributeName="sleepBetweenQueries" enabled="true" formatRule="" formatted="false" labelText="Time Between Queries:" preferredOrder="6" toolTipText="Number of seconds between queries" visible="true"></string>
+		<string _type="null" attributeName="dateStartPoint" enabled="true" formatRule="" formatted="false" labelText="Starting Date for Query:" preferredOrder="7" toolTipText="Date and time in milliseconds since epoch" visible="true"></string>
+		<string _type="null" attributeName="repositoryName" enabled="false" formatRule="" formatted="false" labelText="PatchLink Database Name:" preferredOrder="97" toolTipText="Database name" visible="true"></string>
+		<string _type="null" attributeName="repositoryDriverClass" enabled="false" formatRule="" formatted="false" labelText="JDBC Driver Class:" preferredOrder="96" toolTipText="JDBC Driver class" visible="true"></string>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="PatchLink Vulnerability" id="PatchLinkVuln" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="VulnerabilityFound" description="Vulnerabilities" matcher="^([^\s]*\s*[^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]+)\t([^\t]*)\t([^\t]+)\t([^\t]+).*" pattern=".*" version="8" version_type="int">
+			<FastField _type="null" defaultValue="Vulnerability Found in &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="0" version_type="int">
+				<FastFormatter _type="null" condition="(\S+) - \d+.*" description="risk factor" format="$14 Vulnerability Found in &quot;$7&quot;" matcherInput="$6" version="-1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="RiskFactor" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="Description" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="References" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="(.*CVE.*)" description="CVE" format="PatchLinkVulnerabilityID: $5, CVE: $13" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*CAN.*)" description="CVE-CAN" format="PatchLinkVulnerabilityID: $5, CVE: $10" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\s*" description="NoCVE" format="PatchLinkVulnerabilityID: $5" matcherInput="$10" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Machine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ApplicationName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ScanMessage" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="catchall" matcher=".*" pattern=".*" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched PatchLink Vulnerability Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

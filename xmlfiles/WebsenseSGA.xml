@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Websense Security Gateway Anywhere" fullDescription="Collects device/software events from Websense Security Gateway Anywhere appliances." logInterval="1" logLocation="/var/log/local3.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="WebsenseSGA" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="WebsenseSGA" toolType="Proxy Servers and Content Filters" vendor="Websense" version="$Revision: #6 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Websense Security Gateway Anywhere" id="WebsenseSGA" version="15" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: http" matcher="(\d+) ([-\w.]+) .*CEF:0\|Websense\|Security\|[\d.]+\|(\d+)\|([\w ]+)\|(\d+)\| act=(\w+) app=[()\w ]+ dvc=\S+ dst=([\d.]+)\S* dhost=\S+ dpt=(\d+) src=([\d.]+)\S* spt=(\d+) (.+)" pattern="\d+ [-\w.]+ .*CEF:0\|Websense\|Security\|[\d.]+\|\d+\|[\w ]+\|\d+\| act=\w+" version="9" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="permitted" description="permitted" format="URL access by &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="blocked" description="blocked" format="Blocked URL access by &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+ cn1Label=DispositionCode cn1=(\d+).*" description="dispositioncode" format="$13" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Severity: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition=".+ in=(\d+) out=(\d+) requestMethod=([-A-Z]+) requestClientApplication=(.+).*? reason=(.+) cs1Label=Policy cs1=(.+) cs2Label=DynCat cs2=\d+ cs3Label=ContentType cs3=(.+) cn1Label=DispositionCode cn1=\d+.*" description="info" format="Severity: $5, RequestMethod: &quot;$15&quot;, RequestClientApplication: &quot;$16&quot;, Reason: &quot;$17&quot;, Policy: &quot;$18&quot;, ContentType: &quot;$19&quot;, In: $13, Out: $14" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="blocked" description="blocked" format="Web Content Type" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+ request=(.*)" description="result" format="$13" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="1" format="1: Adult Material" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="2" format="2: Business and Economy" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="3" format="3: Education" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="4" format="4: Government" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="5" format="5: News and Media" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="6" format="6: Religion" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="7" description="7" format="7: Society and Lifestyles" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="8" description="8" format="8: Special Events" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="9" description="9" format="9: Information Technology" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="10" description="10" format="10: Abortion" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="11" description="11" format="11: Advocacy Groups" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="12" description="12" format="12: Entertainment" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="13" description="13" format="13: Gambling" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="14" description="14" format="14: Games" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="15" description="15" format="15: Illegal or Questionable" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="16" description="16" format="16: Job Search" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="17" description="17" format="17: Shopping" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="18" description="18" format="18: Sports" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="19" description="19" format="19: Tasteless" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="20" description="20" format="20: Travel" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="21" description="21" format="21: Vehicles" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="22: Violence" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="23" description="23" format="23: Weapons" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="24" description="24" format="24: Drugs" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="25" description="25" format="25: Militancy and Extremist" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="26" description="26" format="26: Racism and Hate" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="27" description="27" format="27: Health" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="28" description="28" format="28: Information technology, URL Translation Sites" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="29" description="29" format="29: Productivity, Advertisements" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="64" description="64" format="64: User-Defined" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="65" description="65" format="65: Adult Material, Nudity" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="66" description="66" format="66: Adult Material, Adult Content" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="67" description="67" format="67: Adult Material, Sex" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="68" description="68" format="68: Business and Economy, Financial Data and Services" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="69" description="69" format="69: Education, Cultural Institutions" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="70" description="70" format="70: Entertainment, MP3 and Audio Download Services" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="72" description="72" format="72: Government, Military" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="73" description="73" format="73: Government, Political Organizations" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="74" description="74" format="74: Internet Communication, General Email" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="75" description="75" format="75: Information Technology, Proxy Avoidance" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="76" description="76" format="76: Information Technology, Search Engines and Portals" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="78" description="78" format="78: Information Technology, Web Hosting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="79" description="79" format="79: Internet Communication, Web Chat" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="80" description="80" format="80: Information Technology, Hacking" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="81" description="81" format="81: News and Media, Alternative Journals" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="82" description="82" format="82: Religion, Non-Traditional Religions and Occult and Folklore" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="83" description="83" format="83: Religion, Traditional Religions" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="84" description="84" format="84: Society and Lifestyles, Restaurants and Dining" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85" description="85" format="85: Society and Lifestyles, Gay or Lesbian or Bisexual Interest" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86" description="86" format="86: Society and Lifestyles, Personals and Dating" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87" description="87" format="87: Society and Lifestyles, Alcohol and Tobacco" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="88" description="88" format="88: Drugs, Prescribed Medications" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="89" description="89" format="89: Drugs, Supplements and Unregulated Compounds" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="90: Drugs, Abused Drugs" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="91: Internet Communication" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="92" description="92" format="92: Abortion, Pro-Choice" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="93" description="93" format="93: Abortion, Pro-Life" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="94" description="94" format="94: Adult Material, Sex Education" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="95" description="95" format="95: Adult Material, Lingerie and Swimsuit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="96" description="96" format="96: Productivity, Online Brokerage and Trading" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="97" description="97" format="97: Education, Educational Institutions" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="98" description="98" format="98: Productivity, Instant Messaging" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="99" description="99" format="99: Productivity, Freeware and Software Download" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="100: Productivity, Pay-to-Surf" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="101: Shopping, Internet Auctions" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="102" description="102" format="102: Shopping, Real Estate" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="103" description="103" format="103: Society and Lifestyles, Hobbies" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="107" description="107" format="107: Sport, Sport Hunting and Gun Clubs" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="108" description="108" format="108: Bandwidth, Internet Telephone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="109" description="109" format="109: Bandwidth, Streaming Media" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="110: Productivity" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="111" description="111" format="111: Drugs, Marijuana" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="112" description="112" format="112: Productivity, Message Boards and Forums" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="113" description="113" format="113: Bandwidth, Personal Network Storage and Backup" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="114" description="114" format="114: Bandwidth, Internet Radio and TV" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="115" description="115" format="115: Bandwidth, Peer-to-Peer File Sharing" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="116" description="116" format="116: Bandwidth" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="117" description="117" format="117: Society and Lifestyles, Social Networking" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="118" description="118" format="118: Education, Educational Materials" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="121" description="121" format="121: Education, Reference Materials" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="122" description="122" format="122: Social Organizations" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="123" description="123" format="123: Social Organizations, Service and Philanthropic Organizations" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="124" description="124" format="124: Social Organizations, Social and Affiliation Organizations" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="125" description="125" format="125: Social Organizations, Professional and Worker Organizations" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="126" description="126" format="126: Security" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="128" description="128" format="128: Security, Malicious Web Sites" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="138" description="138" format="138: Information Technology, Computer Security" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="146" description="146" format="146: Miscellaneous" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="147" description="147" format="147: Miscellaneous, Images (Media)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="148" description="148" format="148: Miscellaneous, Image Servers" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="149" description="149" format="149: Miscellaneous, Private IP Addresses" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="150: Miscellaneous, Content Delivery Networks" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="151: Miscellaneous, Dynamic Content" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152" description="152" format="152: Miscellaneous, Network Errors" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="153" description="153" format="153: Miscellaneous, Uncategorized" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154" description="154" format="154: Security, Spyware" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156" description="156" format="156: Miscellaneous, File Download Servers" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="164" description="164" format="164: Security, Phishing and Other Frauds" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="166: Security, Keyloggers" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="167" description="167" format="167: Security, Potentially Unwanted Software" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="172" description="172" format="172: Security, Bot Networks" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="191" description="191" format="191: Extended Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="192" description="192" format="192: Extended Protection, Elevated Exposure" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="193" description="193" format="193: Extended Protection, Emerging Exploits" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="194" description="194" format="194: Extended Protection, Potentially Damaging Content" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="195" description="195" format="195: Internet Communication, Organizational Email" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="196" description="196" format="196: Internet Communication, Text and Media Messaging" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="200: Information Technology, Web and Email Spam" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="201" description="201" format="201: Information Technology, Web Collaboration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="202: Parked Domain" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="203" description="203" format="203: Business and Economy, Hosted Business Applications" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="204" description="204" format="204: Society and Lifestyles, Blogs and Personal Sites" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="205" description="205" format="205: Security, Malicious Embedded Link" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206" format="206: Security, Malicious Embedded iFrame" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="207" description="207" format="207: Security, Suspicious Embedded Link" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="208" description="208" format="208: Bandwidth, Surveillance" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="209" description="209" format="209: Bandwidth, Educational Video" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="210: Bandwidth, Entertainment Video" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="211" description="211" format="211: Bandwidth, Viral Video" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="212" description="212" format="212: Extended Protection, Dynamic DNS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="213" description="213" format="213: Security, Potentially Exploited Documents" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="214" description="214" format="214: Security, Mobile Malware" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="215" description="215" format="215: Information Technology, Unauthorized Mobile Marketplaces" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="216" description="216" format="216: Security, Custom-Encrypted Uploads" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="217" description="217" format="217: Security, Files Containing Passwords" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="218" description="218" format="218: Security, Advanced Malware Command and Control" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="219" description="219" format="219: Security, Advanced Malware Payloads" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1500" description="1500" format="1500: Social Web Control û Facebook, " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1501" description="1501" format="1501: Social Web Controls û LinkedIn, LinkedIn Updates" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1502" description="1502" format="1502: Social Web Controls û LinkedIn, LinkedIn Mail" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1503" description="1503" format="1503: Social Web Controls û LinkedIn, LinkedIn Connections" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1504" description="1504" format="1504: Social Web Controls û LinkedIn, LinkedIn Jobs" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1505" description="1505" format="1505: Social Web Controls û Facebook, Facebook Posting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1506" description="1506" format="1506: Social Web Controls û Facebook, Facebook Commenting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1507" description="1507" format="1507: Social Web Controls û Facebook, Facebook Friends" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1508" description="1508" format="1508: Social Web Controls - Facebook, Facebook Photo Upload" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1509" description="1509" format="1509: Social Web Controls û Facebook, Facebook Mail" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1510" description="1510" format="1510: Social Web Controls û Facebook, Facebook Events" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1511" description="1511" format="1511: Social Web Controls û YouTube, YouTube Commenting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1512" description="1512" format="1512: Social Web Controls û YouTube, YouTube Video Upload" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1513" description="1513" format="1513: Social Web Controls û Facebook, Facebook Apps" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1514" description="1514" format="1514: Social Web Controls û Facebook, Facebook Chat" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1516" description="1516" format="1516: Social Web Controls û Facebook, Facebook Questions" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1517" description="1517" format="1517: Social Web Controls û Facebook, Facebook Video Upload" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1518" description="1518" format="1518: Social Web Controls û Facebook, Facebook Groups" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1519" description="1519" format="1519: Social Web Controls û Twitter, Twitter Posting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1520" description="1520" format="1520: Social Web Controls û Twitter, Twitter Mail" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1521" description="1521" format="1521: Social Web Controls û Twitter, Twitter Follow" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1523" description="1523" format="1523: Social Web Controls û YouTube, YouTube Sharing" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1524" description="1524" format="1524: Social Web Controls û Facebook, Facebook Games" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1525" description="1525" format="1525: Social Web Controls û YouTube" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1526" description="1526" format="1526: Social Web Controls û Twitter" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1527" description="1527" format="1527: Social Web Controls - LinkedIn" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1528" description="1528" format="1528: Social Web Controls - Various" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1529" description="1529" format="1529: Social Web Controls û Various, Craigslist Posting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1530" description="1530" format="1530: Social Web Controls û Various, WordPress Posting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1531" description="1531" format="1531: Social Web Controls û Various, WordPress Commenting" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1801" description="1801" format="1801: Non-HTTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="suser=(.+?) destinationTranslatedPort=\d+.*" description="suser" format="$13" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: Proxy Stats unavailable" matcher="(\d+) ([-\w.]+) (\S+)\[\d+\]: (\S+): (.+)" pattern="\d+ [-\w.]+ \S+\[\d+\]: \S+: Proxy Stats unavailable" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) ([-\w.]+).*" pattern="\d+ [-\w.]+ CEF:0\|Websense\|Security\|[\d.]+\|\d+\|[\w ]+\|\d+\| \w+=" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Websense Security Gateway Anywhere data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data-2" matcher="(\d+) ([-\w.]+).*" pattern="\d+ [-\w.]+ \S+\[\d+\]: \S+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Websense Security Gateway Anywhere data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

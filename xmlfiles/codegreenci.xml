@@ -1,0 +1,139 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="CodeGreen Content Inspection" logInterval="1" logLocation="/var/log/local2.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Code Green CI" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="codegreenci" toolType="Data Loss Prevention" version="$Revision: #4 $" vendor="CodeGreen" fullDescription="Collects content-related events generated from devices where Code Green is deployed. Should also enable the Code Green Content Inspection User connector." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="CodeGreen Content Inspection" id="codegreenci" version="18" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="1, MailTrafficAudit: smtp" matcher="(\d+) (.+) source_ip=([\d.]+); source_port=(\d+); destination_ip=([\d.]+); destination_port=(\d+); policy=([^;]+); matched_content=([^;]+); matched_doc=([^;]*); (?:columns=.+)?inspected_document=([^;]*); action=([^;]+); protocol=([^;]+); (.+); *$" pattern="protocol=SMTP[^;]*;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$11 for &quot;$7, $8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="matcheddoc" format="$11 for &quot;$7, $8&quot; for &quot;$9&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?(\d+\.\d+\.\d+\.\d+).*" description="get first ip" format="$15" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="More: &quot;$13&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+: email_subject=(.*); email_sender=(.*); email_recipients=(.*)" description="emailinfo-inspecteddoc" format="Inspected Document: &quot;$10&quot;, Subject: &quot;$15&quot;, Sender: &quot;$16&quot;, Recipients: &quot;$17&quot;" matcherInput="$10: $13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="email_subject=(.*); email_sender=(.*); email_recipients=(.*)" description="emailinfo" format="Subject: &quot;$15&quot;, Sender: &quot;$16&quot;, Recipients: &quot;$17&quot;" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="inspecteddoc" format="Inspected Document: &quot;$10&quot;, More: &quot;$13&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0: .*email_sender=\S+@([-\w.]+);.*" description="ip-zeros" format="$15" matcherInput="$3: $13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0: .*email_recipients=\S+@([-\w.]+)" description="ip-zeros" format="$15" matcherInput="$5: $13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, WebTrafficAudit: http" matcher="(\d+) (.+) source_ip=([\d.]+); source_port=(\d+); destination_ip=([\d.]+); destination_port=(\d+); policy=([^;]+); matched_content=([^;]+); matched_doc=([^;]*); (?:columns=.+)?inspected_document=([^;]*); action=([^;]+); protocol=([^;]+); (.+); *$" pattern="protocol=HTTP[^;]*;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$11 URL Access from $3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="matcheddoc" format="$11 URL Access to &quot;$9&quot; from $3" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="inspecteddoc" format="$11 URL Access to &quot;$10&quot; from $3" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?(\d+\.\d+\.\d+\.\d+).*" description="get first ip" format="$15" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="matcheddoc" format="$9" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="inspecteddoc" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0" description="ip-zeros" format="" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0" description="ip-zeros" format="" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Block|Medium Risk)" description="webcontent" format="Web Content" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([\w-]+).*" description="proto" format="$15" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="http_url=(.+); http_host=.*" description="url" format="$15" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7, $8" fieldName="Category" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="3, FileTransferTrafficAudit: ftp" matcher="(\d+) (.+) source_ip=([\d.]+); source_port=(\d+); destination_ip=([\d.]+); destination_port=(\d+); policy=([^;]+); matched_content=([^;]+); matched_doc=([^;]*); (?:columns=.+)?inspected_document=([^;]*); action=([^;]+); protocol=([^;]+); (.+); *$" pattern="protocol=FTP[^;]*;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$11 for &quot;$7, $8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="matcheddoc" format="$11 for &quot;$7, $8&quot; for &quot;$9&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?(\d+\.\d+\.\d+\.\d+).*" description="get first ip" format="$15" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="More: &quot;$13&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="inspecteddoc" format="Inspected Document: &quot;$10&quot;, More: &quot;$13&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0" description="ip-zeros" format="" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0" description="ip-zeros" format="" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="4, ApplicationTrafficAudit: default" matcher="(\d+) (.+) source_ip=([\d.]+); source_port=(\d+); destination_ip=([\d.]+); destination_port=(\d+); policy=([^;]+); matched_content=([^;]+); matched_doc=([^;]*); (?:columns=.+)?inspected_document=([^;]*); action=([^;]+); protocol=([^;]+); *(.*)" pattern="action=[^;]+; protocol=[^;]+;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$11 for &quot;$7, $8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="matcheddoc" format="$11 for &quot;$7, $8&quot; for &quot;$9&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?(\d+\.\d+\.\d+\.\d+).*" description="get first ip" format="$15" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="inspecteddoc" format="Inspected Document: &quot;$10&quot;, More: &quot;$13&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0" description="ip-zeros" format="" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0\.0\.0\.0" description="ip-zeros" format="" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="port-zero" format="" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) (.+) source_ip.*" pattern="source_ip=[\d.]+;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched CodeGreen CI data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?(\d+\.\d+\.\d+\.\d+).*" description="get first ip" format="$4" matcherInput="$2" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

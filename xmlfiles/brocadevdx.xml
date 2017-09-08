@@ -1,0 +1,930 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Brocade VDX Switches" fullDescription="Collects events from Brocade VDX switches." logInterval="1" logLocation="/var/log/local7.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="BrocadeVDX" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="brocadevdx" toolType="Routers/Switches" vendor="Brocade" version="$Revision: #15 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Brocade VDX Switches" id="brocadevdx" version="36" version_type="int">
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: DCM; 1006, 1101" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;DCM-(?:1006|1101)&quot;\]" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: (\w+), User command: .+" description="event-status-command" format="$6 $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: PHP; 1001" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;PHP-1001&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: NSM; 1004, 1010, 1011, 102[35], 2000, 2002, 2004, 2006, 2012, 2013, 2014, 2017, 2019, 2021, 2031, 2032, 2038, 2039" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;NSM-(?:101[01]|200[0246]|201[23479]|203[1289]|2021|1004|102[35])&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SNMP; 1005, 1007" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM) ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;SNMP-100[57]&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SSMD; 1312" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;SSMD-1312&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SULB; 1036" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;SULB-1036&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="SoftwareUpdate: SULB; 1001, 1002" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;SULB-100[12]&quot;\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="firmware download command has started" description="download-started" format="Update to &quot;firmware&quot; in progress (download started)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="firmware download command has completed successfully" description="download-completed" format="Update to &quot;firmware&quot; succeeded (download completed)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\]\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$9&quot;, Interface: &quot;$10&quot;, Application: &quot;$11&quot;, Switch: &quot;$12&quot;, User: &quot;$8&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Upgrade" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Firmware" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemReboot" description="SystemReboot: RAS; 1007" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;RAS-1007&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: NSM; 1001, 1002, 1003,1017, 1020, 1026, 1027" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;NSM-10(?:0[123]|17|2[067])&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusLevel" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Interface [-/\w ]+ is ([\w ]+)" description="interface-is" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?for interface.*?is (\w+).*" description="for-interface" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: DCM; 2002" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;DCM-2002&quot;\]" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Successful logout by user \[(.+)\]" description="event-status-info" format="Logoff &quot;$6&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, Interface: &quot;$8&quot;, Application: &quot;$9&quot;, Switch: &quot;$10&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[role@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="role" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[ip@\d+ value=&quot;([\d.]+)&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: \w+, Info: Successful logout by user \[.+\]" description="event-status-info" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: SEC; 3022" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;SEC-3022&quot;\]" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Successful logout by user \[(.+)\]" description="event-status-info" format="Logoff &quot;$6&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, Interface: &quot;$8&quot;, Application: &quot;$9&quot;, Switch: &quot;$10&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[role@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="role" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[ip@\d+ value=&quot;([\d.]+)&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: \w+, Info: Successful logout by user \[.+\]" description="event-status-info" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: DCM; 2001" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;DCM-2001&quot;\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Successful login attempt through \w+ from ([\d.]+)" description="event-status-info" format="Logon &quot;$6&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, Interface: &quot;$8&quot;, Application: &quot;$9&quot;, Switch: &quot;$10&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[role@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="role" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[ip@\d+ value=&quot;([\d.]+)&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: \w+, Info: Successful login attempt through (\w+) from [\d.]+" description="event-status-info" format="$6, $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: SEC; 1203, 3020" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+?)\.?$" pattern="\[msgid@\d+ value=&quot;SEC-(?:1203|3020)&quot;\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Login information: Login successful via TELNET/SSH/RSH\. IP Addr: ([\d.]+)" description="login-information" format="Logon &quot;$6&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Successful login attempt via (\w+), IP Addr: ([\d.]+)" description="event-status-info" format="Logon &quot;$7&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, Interface: &quot;$8&quot;, Application: &quot;$9&quot;, Switch: &quot;$10&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[role@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="role" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[ip@\d+ value=&quot;([\d.]+)&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Login information: Login successful via TELNET/SSH/RSH\. IP Addr: ([\d.]+)" description="login-information" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Login information: Login successful via ([/\w]+)\. IP Addr: [\d.]+" description="login-information" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Successful login attempt via ([/\w]+), IP Addr: [\d.]+" description="event-status-info" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: SEC; 3021" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+?)\.?$" pattern="\[msgid@\d+ value=&quot;SEC-3021&quot;\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon Failure &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Failed login attempt through (\w+), IP Addr: ([\d.]+)" description="event-status-info" format="Logon &quot;$7&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, Interface: &quot;$8&quot;, Application: &quot;$9&quot;, Switch: &quot;$10&quot;" matcherInput="$3" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[role@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="role" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[ip@\d+ value=&quot;([\d.]+)&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Failed login attempt through \w+, IP Addr: ([\d.]+)" description="event-status-info" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: [\w ]+, Status: \w+, Info: Failed login attempt through ([/\w]+), IP Addr: [\d.]+" description="event-status-info" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: SEC; 1307" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+?)\.?$" pattern="\[msgid@\d+ value=&quot;SEC-1307&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[arg2@\d+ value=&quot;([^&quot;]+)&quot; desc=&quot;username&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[arg1@\d+ value=&quot;([\d.]+)&quot; desc=&quot;server&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Security violation: Login failure attempt via TELNET/SSH/RSH\. IP Addr: ([\d.]+)" description="login-information" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FailedAuthentication" description="FailedAuthentication: SEC; 1193" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+?)\.?$" pattern="\[msgid@\d+ value=&quot;SEC-1193&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Security violation: Login failure attempt via TELNET/SSH/RSH\. IP Addr: ([\d.]+)" description="login-information" format="Logon Failure &quot;$6&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="Logon &quot;$6&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[ip@\d+ value=&quot;([\d.]+)&quot;\].*" description="ip" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Security violation: Login failure attempt via TELNET/SSH/RSH\. IP Addr: ([\d.]+)" description="login-information" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[role@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="role" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Security violation: Login failure attempt via ([/\w]+)\. IP Addr: [\d.]+" description="login-information" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: VC; 1103" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;VC-1103&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: (\w+), User command: .+" description="event-status-command" format="$6 $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart: VC; 1100" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;VC-1100&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: (\w+), User command: .+" description="event-status-command" format="$6 $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: DCM; 1108" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;DCM-1108&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: FW; 1342" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOMSec)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;FW-1342&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="LinkControlTrafficAudit: NSM; 2036, 2037" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;NSM-203[67]&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:De-)?Association of MAC address: (\w{2})(\w{2})\.(\w{2})(\w{2})\.(\w{2})(\w{2}).*" description="MAC_aDDR" format="$6:$7:$8:$9:$10:$11" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: TS; 1001" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+?)\.?$" pattern="\[msgid@\d+ value=&quot;TS-1001&quot;\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Event: ([\w ]+), Status: (\w+), User command: .+" description="event-status-command" format="$6 $7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: TS; 1008, 1013" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;TS-10(?:13|08)&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: SEC; 3024" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;SEC-3024" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="$8" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SEC; 3027" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) BOM\s*(.+)" pattern="\[msgid@\d+ value=&quot;SEC-3027&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: LOG, 1000" matcher="(\d+) ([-\w.]+).*?raslogd: (\[.+\]) (?:BOMSec)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;LOG-1000&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SEC; 1197" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) BOM\s*(.+)" pattern="\[msgid@\d+ value=&quot;SEC-1197&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: RTM; 1023" matcher="(\d+) ([-\w.]+) raslogd: (\[.+\]) ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;RTM-1023&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[arg\d@\d+ value=&quot;(.+)&quot;?" description="msg" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[arg\d@\d+ value=&quot;(.+)&quot;?" description="msg" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: IPAD 1001" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) (?:BOM)? ?(.+)\.$" pattern="\[msgid@\d+ value=&quot;IPAD-(?:1001)&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+)-\d+&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[user@\d+ value=&quot;([^&quot;]+)&quot;\].*" description="user" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: NSM; 1019" matcher="(\d+) ([-\w.]+) .*?raslogd: (\[.+\]) BOM\s*(.+)" pattern="\[msgid@\d+ value=&quot;NSM-1019&quot;\].+?Interface \S+ \S+ is administratively \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[msgid@\d+ value=&quot;(\w+-\d+)&quot;\].*" description="msgid" format="$6" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[severity@\d+ value=&quot;(\w+)&quot;\]\[class@\d+ value=&quot;(\w+)&quot;\].*\[ip@\d+ value=&quot;([\d.]+)&quot;\]\[interface@\d+ value=&quot;(\w+)&quot;\]\[application@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="audit-extra" format="Severity: &quot;$6&quot;, Class: &quot;$7&quot;, IP: &quot;$8&quot;, Interface: &quot;$9&quot;, Application: &quot;$10&quot;, Switch: &quot;$11&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\[attr@\d+ value=&quot;\s*([^&quot;]+)&quot;\]\[severity@\d+ value=&quot;(\w+)&quot;\]\[swname@\d+ value=&quot;([-\w]+)&quot;\].*" description="raslog-extra" format="Severity: &quot;$7&quot;, Attr: &quot;$6&quot;, Switch: &quot;$8&quot; " matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Interface.+?is administratively (\S+)\." description="Status" format="Interface $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+.*?raslogd: \[log@\d+ value=&quot;[A-Z]+&quot;\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Brocade VDX Switches Data ($Revision: #15 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: Black Hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

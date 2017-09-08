@@ -1,0 +1,296 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="CodeGreen Content Inspection user" fullDescription="Collects events about creating and deleting users, connecting to LDAP, and settings changes from devices where Code Green is deployed. Should also enable the Code Green Content Inspection connector." logInterval="1" logLocation="/var/log/user.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Code Green CI user" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="codegreenciuser" toolType="Data Loss Prevention" vendor="CodeGreen" version="$Revision: #5 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Enter the log file to read from." visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data." visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data." visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="The data output this reader feeds." visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Enter the number of seconds between log reads." visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="The tool version." visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="The tool wrapper id." visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="CodeGreen Content Inspection user" id="codegreenciuser" version="22" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: garbage, cntrl chars" matcher=".*" pattern="^\d+ [-\w.]+ .*[\x00-\x1f]" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: garbage" matcher=".*" pattern="^\d+ [-\w.]+ (?:close|exit|helo|quit) *$" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: not codegreen, daemon" matcher=".*" pattern="^\d+ [-\w.]+ [-\w\.[\]]+?: *.+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: not codegreen, InRow SC" matcher=".*" pattern="^\d+ [-\w.]+ InRow SC: *.+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="1, ApplicationTrafficAudit: Connected to LDAP server" matcher="(\d+) ([-\w.]+) Connected to LDAP server ([-\w.]+):(\d+).*" pattern="\d+ [-\w.]+ Connected to LDAP server [-\w.]+:\d+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Connected to LDAP server &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="2, ApplicationTrafficAudit: Disconnected from LDAP server" matcher="(\d+) ([-\w.]+) Disconnected from LDAP server ([-\w.]+):(\d+).*" pattern="\d+ [-\w.]+ Disconnected from LDAP server [-\w.]+:\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Disconnected from LDAP server &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="3, ApplicationTrafficAudit: Failed to establish an LDAP connection" matcher="(\d+) ([-\w.]+) Failed to establish an LDAP connection to ([-\w.]+):(\d+)\. Error Code: (-?\d+).*" pattern="\d+ [-\w.]+ Failed to establish an LDAP connection to [-\w.]+:\d+\. Error Code: -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Failed to establish an LDAP connection to server &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Error Code: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChangeGroupAttribute" description="4, ChangeGroupAttribute: User Group modified" matcher="(\d+) ([-\w.]+).* User Group modified by (.+): &quot;(.+)&quot;.*" pattern="\d+ [-\w.]+ User Group modified by .+: &quot;.+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User group modified by &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroupMember" description="5, NewGroupMember: User created" matcher="(\d+) ([-\w.]+).* User created by (.+): &quot;(.+)&quot;.*" pattern="\d+ [-\w.]+ User created by .+: &quot;.+&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="User created by &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="GroupMember" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="6, PolicyModify: Content modified" matcher="(\d+) ([-\w.]+) Content modified by (.+): &quot;([^&quot;]+)&quot;; crawl.*" pattern="\d+ [-\w.]+ Content modified by .+: &quot;[^&quot;]+&quot;; crawl" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Content modified by &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="&quot;$4&quot;, crawl" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="7, PolicyModify: Log Settings modified" matcher="(\d+) ([-\w.]+) Log Settings modified for category: &quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ Log Settings modified for category: &quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Log Settings modified" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Log Settings modified for category &quot;$3&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="8, PolicyModify: MTA Settings" matcher="(\d+) ([-\w.]+) MTA Settings &quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ MTA Settings &quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="MTA Settings" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="9, PolicyModify: Syslog Server deleted" matcher="(\d+) ([-\w.]+) Syslog Server deleted: description &quot;(.+)&quot; name/port &quot;([-\w.]+):(\d+)&quot;.*" pattern="\d+ [-\w.]+ Syslog Server deleted: description &quot;.+&quot; name/port &quot;[-\w.]+:\d+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Syslog Server deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Description: &quot;$3&quot;, Name: &quot;$4&quot;, Port: $5" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="10, PolicyModify: Syslog Server modified" matcher="(\d+) ([-\w.]+) Syslog Server modified: &quot;([^&quot;]+)&quot; from &quot;([^&quot;]+)&quot; to &quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ Syslog Server modified: &quot;[^&quot;]+&quot; from &quot;[^&quot;]+&quot; to &quot;[^&quot;]+&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Syslog Server modified" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Name: &quot;$3&quot;, Modified from &quot;$4&quot; to &quot;$5&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="11, ServiceInfo: Crawl finished successfully" matcher="(\d+) ([-\w.]+) Crawl finished successfully: &quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ Crawl finished successfully: &quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Crawl finished successfully" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="crawl" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="12, ServiceInfo: Crawl started" matcher="(\d+) ([-\w.]+) Crawl started: &quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ Crawl started: &quot;[^&quot;]+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Crawl started" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="crawl" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="13, ServiceWarning: Crawl finished in failure" matcher="(\d+) ([-\w.]+) Crawl finished in failure: &quot;([^&quot;]+)&quot;; Error code = (\d+) \((.+)\).*" pattern="\d+ [-\w.]+ Crawl finished in failure: &quot;[^&quot;]+&quot;; Error code = \d+ \(.+\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Crawl finished in failure" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="crawl" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="&quot;$3&quot;, Error Code: $4, &quot;$5&quot;" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="14, ServiceWarning: Failed to look up e-mail address" matcher="(\d+) ([-\w.]+) Failed to look up e-mail address (.+) in the LDAP directory\. Error Code: (-?\d+).*" pattern="\d+ [-\w.]+ Failed to look up e-mail address .+ in the LDAP directory\. Error Code: -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Failed to look up e-mail address in the LDAP directory" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Email: &quot;$3&quot;, Error Code: $4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="15, UserLogoff: Logout completed" matcher="(\d+) ([-\w.]+) Logout completed (?:by|for) (.+) (?:at|from) ([\d.]+)(.*)" pattern="\d+ [-\w.]+ Logout completed (?:by|for) .+ (?:at|from) [\d.]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[: ]*(.+)" description="reason" format="Reason: &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="16, UserLogon: Login completed" matcher="(\d+) ([-\w.]+) Login completed by (.+) from ([\d.]+).*" pattern="\d+ [-\w.]+ Login completed by .+ from [\d.]+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="17, UserLogonFailure: invalid login name" matcher="(\d+) ([-\w.]+) Login failed from ([\d.]+): invalid login name; &quot;(.+)&quot;.*" pattern="\d+ [-\w.]+ Login failed from [\d.]+: invalid login name; &quot;.+&quot;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="invalid login name" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="18, UserLogonFailure: invalid password" matcher="(\d+) ([-\w.]+) Login failed from ([\d.]+): invalid password for &quot;(.+)&quot;.*" pattern="\d+ [-\w.]+ Login failed from [\d.]+: invalid password for &quot;.+&quot;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="invalid password" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="19, UserModifyAttribute: User modified" matcher="(\d+) ([-\w.]+).* User modified by (.+): &quot;(.+)&quot;.*" pattern="\d+ [-\w.]+ User modified by .+: &quot;.+&quot;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User modified by &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

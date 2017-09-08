@@ -1,0 +1,126 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="FortiWeb Web Application Firewall" fullDescription="Collects web-related events and device information from FortiWeb Web Application Firewall appliances." logInterval="1" logLocation="/var/log/local0.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="FortiWeb" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="fortiweb" toolType="Proxy Servers and Content Filters" vendor="Fortinet" version="$Revision: #4 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="FortiWeb Web Application Firewall" id="fortiweb" version="12" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: traffic" matcher="(\d+) ([-\w.]+) date=[-\d]+ time=[:\d]+ devname=(\w+) log_id=(\d+) msg_id=\d+ type=(\w+) subtype=&quot;([\w ]+)&quot; pri=\w+ device_id=([-\w]+) timezone=&quot;[-(),:\w]+&quot; (.+)" pattern="\d+ [-\w.]+ date=[-\d]+ time=[:\d]+ devname=FortiWeb log_id=\d+ msg_id=\d+ type=traffic subtype=&quot;[\w ]+&quot; pri=\w+ device_id=[-\w]+ timezone=&quot;[-(),:\w]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="URL Access" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="default" format="URL Access by &quot;$10&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*\bpolicy=&quot;([^&quot;]+)&quot; action=(\w+) http_method=(\w+).+ severity_level=(\w+) trigger_policy=&quot;[^&quot;]*&quot; msg=&quot;([^&quot;]+)&quot;.*" description="more1" format="Device: &quot;$7&quot;, Policy: &quot;$10&quot;, Action: &quot;$11&quot;, Method: &quot;$12&quot;, Severity: &quot;$13&quot;, Msg: &quot;$14&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bpolicy=&quot;?([^&quot;]+)&quot;? http_host=.+ msg=&quot;([^&quot;]+)&quot;.*" description="more2" format="Device: &quot;$7&quot;, Policy: &quot;$10&quot;, Msg: &quot;$11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc_port=(\d+).*" description="src-port" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst_port=(\d+).*" description="dst-port" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=tcp.*" description="proto-tcp" format="TCP" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bproto=udp.*" description="proto-udp" format="UDP" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto-default" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\bservice=(\w+).+ http_host=&quot;([-\w.]+)&quot;.* http_url=&quot;(\S*)&quot;.*" description="service-host-url" format="$10://$11$12" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bservice=(\w+).+ http_url=&quot;(\S*)&quot; http_host=&quot;([-\w.]+)&quot;.*" description="service-url-host" format="$10://$12$11" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="HTTPApplicationAccess: attack" matcher="(\d+) ([-\w.]+) date=[-\d]+ time=[:\d]+ devname=(\w+) log_id=(\d+) msg_id=\d+ type=(\w+) subtype=&quot;([\w ]+)&quot; pri=\w+ device_id=([-\w]+) timezone=&quot;[-+(),:\w]+&quot; (.+)" pattern="\d+ [-\w.]+ date=[-\d]+ time=[:\d]+ devname=FortiWeb log_id=\d+ msg_id=\d+ type=attack subtype=&quot;[\w ]+&quot; pri=\w+ device_id=[-\w]+ timezone=&quot;[-+(),:\w]+&quot;" version="6" version_type="int">
+			<FastField _type="null" defaultValue="attack detected" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*msg=&quot;\[Signatures name: .+?\] \[main class name: (.+?)\] \[sub class name: (.+?)\].*" description="threat_class_format" format="attack detected; Threat Type: &quot;$10&quot;, Threat: $11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bmsg=&quot;([^&quot;]+)&quot;.*" description="default" format="attack: $10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*\bservice=(\w+).+ policy=&quot;([^&quot;]+)&quot; action=(\w+) http_method=(\w+) http_url=&quot;(\S*)&quot; http_host=&quot;([-\w.]+)&quot;.+ severity_level=(\w+).*" description="more" format="Device: &quot;$7&quot;, Policy: &quot;$11&quot;, Action: &quot;$12&quot;, Severity: &quot;$16&quot;, Method: &quot;$13&quot;, URL: &quot;$10://$15$14&quot;" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*msg=&quot;\[Signatures name: (.+?)\].*" description="signature_format" format="Device: &quot;$7&quot;, Signature Name: &quot;$10&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc_port=(\d+).*" description="src-port" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst_port=(\d+).*" description="dst-port" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=tcp.*" description="proto-tcp" format="TCP" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bproto=udp.*" description="proto-udp" format="UDP" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto-default" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ date=[-\d]+ time=[:\d]+ devname=FortiWeb log_id=\d{8} msg_id=\d+ type=\w+ subtype=&quot;[^&quot;]+&quot; pri=\w+ device_id=[-\w]+ timezone=&quot;[^&quot;]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched FortiWeb Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: Black Hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

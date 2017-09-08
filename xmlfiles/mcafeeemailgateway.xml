@@ -1,0 +1,2042 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="McAfee Email Gateway" fullDescription="Collects mail-related events and device information from McAfee Email Gateway appliances." logInterval="1" logLocation="/var/log/syslog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="McafeeEmailGateway" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="mcafeeemailgateway" toolType="Proxy Servers and Content Filters" vendor="McAfee" version="$Revision: #13 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="McAfee Email Gateway" id="mcafeeemailgateway" version="58" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="1, MailTrafficAudit: Dropped by Envelope Analysis" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Dropped by Envelope Analysis\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="detail" format="Msg ID: &quot;$3&quot;, Details: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+::\(\d+,.+@([-\w.]+)\)" description="host" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailDeliveryAccess" description="2, MailDeliveryAccess: DSN for spoofed message" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|DSN for spoofed message\.\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),(.+)" description="host-msgid-detail" format="Msg ID: &quot;$7&quot;, Details: &quot;$5&quot;" matcherInput="$3,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$7&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-\d+,(.+)" description="ip-port-detail" format="Details: &quot;$5&quot;" matcherInput="$3,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-\d+" description="ip-port" format="" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="msgid-detail" format="Msg ID: &quot;$3&quot;, Details: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-\d+" description="ip-port" format="$7" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="$7" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-(\d+)" description="ip-port" format="$7" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="3, MailTrafficAudit: Forwarded Message" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|Forwarded Message\. Received IP = &lt;([\d.]+)>, FROM = (&lt;.+>)\. To (&lt;\['.+'\]>) Route Domain &lt;([-\w.]+)> Route Host = &lt;([\d.]+)>\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Forwarded Message\. Received IP = &lt;[\d.]+>, FROM = &lt;.+>\. To &lt;\['.+'\]> Route Domain &lt;[-\w.]+> Route Host = &lt;[\d.]+>\|" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Forward Message from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;, FROM: &quot;$5&quot;, TO: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="detail" format="Msg ID: &quot;$3&quot;, FROM: $5, TO: $6, Details: &quot;$9&quot;" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="4, MailTrafficAudit: Invalid domain" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Invalid domain\. Message deleted\.\|" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),(.+)" description="host-msgid-detail" format="Msg ID: &quot;$7&quot;, Details: &quot;$8&quot;" matcherInput="$3,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$7&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="detail" format="Msg ID: &quot;$3&quot;, Details: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="$7" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="5, MailTrafficAudit: Message could not be delivered" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|Message could not be delivered to the domain - ([-\w.]+): (.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Message could not be delivered to the domain - [-\w.]+: .+\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Message could not be delivered to the domain &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\{.+\} (.+?)\.?$" description="results-msg" format="Message could not be delivered to the domain &quot;$4&quot;, $8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+; (.+?)\.?$" description="num-msg" format="Message could not be delivered to the domain &quot;$4&quot;, $8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),\{(.+)\} .+,(.+)" description="host-msgid-results-details" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;, Details: &quot;$10&quot;" matcherInput="$3,$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),(\d+); .+,(.+)" description="host-msgid-num-details" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;, Details: &quot;$10&quot;" matcherInput="$3,$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),\{(.+)\} .+" description="host-msgid-results" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;" matcherInput="$3,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),(\d+); .+" description="host-msgid-num" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;" matcherInput="$3,$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d+),\{(.+)\} .+,(.+)" description="msgid-results-details" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;, Details: &quot;$10&quot;" matcherInput="$3,$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d+),(\d+); .+,(.+)" description="msgid-num-details" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;, Details: &quot;$10&quot;" matcherInput="$3,$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d+),\{(.+)\} .+" description="msgid-results" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;" matcherInput="$3,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d+),(\d+); .+" description="msgid-num" format="Msg ID: &quot;$8&quot;, Result: &quot;$9&quot;" matcherInput="$3,$5,$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="6, MailTrafficAudit: Message received" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|Message received\. Received IP &lt;\('([\d.]+)', (\d+)\)> From (&lt;.*?>) (To .+)" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Message received\. Received IP &lt;\('[\d.]+', \d+\)> From &lt;.*> To .+" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Message received from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;, FROM: &quot;$6&quot;, TO-LIST: &quot;$7...&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="(.+)\|\[(.+)\][&lt;\d> ]*" description="tolist-details" format="Msg ID: &quot;$3&quot;, FROM: &quot;$6&quot;, TO-LIST: &quot;$9&quot;, Details: &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.+)\|\[\][&lt;\d> ]*" description="tolist-details-none" format="Msg ID: &quot;$3&quot;, FROM: &quot;$6&quot;, TO-LIST: &quot;$9&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="7, MailTrafficAudit: Quarantined by Anti-Spam" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|(.+) Values:(.+)" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Quarantined by Anti-Spam \(Enterprise Spam Profiler\) ESP Score:\d+ Values:" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Message $4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\[.+\]\|\[(.+)\][&lt;\d> ]*" description="details" format="Msg ID: &quot;$3&quot;, Details: &quot;$7&quot; " matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="8, MailTrafficAudit: Quarantined by Filtering" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Quarantined by (?:Attachment|Content) Filtering\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message $4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="detail" format="Msg ID: &quot;$3&quot;, Details: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="9, MailTrafficAudit: Recipient rejected by LDAP" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Recipient rejected by LDAP\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Recipient (&lt;.+>) IP &lt;([\d.]+)>" description="recepient-ip" format="Recipient &quot;$7&quot; rejected by LDAP" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Recipient &lt;.+> IP &lt;([\d.]+)>" description="recepient-ip" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="10, MailTrafficAudit: Spam Message type" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|([-\w:.]+)\|\d\|\d+\|Spam Message type: TrustedSource Signature Confidence = (\w+)\. Connection: ([\d.]+)-(\d+)\(IP-Port\), Sender:(.+), RcptList:\[(.+)\]\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Spam Message type: TrustedSource Signature Confidence = \w+\. Connection: [\d.]+-\d+\(IP-Port\), Sender:.+, RcptList:\[.+\]\|" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Message received from &quot;$5&quot;,  TrustedSource Signature Confidence: $4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$3&quot;, FROM: &quot;$7&quot;, TO-LIST: &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+),(.+)" description="host-msgid-detail" format="Msg ID: &quot;$11&quot;, FROM: &quot;$7&quot;, TO-LIST: &quot;$8&quot;, Details: &quot;$9&quot;" matcherInput="$3,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$11&quot;, FROM: &quot;$7&quot;, TO-LIST: &quot;$8&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-\d+,(.+)" description="ip-port-detail" format="Msg ID: &quot;$3&quot;, FROM: &quot;$7&quot;, TO-LIST: &quot;$8&quot;, Details: &quot;$9&quot;" matcherInput="$3,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-\d+" description="ip-port" format="FROM: &quot;$7&quot;, TO-LIST: &quot;$8&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+" description="msgid-detail" format="Msg ID: &quot;$3&quot;, FROM: &quot;$7&quot;, TO-LIST: &quot;$8&quot;, Details: &quot;$9&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="11, ServiceInfo: Forwarded by Envelope Analysis" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Forwarded by Envelope Analysis\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="12, ServiceInfo: Listed in connection control deny list" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Listed in connection control deny list\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="&quot;$8&quot; $5" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="&quot;$8&quot; $5" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$8&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="13, ServiceInfo: Logged by Image Analysis" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Logged by Image Analysis\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="14, ServiceInfo: Logged by TrustedSource ESP" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+) Values:(.*)" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Logged by TrustedSource ESP Score:\d+ Values:" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".+\|\[(.+)\][&lt;\d> ]*" description="detail" format="Msg ID: &quot;$3&quot;, Details: &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[(.+)'SIG:.+?', ('DSC:.+)\]\|\[.*\]" description="statistics" format="$8$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="15, ServiceInfo: Message ripped successfully" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Message ripped successfully\.\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="16, ServiceInfo: No action" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|No action\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="17, ServiceInfo: No virus found" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|No virus found in this message\.\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="18, ServiceInfo: Envelope Analysis" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|(?:Secured delivery PULL|Sent to DLP box) by Envelope Analysis\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="&quot;$8&quot; $5" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="&quot;$8&quot; $5" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$8&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="19, ServiceInfo: This message solicited" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|This message is solicited message\.\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="20, ServiceInfo: empty catchall" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|(\d+)\|\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|\|\[.*\]" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Action $5" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="100" description="100" format="No action" matcherInput="$5" version="3" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="Multiple Actions taken" matcherInput="$5" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="102" description="102" format="Drop message" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="103" description="103" format="Drop part" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="104" description="104" format="Forward as attachment" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="105" description="105" format="Forward" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="106" description="106" format="Copy as attachment" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="107" description="107" format="Copy" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="108" description="108" format="Quarantine" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="109" description="109" format="Log" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Rewrite subject" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="111" description="111" format="Re-route" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="112" description="112" format="Encrypt" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="113" description="113" format="Change part" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="114" description="114" format="Add header" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="115" description="115" format="Retry message" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$8&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-\d+" description="ip-port" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+),.+" description="ip-port-details" format="IP: &quot;$8&quot;, Port: $9, Details: &quot;$6&quot;" matcherInput="$4,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port" format="IP: &quot;$8&quot;, Port: $9" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([-\w.]+):\d+,.+" description="host-msgid-details" format="Host: &quot;$8&quot;, Details: &quot;$6&quot;" matcherInput="$4,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="Host: &quot;$8&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="21, ServiceWarning: delivery mode" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Delivered using (?:non secure|TLS) delivery mode\. Message deleted\.\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="Message from &quot;$8&quot; $5" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$8&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="22, ServiceWarning: Failed to send greeting" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Failed to send greeting\. Connection dropped\.\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="Failed to send greeting. &quot;$8&quot; Connection dropped" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="Failed to send greeting. &quot;$8&quot;, Port $9 Connection dropped" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$8&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="23, ServiceWarning: Invalid protocol response" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\. (.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Invalid protocol response from destination mail server\. Notification [&lt;>\w: ]+\.\|" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5. $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="$5 &quot;$9&quot;. $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$9&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="24, ServiceWarning: Mail loop detected" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Mail loop detected\. Message quarantined in Failures Queue\.\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="24" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="25, ServiceWarning: No response" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\. (.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|No response from destination mail server\. Notification [&lt;>\w: ]+\.\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5. $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="$5 &quot;$9&quot;. $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="25" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$9&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="26, ServiceWarning: Parse failed" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\.\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Parse failed\. Message will be delivered to recipient bypassing CFQ\.\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="26" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="27, ServiceWarning: Socket communication failed" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\. (.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|Socket communication failed with client. Connection dropped\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5. $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+):\d+" description="host-msgid" format="$5 &quot;$9&quot;. $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})-(\d+)" description="ip-port-msgid" format="$5 &quot;$9&quot;, Port $10. $6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="27" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="host-msgid" format="Msg ID: &quot;$9&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}-\d+" description="ip-port-msgid" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="21" description="21" format="SMTPI Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="22" description="22" format="SMTPIS Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="SMTPO Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="41" description="41" format="POP3 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="42" description="42" format="POP3S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="51" description="51" format="IMAP4 Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="52" description="52" format="IMAP4S Service" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="90" description="90" format="Apache Web Server" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91" format="WebMail Protection" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="100" description="100" format="Tomcat (JavaScript Interpreter)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="110" description="110" format="Admin (internal service that runs scripts" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Alert Manager" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="130" description="130" format="Cleanup Schedule" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="140" description="140" format="Health Monitor" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="Report Generator" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="151" description="151" format="Policy Configuration" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="160" description="160" format="Schedule (running periodic scheduled tasks)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="161" description="161" format="Schedule for FTP" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="163" description="163" format="Archive" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="166" description="166" format="Statistics Collector" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="170" description="170" format="Optimize" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="180" description="180" format="Mail-IPS" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="190" description="190" format="Anomaly Detection Engine" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Anti-Virus Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="210" description="210" format="Content Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Envelope Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="Rip Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="240" description="240" format="Join Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Quarantine Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="260" description="260" format="Spam Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="270" description="270" format="SSH Command Line Interface" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="280" description="280" format="SSH Maintenance (monitoring the SSH port)" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="290" description="290" format="Secure Web Delivery Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Audit" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="330" description="330" format="Bootport" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="360" description="360" format="Image Analysis Queue" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="900" description="900" format="Check Tool" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="910" description="910" format="Updater" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="28, VirusAttack: Quarantined, Dropped by Virus Scan" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(\w+) by Virus Scan Queue\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|(?:Quarantined|Dropped) by Virus Scan Queue\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 by Virus Scan Queue" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Dropped,\d+::\(\d+,(.+)\)" description="dropped" format="Virus &quot;$8&quot; detected. Message Deleted" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+::\(\d+,(.+)\)" description="default" format="Virus &quot;$8&quot; detected. Message $5" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="28" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+::\(\d+,(.+)\)" description="details" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5 by Virus Scan Queue" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Dropped" description="dropped" format="Deleted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="29, VirusAttack: File encryption errors by Virus Scan" matcher="^(\d+) ([-\w.]+)[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|(\d+)\|([-\w:.]+)\|\d\|\d+\|(.+)\|\[(.*)\][&lt;\d>]*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|File encryption errors\(.+\) passed through by Virus Scan Queue\|" version="1" version_type="int">
+			<FastField _type="null" defaultValue="File encryption errors passed through by Virus Scan Queue" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+::\(\d+,(.+)\)" description="default" format="Virus &quot;$8&quot; detected. File encryption errors passed through by Virus Scan Queue" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="29" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Msg ID: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+::\(\d+,(.+)\)" description="details" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="File encryption errors\((.+)\) passed through by Virus Scan Queue" description="errors" format="$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="30, MailTrafficAudit: smtp" matcher="^(\d+) ([-\w.]+) : Application=([^,]+), Event='([^']+)', status='([^']+)', From=&lt;(.*)>, .*(?:to|active-recipient)=&lt;(.*)>, source=.*?\(([^)]+)\), msgid=(\S+), (.*)" pattern="^\d+ [-\w.]+ : Application=smtp, Event='[^']+'" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4; $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="30" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$6&quot;, To: &quot;$7&quot;, Msg ID: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="31, MailTrafficAudit: smtp - no status" matcher="^(\d+) ([-\w.]+) : Application=([^,]+), Event='([^']+)', From=&lt;?(.*)>?,.*?source=.*?\(([^)]+)\),.*?to=&lt;?(.*)>?,.*?msgid=(\S+),.*" pattern="^\d+ [-\w.]+ : Application=smtp, Event='[^']+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="31" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$6&quot;, To: &quot;$7&quot;, Msg ID: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="32, MailTrafficAudit: smtp" matcher="^(\d+) ([-\w.]+) : Application=([^,]+), Event='([^']+)', status='([^']+)', From=&lt;(.*)>,.*?active-recipient=&lt;(.*)>,.*?source=\(([^\)]+)\),.*?msgid=(\S+),.*" pattern="^\d+ [-\w.]+ : Application=smtp, Event='[^']+'" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4, $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="32" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$6&quot;, To: &quot;$7&quot;, Msg ID: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: smtp truncated" matcher="^(\d+) ([-\w.]+) : Application=([^,]+), Event='([^']+)', status='([^']+)', From=&lt;(.*)>, to=&lt;(.*)$" pattern="^\d+ [-\w.]+ : Application=smtp, Event='[^']+'" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4; $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="30" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$6&quot;, To: &quot;$7&quot;, Msg ID: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: smtp - no status {truncated}" matcher="^(\d+) ([-\w.]+) : Application=([^,]+), Event='([^']+)', From=&lt;?(.*)>?,.*?source=.*?\(([^)]+)\),.*?to=&lt;?(.*)>?$" pattern="^\d+ [-\w.]+ : Application=smtp, Event='[^']+'" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="31" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$6&quot;, To: &quot;$7&quot;, Msg ID: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: Email Gatewayunmatched data" matcher="^(\d+) ([-\w.]+)[=\w. ]*.*" pattern="^\d+ [-\w.]+ : Application=smtp, Event='[^']+'," version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched McAfee Email Gateway data ($Revision: #13 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+)[=\w. ]*.*" pattern="^\d+ [-\w.]+[=\w. ]* \d{8} \d{2}:\d{2}:\d{2}\|\d+\|[-\w:.]+\|\d\|\d+\|.*\|" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched McAfee Email Gateway data ($Revision: #13 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullData: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

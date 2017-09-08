@@ -1,0 +1,72 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Trend IMSS" fileFormatterType="Daily: yyyymmdd" integer_length="4" logInterval="1" logLocation="C:\\Program Files\\Trend\\IMSS\\ISNTSmtp\\logs" logManagementOutput="10.254.10.18" logManagementPort="10101" logMidfix="." logPostfix="" logPrefix="ISNT5." logStartPoint="-1" logType="IMSSDirectoryReader" node="spop" readerName="Trend IMSS" readerOutput="Alert" secondFileFormatterType="Increment: Padded#" stateVars="logStartPoint,readerName,currentLogLocation,firstLogLocation" currentLogLocation="" firstLogLocation="" toolId="trendimss" toolType="Anti-Virus" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<select _type="null" attributeName="fileFormatterType" enabled="true" formatRule="" formatted="false" labelText="New File Name Interval:" preferredOrder="2" selectItems="Daily: yyyymmdd" toolTipText="New log file generation format (daily with rotating integer counter)" visible="false"></select>
+		<select _type="null" attributeName="secondFileFormatterType" enabled="true" formatRule="" formatted="false" labelText="New File Name Interval:" preferredOrder="3" selectItems="Increment: Padded#" toolTipText="New log file generation format (daily with rotating integer counter)" visible="false"></select>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Trend IMSS" id="trendimss" version="0" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="3, MailTrafficAudit (Received from)" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\t([^\t]+)\tReceived from (.*)\s\(\[([.\d]+)\]\)\s+by ([^\t]+)\s.*" pattern="Received from" version="97" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IMSS-3" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Mail from &quot;$6&quot; at &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="27" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="5, SoftwareUpdate (update failed)" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\s+ERROR:\s+[/\d]+\s[:\d]+\s+([^.]+)\.\s+((\S+)\s.*)\s+\(\d+\).*" pattern="ERROR:\s+[/\d]+\s[:\d]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IMSS-5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Failed" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FeaturePackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="Version" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="4, ServiceWarning (Message ERROR)" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\s+([-\w]+)\s+ERROR:\s+(.*)\s+\[[^]]+\]" pattern="ERROR:\s+" version="100" version_type="int">
+			<FastField _type="null" defaultValue="IMSS-4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Message ID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="31" version_type="int">
+				<FastFormatter _type="null" condition="ERROR SENDING NOTIFICATION EMAIL!\s+" description="error sending email" format="Error sending Notification E-Mail" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ERROR CONNECTING TO INBOUND (\S+) SERVER!.*" description="error connecting to server" format="Error connecting to inbound $8 server" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="6, ServiceStart (service start running)" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\s+((InterScan \w+) main service start running).*" pattern="service start running" version="98" version_type="int">
+			<FastField _type="null" defaultValue="IMSS-6" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="27" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="7, ServiceStop (service stop running)" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\s+((InterScan \w+) main service stop running).*" pattern="service stop running" version="98" version_type="int">
+			<FastField _type="null" defaultValue="IMSS-7" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="27" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="8, SoftwareUpdate (update succeeded)" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\s+(.*update succeeded)\.\s+version:([.\d]+)\..*" pattern="update succeeded" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IMSS-8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Upgrade" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="FeaturePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) update succeeded" description="package" format="$8" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Version" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="^(\d+)/(\d+)/(\d+)\s+(\d+:\d+:\d+)\s+(?:GMT-\d+:\d+)\s+.*" pattern="ERROR:\s+ERROR|service (?:stop|stop) running|Received from \S+ \(\[[.\d]+\]\)" version="82" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1-$2-$3 $4" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Trend IMSS Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="19" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="4" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

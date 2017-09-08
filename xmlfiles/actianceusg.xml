@@ -1,0 +1,159 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Actiance Unified Security Gateway" logInterval="1" logLocation="/var/log/local0.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="ActianceUSG" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="actianceusg" toolType="Proxy Servers and Content Filters" version="$Revision: #4 $" vendor="Actiance" fullDescription="Collects events from Unified Security Gateway appliances." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Actiance Unified Security Gateway" id="actianceusg" version="27" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="1, NullAlert: ISG_SYSHEALTH_LOGGER status header" matcher=".*" pattern="^\d+ [-\w.]+ [-\w:. ]+ INFO ISG_SYSHEALTH_LOGGER -+ Status of Message Queues used by USG -+" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="2, NullAlert: ISG_SYSHEALTH_LOGGER columns" matcher=".*" pattern="^\d+ [-\w.]+ [-\w:. ]+ INFO ISG_SYSHEALTH_LOGGER key\s+msqid\s+owner\s+perms\s+used-bytes\s+messages" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="3, NullAlert: ISG_SYSTEM_LOGGER DB Exception" matcher=".*" pattern="^\d+ [-\w.]+ [-\w:. ]+ ERROR ISG_SYSTEM_LOGGER \|\d+:DB Exception occured for Connection 0x[a-f\d]+ and for Command" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="4, NullAlert: ISG Fail to create class" matcher=".*" pattern="^\d+ [-\w.]+ [-\w:. ]+ WARN ISG Fail to create class: [-\w.]+" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="5, WebTrafficAudit: ISG_SECURITY_EVENTS_LOGGER PolicyViolation" matcher="(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) \|\d+:PolicyViolation :(\w+) Event (.*?) ?Protocol: (\d+) From ([\d.]+):(\d+) To ([\d.]+):(\d+) TCP ([\w ]+) (BLOCK HTTP|BLOCK) ?(.*)" pattern="\d+ [-\w.]+ [-\w:. ]+ WARN ISG_SECURITY_EVENTS_LOGGER \|\d+:PolicyViolation :\w+ Event .* ?Protocol: \d+ From [\d.]+:\d+ To [\d.]+:\d+ TCP [\w ]+(?:BLOCK HTTP|BLOCK)" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Block URL Access by &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Product: ([\w ]+) ProductID: (\d+) RuleID: (\d+) RuleType: (\d+)" description="product" format="Product: &quot;$16&quot;, ProductID: $17&quot;, RuleID: $18, RuleType: $19" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Product: ([\w ]+) ProductID: (\d+) BuddyName: ([\w=]+) RuleID: (\d+) RuleType: (\d+)" description="product-buddyname" format="Product: &quot;$16&quot;, ProductID: $17&quot;, RuleID: $19, RuleType: $20, BuddyName:&quot;$18&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="HTTPS Logon,Host: ([-\w.]+) URI: (.+) Domain: [-\w.]+ File: .* FT: .*  Categories:.*" description="https-logon-host" format="https://$16$17" matcherInput="$12,$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="443,Host: ([-\w.]+) URI: (.+) Domain: [-\w.]+ File: .* FT: .*  Categories:.*" description="port-host" format="https://$16$17" matcherInput="$11,$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Host: ([-\w.]+) URI: (.+) Domain: [-\w.]+ File: .* FT: .*  Categories:.*" description="host" format="http://$16$17" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5 Event, $12" fieldName="Category" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* Categories: ([-\d,]+) *$" description="categories" format="$5 Event, $12, Categories: $16" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualIPTraffic" description="6, UnusualIPTraffic: ISG_SYSTEM_LOGGER sequence number" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) \|\d+:WARNING: Destination: FROM ([\d.]+):(\d+) TO ([\d.]+):(\d+) packet has sequence number (\d+).*" pattern="^\d+ [-\w.]+ [-\w:. ]+ WARN ISG_SYSTEM_LOGGER \|\d+:WARNING: Destination: FROM [\d.]+:\d+ TO [\d.]+:\d+ packet has sequence number \d+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Warning: packet from &quot;$5&quot; has sequence number $9" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="7, IPTrafficAudit: ISG Could not connect" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) Could not connect to ([\d.]+):(\d+), reason: (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ WARN ISG Could not connect to [\d.]+:\d+, reason: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Could not connect to &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="7 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Reason: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="8, SoftwareUpdate: ISG Downloading update failed" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) Downloading Firmware update failed: (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ FATAL ISG Downloading Firmware update failed:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Update to &quot;Firmware&quot; failed, $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="8 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Failed" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Firmware" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="9, SoftwareUpdate: ISG Error verifying update" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ FATAL ISG Error encountered while verifying the downloaded Firmware update" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Update to &quot;Firmware&quot; failed, $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="9 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Failed" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Firmware" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="10, ServiceInfo: ISG_SECURITY_EVENTS_LOGGER catchall" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ INFO ISG_SECURITY_EVENTS_LOGGER\s" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\|\d+:(.+)" description="bar-number" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="10 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="11, ServiceInfo: ISG_SYSHEALTH_LOGGER catchall" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ INFO ISG_SYSHEALTH_LOGGER\s" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\|\d+:(.+)" description="bar-number" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="11 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12, ServiceWarning: ISG catchall" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ (?:FATAL|WARN) ISG\s" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Actiance Unified Security Gateway Passby License Alert.*" description="license-alert" format="Actiance Unified Security Gateway Passby License Alert" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Error in doing DNS lookup with dns://(\S+):.*" description="error-in-doing-dns" format="Error in doing DNS lookup with &quot;dns:$7&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Exception in  executeReport\(.+" description="exception-in--executereport" format="Exception in  executeReport" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Failed to send email alert for license overrun\. Reason:.+" description="failed-to-send-email-alert" format="Failed to send email alert for license overrun" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([\w ]+) DB update failed\.\.\..*" description="db-update-failed" format="$7 DB update failed" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ReconnectionInfo not found!.*" description="reconnectioninfo-not-found" format="ReconnectionInfo not found" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Transcript export through SMTP failed\. Reason:.*" description="transcript-export-failed" format="Transcript export through SMTP failed" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Unified Security Gateway Version ([\d.]+) Build (\d+)[: ]+([\w ]+) DB update failed\.\.\..*" description="usg-db-update-failed" format="Unified Security Gateway Version $7 Build $8: $9 update failed" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="12 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Actiance Unified Security Gateway Passby License Alert[- ]+(.+ Server Serial number: \w+).* (- Product:.+)" description="license-alert" format="$7 $8" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Could not connect to [\d.]+:\d+, reason: (.+)" description="could-not-connect" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Downloading Firmware update failed: (.+)" description="downloading-firmware" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Error in doing DNS lookup with dns://\S+: (.+)" description="error-in-doing-dns" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Exception in  executeReport\((.+?)\)?$" description="exception-in--executereport" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Failed to send email alert for license overrun\. Reason: (.+)" description="failed-to-send-email-alert" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[\w ]+ DB update failed\.\.\. +(.+)" description="db-update-failed" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ReconnectionInfo not found! +(.+)" description="reconnectioninfo-not-found" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Transcript export through SMTP failed\. Reason: (.+)" description="transcript-export-failed" format="Reason: $7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Unified Security Gateway Version [\d.]+ Build \d+[: ]+[\w ]+ DB update failed\.\.\. +(.+)" description="usg-db-update-failed" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="13, ServiceWarning: ISG_SYSTEM_LOGGER catchall" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ (?:FATAL|WARN|ERROR) ISG_SYSTEM_LOGGER\s" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\|\d+:Initialization problem.*" description="initialization-problem" format="Initialization problem" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="13 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\|\d+:Initialization problem (.+) (\d+)" description="initialization-problem" format="Line $8 in &quot;$7&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="14, NullAlert: ISG_SECURITY_EVENTS_LOGGER garbled msg 1" matcher=".*" pattern="\d+ [-\w.]+ [-\w:. ]+ WARN ISG_SECURITY_EVENTS_LOGGER \|\d+:PolicyViolation :\w+ *$" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="15, NullAlert: ISG_SECURITY_EVENTS_LOGGER garbled msg 2" matcher=".*" pattern="\d+ [-\w.]+ [-\w:. ]+ WARN ISG_SECURITY_EVENTS_LOGGER \|\d+:PolicyViolation :.+\|\d+:PolicyViolation" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="16, ServiceWarning: ISG_SECURITY_EVENTS_LOGGER catchall" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ (?:FATAL|WARN|ERROR) ISG_SECURITY_EVENTS_LOGGER\s" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\|\d+:(.+)" description="bar-number" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="16 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="17, ServiceWarning: ISG_SYSHEALTH_LOGGER catchall" matcher="^(\d+) ([-\w.]+) [-\w:. ]+ ([A-Z]+) (ISG[A-Z_]*) (.+?)\.? *$" pattern="^\d+ [-\w.]+ [-\w:. ]+ (?:FATAL|WARN|ERROR) ISG_SYSHEALTH_LOGGER\s" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\|\d+:(.+)" description="bar-number" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="17 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ [-\w:. ]+ [A-Z]+ ISG[A-Z0-9_]*\s" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Umnatched Unified Security Gateway data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

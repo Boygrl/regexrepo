@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="FireEye Malware Protection System" fullDescription="Collects events from FireEye MPS Appliance." logInterval="1" logLocation="/var/log/syslog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="FireEyeMPS" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="FireEyeMPS" toolType="Firewalls" vendor="FireEye" version="$Revision: #4 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="FireEye Malware Protection System" id="FireEyeMPS" version="9" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: MC, malware-callback" matcher="(\d+) ([-\w.]+)[\w. ]* fenotify-[\d.]+\.(?:alert|info): CEF:0\|FireEye\|(?:MPS|CMS)\|([\d.]+)\|(\w+)\|([-\w]+)\|\d+\|(.+)" pattern="\d+ [-\w.]+[\w. ]* fenotify-[\d.]+\.(?:alert|info): CEF:0\|FireEye\|(?:MPS|CMS)\|[\d.]+\|MC\|[-\w]+\|\d+\|.+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="URL Access by &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcn2Label=sid cn2=(\d+).*" description="info" format="1 $8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdvchost=([-\w]+) dst=[\d.]+ cs5Label=cncHost cs5=[\d.]+ spt=\d+ dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) dpt=\d+ externalId=(\d+) cs4Label=link cs4=(\S+) cs6Label=.*" description="info" format="device=&quot;$8&quot;, vlan=$9, externalId=$10, link=&quot;$11&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) .*?dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) .*?externalId=(\d+) cs4Label=link .*" description="info1" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bspt=(\d+).*" description="spt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdpt=(\d+).*" description="dpt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsmac=([a-f\d:]+).*" description="smac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdmac=([a-f\d:]+).*" description="dmac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcs4Label=link cs4=(\S+) .*" description="link-url" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?shost=([-\w.]+).*" description="shost" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: DM, domian-match" matcher="(\d+) ([-\w.]+)[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS)\|([\d.]+)\|(\w+)\|([-\w]+)\|\d+\|(.+)" pattern="\d+ [-\w.]+[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS)\|[\d.]+\|DM\|[-\w]+\|\d+\|.+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="URL Access by &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcn2Label=sid cn2=(\d+).*" description="info" format="2 $8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) filePath=\S+ spt=\d+ dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) externalId=(\d+) cs4Label=link cs4=(\S+) .*" description="info" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) .*?dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) .*?externalId=(\d+) cs4Label=link .*" description="info1" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bspt=(\d+).*" description="spt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdpt=(\d+).*" description="dpt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsmac=([a-f\d:]+).*" description="smac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdmac=([a-f\d:]+).*" description="dmac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcs4Label=link cs4=(\S+) .*" description="link-url" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?shost=([-\w.]+).*" description="shost" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: WI, web-infection" matcher="(\d+) ([-\w.]+)[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS)\|([\d.]+)\|(\w+)\|([-\w]+)\|\d+\|(.+)" pattern="\d+ [-\w.]+[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS)\|[\d.]+\|WI\|[-\w]+\|\d+\|.+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="URL Access by &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcn2Label=sid cn2=(\d+).*" description="info" format="2 $8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) filePath=\S+ spt=\d+ dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) externalId=(\d+) cs4Label=link cs4=(\S+) .*" description="info" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) .*?dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) .*?externalId=(\d+) cs4Label=link .*" description="info1" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bspt=(\d+).*" description="spt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdpt=(\d+).*" description="dpt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsmac=([a-f\d:]+).*" description="smac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdmac=([a-f\d:]+).*" description="dmac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcs4Label=link cs4=(\S+) .*" description="link-url" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?shost=([-\w.]+).*" description="shost" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: IM, infection-match" matcher="(\d+) ([-\w.]+)[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS)\|([\d.]+)\|(\w+)\|([-\w]+)\|\d+\|(.+)" pattern="\d+ [-\w.]+[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS)\|[\d.]+\|IM\|[-\w]+\|\d+\|.+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="URL Access by &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcn2Label=sid cn2=(\d+).*" description="info" format="2 $8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) filePath=\S+ spt=\d+ dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) externalId=(\d+) cs4Label=link cs4=(\S+) .*" description="info" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) .*?dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) .*?externalId=(\d+) cs4Label=link .*" description="info1" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bspt=(\d+).*" description="spt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdpt=(\d+).*" description="dpt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsmac=([a-f\d:]+).*" description="smac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdmac=([a-f\d:]+).*" description="dmac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcs4Label=link cs4=(\S+) .*" description="link-url" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?shost=([-\w.]+).*" description="shost" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: IM, malware-object" matcher="(\d+) ([-\w.]+)[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS|eMPS)\|([\d.]+)\|(\w+)\|([-\w]+)\|\d+\|(.+)" pattern="\d+ [-\w.]+[\w. ]* fenotify-[\d.]+\.\w+: CEF:0\|FireEye\|(?:MPS|CMS|eMPS)\|[\d.]+\|MO\|[-\w]+\|\d+\|.+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="URL Access by &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcn2Label=sid cn2=(\d+).*" description="info" format="2 $8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) filePath=\S+ spt=\d+ dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) externalId=(\d+) cs4Label=link cs4=(\S+) .*" description="info" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?dvchost=([-\w.]+) .*?dvc=[\d.]+ smac=[a-f\d:]+ cn1Label=vlan cn1=(\d+) .*?externalId=(\d+) cs4Label=link .*" description="info1" format="device=&quot;$8&quot;, vlan=$9, externalId=$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsrc=([\d.]+).*" description="src" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdst=([\d.]+).*" description="dst" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bspt=(\d+).*" description="spt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdpt=(\d+).*" description="dpt" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=([-\w]+).*" description="proto" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bsmac=([a-f\d:]+).*" description="smac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdmac=([a-f\d:]+).*" description="dmac" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bcs4Label=link cs4=(\S+) .*" description="link-url" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?shost=([-\w.]+).*" description="shost" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) ([-\w.]+).*" pattern="\d+ [-\w.]+[\w. ]* fenotify-[\d.]+\.alert: CEF:0\|FireEye\|MPS\|[\d.]+\|\w+\|[-\w]+\|\d+\|" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched FireEye MPS Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: blackhole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

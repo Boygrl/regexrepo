@@ -1,0 +1,75 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Adtran Atlas Switch" logInterval="1" logLocation="/var/log/local2.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Atlas" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="atlas" toolType="Routers/Switches" version="$Revision: #4 $" vendor="Adtran" fullDescription="Gathers events from Adtran Atlas switches." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Adtran Atlas Switch" id="atlas" version="11" version_type="int">
+		<FastPattern _type="null" alertName="ServiceInfo" description="1, ServiceInfo: intormation element dump" matcher="^(\d+) ([-\w.]+) ATLAS (\d+)\[ADTRAN\]:CC-IE\|(\w+)\|(\d)\| +(ie:|Qie:)?((?: [A-F\d]{2})+) *$" pattern="^\d+ [-\w.]+ ATLAS \d+\[ADTRAN\]:CC-IE\|\w+\|\d\| +(?:ie:|Qie:)?(?: [A-F\d]{2})+ *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Q?ie:" description="ie" format="Call Control IE dump" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="null" description="null" format="LAPD frame dump" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Slot: $4, Port: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ISDN" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6$7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null: +(.+)" description="null" format="$9" matcherInput="$6: $7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="2, ServiceInfo: ISDN call control" matcher="^(\d+) ([-\w.]+) ATLAS (\d+)\[ADTRAN\]:CC-Message\|(\w+)\|(\d)\|(CC&gt;&gt;Host|Host&gt;&gt;CC): (\d\d) ([a-f\d]{4}) ([A-Z_]+) *$" pattern="^\d+ [-\w.]+ ATLAS \d+\[ADTRAN\]:CC-Message\|\w+\|\d\|(?:CC&gt;&gt;Host|Host&gt;&gt;CC): \d\d [a-f\d]{4} [A-Z_]+ *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="ISDN Call Control: $9" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="CC&gt;&gt;Host" description="cctohost" format="ISDN Call Control to Host: $9" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Host&gt;&gt;CC" description="hosttocc" format="Host to ISDN Call Control: $9" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Slot: $4, Port: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ISDN Call Control" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tag: $7, Call ID: $8, Message: $9" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="3, ServiceInfo: DP outgoing signalling, bits" matcher="^(\d+) ([-\w.]+) ATLAS (\d+)\[ADTRAN\]:DP Outgoing Signallin\|(\w+)\|(\d)\|Ds(\d):(\d) (TX-Set|RX-Change) +rxABCD:([a-f\d]+) txABCD:([a-f\d]+) t:(-?\d+) ms *$" pattern="^\d+ [-\w.]+ ATLAS \d+\[ADTRAN\]:DP Outgoing Signallin\|\w+\|\d\|Ds\d:\d (?:TX-Set|RX-Change) +rxABCD:[a-f\d]+ txABCD:[a-f\d]+ t:-?\d+ ms *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="TX-Set" description="tx-set" format="Atlas changed signal bits on port to rx=$9 and tx=$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="RX-Change" description="rx-change" format="Equipment connected to port changed signal bits to rx=$9 and tx=$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Slot: $4, Port: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="DP outgoing signalling" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Ds$6: $7, Receive Bits: $9, Transmit Bits: $10" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="4, ServiceInfo: DP outgoing signalling, event" matcher="^(\d+) ([-\w.]+) ATLAS (\d+)\[ADTRAN\]:DP Outgoing Signallin\|(\w+)\|(\d)\|Ds(\d):(\d) DSP Event:(\d{5}) +t:(-?\d+) ms *$" pattern="^\d+ [-\w.]+ ATLAS \d+\[ADTRAN\]:DP Outgoing Signallin\|\w+\|\d\|Ds\d:\d DSP Event:\d{5} +t:-?\d+ ms *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="DSP Event: $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Slot: $4, Port: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="DP outgoing signalling" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Ds$6: $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="5, ServiceInfo: DP outgoing signalling, other" matcher="^(\d+) ([-\w.]+) ATLAS (\d+)\[ADTRAN\]:DP Outgoing Signallin\|(\w+)\|(\d)\|Ds(\d):(\d) -&gt;(\w+) *$" pattern="^\d+ [-\w.]+ ATLAS \d+\[ADTRAN\]:DP Outgoing Signallin\|\w+\|\d\|Ds\d:\d -&gt;\w+ *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Ds$6:$7 -&gt; $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Slot: $4, Port: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="DP outgoing signalling" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+) ATLAS \d+\[ADTRAN\]:[-\w ]+\|\S+\|\d+\|.*" pattern="^\d+ [-\w.]+ ATLAS \d+\[ADTRAN\]:[-\w ]+\|\S+\|\d+\|.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Adtran Atlas data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

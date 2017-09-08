@@ -1,0 +1,91 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Trend IWSVA Audit Log" logInterval="1" logLocation="/etc/iscan/log/audit.trail.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="TrendBufferedReader" node="spop" readerName="Trend IWSVA Audits" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="TrendIWSVAaudit" toolType="Proxy Servers and Content Filters" version="$Revision: #5 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Trend IWSVA Audit Log" id="TrendIWSVAaudit" version="18" version_type="int">
+		<FastPattern _type="null" alertName="UserLogon" description="1 UserLogon (log on)" matcher="(\d+)\t(\S+)\t(.*)" pattern="log on" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Console" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="2 UserModifyAttribute (password)" matcher="(\d+)\t(\S+)\tchanged user (\S+) password\s*" pattern="password\s*$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Password changed for &quot;$3&quot; by $2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="user (\S+) password" description="password" format="Password changed for &quot;$6&quot; by $2" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Password change" fieldName="Modification" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="3 PolicyModify (changed)" matcher="(\d+)\t(\S+)\tchanged ([^:]+)[:\s]+(.*)" pattern="\tchanged" version="1" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$3&quot; modified by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="4 PolicyModify (setting is now)" matcher="(\d+)\t(\S+)\t([^(]+) \(([^)]+)\) (setting is now: .*)" pattern="setting is now" version="1" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$3&quot; $4 setting modified by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="5 PolicyModify (Add &lt;something&gt; policy:)" matcher="(\d+)\t(\S+)\tAdd ([^:]+) policy: (.*)" pattern="\tAdd [\w ]+ policy:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 policy &quot;$4&quot; added by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 policy &quot;$4&quot; added" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="6 PolicyModify (Change to)" matcher="(\d+)\t(\S+)\tChange to (.*)" pattern="\tChange to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$3&quot; modified by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="7 PolicyModify (Delete policy)" matcher="(\d+)\t(\S+)\tDelete policy: (.*)" pattern="\tDelete policy" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Policy &quot;$3&quot; deleted by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Delete policy: $3" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="8 PolicyModify (now contains)" matcher="(\d+)\t(\S+)\t(.*) (now contains.*)" pattern="\snow contains" version="1" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$3&quot; modified by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="List $4" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteDomainMember" description="9 DeleteDomainMember (Deleted user)" matcher="(\d+)\t(\S+)\tDeleted user[:\s]+(.*)" pattern="\tDeleted user:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User &quot;$3&quot; deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewDomainMember" description="10 NewDomainMember (Added user)" matcher="(\d+)\t(\S+)\tAdded user[:\s]+(.*)" pattern="\tAdded user:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User &quot;$3&quot; added" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="(\d+)\t(\S+)\t(.*)" pattern="^\d+\t\S+\t" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched IWSVA audit data ($Revision: #5 $)" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="Black Hole" matcher=".*" pattern="" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

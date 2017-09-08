@@ -1,0 +1,690 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="F-Secure Policy Manager Server 10" fullDescription="Collects F-Secure events from the Policy Manager Server H2 embedded database." idColumnNumber="2" idQuery="SELECT MAX(a.id) FROM alerts AS a" idStartPoint="-1" logInterval="1" logLocation="" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="0" logType="DbIDBasedODBCReader" node="spop" option=";IFEXISTS=true;DB_CLOSE_ON_EXIT=FALSE;" password="" port="1" preQueryCheck="SELECT COUNT(*) FROM alerts AS a WHERE a.id &gt; ?" protocol="odbc" queryLimit="10000" queryString="SELECT a.time, a.id, a.oid_id, dt.host_identity, a.user_name, a.message_params, ia.action_performed, a.severity, a.non_localized_message, a.report_id FROM alerts AS a LEFT JOIN infection_alerts AS ia ON ia.Alert_ID = a.ID LEFT JOIN domain_tree AS dt ON dt.ID = a.domain_id WHERE a.time &gt; ? ORDER BY a.id" readerName="F-Secure Policy Manager Server" readerOutput="Alert" repositoryDriverClass="sun.jdbc.odbc.JdbcOdbcDriver" repositoryName="FSPMS" sleepBetweenQueries="30" stateVars="logStartPoint,readerName,idStartPoint" toolId="FSecurePMS" toolType="Anti-Virus" username="" vendor="F-Secure" version="$Revision: #6 $">
+		<string _type="null" attributeName="username" enabled="true" formatRule="" formatted="false" labelText="Database Server Username:" preferredOrder="5" toolTipText="Database username" visible="true">
+		</string>
+		<password _type="null" attributeName="password" enabled="true" formatRule="" formatted="false" labelText="Database Server Password:" preferredOrder="6" toolTipText="Database password" visible="true">
+		</password>
+		<string _type="null" attributeName="sleepBetweenQueries" enabled="true" formatRule="" formatted="false" labelText="Time Between Queries:" preferredOrder="7" toolTipText="Number of seconds between queries" visible="true">
+		</string>
+		<string _type="null" attributeName="dateStartPoint" enabled="false" formatRule="" formatted="false" labelText="Starting date for Query:" preferredOrder="8" toolTipText="Date and time in milliseconds since epoch" visible="false">
+		</string>
+		<string _type="null" attributeName="repositoryName" enabled="true" formatRule="" formatted="false" labelText="Data Source Name:" preferredOrder="10" toolTipText="ODBC Data Source name" visible="true">
+		</string>
+		<string _type="null" attributeName="repositoryDriverClass" enabled="false" formatRule="" formatted="false" labelText="JDBC Driver Class:" preferredOrder="96" toolTipText="JDBC Driver class" visible="false">
+		</string>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="F-Secure Policy Manager Server 10" id="FSecurePMS" version="108" version_type="int">
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack, 82, 83, 85, 86, 87, 89, 91, 92, 637, 638, 639 (Malicious code found in file)" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t(?:8[235679]|9[12]|63[789])\t" version="7" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="8[23], \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="82, 83 - failed (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="85 - unable to disinfect (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="86 - renamed (renamed)" format="Virus &quot;$12&quot; Detected. File Renamed" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="87 - quarantined (quararntined)" format="Virus &quot;$12&quot; Detected. File Quarantined" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:89|638), \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="89, 638 - deleted (deleted)" format="Virus &quot;$12&quot; Detected. File Deleted" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:91|639), \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="91, 639 - disinfected (cleaned)" format="Virus &quot;$12&quot; Detected. File Cleaned" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:92|637), \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="92, 637 - none (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Malicious code found in file" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="virus" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*)&quot;,.*" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="83" description="83 - failed (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85" description="85 - unable to disinfect (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86" description="86 - renamed" format="Renamed" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87" description="87 - quarantined" format="Quarantined" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="89" description="89 - deleted" format="Deleted" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91 - disinfected (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="92" description="92 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="83" description="83 - failed (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85" description="85 - unable to disinfect (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86" description="86 - renamed" format="Renamed" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87" description="87 - quarantined" format="Quarantined" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="89" description="89 - deleted" format="Deleted" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91 - disinfected (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="92" description="92 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack, 151, 152, 154, 155, 156 (Malicious code found in computer)" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t15[12456]\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="151, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="151 - unable to remove (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="152 - removed (cleaned)" format="Virus &quot;$12&quot; Detected. File Cleaned" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="154 - quarantined (quarantined)" format="Virus &quot;$12&quot; Detected. File Quarantined" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="155, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="155 - failed (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="156 - none (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Malicious code found in computer" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="virus" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*)&quot;,.*" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="151" description="151 - unable to remove (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152" description="152 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154" description="154 - quarantined (quarantined)" format="Quarantined" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="155" description="155 - failed (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156" description="156 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="151" description="151 - unable to remove (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152" description="152 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154" description="154 - quarantined (quarantined)" format="Quarantined" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="155" description="155 - failed (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156" description="156 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack, 205, 206 (Spyware detected)" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t20[56]\t" version="4" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="205, \[&quot;([^&quot;]*)&quot;,&quot;([^&quot;]*)&quot;,&quot;([^&quot;]*)&quot;,&quot;([^&quot;]*)&quot;\]" description="205 - removed (cleaned)" format="$12 &quot;$14&quot; detected. File Cleaned" matcherInput="$3, $6" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206, \[&quot;([^&quot;]*)&quot;,&quot;([^&quot;]*)&quot;,&quot;([^&quot;]*)&quot;,&quot;([^&quot;]*)&quot;\]" description="206 - none (left alone)" format="$12 &quot;$14&quot; detected. File Left Alone" matcherInput="$3, $6" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;[^&quot;]*&quot;,&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="virus" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;[^&quot;]*&quot;,&quot;[^&quot;]*&quot;,&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;\]" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="205" description="205 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="205" description="205 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="VirusTrafficAccess, 180, 181, 182" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t18[012]\t" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="180, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="180 - quarantined (quarantined)" format="Virus &quot;$12&quot; Detected. File Quarantined" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="181, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="181 - blocked (deleted)" format="Virus &quot;$12&quot; Detected. File Deleted" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="182, \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="182 - infection only reported (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$3, $6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;,&quot;[^&quot;]*&quot;\]" description="url" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="virus" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 93" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t93\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="No scanner engines loaded and enabled" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Virus protection is disabled" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemScanInfo" description="SystemScanInfo, 120" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t120\t" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Manual scanning was finished" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="TargetMachineList" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="no infection was detected" fieldName="ScanMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemScanWarning" description="SystemScanWarning, 121" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t121\t" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Manual scanning was finished" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="TargetMachineList" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="workstation was found infected" fieldName="ScanMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 174" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t174\t" version="3" version_type="int">
+			<FastField _type="null" defaultValue="One of the scanners could not scan because definition database was not available at this time" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Scanning passed to the next scanner" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 787" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t787\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="DeepGuard configuration was rejected on &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Old configuration will be used if possible" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;(.*)&quot;\]" description="error code" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure, 789" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t789\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\\([^&quot;]*).*" description="filename only" format="Application &quot;$12&quot; was blocked" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*).*" description="file with path" format="Application &quot;$12&quot; was blocked" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;,&quot;[^&quot;]*&quot;\]" description="url" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]*\\(.*)" description="user" format="$12" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]*)\\.*" description="user" format="$12" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;\\{4}\?\\{2}([^&quot;]*).*" description="file (remove leading characters)" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*).*" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileHandleID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;[^,]*,&quot;([^&quot;]*).*" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Blocked" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 1808" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="^\d+\t[^\t]+\t1808\t" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Virus definition databases are outdated" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;(.*)&quot;\]" description="days" format="Latest database file is $12 days old" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemScanStop" description="ServiceWarning, 191" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t191\t" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="191 \[&quot;&quot;(\S+).*" description="191" format="Scanning of &quot;$8&quot; was aborted due to exceeded scanning time limit" matcherInput="$2 $5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="The file may be in use or reading it was too slow" fieldName="ScanMessage" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 171" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t171\t" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="171 \[&quot;&quot;([^&quot;]+)&quot;&quot;,.*" description="171" format="An Error occurred while scanning &quot;$11&quot;" matcherInput="$2 $5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="171 \[&quot;&quot;([^&quot;]+)&quot;&quot;,.*" description="171" format="An Error occurred while scanning &quot;$11&quot;" matcherInput="$2 $5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemScanWarning" description="SystemScanWarning, 121 -2" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t121\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Manual scanning was finished" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="TargetMachineList" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="workstation was found infected" fieldName="ScanMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 787 -2" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t787\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="DeepGuard configuration was rejected on &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Old configuration will be used if possible" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;(.*)&quot;\]" description="error code" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 93 -2" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t93\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="No scanner engines loaded and enabled" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Virus protection is disabled" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack, 82, 83, 85, 86, 87, 88, 89, 91, 92, 637, 638, 639 (Malicious code found in file) -2" matcher="&quot;?(\d+)\t([^\t]*)?\t?([^\t]*)?\t?([^\t]*)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t(?:8[2356789]|9[12]|63[789]|194)\t" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="8[23], \[&quot;[^&quot;]*&quot;,&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;\]" description="82, 83 - failed (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85, .*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="85 - unable to disinfect (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86, .*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="86 - renamed (renamed)" format="Virus &quot;$12&quot; Detected. File Renamed" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87, .*[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="87 - quarantined (quararntined)" format="Virus &quot;$11&quot; Detected. File Quarantined" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="88, \[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;\]" description="88- Crash" format="Crash detected &quot;$11&quot;" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:89|638), .*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="89, 638 - deleted (deleted)" format="Virus &quot;$11&quot; Detected. File Deleted" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:91|639), .*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="91, 639 - disinfected (cleaned)" format="Virus &quot;$12&quot; Detected. File Cleaned" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:92|637), .*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="92, 637 - none (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="194, .*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="194" format="Virus &quot;$11&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Malicious code found in file" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="virus" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?([^&quot;]*)&quot;&quot;,.*" description="file" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="83" description="83 - failed (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85" description="85 - unable to disinfect (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86" description="86 - renamed" format="Renamed" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87" description="87 - quarantined" format="Quarantined" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="89" description="89 - deleted" format="Deleted" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91 - disinfected (cleaned)" format="Cleaned" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="92" description="92 - none (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="83" description="83 - failed (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="85" description="85 - unable to disinfect (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="86" description="86 - renamed" format="Renamed" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="87" description="87 - quarantined" format="Quarantined" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="89" description="89 - deleted" format="Deleted" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="91" description="91 - disinfected (cleaned)" format="Cleaned" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:92|88)" description="92 - none (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack, 151, 152, 153, 154, 155, 156 (Malicious code found in computer) -2" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t15[123456]\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="151, \[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="151 - unable to remove (left alone)" format="Virus &quot;$11&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152, \[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="152 - removed (cleaned)" format="Virus &quot;$11&quot; Detected. File Cleaned" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154, \[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="154 - quarantined (quarantined)" format="Virus &quot;$11&quot; Detected. File Quarantined" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="155, \[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="155 - failed (left alone)" format="Virus &quot;$11&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156, \[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="156 - none (left alone)" format="Virus &quot;$12&quot; Detected. File Left Alone" matcherInput="$2, $5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Malicious code found in computer" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="virus" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;&quot;([^&quot;]*)&quot;&quot;,.*" description="file" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="151" description="151 - unable to remove (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152" description="152 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154" description="154 - quarantined (quarantined)" format="Quarantined" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="155" description="155 - failed (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156" description="156 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="151" description="151 - unable to remove (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="152" description="152 - removed (cleaned)" format="Cleaned" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="154" description="154 - quarantined (quarantined)" format="Quarantined" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="155" description="155 - failed (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="156" description="156 - none (left alone)" format="Left Alone" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack, 196 (Spyware detected)" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t196\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="196" description="196" format="Spyware detected &quot;$8&quot;" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;\]" description="virus" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;[^&quot;]*&quot;&quot;,&quot;&quot;([^&quot;]*)&quot;&quot;\]" description="file" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="205" description="205 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="205" description="205 - removed (cleaned)" format="Cleaned" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206 - none (left alone)" format="Left Alone" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 60, 61, 63, 64" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t6[0134]\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Statistics updated was unsuccessful" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Statistics updated was unsuccessful" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 60, 61, 62, 63, 64, 67 -2" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)?\t?([^\t]*)?\t?([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t6[012347]\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Statistics updated was unsuccessful" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Statistics updated was unsuccessful" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning, 100" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)?\t?([^\t]*)?\t?([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t100\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Data needed for silent installation is missing" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Data needed for silent installation is missing" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure, 789 -2" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t789\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\\([^&quot;]*).*" description="filename only" format="Application &quot;$11&quot; was blocked" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*).*" description="file with path" format="Application &quot;$12&quot; was blocked" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*)&quot;,&quot;[^&quot;]*&quot;,&quot;[^&quot;]*&quot;\]" description="url" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]*\\(.*)" description="user" format="$11" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]*)\\.*" description="user" format="$11" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;&quot;\\{4}\?\\{2}([^&quot;]*).*" description="file (remove leading characters)" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[&quot;([^&quot;]*).*" description="file" format="$12" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileHandleID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[&quot;&quot;[^,]*,&quot;&quot;([^&quot;]*).*" description="file" format="$11" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Blocked" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo, 36, 40, 71, 74, 75, 212, 1786" matcher="&quot;?(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="&quot;?\d+\t(?:36|40|74|71|75|212|1786)\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Occurs when the service is running" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FSPMS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Occurs when the service is running" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData FSecure PMS" matcher="(\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched FSecurePMS Data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS $3" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="Catchall" matcher=".*" pattern="" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched FSecurePMS Data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PMS Catchall" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

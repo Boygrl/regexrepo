@@ -1,0 +1,682 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" computerName="localhost" databaseView="ThreatInstances" dateStartPoint="-1" datesInQuery="2" description="Sophos Enterprise 2.0 Database" fullDescription="" logInterval="1" logLocation="" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="Sophos2DBReader" node="spop" option=";SelectMethod=cursor;IntegratedSecurity=true;InstanceName=SOPHOS" password="" port="1346" preQueryCheck="select SUM(c.Count) from ( select count(*) AS Count from VirusEvents where AlertTime &gt;= ? union select count(*) AS Count from PUAEvents where AlertTime &gt;= ?) c" protocol="sqlserver" queryLimit="10000" queryString="select top QUERY_LIMIT AlertTime, c.Name, InfectedItem, ItemName, OutStanding, SubType, CleanUpable, ActionTaken, VirusType, ScannerType, TNSType from  ( select ve.AlertTime AS AlertTime, v.ComputerID AS ComputerID, v.InfectedItem AS InfectedItem, v.VirusName AS ItemName, v.OutStanding AS OutStanding, v.SubType AS SubType, v.CleanUpable AS CleanUpable, ve.ActionTaken AS ActionTaken, ve.VirusType AS VirusType, ve.ScannerType AS ScannerType, 'Virus' AS TNSType from Viruses v left join VirusEvents ve on ve.AlertId = v.ID where ve.AlertTime &gt;= ?  union select pe.AlertTime AS AlertTime, p.ComputerID AS ComputerID, p.InfectedItem AS InfectedItem, p.PUAName AS ItemName, p.OutStanding AS OutStanding, p.SubType AS SubType, p.CleanUpable AS CleanUpable, pe.ActionTaken AS ActionTaken, pe.DetectionType AS VirusType, pe.ScannerType AS ScannerType, 'PUA' AS TNSType from PUAs p left join PUAEvents pe on pe.AlertId = p.ID where pe.AlertTime &gt;= ?) t left join ComputersAndDeletedComputers c on t.ComputerID = c.ID order by AlertTime" readerName="Sophos Enterprise Database" readerOutput="Alert" repositoryDriverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" repositoryName="SOPHOS2" sleepBetweenQueries="10" stateVars="logStartPoint,readerName,dateStartPoint" toolId="Sophos2DB" toolType="Anti-Virus" username="" vendor="" version="$Revision: #5 $">
+		<string _type="null" attributeName="computerName" enabled="true" formatRule="" formatted="false" labelText="Database Server Host Name:" preferredOrder="1" toolTipText="Hostname to read from" visible="true">
+		</string>
+		<string _type="null" attributeName="port" enabled="true" formatRule="" formatted="false" labelText="Database Server Port:" preferredOrder="2" toolTipText="Server port number" visible="true">
+		</string>
+		<string _type="null" attributeName="protocol" enabled="true" formatRule="" formatted="false" labelText="Database Server Protocol:" preferredOrder="3" toolTipText="Database protocol" visible="true">
+		</string>
+		<string _type="null" attributeName="username" enabled="true" formatRule="" formatted="false" labelText="Database Server Username:" preferredOrder="4" toolTipText="Database username" visible="false">
+		</string>
+		<password _type="null" attributeName="password" enabled="true" formatRule="" formatted="false" labelText="Database Server Password:" preferredOrder="5" toolTipText="Database password" visible="false">
+		</password>
+		<string _type="null" attributeName="sleepBetweenQueries" enabled="true" formatRule="" formatted="false" labelText="Time Between Queries:" preferredOrder="6" toolTipText="Number of seconds between queries" visible="true">
+		</string>
+		<string _type="null" attributeName="queryLimit" enabled="true" formatRule="" formatted="false" labelText="Query Limit:" preferredOrder="8" toolTipText="&lt;html&gt;Amount of rows to attempt to pull in one query, recommended 10000.  This value should be&lt;br&gt;larger than the expected peak value of events that will be received in one second,&lt;br&gt;but not so large as to cause the reader to run out of memory.&lt;/html&gt;" visible="true">
+		</string>
+		<string _type="null" attributeName="repositoryName" enabled="true" formatRule="" formatted="false" labelText="Database Name:" preferredOrder="10" toolTipText="Database name" visible="true">
+		</string>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" computerName="localhost" databaseView="ThreatInstances" dateStartPoint="-1" datesInQuery="1" description="Sophos Enterprise 3.0 Database" fullDescription="" logInterval="1" logLocation="" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="Sophos2DBReader" node="spop" option=";SelectMethod=cursor;IntegratedSecurity=true;InstanceName=SOPHOS" password="" patternToolId="Sophos2DB" port="1346" preQueryCheck="select count(*) from ThreatEvents where AlertTime &gt;= ?" protocol="sqlserver" queryLimit="10000" queryString="SELECT TOP QUERY_LIMIT te.AlertTime, c.Name, t.FullFilePath AS InfectedItem, t.ThreatName AS ItemName, t.OutStanding, '2' AS SubType, t.Cleanupable AS CleanUpable, te.ActionTaken, '300' AS VirusType, te.ScannerType, t.ThreatType AS TNSType FROM Threats t, ThreatEvents te, ComputersAndDeletedComputers c WHERE te.AlertTime &gt;= ? AND te.ThreatInstanceID = t.ThreatInstanceID AND t.ComputerID = c.ID ORDER BY te.AlertTime" readerName="Sophos Enterprise 3.0 Database" readerOutput="Alert" repositoryDriverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" repositoryName="SOPHOS3" sleepBetweenQueries="10" stateVars="logStartPoint,readerName,dateStartPoint" toolId="Sophos3DB" toolType="Anti-Virus" username="" vendor="" version="$Revision: #5 $">
+		<string _type="null" attributeName="computerName" enabled="true" formatRule="" formatted="false" labelText="Database Server Host Name:" preferredOrder="1" toolTipText="Hostname to read from" visible="true">
+		</string>
+		<string _type="null" attributeName="port" enabled="true" formatRule="" formatted="false" labelText="Database Server Port:" preferredOrder="2" toolTipText="Server port number" visible="true">
+		</string>
+		<string _type="null" attributeName="protocol" enabled="true" formatRule="" formatted="false" labelText="Database Server Protocol:" preferredOrder="3" toolTipText="Database protocol" visible="true">
+		</string>
+		<string _type="null" attributeName="username" enabled="true" formatRule="" formatted="false" labelText="Database Server Username:" preferredOrder="4" toolTipText="Database username" visible="false">
+		</string>
+		<password _type="null" attributeName="password" enabled="true" formatRule="" formatted="false" labelText="Database Server Password:" preferredOrder="5" toolTipText="Database password" visible="false">
+		</password>
+		<string _type="null" attributeName="sleepBetweenQueries" enabled="true" formatRule="" formatted="false" labelText="Time Between Queries:" preferredOrder="6" toolTipText="Number of seconds between queries" visible="true">
+		</string>
+		<string _type="null" attributeName="queryLimit" enabled="true" formatRule="" formatted="false" labelText="Query Limit:" preferredOrder="8" toolTipText="&lt;html&gt;Amount of rows to attempt to pull in one query, recommended 10000.  This value should be&lt;br&gt;larger than the expected peak value of events that will be received in one second,&lt;br&gt;but not so large as to cause the reader to run out of memory.&lt;/html&gt;" visible="true">
+		</string>
+		<string _type="null" attributeName="repositoryName" enabled="true" formatRule="" formatted="false" labelText="Database Name:" preferredOrder="10" toolTipText="Database name" visible="true">
+		</string>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Sophos Enterprise 2.0 Database" id="Sophos2DB" version="8" version_type="int">
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 100 - Unknown" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t100\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 101 - None" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t101\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 102 - Rename" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t102\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Moved" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Renamed" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Renamed" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Renamed" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 103 - Delete" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t103\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 104 - Shred" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t104\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 105 - Move" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t105\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected.  File Renamed" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Renamed" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Renamed" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Renamed" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 106 - Copy" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t106\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected.  File Renamed" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Renamed" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Renamed" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Renamed" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 107 - Attachment Delete" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t107\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 108 - Attachment Quarantine" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t108\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Quarantined" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Quarantined" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Quarantined" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 109 - Disinfected" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t109\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Cleaned" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Cleaned" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Cleaned" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 110 - Message Delete" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t110\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 111 - Message Quarantine" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t111\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Quarantined" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Quarantined" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Quarantined" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Quarantined" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 112 - Authorised" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t112\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 113 - Removed" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t113\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 114 - Partially Removed" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t114\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleted" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 115 - Cleared by Admin" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t115\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 2 116 - Blocked" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t116\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="Virus &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="VirusTrafficAccess - 2 117, 118 - Infection Attempt" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t(?:[^\t]*\t){5}2\t\d\t11[78]\t.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([1|3|4])" description="Virus ThreatType" format="&quot;$5&quot; infection attempt detected" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="([0|2|5|6])" description="PUA ThreatType" format="Potentially unwanted application &quot;$5&quot; infection attempt detected" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Adware" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 109 - Cleaned" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t1\t\d\t109\t\d+\t\d+\tVirus" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected, File Cleaned" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 105 - Move" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t1\t\d\t105\t\d+\t\d+\tVirus" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected.  File Moved" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 103 - Delete" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t1\t\d\t103\t\d+\t\d+\tVirus" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected.  File Deleted" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 101 - Left Alone" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t1\t\d\t101\t\d+\t\d+\tVirus" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected.  File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 109 - Cleaned" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t\d\t\d\t109\t\d+\t\d+\tPUA" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Cleaned" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Cleaned" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="PUA" description="PUA" format="Potentially unwanted application &quot;$5&quot; detected. File Cleaned" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 105 - Move" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t\d\t\d\t105\t\d+\t\d+\tPUA" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Moved" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="PUA" description="PUA" format="Potentially unwanted application &quot;$5&quot; detected. File Moved" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 103 - Delete" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t\d\t\d\t103\t\d+\t\d+\tPUA" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$5&quot; detected. File Deleted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="PUA" description="PUA" format="Potentially unwanted application &quot;$5&quot; detected. File Deleted" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack        - 1 101 - Left Alone" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d)\t(\d+)\t(\d)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t\d\t\d\t101\t\d+\t\d+\tPUA" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clean" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Move or Delete" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12 &quot;$5&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="PUA" description="PUA" format="Potentially unwanted application &quot;$5&quot; detected. File Left Alone" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="(^\d+)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t(\d+)\t([^\t]*)" pattern="^\d+\t[^\t]*\t[^\t]*\t[^\t]*\t[^\t]*\t\d\t\d+\t\d\t\d+\t\d+\t\d+\t[^\t]*" version="20" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Sophos Enterprise DB Data ($Revision: #5 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7-$9" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="." version="5" version_type="int">
+		</FastPattern>
+	</FastToolId>
+	<FastToolId _type="null" description="Sophos Enterprise 3.0 Database" id="Sophos3DB" version="12" version_type="int">
+	</FastToolId>
+</FASTConfiguration>

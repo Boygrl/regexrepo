@@ -1,0 +1,80 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Symantec Web Security for Windows" fileFormatterType="Daily: yyyymmdd" fileModWindow="86400000" logInterval="1" logLocation="C:\Program Files\Symantec\Symantec Web Security\Log" logManagementOutput="10.254.10.18" logManagementPort="10101" logPostfix="" logPrefix="symc" logStartPoint="-1" logType="SymantecWebSecurityReader" node="spop" readerName="Symantec Web Security" readerOutput="Alert" stateVars="logStartPoint,readerName,currentLogLocation,firstLogLocation" currentLogLocation="" firstLogLocation="" toolId="symantecwebsec" toolType="Proxy Servers and Content Filters" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="true" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="true" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Symantec Web Security for Windows" id="symantecwebsec" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="UserLogon" description="1.1 UserLogon" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t3=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t?" pattern="\t2=1\t3=1\t" version="25" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3.$4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="1.2 UserLogoff" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t3=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t100=([^\t]+)\t?" pattern="\t2=2\t3=1\t" version="24" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3.$4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="1.2 UserLogonFailure" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t3=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t?" pattern="\t2=1\t3=2\t" version="30" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3.$4" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="0" version_type="int">
+				<FastFormatter _type="null" condition=".*\t10=([^\t]*).*" description="user" format="$7" matcherInput="$5" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2=27 WebTrafficAudit - allowed" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t1106=([^\t]+)\t60=([^\t]+)" pattern="\t2=27\t" version="33" version_type="int">
+			<FastField _type="null" defaultValue="Allowed URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Category" type="1" type_type="int" version="5" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2=18 WebTrafficAudit - denied" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t30=([^\t]+)\t100=([^\t]+)\t1106=([^\t]+)\t60=([^\t]+)" pattern="\t2=18\t" version="31" version_type="int">
+			<FastField _type="null" defaultValue="Denied URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="URL" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="Category" type="1" type_type="int" version="5" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2=501 WebTrafficAudit - allowed" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t60=([^\t]+)" pattern="\t2=501\t" version="32" version_type="int">
+			<FastField _type="null" defaultValue="Allowed URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="URL" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2=508 WebTrafficAudit - error" matcher="(\d+)\t1=([^\t]+)\t2=([^\t]+)\t3=([^\t]+)\t10=([^\t]+)\t11=([^\t]+)\t100=([^\t]+)\t60=([^\t]+)" pattern="\t2=508\t" version="36" version_type="int">
+			<FastField _type="null" defaultValue="Error during URL Access by &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3.$4" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="URL" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="Category" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*\b1106=([^\t]+).*" description="category 1106" format="$6" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="1=[45] InternalNewToolData" matcher="(\d+)\t.*" pattern="\t1=[45]\t" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Symantec Web Security Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="." version="10" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

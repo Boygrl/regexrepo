@@ -1,0 +1,919 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Trend Micro Interscan Gateway Security Appliance" logInterval="1" logLocation="/var/log/local0.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogDecodeFileReader" node="manager,spop" readerName="TrendMicroIGSA" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="trendmicroigsa" toolType="IDS and IPS" version="$Revision: #4 $" vendor="" fullDescription="Collects events from  Trend Micros Interscan Gateway Security appliances." categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Trend Micro Interscan Gateway Security Appliance" id="trendmicroigsa" version="83" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: IPFilter, no action" matcher=".*" pattern="\d+ [-\w.]+ Type=IPFilter\tDate=\d+\tIP=[\d.]+\tKKType=\d+\tAction=1\b" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: Antiphishing, Antispam, dropped, stamped" matcher=".*" pattern="\d+ [-\w.]+ Type=Anti(?:phishing|spam)\tDate=[\w: ]+\tSender=[^\t]*\tRecipients=[^\t]*\tSubject=[^\t]*\tAction=(?:8|12)\tResult=\d+" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="1, FileAuditFailure: Event 201326594, 201326595, 201326597, 201326599" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=20132659[4579]\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="201326594" description="201326594" format="Cannot open file" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326595" description="201326595" format="File is write-protected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326599" description="201326599" format="File copy failed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326597" description="201326597" format="File read failed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="2, MailTrafficAudit: Event 67108895" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108895\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="3, PolicyModify: Event 67108878, 67108879, 67108880, 67108883" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=671088(?:7[89]|8[03])\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108878" description="67108878" format="Realtime scan enabled" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108879" description="67108879" format="Realtime scan disabled" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108880" description="67108880" format="Configuration changed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108883" description="67108883" format="Modify integrity shield" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="4, ServiceInfo: Event 67108867- 67108875, 67108888- 67108891, 67108893, 67108898" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108(?:86[789]|87[0-5]|88[89]|89[0138])\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108867" description="67108867" format="Start manual scan" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108868" description="67108868" format="Stop manual scan" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108869" description="67108869" format="Manual scan finished" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108870" description="67108870" format="Start scheduled scan" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108871" description="67108871" format="Stop scheduled scan" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108872" description="67108872" format="Scheduled scan finished" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108873" description="67108873" format="Start task" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108874" description="67108874" format="Stop task" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108875" description="67108875" format="Task finished" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108888" description="67108888" format="Application status" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108898" description="67108898" format="Log purge" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="671088(?:6[789]|7[012])" description="67108867-67108872 " format="Scanning" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108889" description="67108889" format="TVCS system log" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108890" description="67108890" format="TVCS event log" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108891" description="67108891" format="SMTP connection log" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108893" description="67108893" format="Normal" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="5, ServiceInfo: Event 67108900- 67108902, 67108904, 67108907, 67108915" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108(?:90[01247]|915)\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108901" description="67108901" format="Log event" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108900" description="67108900" format="Notification generation" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108902" description="67108902" format="Report generation" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108904" description="67108904" format="NT event log" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108907" description="67108907" format="Deployment" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108915: (.+) settings have been updated.*" description="67108915-settings-updated" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="6, ServiceStart: Event 67108876, 67108908, 201326593 " matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=(?:67108876|67108908|201326593)\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108876" description="67108876" format="Start product service" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108908" description="67108908" format="DCS service start" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326593" description="201326593" format="RPC server start" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108876" description="67108876" format="product service" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108908" description="67108908" format="DCS service" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326593" description="201326593" format="RPC server" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="7, ServiceStop: Event 67108877, 67108909" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108(?:877|909)\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108877" description="67108877" format="Stop product service" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108909" description="67108909" format="DCS service complete" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108877" description="67108877" format="product service" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108909" description="67108909" format="DCS service" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="8, ServiceWarning: Event 67108864, 67108884, 67108892, 67108906" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108(?:864|884|892|906)\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108864: (.+?)\. .+" description="67108864-dot" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108892: (.+?)\. .+" description="67108892-dot" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108884" description="67108884" format="Virus pattern expired" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108906" description="67108906" format="Error warning info" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108864" description="system" format="System" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108892" description="normal-scan" format="Normal scan" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108864: .+?\. +(.+)" description="67108864-dot" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108892: .+?\. +(.+)" description="67108892-dot" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="9, ServiceWarning: Event 201326592, 201326596, 201326598, 201326600- 201326603" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=201326(?:59[268]|60[0-3])\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="201326596" description="201326596" format="Disk full" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326598" description="201326598" format="Backup server failed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326600" description="201326600" format="Connection failed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326601" description="201326601" format="Database query failed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326602" description="201326602" format="Scanning timeout" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326603" description="201326603" format="Invalid protocol" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="201326592" description="201326592" format="System" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326598" description="201326598" format="Backup server" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="201326602" description="201326602" format="Scanning" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareInstall" description="10, SoftwareInstall: Event 67108896, 67108897" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=6710889[67]\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108896" description="67108896" format="Program install" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108897" description="67108897" format="Program uninstall" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="11, SoftwareUpdate: Event 67108865" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108865\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108865: (?:Update success\.|Update:) +(.*)" description="67108865-update" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Update" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Update: ActiveUpdate was unable to connect.*" description="connect-failed" format="Failed" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FeaturePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108865: Update success\. +(.+) has been changed from.*" description="67108865-update-success" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108865: Update: ActiveUpdate was unable to connect to the network\. .+ \((.*)\) *" description="67108865-update-connect" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Version" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108865: Update success\..+ has been changed from [\w.]+ to ([\w.]+).*" description="67108865-update-success" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="OldVersion" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108865: Update success\..+ has been changed from ([\w.]+) to .*" description="67108865-update-success" format="$8" matcherInput="$4: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="12, UserAuthAudit: Event 67108905" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108905\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108905" description="67108905" format="Web console access" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="13, VirusAttack: Event 67108866, 67108881, 67108882, 67108885, 67108886, 67108887, 67108899, 67108903" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108(?:866|88[12567]|899|903)\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108881,0" description="outbreak-alert-unknown" format="Outbreak alert, Severity: &quot;Unknown&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108881,1" description="outbreak-alert-information" format="Outbreak alert, Severity: &quot;Information&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108881,2" description="outbreak-alert-warning" format="Outbreak alert, Severity: &quot;Warning&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108881,3" description="outbreak-alert-error" format="Outbreak alert, Severity: &quot;Error&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108881,4" description="outbreak-alert-critical" format="Outbreak alert, Severity: &quot;Critical&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108882,0" description="serverprotect-alert-unknown" format="Serverprotect alert, Severity: &quot;Unknown&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108882,1" description="serverprotect-alert-information" format="Serverprotect alert, Severity: &quot;Information&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108882,2" description="serverprotect-alert-warning" format="Serverprotect alert, Severity: &quot;Warning&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108882,3" description="serverprotect-alert-error" format="Serverprotect alert, Severity: &quot;Error&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108882,4" description="serverprotect-alert-critical" format="Serverprotect alert, Severity: &quot;Critical&quot;" matcherInput="$4,$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="0" description="unknown" format="Severity: &quot;Unknown&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="information" format="Severity: &quot;Information&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="67108866" description="rollback" format="Rollback" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108885" description="submit-virus-file" format="Submit virus file" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108886" description="backup-attachment" format="Attachment backup" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108887" description="quarantine-attachment" format="Attachment quarantine" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108899" description="purge-client" format="Purge client" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="67108903" description="backup-restore" format="Backup restore" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="14, WebTrafficAudit: Event 67108894" matcher="(\d+) ([-\w.]+) Type=(\d)\tEventType=(\d+)\tSeverity=(\d+)\tDescription=(.+?)\.? *$" pattern="\d+ [-\w.]+ Type=[01]\tEventType=67108894\tSeverity=\d+\tDescription=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="warning" format="Severity: &quot;Warning&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="error" format="Severity: &quot;Error&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="critical" format="Severity: &quot;Critical&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="15, MailTrafficAudit: Antiphishing, Antispam" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=[\w: ]+\tSender=([^\t]*)\tRecipients=([^\t]*)\tSubject=([^\t]*)\tAction=(\d+)\tResult=(\d+).*" pattern="\d+ [-\w.]+ Type=Anti(?:phishing|spam)\tDate=[\w: ]+\tSender=[^\t]*\tRecipients=[^\t]*\tSubject=[^\t]*\tAction=\d+\tResult=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0: .+@([-\w.]+)" description="unknown-fqdn" format="Unknown action on item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1: .+@([-\w.]+)" description="na-fqdn" format="No action taken on item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2: .+@([-\w.]+)" description="clean-fqdn" format="Cleaned item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3: .+@([-\w.]+)" description="delete-fqdn" format="Deleted item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4: .+@([-\w.]+)" description="move-fqdn" format="Moved item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5: .+@([-\w.]+)" description="rename-fqdn" format="Renamed item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6: .+@([-\w.]+)" description="pass-fqdn" format="Passed item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7: .+@([-\w.]+)" description="strip-fqdn" format="Stripped item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8: .+@([-\w.]+)" description="drop-fqdn" format="Dropped item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9: .+@([-\w.]+)" description="quarantine-fqdn" format="Quarantined item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10: .+@([-\w.]+)" description="replace-fqdn" format="Replaced item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11: .+@([-\w.]+)" description="archive-fqdn" format="Archived item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12: .+@([-\w.]+)" description="stamp-fqdn" format="Stamped item from &quot;$10&quot;" matcherInput="$7: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="0" description="unknown" format="Unknown action on item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="No action taken on item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean" format="Cleaned item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete" format="Deleted item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move" format="Moved item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename" format="Renamed item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass" format="Passed item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip" format="Stripped item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop" format="Dropped item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine" format="Quarantined item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace" format="Replaced item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive" format="Archived item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp" format="Stamped item from sender" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 Result: $8, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="$3 Result: &quot;Unknown&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="$3 Result: &quot;No action taken&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="21" description="clean-s" format="$3 Result: &quot;Cleaned item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="22" description="delete-s" format="$3 Result: &quot;Deleted item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="23" description="move-s" format="$3 Result: &quot;Moved item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="24" description="rename-s" format="$3 Result: &quot;Renamed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="25" description="pass-s" format="$3 Result: &quot;Passed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="26" description="clean-f-leave-s" format="$3 Result: &quot;Cleaning failed, left item alone&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="27" description="clean-f-delete-s" format="$3 Result: &quot;Cleaning failed, deleted item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="28" description="clean-f-rename-s" format="$3 Result: &quot;Cleaning failed, renamed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="29" description="clean-f-move-s" format="$3 Result: &quot;Cleaning failed, moved item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="strip-s" format="$3 Result: &quot;Stripped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="clean-f-strip-s" format="$3 Result: &quot;Cleaning failed, stripped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="replace-s" format="$3 Result: &quot;Replaced item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="drop-s" format="$3 Result: &quot;Dropped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="archive-s" format="$3 Result: &quot;Archived item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="block-s" format="$3 Result: &quot;Blocked item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="quarantine-s" format="$3 Result: &quot;Quarantined item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="stamp-s" format="$3 Result: &quot;Stamped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="upload-s" format="$3 Result: &quot;Uploaded item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="clean-f-quarantine-s" format="$3 Result: &quot;Cleaning failed, quarantined item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="clean-f-pass-s" format="$3 Result: &quot;Cleaning failed, passed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="41" description="deny-access-s" format="$3 Result: &quot;Denied access to item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="42" description="na-s" format="$3 Result: &quot;No action taken&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="121" description="clean-f" format="$3 Result: &quot;Cleaning failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="122" description="delete-f" format="$3 Result: &quot;Deleting failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="123" description="move-f" format="$3 Result: &quot;Moving failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="124" description="rename-f" format="$3 Result: &quot;Renaming failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="125" description="pass-f" format="$3 Result: &quot;Passing failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="126" description="clean-f-leave-f" format="$3 Result: &quot;Cleaning failed, leave alone failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="127" description="clean-f-delete-f" format="$3 Result: &quot;Cleaning failed, deleting failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="128" description="clean-f-rename-f" format="$3 Result: &quot;Cleaning failed, renaming failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="129" description="clean-f-move-f" format="$3 Result: &quot;Cleaning failed, moving failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="130" description="strip-f" format="$3 Result: &quot;Stripping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="131" description="clean-f-strip-f" format="$3 Result: &quot;Cleaning failed, stripping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="132" description="replace-f" format="$3 Result: &quot;Replacing failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="133" description="drop-f" format="$3 Result: &quot;Dropping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="134" description="archive-f" format="$3 Result: &quot;Archiving failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="135" description="block-f" format="$3 Result: &quot;Blocking failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="136" description="quarantine-f" format="$3 Result: &quot;Quarantining failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="137" description="stamp-f" format="$3 Result: &quot;Stamping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="138" description="upload-f" format="$3 Result: &quot;Uploading failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="139" description="clean-f-quarantine-f" format="$3 Result: &quot;Cleaning failed, quarantining failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="140" description="clean-f-pass-f" format="$3 Result: &quot;Cleaning failed, passing failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="141" description="deny-access-f" format="$3 Result: &quot;Denying access failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="142" description="na-f" format="$3 Result: &quot;No action taken&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+@([-\w.]+)" description="sender-fqdn" format="$10" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Antiphishing" description="phising" format="Phishing" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop" format="Blocked Content" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="16, IPTrafficAudit: IPFilter" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tIP=([\d.]+)\tKKType=(\d+)\tAction=(\d+).*" pattern="\d+ [-\w.]+ Type=IPFilter\tDate=\d+\tIP=[\d.]+\tKKType=\d+\tAction=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="Allowed IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean" format="Cleaned IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete" format="Removed IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move" format="Moved IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename" format="Renamed IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass" format="Passed IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip" format="Stripped IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop" format="Dropped IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine" format="Quarantined IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace" format="Replaced IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive" format="Archived IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp" format="Stamped IP Traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Service: $5, Action: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1,0" description="unknown-rbl" format="RBL+ Action: &quot;Unknown&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,1" description="na-rbl" format="RBL+ Action: &quot;No action taken&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,2" description="clean-rbl" format="RBL+ Action: &quot;Clean&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,3" description="delete-rbl" format="RBL+ Action: &quot;Remove&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,4" description="move-rbl" format="RBL+ Action: &quot;Move&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,5" description="rename-rbl" format="RBL+ Action: &quot;Rename&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,6" description="pass-rbl" format="RBL+ Action: &quot;Pass&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,7" description="strip-rbl" format="RBL+ Action: &quot;Strip&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,8" description="drop-rbl" format="RBL+ Action: &quot;Drop&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,9" description="quarantine-rbl" format="RBL+ Action: &quot;Quarantine&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,10" description="replace-rbl" format="RBL+ Action: &quot;Replace&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,11" description="archive-rbl" format="RBL+ Action: &quot;Archive&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,12" description="stamp-rbl" format="RBL+ Action: &quot;Stamp&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,0" description="unknown-qil" format="QIL Action: &quot;Unknown&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,1" description="na-qil" format="QIL Action: &quot;No action taken&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,2" description="clean-qil" format="QIL Action: &quot;Clean&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,3" description="delete-qil" format="QIL Action: &quot;Remove&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,4" description="move-qil" format="QIL Action: &quot;Move&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,5" description="rename-qil" format="QIL Action: &quot;Rename&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,6" description="pass-qil" format="QIL Action: &quot;Pass&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,7" description="strip-qil" format="QIL Action: &quot;Strip&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,8" description="drop-qil" format="QIL Action: &quot;Drop&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,9" description="quarantine-qil" format="QIL Action: &quot;Quarantine&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,10" description="replace-qil" format="QIL Action: &quot;Replace&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,11" description="archive-qil" format="QIL Action: &quot;Archive&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,12" description="stamp-qil" format="QIL Action: &quot;Stamp&quot;" matcherInput="$5,$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="0" description="unknown" format="Action: &quot;Unknown&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="Action: &quot;No action taken&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean" format="Action: &quot;Clean&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete" format="Action: &quot;Remove&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move" format="Action: &quot;Move&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename" format="Action: &quot;Rename&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass" format="Action: &quot;Pass&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip" format="Action: &quot;Strip&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop" format="Action: &quot;Drop&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine" format="Action: &quot;Quarantine&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace" format="Action: &quot;Replace&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive" format="Action: &quot;Archive&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp" format="Action: &quot;Stamp&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="17, WebTrafficAudit: URLFiltering" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tClientIP=([\d.]+)\tURL=([^\t]+)\tCategory=(.+)" pattern="\d+ [-\w.]+ Type=URLFiltering\tDate=\d+\tClientIP=[\d.]+\tURL=[^\t]+\tCategory=.+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Blocked URL access from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Category" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="18, WebTrafficAudit: WRS" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tTrafficDirection=(\d+)\tClientIP=([\d.]+)\tURL=([^\t]+)\tThreshold=(\d+)\tWRSScore=(\d+)\tAction=(\d+)\tResult=(\d+).*" pattern="\d+ [-\w.]+ Type=WRS\tDate=\d+\tTrafficDirection=\d+\tClientIP=[\d.]+\tURL=[^\t]+\tThreshold=\d+\tWRSScore=\d+\tAction=\d+\tResult=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1,0" description="unknown-to" format="Unknown action on traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,1" description="na-to" format="Allowed URL access to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,2" description="clean-to" format="Cleaned item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,3" description="delete-to" format="Deleted item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,4" description="move-to" format="Moved item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,5" description="rename-to" format="Renamed item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,6" description="pass-to" format="Allowed URL access to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,7" description="strip-to" format="Stripped item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,8" description="drop-to" format="Blocked URL access to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,9" description="quarantine-to" format="Quarantined item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,10" description="replace-to" format="Replaced item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,11" description="archive-to" format="Archived item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1,12" description="stamp-to" format="Stamped item in traffic to &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,0" description="unknown-from" format="Unknown action on traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,1" description="na-from" format="Allowed URL access from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,2" description="clean-from" format="Cleaned item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,3" description="delete-from" format="Deleted item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,4" description="move-from" format="Moved item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,5" description="rename-from" format="Renamed item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,6" description="pass-from" format="Allowed URL access from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,7" description="strip-from" format="Stripped item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,8" description="drop-from" format="Blocked URL access from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,9" description="quarantine-from" format="Quarantined item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,10" description="replace-from" format="Replaced item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,11" description="archive-from" format="Archived item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2,12" description="stamp-from" format="Stamped item in traffic from &quot;$5&quot;" matcherInput="$4,$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 Result: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="$3 Result: &quot;Unknown&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="$3 Result: &quot;No action taken&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="21" description="clean-s" format="$3 Result: &quot;Cleaned item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="22" description="delete-s" format="$3 Result: &quot;Deleted item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="23" description="move-s" format="$3 Result: &quot;Moved item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="24" description="rename-s" format="$3 Result: &quot;Renamed item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="25" description="pass-s" format="$3 Result: &quot;Passed item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="26" description="clean-f-leave-s" format="$3 Result: &quot;Cleaning failed, left item alone&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="27" description="clean-f-delete-s" format="$3 Result: &quot;Cleaning failed, deleted item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="28" description="clean-f-rename-s" format="$3 Result: &quot;Cleaning failed, renamed item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="29" description="clean-f-move-s" format="$3 Result: &quot;Cleaning failed, moved item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="strip-s" format="$3 Result: &quot;Stripped item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="clean-f-strip-s" format="$3 Result: &quot;Cleaning failed, stripped item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="replace-s" format="$3 Result: &quot;Replaced item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="drop-s" format="$3 Result: &quot;Dropped item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="archive-s" format="$3 Result: &quot;Archived item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="block-s" format="$3 Result: &quot;Blocked item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="quarantine-s" format="$3 Result: &quot;Quarantined item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="stamp-s" format="$3 Result: &quot;Stamped item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="upload-s" format="$3 Result: &quot;Uploaded item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="clean-f-quarantine-s" format="$3 Result: &quot;Cleaning failed, quarantined item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="clean-f-pass-s" format="$3 Result: &quot;Cleaning failed, passed item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="41" description="deny-access-s" format="$3 Result: &quot;Denied access to item&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="42" description="na-s" format="$3 Result: &quot;No action taken&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="121" description="clean-f" format="$3 Result: &quot;Cleaning failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="122" description="delete-f" format="$3 Result: &quot;Deleting failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="123" description="move-f" format="$3 Result: &quot;Moving failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="124" description="rename-f" format="$3 Result: &quot;Renaming failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="125" description="pass-f" format="$3 Result: &quot;Passing failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="126" description="clean-f-leave-f" format="$3 Result: &quot;Cleaning failed, leave alone failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="127" description="clean-f-delete-f" format="$3 Result: &quot;Cleaning failed, deleting failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="128" description="clean-f-rename-f" format="$3 Result: &quot;Cleaning failed, renaming failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="129" description="clean-f-move-f" format="$3 Result: &quot;Cleaning failed, moving failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="130" description="strip-f" format="$3 Result: &quot;Stripping failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="131" description="clean-f-strip-f" format="$3 Result: &quot;Cleaning failed, stripping failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="132" description="replace-f" format="$3 Result: &quot;Replacing failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="133" description="drop-f" format="$3 Result: &quot;Dropping failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="134" description="archive-f" format="$3 Result: &quot;Archiving failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="135" description="block-f" format="$3 Result: &quot;Blocking failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="136" description="quarantine-f" format="$3 Result: &quot;Quarantining failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="137" description="stamp-f" format="$3 Result: &quot;Stamping failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="138" description="upload-f" format="$3 Result: &quot;Uploading failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="139" description="clean-f-quarantine-f" format="$3 Result: &quot;Cleaning failed, quarantining failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="140" description="clean-f-pass-f" format="$3 Result: &quot;Cleaning failed, passing failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="141" description="deny-access-f" format="$3 Result: &quot;Denying access failed&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="142" description="na-f" format="$3 Result: &quot;No action taken&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2" description="ip-outgoing" format="$5" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="ip-incoming" format="$5" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Threshold: $7, Score: $8" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="80,81" description="high-safe" format="Threshold: High, Score: Safe" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="80,51" description="high-suspicious" format="Threshold: High, Score: Suspicious" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="80,49" description="high-dangerous" format="Threshold: High, Score: Dangerous" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="80,71" description="high-unknown" format="Threshold: High, Score: Unknown" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,81" description="medium-safe" format="Threshold: Medium, Score: Safe" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,51" description="medium-suspicious" format="Threshold: Medium, Score: Suspicious" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,49" description="medium-dangerous" format="Threshold: Medium, Score: Dangerous" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,71" description="medium-unknown" format="Threshold: Medium, Score: Unknown" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,81" description="low-safe" format="Threshold: Low, Score: Safe" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,51" description="low-suspicious" format="Threshold: Low, Score: Suspicious" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,49" description="low-dangerous" format="Threshold: Low, Score: Dangerous" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,71" description="low-unknown" format="Threshold: Low, Score: Unknown" matcherInput="$7,$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="19, WebTrafficAudit: WRS" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=[\w: ]+\tSender=([^\t]*)\tRecipients=([^\t]*)\tSubject=([^\t]*)\tURL=([^\t]+)\tThreshold=(\d+)\tWRSScore=(\d+)\tAction=(\d+)\tResult=(\d+).*" pattern="\d+ [-\w.]+ Type=WRS\tDate=[\w: ]+\tSender=[^\t]*\tRecipients=[^\t]*\tSubject=[^\t]*\tURL=[^\t]+\tThreshold=\d+\tWRSScore=\d+\tAction=\d+\tResult=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0: .+@([-\w.]+)" description="unknown-fqdn" format="Unknown action on item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1: .+@([-\w.]+)" description="na-fqdn" format="No action taken on item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2: .+@([-\w.]+)" description="clean-fqdn" format="Cleaned item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3: .+@([-\w.]+)" description="delete-fqdn" format="Deleted item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4: .+@([-\w.]+)" description="move-fqdn" format="Moved item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5: .+@([-\w.]+)" description="rename-fqdn" format="Renamed item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6: .+@([-\w.]+)" description="pass-fqdn" format="Passed item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7: .+@([-\w.]+)" description="strip-fqdn" format="Stripped item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8: .+@([-\w.]+)" description="drop-fqdn" format="Dropped item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9: .+@([-\w.]+)" description="quarantine-fqdn" format="Quarantined item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10: .+@([-\w.]+)" description="replace-fqdn" format="Replaced item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11: .+@([-\w.]+)" description="archive-fqdn" format="Archived item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12: .+@([-\w.]+)" description="stamp-fqdn" format="Stamped item from &quot;$13&quot;" matcherInput="$10: $4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="0" description="unknown" format="Unknown action on item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="No action taken on item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean" format="Cleaned item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete" format="Deleted item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move" format="Moved item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename" format="Renamed item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass" format="Passed item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip" format="Stripped item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop" format="Dropped item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine" format="Quarantined item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace" format="Replaced item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive" format="Archived item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp" format="Stamped item from sender" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3 Result: $11, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="$3 Result: &quot;Unknown&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="$3 Result: &quot;No action taken&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="21" description="clean-s" format="$3 Result: &quot;Cleaned item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="22" description="delete-s" format="$3 Result: &quot;Deleted item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="23" description="move-s" format="$3 Result: &quot;Moved item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="24" description="rename-s" format="$3 Result: &quot;Renamed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="25" description="pass-s" format="$3 Result: &quot;Passed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="26" description="clean-f-leave-s" format="$3 Result: &quot;Cleaning failed, left item alone&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="27" description="clean-f-delete-s" format="$3 Result: &quot;Cleaning failed, deleted item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="28" description="clean-f-rename-s" format="$3 Result: &quot;Cleaning failed, renamed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="29" description="clean-f-move-s" format="$3 Result: &quot;Cleaning failed, moved item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="strip-s" format="$3 Result: &quot;Stripped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="clean-f-strip-s" format="$3 Result: &quot;Cleaning failed, stripped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="replace-s" format="$3 Result: &quot;Replaced item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="drop-s" format="$3 Result: &quot;Dropped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="archive-s" format="$3 Result: &quot;Archived item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="block-s" format="$3 Result: &quot;Blocked item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="quarantine-s" format="$3 Result: &quot;Quarantined item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="stamp-s" format="$3 Result: &quot;Stamped item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="upload-s" format="$3 Result: &quot;Uploaded item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="clean-f-quarantine-s" format="$3 Result: &quot;Cleaning failed, quarantined item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="clean-f-pass-s" format="$3 Result: &quot;Cleaning failed, passed item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="41" description="deny-access-s" format="$3 Result: &quot;Denied access to item&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="42" description="na-s" format="$3 Result: &quot;No action taken&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="121" description="clean-f" format="$3 Result: &quot;Cleaning failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="122" description="delete-f" format="$3 Result: &quot;Deleting failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="123" description="move-f" format="$3 Result: &quot;Moving failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="124" description="rename-f" format="$3 Result: &quot;Renaming failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="125" description="pass-f" format="$3 Result: &quot;Passing failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="126" description="clean-f-leave-f" format="$3 Result: &quot;Cleaning failed, leave alone failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="127" description="clean-f-delete-f" format="$3 Result: &quot;Cleaning failed, deleting failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="128" description="clean-f-rename-f" format="$3 Result: &quot;Cleaning failed, renaming failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="129" description="clean-f-move-f" format="$3 Result: &quot;Cleaning failed, moving failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="130" description="strip-f" format="$3 Result: &quot;Stripping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="131" description="clean-f-strip-f" format="$3 Result: &quot;Cleaning failed, stripping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="132" description="replace-f" format="$3 Result: &quot;Replacing failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="133" description="drop-f" format="$3 Result: &quot;Dropping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="134" description="archive-f" format="$3 Result: &quot;Archiving failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="135" description="block-f" format="$3 Result: &quot;Blocking failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="136" description="quarantine-f" format="$3 Result: &quot;Quarantining failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="137" description="stamp-f" format="$3 Result: &quot;Stamping failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="138" description="upload-f" format="$3 Result: &quot;Uploading failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="139" description="clean-f-quarantine-f" format="$3 Result: &quot;Cleaning failed, quarantining failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="140" description="clean-f-pass-f" format="$3 Result: &quot;Cleaning failed, passing failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="141" description="deny-access-f" format="$3 Result: &quot;Denying access failed&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="142" description="na-f" format="$3 Result: &quot;No action taken&quot;, Sender: &quot;$4&quot;, Recepient: &quot;$5&quot;, Subject: &quot;$6&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+@([-\w.]+)" description="sender-fqdn" format="$13" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Threshold: $8, Score: $9" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="80,81" description="high-safe" format="Threshold: High, Score: Safe" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="80,51" description="high-suspicious" format="Threshold: High, Score: Suspicious" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="80,49" description="high-dangerous" format="Threshold: High, Score: Dangerous" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="80,71" description="high-unknown" format="Threshold: High, Score: Unknown" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,81" description="medium-safe" format="Threshold: Medium, Score: Safe" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,51" description="medium-suspicious" format="Threshold: Medium, Score: Suspicious" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,49" description="medium-dangerous" format="Threshold: Medium, Score: Dangerous" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="65,71" description="medium-unknown" format="Threshold: Medium, Score: Unknown" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,81" description="low-safe" format="Threshold: Low, Score: Safe" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,51" description="low-suspicious" format="Threshold: Low, Score: Suspicious" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,49" description="low-dangerous" format="Threshold: Low, Score: Dangerous" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="50,71" description="low-unknown" format="Threshold: Low, Score: Unknown" matcherInput="$8,$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="20, WebTrafficAudit: Antiphishing" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tClientIP=([\d.]+)\tURL=([^\t]+)\tAction=(\d+)\tResult=(\d+).*" pattern="\d+ [-\w.]+ Type=Antiphishing\tDate=\d+\tClientIP=[\d.]+\tURL=[^\t]+\tAction=\d+\tResult=\d+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="URL access from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown-from" format="Unknown action on traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na-from" format="Allowed URL access from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean-from" format="Cleaned item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete-from" format="Deleted item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move-from" format="Moved item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename-from" format="Renamed item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass-from" format="Allowed URL access from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip-from" format="Stripped item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop-from" format="Blocked URL access from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine-from" format="Quarantined item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace-from" format="Replaced item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive-from" format="Archived item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp-from" format="Stamped item in traffic from &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="$3 Result: &quot;Unknown&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="$3 Result: &quot;No action taken&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="21" description="clean-s" format="$3 Result: &quot;Cleaned item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="22" description="delete-s" format="$3 Result: &quot;Deleted item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="23" description="move-s" format="$3 Result: &quot;Moved item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="24" description="rename-s" format="$3 Result: &quot;Renamed item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="25" description="pass-s" format="$3 Result: &quot;Passed item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="26" description="clean-f-leave-s" format="$3 Result: &quot;Cleaning failed, left item alone&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="27" description="clean-f-delete-s" format="$3 Result: &quot;Cleaning failed, deleted item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="28" description="clean-f-rename-s" format="$3 Result: &quot;Cleaning failed, renamed item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="29" description="clean-f-move-s" format="$3 Result: &quot;Cleaning failed, moved item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="strip-s" format="$3 Result: &quot;Stripped item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="clean-f-strip-s" format="$3 Result: &quot;Cleaning failed, stripped item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="replace-s" format="$3 Result: &quot;Replaced item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="drop-s" format="$3 Result: &quot;Dropped item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="archive-s" format="$3 Result: &quot;Archived item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="block-s" format="$3 Result: &quot;Blocked item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="quarantine-s" format="$3 Result: &quot;Quarantined item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="stamp-s" format="$3 Result: &quot;Stamped item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="upload-s" format="$3 Result: &quot;Uploaded item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="clean-f-quarantine-s" format="$3 Result: &quot;Cleaning failed, quarantined item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="clean-f-pass-s" format="$3 Result: &quot;Cleaning failed, passed item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="41" description="deny-access-s" format="$3 Result: &quot;Denied access to item&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="42" description="na-s" format="$3 Result: &quot;No action taken&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="121" description="clean-f" format="$3 Result: &quot;Cleaning failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="122" description="delete-f" format="$3 Result: &quot;Deleting failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="123" description="move-f" format="$3 Result: &quot;Moving failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="124" description="rename-f" format="$3 Result: &quot;Renaming failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="125" description="pass-f" format="$3 Result: &quot;Passing failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="126" description="clean-f-leave-f" format="$3 Result: &quot;Cleaning failed, leave alone failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="127" description="clean-f-delete-f" format="$3 Result: &quot;Cleaning failed, deleting failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="128" description="clean-f-rename-f" format="$3 Result: &quot;Cleaning failed, renaming failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="129" description="clean-f-move-f" format="$3 Result: &quot;Cleaning failed, moving failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="130" description="strip-f" format="$3 Result: &quot;Stripping failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="131" description="clean-f-strip-f" format="$3 Result: &quot;Cleaning failed, stripping failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="132" description="replace-f" format="$3 Result: &quot;Replacing failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="133" description="drop-f" format="$3 Result: &quot;Dropping failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="134" description="archive-f" format="$3 Result: &quot;Archiving failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="135" description="block-f" format="$3 Result: &quot;Blocking failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="136" description="quarantine-f" format="$3 Result: &quot;Quarantining failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="137" description="stamp-f" format="$3 Result: &quot;Stamping failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="138" description="upload-f" format="$3 Result: &quot;Uploading failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="139" description="clean-f-quarantine-f" format="$3 Result: &quot;Cleaning failed, quarantining failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="140" description="clean-f-pass-f" format="$3 Result: &quot;Cleaning failed, passing failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="141" description="deny-access-f" format="$3 Result: &quot;Denying access failed&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="142" description="na-f" format="$3 Result: &quot;No action taken&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="8" description="8" format="Phishing" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="21, WebTrafficAudit: URLFiltering, truncated" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tClientIP=([\d.]+)\tURL=(.+)\.{3} *$" pattern="\d+ [-\w.]+ Type=URLFiltering\tDate=\d+\tClientIP=[\d.]+\tURL=.+\.{3} *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Blocked URL access from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5 ..." fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="22, VirusTrafficAccess: Antibot, Scanning" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tVirusName=([-\w.]+)\tMajorType=\S+\tMinorType=\S*\tURL=([^\t]+)\tFileName=([^\t]*)\tClientIP=([\d.]+)\tServerIP=([\d.]+)\tInfectedIP=([\d.]+)\tAction=(\d+)\tResult=(\d+)\tProtocolDirection=(\w+)\tTrafficDirection=(\w+).*" pattern="\d+ [-\w.]+ Type=(?:Antibot|Scanning)\tDate=\d+\tVirusName=[-\w.]+\tMajorType=\S+\tMinorType=\S*\tURL=[^\t]+\tFileName=[^\t]*\tClientIP=[\d.]+\tServerIP=[\d.]+\tInfectedIP=[\d.]+\tAction=\d+\tResult=\d+\tProtocolDirection=\w+\tTrafficDirection=\w+.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Virus Traffic from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Incoming,0" description="unknown-to" format="Unknown action on traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,1" description="na-to" format="Allowed traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,2" description="clean-to" format="Cleaned item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,3" description="delete-to" format="Deleted item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,4" description="move-to" format="Moved item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,5" description="rename-to" format="Renamed item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,6" description="pass-to" format="Allowed traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,7" description="strip-to" format="Stripped item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,8" description="drop-to" format="Blocked traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,9" description="quarantine-to" format="Quarantined item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,10" description="replace-to" format="Replaced item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,11" description="archive-to" format="Archived item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,12" description="stamp-to" format="Stamped item in traffic to &quot;$7&quot;" matcherInput="$13,$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="0" description="unknown-from" format="Unknown action on traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na-from" format="Allowed traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean-from" format="Cleaned item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete-from" format="Deleted item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move-from" format="Moved item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename-from" format="Renamed item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass-from" format="Allowed traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip-from" format="Stripped item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop-from" format="Blocked traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine-from" format="Quarantined item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace-from" format="Replaced item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive-from" format="Archived item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp-from" format="Stamped item in traffic from &quot;$7&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="$3 Result: &quot;Unknown&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="$3 Result: &quot;No action taken&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="21" description="clean-s" format="$3 Result: &quot;Cleaned item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="22" description="delete-s" format="$3 Result: &quot;Deleted item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="23" description="move-s" format="$3 Result: &quot;Moved item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="24" description="rename-s" format="$3 Result: &quot;Renamed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="25" description="pass-s" format="$3 Result: &quot;Passed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="26" description="clean-f-leave-s" format="$3 Result: &quot;Cleaning failed, left item alone&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="27" description="clean-f-delete-s" format="$3 Result: &quot;Cleaning failed, deleted item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="28" description="clean-f-rename-s" format="$3 Result: &quot;Cleaning failed, renamed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="29" description="clean-f-move-s" format="$3 Result: &quot;Cleaning failed, moved item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="strip-s" format="$3 Result: &quot;Stripped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="clean-f-strip-s" format="$3 Result: &quot;Cleaning failed, stripped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="replace-s" format="$3 Result: &quot;Replaced item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="drop-s" format="$3 Result: &quot;Dropped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="archive-s" format="$3 Result: &quot;Archived item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="block-s" format="$3 Result: &quot;Blocked item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="quarantine-s" format="$3 Result: &quot;Quarantined item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="stamp-s" format="$3 Result: &quot;Stamped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="upload-s" format="$3 Result: &quot;Uploaded item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="clean-f-quarantine-s" format="$3 Result: &quot;Cleaning failed, quarantined item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="clean-f-pass-s" format="$3 Result: &quot;Cleaning failed, passed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="41" description="deny-access-s" format="$3 Result: &quot;Denied access to item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="42" description="na-s" format="$3 Result: &quot;No action taken&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="121" description="clean-f" format="$3 Result: &quot;Cleaning failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="122" description="delete-f" format="$3 Result: &quot;Deleting failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="123" description="move-f" format="$3 Result: &quot;Moving failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="124" description="rename-f" format="$3 Result: &quot;Renaming failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="125" description="pass-f" format="$3 Result: &quot;Passing failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="126" description="clean-f-leave-f" format="$3 Result: &quot;Cleaning failed, leave alone failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="127" description="clean-f-delete-f" format="$3 Result: &quot;Cleaning failed, deleting failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="128" description="clean-f-rename-f" format="$3 Result: &quot;Cleaning failed, renaming failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="129" description="clean-f-move-f" format="$3 Result: &quot;Cleaning failed, moving failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="130" description="strip-f" format="$3 Result: &quot;Stripping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="131" description="clean-f-strip-f" format="$3 Result: &quot;Cleaning failed, stripping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="132" description="replace-f" format="$3 Result: &quot;Replacing failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="133" description="drop-f" format="$3 Result: &quot;Dropping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="134" description="archive-f" format="$3 Result: &quot;Archiving failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="135" description="block-f" format="$3 Result: &quot;Blocking failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="136" description="quarantine-f" format="$3 Result: &quot;Quarantining failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="137" description="stamp-f" format="$3 Result: &quot;Stamping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="138" description="upload-f" format="$3 Result: &quot;Uploading failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="139" description="clean-f-quarantine-f" format="$3 Result: &quot;Cleaning failed, quarantining failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="140" description="clean-f-pass-f" format="$3 Result: &quot;Cleaning failed, passing failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="141" description="deny-access-f" format="$3 Result: &quot;Denying access failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="142" description="na-f" format="$3 Result: &quot;No action taken&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Incoming" description="traffic-incoming" format="$8" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Incoming" description="traffic-incoming" format="$7" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="VirusName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="23, VirusTrafficAccess: Antispyware" matcher="(\d+) ([-\w.]+) Type=(\w+)\tDate=\d+\tVirusName=([-\w.]+)\tMajorType=\S+\tMinorType=\S*\tURL=([^\t]+)\tFileName=([^\t]*)\tClientIP=([\d.]+)\tAction=(\d+)\tResult=(\d+)\tServerIP=([\d.]+)\tInfectedIP=([\d.]+)\tProtocolDirection=(\w+)\tTrafficDirection=(\w+).*" pattern="\d+ [-\w.]+ Type=Antispyware\tDate=\d+\tVirusName=[-\w.]+\tMajorType=\S+\tMinorType=\S*\tURL=[^\t]+\tFileName=[^\t]*\tClientIP=[\d.]+\tAction=\d+\tResult=\d+\tServerIP=[\d.]+\tInfectedIP=[\d.]+\tProtocolDirection=\w+\tTrafficDirection=\w+.*" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Virus Traffic from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Incoming,0" description="unknown-to" format="Unknown action on traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,1" description="na-to" format="Allowed traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,2" description="clean-to" format="Cleaned item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,3" description="delete-to" format="Deleted item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,4" description="move-to" format="Moved item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,5" description="rename-to" format="Renamed item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,6" description="pass-to" format="Allowed traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,7" description="strip-to" format="Stripped item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,8" description="drop-to" format="Blocked traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,9" description="quarantine-to" format="Quarantined item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,10" description="replace-to" format="Replaced item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,11" description="archive-to" format="Archived item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Incoming,12" description="stamp-to" format="Stamped item in traffic to &quot;$7&quot;" matcherInput="$13,$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="0" description="unknown-from" format="Unknown action on traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na-from" format="Allowed traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="clean-from" format="Cleaned item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="delete-from" format="Deleted item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="move-from" format="Moved item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="rename-from" format="Renamed item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="pass-from" format="Allowed traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="strip-from" format="Stripped item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="drop-from" format="Blocked traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="quarantine-from" format="Quarantined item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="replace-from" format="Replaced item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="archive-from" format="Archived item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="stamp-from" format="Stamped item in traffic from &quot;$7&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="unknown" format="$3 Result: &quot;Unknown&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="na" format="$3 Result: &quot;No action taken&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="21" description="clean-s" format="$3 Result: &quot;Cleaned item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="22" description="delete-s" format="$3 Result: &quot;Deleted item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="23" description="move-s" format="$3 Result: &quot;Moved item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="24" description="rename-s" format="$3 Result: &quot;Renamed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="25" description="pass-s" format="$3 Result: &quot;Passed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="26" description="clean-f-leave-s" format="$3 Result: &quot;Cleaning failed, left item alone&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="27" description="clean-f-delete-s" format="$3 Result: &quot;Cleaning failed, deleted item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="28" description="clean-f-rename-s" format="$3 Result: &quot;Cleaning failed, renamed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="29" description="clean-f-move-s" format="$3 Result: &quot;Cleaning failed, moved item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="strip-s" format="$3 Result: &quot;Stripped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="clean-f-strip-s" format="$3 Result: &quot;Cleaning failed, stripped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="replace-s" format="$3 Result: &quot;Replaced item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="drop-s" format="$3 Result: &quot;Dropped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="archive-s" format="$3 Result: &quot;Archived item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="block-s" format="$3 Result: &quot;Blocked item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="quarantine-s" format="$3 Result: &quot;Quarantined item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="stamp-s" format="$3 Result: &quot;Stamped item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="upload-s" format="$3 Result: &quot;Uploaded item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="clean-f-quarantine-s" format="$3 Result: &quot;Cleaning failed, quarantined item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="clean-f-pass-s" format="$3 Result: &quot;Cleaning failed, passed item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="41" description="deny-access-s" format="$3 Result: &quot;Denied access to item&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="42" description="na-s" format="$3 Result: &quot;No action taken&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="121" description="clean-f" format="$3 Result: &quot;Cleaning failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="122" description="delete-f" format="$3 Result: &quot;Deleting failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="123" description="move-f" format="$3 Result: &quot;Moving failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="124" description="rename-f" format="$3 Result: &quot;Renaming failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="125" description="pass-f" format="$3 Result: &quot;Passing failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="126" description="clean-f-leave-f" format="$3 Result: &quot;Cleaning failed, leave alone failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="127" description="clean-f-delete-f" format="$3 Result: &quot;Cleaning failed, deleting failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="128" description="clean-f-rename-f" format="$3 Result: &quot;Cleaning failed, renaming failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="129" description="clean-f-move-f" format="$3 Result: &quot;Cleaning failed, moving failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="130" description="strip-f" format="$3 Result: &quot;Stripping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="131" description="clean-f-strip-f" format="$3 Result: &quot;Cleaning failed, stripping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="132" description="replace-f" format="$3 Result: &quot;Replacing failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="133" description="drop-f" format="$3 Result: &quot;Dropping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="134" description="archive-f" format="$3 Result: &quot;Archiving failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="135" description="block-f" format="$3 Result: &quot;Blocking failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="136" description="quarantine-f" format="$3 Result: &quot;Quarantining failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="137" description="stamp-f" format="$3 Result: &quot;Stamping failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="138" description="upload-f" format="$3 Result: &quot;Uploading failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="139" description="clean-f-quarantine-f" format="$3 Result: &quot;Cleaning failed, quarantining failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="140" description="clean-f-pass-f" format="$3 Result: &quot;Cleaning failed, passing failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="141" description="deny-access-f" format="$3 Result: &quot;Denying access failed&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="142" description="na-f" format="$3 Result: &quot;No action taken&quot;. File: &quot;$6&quot;, URL: &quot;$5&quot;" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Incoming" description="traffic-incoming" format="$10" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Incoming" description="traffic-incoming" format="$7" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Adware" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="VirusName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) ([-\w.]+).*" pattern="\d+ [-\w.]+ Type=\w+\t\w+=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Trend Micro IGSA data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the ulitmate black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

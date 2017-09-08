@@ -1,0 +1,473 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" computerName="localhost" dateStartPoint="-1" datesInQuery="1" description="Novell Identity Audit DB" instanceName="" logInterval="1" logLocation="" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="1" logType="PatchLinkVulnReader" node="manager,spop" option="" password="" patternToolId="novellidentityauditDB" port="5432" preQueryCheck="SELECT COUNT(*) FROM events_rpt_v3 WHERE date_created &gt; ?" protocol="postgresql" queryLimit="10000" queryString="SELECT e.date_created AS ResultScanDate, e.event_datetime, e.rv40, e.base_message, e.init_ip_dotted, e.init_host_name, e.init_host_domain, e.init_user_name, e.init_user_domain, e.init_service_port_name, e.target_ip_dotted, e.target_host_name, e.target_host_domain, e.target_service_port_name, e.target_user_name, e.target_user_domain, e.init_service_comp, e.file_name, e.cv52 FROM events_rpt_v3 e WHERE e.date_created &gt; ? ORDER BY e.date_created;" readerName="Novell Identity Audit Database" readerOutput="Alert" repositoryDriverClass="org.postgresql.Driver" repositoryName="SIEM" sleepBetweenQueries="30" stateVars="logStartPoint,readerName,dateStartPoint" toolId="novellidentityauditDB" toolType="Identity and Access Management" typeDesc="4" username="dbauser" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<string _type="null" attributeName="computerName" enabled="true" formatRule="" formatted="false" labelText="Database Server Host Name:" preferredOrder="1" toolTipText="Enter the Novell Identity Audit server's hostname to read from." visible="true"></string>
+		<string _type="null" attributeName="instanceName" enabled="true" formatRule="" formatted="false" labelText="Database Server Instance Name:" preferredOrder="2" toolTipText="Enter the Novell Identity Audit server's instance name to read from (if the Novell Identity Audit database is on an instance)." visible="false"></string>
+		<string _type="null" attributeName="port" enabled="true" formatRule="" formatted="false" labelText="Database Server Port:" preferredOrder="3" toolTipText="Enter the Novell Identity Audit server's port number." visible="true"></string>
+		<string _type="null" attributeName="protocol" enabled="true" formatRule="" formatted="false" labelText="Database Server Protocol:" preferredOrder="4" toolTipText="Enter the Novell Identity Audit server's database protocol." visible="false"></string>
+		<string _type="null" attributeName="username" enabled="true" formatRule="" formatted="false" labelText="Database Server Username:" preferredOrder="5" toolTipText="Enter the Novell Identity Audit database username." visible="true"></string>
+		<password _type="null" attributeName="password" enabled="true" formatRule="" formatted="false" labelText="Database Server Password:" preferredOrder="6" toolTipText="Enter the Novell Identity Audit database password." visible="true"></password>
+		<string _type="null" attributeName="sleepBetweenQueries" enabled="true" formatRule="" formatted="false" labelText="Time Between Queries:" preferredOrder="7" toolTipText="Enter the number of seconds between queries." visible="true"></string>
+		<string _type="null" attributeName="dateStartPoint" enabled="false" formatRule="" formatted="false" labelText="Starting date for Query:" preferredOrder="8" toolTipText="Enter the date." visible="false"></string>
+		<string _type="null" attributeName="repositoryName" enabled="true" formatRule="" formatted="false" labelText="Database Name:" preferredOrder="10" toolTipText="Novell Identity Audit's database name." visible="true"></string>
+		<string _type="null" attributeName="repositoryDriverClass" enabled="false" formatRule="" formatted="false" labelText="JDBC Driver Class:" preferredOrder="96" toolTipText="JDBC Driver class for Novell Identity Audit Database" visible="false"></string>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data." visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data." visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="The data output this reader feeds." visible="false"></select>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="The tool version." visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="The tool wrapper id." visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Novell Identity Audit DB" id="novellidentityauditDB" version="53" version_type="int">
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit 000B0001, 000B0003, 000B0004, 000B0005, 000B0006, 000B0007, 000B0009" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B000[1345679]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A new eDirectory object called ([-\w\s_.:\[\]]+) \([^)]+\) was created by (\S+)" description="000B0001" format="A new eDirectory object called &quot;$21&quot; was created by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Object ([-\w\s_.:\[\]]+) was renamed to ([-\w\s_.:\[\]]+) by (\S+)" description="000B0003" format="Object &quot;$21&quot; was renamed to &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Object ([-\w\s_.:\[\]]+) was moved to ([-\w\s_.:\[\]]+) by (\S+)" description="000B0004" format="Object &quot;$21&quot; was renamed to &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Object ([-\w\s_.:\[\]]+) was moved by (\S+)" description="000B0005" format="Object &quot;$21&quot; was moved by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A value has been added to the attribute ([-\w\s_.:\[\]]+) on the object (\S*) by (\S+)" description="000B0006" format="A value has been added to the attribute &quot;$21&quot; on the object &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A value has been removed from the attribute ([-\w\s_.:\[\]]+) on the object ([^:]+) : .*" description="000B0007" format="A value has been removed from the attribute &quot;$21&quot; on the object &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Attribute ([-\w\s_.:\[\]]+) was removed from object ([-\w\s_.:\[\]]+) by (\S*)" description="000B0009" format="Attribute &quot;$21&quot; was removed from object &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A new eDirectory object called \.?(\S+).*" description="remove Class and leading &quot;.&quot;" format="$21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit 000B000A" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B000A" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="The Bindery context has been set on the server by" description="000B000A - no user given" format="The Bindery context has been set on the server" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="The Bindery context has been set on the server by (\S*)" description="000B000A" format="The Bindery context has been set on the server by &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ObjectName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="A new eDirectory object called (\S+).*" description="remove Class" format="$21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectDelete" description="ObjectDelete 000B0002" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)" pattern="000B0002" version="6" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Object ([-\w\s_.:\[\]]+) \([^)]+\) was deleted by (\S+)" description="remove Class" format="Object &quot;$21&quot; was deleted by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$18" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart 000B0215, 000B021D" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B021[5D]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A purge operation has started on partition (.+)" description="000B0215" format="A purge operation has started on partition &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Synchronization has stated on partition (\S+).*" description="000B021D" format="Synchronization has started on partition &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* \(([^)]+)\)\.  (.+)" description="000B021D" format="Tree: $19; $21; $22" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="ProcessStop 000B0216, 000B021E" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B021[6E]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A purge operation has ended on partition (.+)" description="000B0216" format="A purge operation has ended on partition &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Synchronization has ended on partition (\S+)\..*" description="000B021E" format="Synchronization has ended on partition &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* All Processed: (\S*)" description="000B021E" format="Tree: $19; All Processed: $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Synchronization has ended on partition (\S+)\..*" description="000B021E" format="Synchronization has ended on partition &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo 000B0219, 000B0226, 000B022C" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B02(?:19|2[6C])" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A Limber operation has completed\..*" description="000B0219" format="A Limber operation has completed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Schema Synchronization has occurred.*" description="000B0226" format="A Schema Synchronization has occurred" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Backlink Procedure has completed" description="000B022C" format="A Backlink Procedure has completed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^.]+\. All initialized: (\S+)  Found new RDN: (\S+)" description="000B0219" format="All initialized: &quot;$21&quot;  Found new RDN: &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".* All Processed\?  (\S*)" description="000B0226" format="All Processed: $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo 000B022F, 000B033C" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0(22F|33C)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A server's address has changed" description="000B022F" format="A server's address has changed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([-\w\s_.:\[\]]+) performed a Search operation, starting at ([-\w\s_.:\[\]]+) with a scope of (\S*)" description="000B033C" format="&quot;$21&quot; performed a Search operation, starting at &quot;$22&quot; with a scope of &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* All Processed\?  (\S*)" description="000B0226" format="Tree: $19; All Processed: $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A server's address has changed" description="000B022F" format="A server's address has changed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([-\w\s_.:\[\]]+) performed a Search operation, starting at ([-\w\s_.:\[\]]+) with a scope of (\S*)" description="000B033C" format="&quot;$21&quot; performed a Search operation, starting at &quot;$22&quot; with a scope of &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit 000B0230" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0230" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A read operation was performed on object ([-\w\s_.:\[\]]+) by (\S+)" description="000B0230" format="A read operation was performed on object &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* All Processed\?  (\S*)" description="000B0226" format="Tree: $19; All Processed: $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon 000B0301" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0301" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="User ([-\w\s_.:\[\]]+) \([^)]+\) logged in \([^)]+\) to server (\S+)\..*" description="User logged in to server" format="Logon &quot;$21&quot; to server &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="User (\S+) \([^)]+\) logged in \([^)]+\) from (\S+) to server (\S+)\..*" description="User logged in from \S to server" format="Logon &quot;$20&quot; to server &quot;$21&quot; from &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="User \S+ \(([^)]+)\) logged in \(([^)]+)\) to server \S+\..*" description="details" format="Tree: $19; $21; $22" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute 000B0302" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0302" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="User ([-\w\s_.:\[\]]+) password has been changed by (\S+)" description="add quotes" format="User &quot;$21&quot; password has been changed by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="password change" fieldName="Modification" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectDelete" description="ObjectDelete 000B0309" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0309" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Object ([-\w\s_.:\[\]]+) has been removed from a container by (\S+)" description="add quotes" format="Object &quot;$21&quot; has been removed from a container by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit 000B0318, 000B031A" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B031[8A]" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Attribute authoritative on object ([-\w\s_.:\[\]]+) was compared by (\S+)" description="000B0318" format="Attribute authoritative on object &quot;$21&quot; was compared by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A list Subordinate Entries operation has been performed on container  by (\S+)" description="000B031A - no container name" format="A list Subordinate Entries operation has been performed on container by &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A list Subordinate Entries operation has been performed on container ([-\w\s_.:\[\]]+) by (\S+)" description="000B031A" format="A list Subordinate Entries operation has been performed on container &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit 000B0322, 000B0323" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B032[23]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A List Partitions operation has been performed on partition ([-\w\s_.:\[\]]+) by (\S+)" description="000B0322" format="A List Partitions operation has been performed on partition &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Attribute  was read on object ([-\w\s_.:\[\]]+) by (\S*)" description="000B0323 - attribute not given" format="An attribute was read on object &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Attribute ([-\w\s_.:\[\]]+) was read on object ([-\w\s_.:\[\]]+) by (\S*)" description="000B0323" format="Attribute &quot;$21&quot; was read on object &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="ObjectAudit 000B0343, 000B0344, 000B0349" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B034[349]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Attribute ([-\w\s_.:\[\]]+) was modified on object ([-\w\s_.:\[\]]+) by (\S+)" description="000B0344" format="Attribute &quot;$21&quot; was modified on object &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Object ([-\w\s_.:\[\]]+) was renamed to ([-\w\s_.:\[\]]+) by (\S+)" description="000B0349" format="Object &quot;$21&quot; was renamed to &quot;$22&quot; by &quot;$23&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ObjectServer" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus 000B0347" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0347" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="The connection state has been changed by" description="000B0347 - no user given" format="The connection state has been changed" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="The connection state has been changed by (\S+)" description="000B0347" format="The connection state has been changed by &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify 000B0354" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0354" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Access Control List modified on object ([-\w\s_.:\[\]]+) by (\S+) : .*" description="000B0354" format="Access Control List modified on object &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Access Control List modified on object [-\w\s_.:\[\]]+ by \S+ : (.*)" description="000B0354" format="$21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserEnable" description="UserEnable 000B0355" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0355" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Login enabled for object ([-\w\s_.:\[\]]+) by (\S+) : .*" description="000B0355" format="Login enabled for object &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserDisable" description="UserDisable 000B0356" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0356" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Login disabled for object ([-\w\s_.:\[\]]+) by (\S+) : .*" description="000B0356" format="Login disabled for object &quot;$21&quot; by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon 000B0351" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0351" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="User ([-\w\s_.:\[\]]+) has been allowed to login \(Flags: \w*\) by (\S*)" description="add quotes" format="User &quot;$21&quot; has been allowed to login by &quot;$22&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="0" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure 000B0358" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0358" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Failed Login attempted on object (\S*)" description="add quotes" format="Failed Login attempted on object &quot;$21&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="DestinationDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="^\\?(.+)" description="remove leading slash" format="$21" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ConfigurationTrafficAudit" description="ConfigurationTrafficAudit 000B0401, 000B0402, 000B0403, 000B0404, 000B0405, 000B0406, 000B0407" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B040[1234567]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="An LDAP bind was requested by (\S*) .*" description="000B0401" format="An LDAP bind was requested by &quot;$21&quot; from &quot;$5&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A response to LDAP bind corresponding to request number (\d+) \([^)]+\) with result code \d+  was received at .*" description="000B0402" format="A response to LDAP bind corresponding to request number &quot;$21&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="An LDAP unbind was requested by  \([^)]+\) at .* having parse result code \d+" description="000B0403" format="An LDAP unbind was requested by &quot;$5&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="An LDAP connection was requested by  \([^)]+\) at .*" description="000B0404" format="An LDAP connection was requested by &quot;$5&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="An LDAP search was requested by (\S*).*" description="000B0405" format="An LDAP bind was requested by &quot;$21&quot; from &quot;$5&quot;" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Response to LDAP search corresponding to request number (\d+) \([^)]+\) found entry.*" description="000B0406" format="A Response to LDAP search corresponding to request number &quot;$21&quot; from &quot;$5&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Response to LDAP search corresponding to request number (\d+) \([^)]+\) with result code .*" description="000B0407" format="A Response to LDAP search corresponding to request number &quot;$21&quot; from &quot;$5&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="An LDAP bind was requested by \S* \([^)]+\) with (request number: \d+), (bind type: \S+)  at .* having parse (result code \d+)" description="000B0401" format="Tree: $19; $21; $22; $23" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A response to LDAP bind corresponding to request number \d+ \((IP: [\d.]+):\d+\) with (result code \d+)  was received at .*" description="000B0402" format="Tree: $19; $21; $22" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="An LDAP unbind was requested by  \([^)]+\) at .* having parse (result code \d+)" description="000B0403" format="Tree: $19; $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="An LDAP search was requested by \S* \([^)]+\) with (request number: \d+), (.*) at .* having parse (result code \d+)" description="000B0405" format="Tree: $19; $21; $22; $23" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Response to LDAP search corresponding to request number \d+ \([^)]+\) found entry (.*) \((Class: [^)]+)\) with (result code \d+)  was received at .*" description="000B0406" format="Tree: $19; Entry: $21; $22; $23" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Response to LDAP search corresponding to request number \d+ \([^)]+\) with (result code \d+)  was received at .*" description="000B0407" format="Tree: $19; Entry: $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="if no tree" format="" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ConfigurationTrafficAudit" description="ConfigurationTrafficAudit 000B0419" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0419" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A new LDAP extended operation with request number: (\d+).*" description="000B0419" format="A new LDAP extended operation with request number: &quot;$21&quot; from &quot;$5&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A new LDAP extended operation with request number: (\d+).*" description="000B0419" format="A new LDAP extended operation with request number: &quot;$21&quot; from &quot;$5&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="if no tree" format="" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ConfigurationTrafficAudit" description="ConfigurationTrafficAudit 000B0420, 000B0421" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B042[01]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A new LDAP system extended operation with request number: (\d+).*" description="000B0420" format="A new LDAP extended operation with request number: &quot;$21&quot; from &quot;$5&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Response to LDAP extended operation corresponding to request number (\d+).*" description="000B0421" format="A Response to LDAP search corresponding to request number &quot;$21&quot; from &quot;$5&quot; was received" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree: $19" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="A new LDAP system extended operation with request number: \d+, (OID: [\d.]+) was requested by  \([^)]+\) at .* having parse (result code \d+).*" description="000B0420" format="Tree: $19; $21; $22" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="A Response to LDAP extended operation corresponding to request number \d+ \([^)]+\) with (result code \d+)  was received at .*" description="000B0421" format="Tree: $19; Entry: $21" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="if no tree" format="" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t(\w{8})\t.*" pattern="" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched novellidentityauditpostgresqlDB Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="Black Hole" matcher=".*" pattern="" version="2" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff 000B0303" matcher="(\d+)\t(\d+-\d+-\d+ \d+:\d+:\d+)-\d+\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*).*" pattern="000B0303" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Tree Name: $18" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

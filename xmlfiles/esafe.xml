@@ -1,0 +1,246 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="eSafe" logInterval="1" logLocation="/var/log/local5.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="eSafe" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="esafe" toolType="Proxy Servers and Content Filters" version="$Revision: #4 $" vendor="SafeNet" fullDescription="Collects web security and email security events from eSafe application." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="eSafe" id="esafe" version="59" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit: Mail modified" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: (.*)  File Name\\Mail Subject: (.+) Source: (\S*)\s+Destination: (\S*)\s+Mail Sender: (\S*)\s+Mail Recipients: (\S*)\s+Details: (.*)" pattern="Scan result: Mail modified to remove malicious content  Protocol: SMTP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Mail modified to remove malicious content" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=":\s+" description="no sender or recipient" format="$11" matcherInput="$9: $10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="no sender" format="Recipient: $10; $11" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="no recipient" format="Sender: $9; $11" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(\S+): (\S+): (.*)\.\s+" description="remove trailing periods" format="Sender: $13; Recipient: $14; $15" matcherInput="$9: $10: $11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Blocked Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="MailTrafficAudit: File modified" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: (.*)  File Name\\Mail Subject: (.+)  Source: (\S+)\s+Destination: (\S+)\s+Details:  (.*)\s\s" pattern="Scan result: File modified to remove malicious content  Protocol: HTTP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL Access from &quot;$7&quot; (File modified to remove malicious content)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s+$" description="remove trailing period and spaces" format="$11" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: Application blocked" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: (.*)  File Name\\Mail Subject: (.+) Source: (\S+)\s+Destination: (\S+)\s+Details: (.*)" pattern="Scan result: Application blocked.*on port 80 was blocked" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Blocked URL Access from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s+$" description="remove trailing period and spaces" format="$11" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*port (\d+).*" description="port #" format="$11" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: File blocked" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: (.*)  File Name\\Mail Subject: (.+) Source: (\S+)\s+Destination: (\S+)\s+Details: (.*)" pattern="Scan result: File blocked  Protocol: HTTP" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Blocked URL Access from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s+$" description="remove trailing period and spaces" format="$11" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Content" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="URL" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack: Mail rejected Infected with" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: ([-\w_ ]*)  File Name\\Mail Subject: (.*) Source: (\S*)\s+Destination: (\S*)\s+Mail Sender: (\S*)\s+Mail Recipients: (\S*)\s+Details: (.*)" pattern="Scan result: Mail rejected  Protocol: SMTP.*Infected with" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Virus detected" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Infected with ([^,]+), Mail blocked\..*" description="Blocked - Deleted" format="Virus &quot;$13&quot; detected. Mail deleted" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*Infected with ([^,]+), Mail (\S+)\..*" description="unknown" format="Virus &quot;$13&quot; detected. $14" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Sender: $9; Recipient: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Infected with ([^,]+),.*" description="virus name and action" format="$13" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)  Infected with.*" description="virus name and action" format="$13" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Infected with [^,]+, Mail blocked\..*" description="blocked - delete " format="Delete" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ActionTaken" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Infected with [^,]+, Mail blocked\..*" description="blocked - deleted" format="Deleted" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit: Mail rejected" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: ([-\w_ ]*)  File Name\\Mail Subject: (.*) Source: (\S*)\s+Destination: (\S*)\s+Mail Sender: (\S*)\s+Mail Recipients: (\S*)\s+Details: (.*)" pattern="Scan result: Mail rejected  Protocol: SMTP" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Blocked Mail Traffic from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Sender: $9; Recipient: $10; $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=":\s+" description="no sender or recipient" format="$11" matcherInput="$9: $10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="no sender" format="Recipient: $10; $11" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="no recipient" format="Sender: $9; $11" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="MailTrafficAudit: Spam blocked" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: ([-\w_ ]*)  File Name\\Mail Subject: (.*) Source: (\S*)\s+Destination: (\S*)\s+Mail Sender: (\S*)\s+Mail Recipients: (\S*)\s+Details: (.*)" pattern="Scan result: Spam blocked  Protocol: SMTP" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Spam blocked from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Sender: $9; Recipient: $10; $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=":\s+" description="no sender or recipient" format="$11" matcherInput="$9: $10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="no sender" format="Recipient: $10; $11" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="" description="no recipient" format="Sender: $9; $11" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="ApplicationTrafficAudit: Application blocked" matcher="(\d+) (\S+) ([^:]+):\s+Alert from eSafe\s+Scan result: ([-\w_ ]+)  Protocol: (.*)  File Name\\Mail Subject: (.+) Source: (\S+)\s+Destination: (\S+)\s+Details: (.*)" pattern="Scan result: Application blocked" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Blocked Application Traffic from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\.\s+$" description="remove trailing period and spaces" format="$11" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*port (\d+).*" description="port #" format="$11" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart : Module: eSafe Gateway (service started)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: [-\w_ ]+ User: [-\w_ ]+ Action: service started" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 $7 by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="ServiceStop : Module: eSafe Gateway (service stopped)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: [-\w_ ]+ User: [-\w_ ]+ Action: service stopped" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 $7 by &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning : Module: Outgoing SMTP server (Cannot establish connection)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: [-\w_ ]+ User: [-\w_ ]+ Action: Cannot establish connection" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$5 $7" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="eSafe" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\s{4}" description="remove trailing space" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning : Module: URL filter (File reached the maximum length)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: URL filter User: [-\w_ ]+ Action: File reached the maximum length" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\." description="remove trailing period" format="$10" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="eSafe" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\s{4}" description="remove trailing space from details" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\s+: (.*)" description="if no details use EventInfo" format="$10" matcherInput="$8: $7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff : Module: Management (logout)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: [-\w_ ]+ User: [-\w_ ]+ Action: logout" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\." description="remove trailing period" format="$9" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="IP: ([\d.]+)\s+" description="IP" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo : Module: Cluster (eSafe cluster was modified)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: Cluster User: [-\w_ ]+ Action: " version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\." description="remove trailing period" format="$10" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="eSafe" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\s{4}" description="remove trailing space" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo : Module: SMTP server (Anti-Bombing)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: SMTP server User: [-\w_ ]+ Action: Anti-Bombing" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6 $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="eSafe" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5 $7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="SoftwareUpdate : Module: EVSV engine (Update)" matcher="(\d+) (\S+) ([^:]+):   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : (\S+)  Module: ([-\w_ ]+) User: ([-\w_ ]+) Action: (.*) Details: (.*)" pattern="Module: EVSV engine User: [-\w_ ]+ Action: Update" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="successful .*" description="successful" format="ESVU Engine update succeeded" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Upgrade" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="Version" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="successful version: (\S+).*" description="version" format="$10" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: Alert from eSafe" matcher="(\d+) (\S+) ([^:]+): .*" pattern="\d+ \S+ [^:]+: Alert from eSafe" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched eSafe Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData:  Time: Module: User: Action:" matcher="(\d+) (\S+) ([^:]+): .*" pattern="\d+ \S+ [^:]+:   Time: \d+-\d+-\d+  \d+:\d+:\d+  eSafe : \S+  Module: [-\w_ ]+ User: [-\w_ ]+ Action:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched eSafe Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

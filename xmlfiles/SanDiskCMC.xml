@@ -1,0 +1,529 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" computerName="localhost" convertFromUTC="false" datesInQuery="1" description="SanDisk CMC" idColumnNumber="2" idQuery="SELECT MAX(e.ID) FROM Event e" idStartPoint="-1" instanceName="" logInterval="1" logManagementOutput="10.254.10.18" logManagementPort="10101" logType="DatabaseIDUTCReader" node="spop" option="" password="" port="1433" preQueryCheck="SELECT COUNT(*) FROM Event e WHERE e.ID &gt; ?" protocol="sqlserver" queryString="SELECT e.CreationDate AS AlertTime, e.ID, e.ComputerName, e.ComputerIP, e.LoggedInUser, et.Description as EventTypeDescription, COALESCE( ( SELECT etp.name + '=' + ep.value + '; ' FROM EventParameter (NOLOCK) ep INNER JOIN EventTypeParameter (NOLOCK) etp ON etp.ID = ep.ParameterTypeID WHERE ep.EventID = e.ID ORDER BY etp.ParameterOrder FOR XML PATH('') ), '' ) AS EventParameters FROM Event (NOLOCK) e INNER JOIN EventType (NOLOCK) et ON (e.TypeID=et.ID) WHERE e.ID &gt; ? ORDER BY e.ID" readerName="SanDisk CMC" readerOutput="Alert" repositoryDriverClass="com.microsoft.sqlserver.jdbc.SQLServerDriver" repositoryName="CruzerDb" sleepBetweenQueries="30" stateVars="logStartPoint,readerName,idStartPoint" timeZone="GMT" toolId="SanDiskCMC" toolType="Identity and Access Management" typeDesc="4" useDaylightSavings="false" username="" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<string _type="null" attributeName="computerName" enabled="true" formatRule="" formatted="false" labelText="Database Server Host Name:" preferredOrder="1" toolTipText="Enter the SanDisk CMC server's hostname to read from." visible="true"></string>
+		<string _type="null" attributeName="instanceName" enabled="true" formatRule="" formatted="false" labelText="Database Server Instance Name:" preferredOrder="2" toolTipText="Enter the SanDisk CMC server's instance name to read from (if the database is on an instance)." visible="true"></string>
+		<string _type="null" attributeName="port" enabled="true" formatRule="" formatted="false" labelText="Database Server Port:" preferredOrder="3" toolTipText="Enter the SanDisk CMC server's port number." visible="true"></string>
+		<string _type="null" attributeName="protocol" enabled="true" formatRule="" formatted="false" labelText="Database Server Protocol:" preferredOrder="4" toolTipText="Enter the SanDisk CMC server's database protocol." visible="false"></string>
+		<string _type="null" attributeName="option" enabled="true" formatRule="" formatted="false" labelText="Database Server Connection Options:" preferredOrder="5" toolTipText="Enter the SanDisk CMC database connection options." visible="true"></string>
+		<string _type="null" attributeName="username" enabled="true" formatRule="" formatted="false" labelText="Database Server Username:" preferredOrder="6" toolTipText="Enter the SanDisk CMC database username." visible="true"></string>
+		<password _type="null" attributeName="password" enabled="true" formatRule="" formatted="false" labelText="Database Server Password:" preferredOrder="7" toolTipText="Enter the SanDisk CMC database password." visible="true"></password>
+		<string _type="null" attributeName="sleepBetweenQueries" enabled="true" formatRule="" formatted="false" labelText="Time Between Queries:" preferredOrder="8" toolTipText="Enter the number of seconds between queries." visible="true"></string>
+		<string _type="null" attributeName="dateStartPoint" enabled="false" formatRule="" formatted="false" labelText="Starting date for Query:" preferredOrder="9" toolTipText="Enter the date." visible="false"></string>
+		<string _type="null" attributeName="repositoryName" enabled="true" formatRule="" formatted="false" labelText="Database Name:" preferredOrder="10" toolTipText="AVG's database name." visible="true"></string>
+		<boolean _type="null" attributeName="convertFromUTC" enabled="true" labelText="Convert From UTC:" preferredOrder="4" toolTipText="Enable to account for Database for being in UTC" visible="true"></boolean>
+		<boolean _type="null" attributeName="useDaylightSavings" enabled="true" labelText="Use Daylight Savings:" preferredOrder="4" toolTipText="Enable to account for Daylight Savings Time when appropriate" visible="true"></boolean>
+		<string _type="null" attributeName="repositoryDriverClass" enabled="false" formatRule="" formatted="false" labelText="JDBC Driver Class:" preferredOrder="96" toolTipText="JDBC Driver class for SanDisk CMC Database" visible="false"></string>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data." visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data." visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="The data output this reader feeds." visible="false"></select>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="The tool version." visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="The tool wrapper id." visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="SanDisk CMC" id="SanDiskCMC" version="46" version_type="int">
+		<FastPattern _type="null" alertName="FileDelete" description="FileDelete: Content Auditing Delete" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tContent Auditing Delete\t" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+\\(.*);.*" description="parse file" format="File &quot;$8&quot; $5" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="File name=(.*);\s*" description="remove label" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileRead" description="FileRead: Content Auditing Read" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tContent Auditing Read\t" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+\\(.*);.*" description="parse file" format="File &quot;$8&quot; $5" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="File name=(.*);\s*" description="remove label" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileWrite" description="FileWrite: Content Auditing Write" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tContent Auditing Write\t" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+\\(.*);.*" description="parse file" format="File &quot;$8&quot; $5" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="File name=(.*);\s*" description="remove label" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileWrite" description="FileWrite: Console - Content add" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Content add\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="File name=.+\\([^;]*);.*" description="parse file" format="Content add to &quot;$8&quot; by &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="File name=([^;]*);.*" description="remove label" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: Console - Set (Created|Modified|Deleted)" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Set (?:Created|Modified|Deleted)\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Console - Set Created: Set name=([^;]+); .*" description="created" format="Set &quot;$8&quot; created by &quot;$4&quot;" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Set Deleted: Set name=([^;]+); .*" description="deleted" format="Set &quot;$8&quot; deleted by &quot;$4&quot;" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Set Modified: Set name=([^;]+); .*" description="modified" format="Set &quot;$8&quot; modified by &quot;$4&quot;" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: Console - Configuration Changed" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Configuration Changed\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Entity name=([^;]+); .*" description="set name" format="Configuration changed for &quot;$8&quot; by &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: Console - System Settings Changed" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - System Settings Changed\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Modified Settings=([^;]+); .*" description="set name" format="System settings changed by &quot;$4&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyScopeChange" description="PolicyScopeChange: Console - Ownership Changed" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Ownership Changed\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Device ID=([^;]+); .*" description="New Formatter" format="Ownership of device &quot;$8&quot; changed" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Ownership Change" fieldName="ModificationType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*New Owner=([^;]+);\s*" description="New Owner" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: (Console - )?Administrative override" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\t(?:Console - )?Administrative [Oo]verride\t" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$5 by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: Console - Directory Synchronization Complete" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Directory Synchronization Complete\t" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2; $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5 for $3" fieldName="EventMessage" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart: Console - Directory Synchronization Start" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Directory Synchronization Start\t" version="9" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2; $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart: Update Start" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tUpdate Start\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2; $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: Console - Directory Synchronization Failed" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Directory Synchronization Failed\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2; $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: Backup Success" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tBackup Success\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5 from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5 from $3" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=Backup failed!\. (.*)" description="parse error msg" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: Certificate Replaced" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tCertificate Replaced\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: Insertion" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tInsertion\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5 from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: Provisioning" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tProvisioning\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5 from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: Backup Failed" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tBackup Failed\t" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Description=Backup failed!\. (.*)" description="parse error msg" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: Certificate Replacement Error" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tCertificate Replacement Error\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=Backup failed!\. (.*)" description="parse error msg" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: Disable, Device certificate has expired" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tDisable\tDescription=Device certificate has expired" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=(.*);\s*" description="description" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=(.*);\s*" description="description" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareInstall" description="SoftwareInstall: Application Install/Install Failure/Download/Download Failure" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tApplication (?:Install|Download)(?: Failure)?\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Application Install: Name=([^;]+?);.*" description="install" format="Application &quot;$8&quot; installed by $4" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Application Download: Name=([^;]+?);.*" description="download" format="Application &quot;$8&quot; downloaded by $4" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Application Install Failure: Name=([^;]+?);.*" description="install failure" format="Application install failed for &quot;$8&quot; by $4" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Application Download Failure: Name=([^;]+?);.*" description="download failure" format="Application download failed for &quot;$8&quot; by $4" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Error=([^;]+);\s*" description="Error" format="Hostname: $2; IP: $3; Error: $8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Application Install" description="install" format="Install" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Application Download" description="download" format="Download" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Application Download Failure" description="download failure" format="Download Failed" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Application Install Failure" description="install failure" format="Install Failed" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Name=([^;]+?);.*" description="parse for app name" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Version" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Version=([^;]+);.*" description="parse for version" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="SoftwareUpdate: Update (Completed|Failed)" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tUpdate (?:Completed|Failed)\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Update Completed: .+Supported plug-ins=(.*);\s*" description="completed" format="Update to &quot;$8&quot; succeeded" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Update Failed: Description=(.*);\s*" description="failed" format="Update failed. $8" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Error=([^;]+);\s*" description="Error" format="Hostname: $2; IP: $3; Error: $8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Update Completed" description="completed" format="Upgrade" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Update Failed: Description=(.*);\s*" description="failed" format="Failed" matcherInput="$5: $6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+Supported plug-ins=(.*);\s*" description="Supported plugins" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Version" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Version=([^;]+);.*" description="parse for version" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: Console - Device (Enabled|Disabled|[DR]eactivated)" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Device (?:(?:Dis|En)abled|[DR]eactivated)\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Console - Device Disabled" description="disabled" format="Device disabled by &quot;$4&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Device Enabled" description="enabled" format="Device enabled by &quot;$4&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Device Deactivated" description="deactivated" format="Device deactivated by &quot;$4&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Device Reactivated" description="reactivated" format="Device reactivated by &quot;$4&quot;" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Console - Device Disabled" description="disabled" format="Disabled" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Device Enabled" description="enabled" format="Enabled" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Device Deactivated" description="deactivated" format="Deactivated" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Console - Device Reactivated" description="reactivated" format="Reactivated" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserDisable" description="UserDisable: Disable, User reached maximum number of allowed login attempts" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tDisable\tDescription=User reached maximum number of allowed login attempts.;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=(.*);\s*" description="description" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Disabled" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=(.*);\s*" description="description" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: Console - Logout" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Logout\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$4&quot; from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Console" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: Log out" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tLog out\t" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$4&quot; from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: Console - Login" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - Login\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Login &quot;$4&quot; from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2; $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: Login" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tLogin\t" version="11" version_type="int">
+			<FastField _type="null" defaultValue="Login &quot;$4&quot; from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2; $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: Authentication Failed - Incorrect Password" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tAuthentication Failed - Incorrect Password\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$4&quot; from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Failure reason=(.*);\s*" description="reason" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="UserModifyPrivileges: Console - User Permission Changed" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tConsole - User Permission Changed\t" version="5" version_type="int">
+			<FastField _type="null" defaultValue="User permissions changed for &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Owner=([^;]*);.*" description="changed owner" format="User permissions changed for &quot;$8&quot;" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Owner=([^;]*);.*" description="owner" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*New permission=([^;]+);\s*" description="new permission" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: Disable (catchall)" matcher="([^\t]*)(?:\t[-\d]+ [.:\d]+)?\t([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)" pattern="\tDisable\t" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=(.*);\s*" description="description" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Hostname: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="user" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="domain" format="$8" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Disabled" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Description=(.*);\s*" description="description" format="$8" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: Deactivate" matcher=".*" pattern="\tDeactivate\t" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="(\d*).*" pattern="" version="15" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched SanDisk CMC Vulnerability Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="Black Hole" matcher=".*" pattern="" version="2" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

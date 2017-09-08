@@ -1,0 +1,273 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Tippingpoint X505" logInterval="1" logLocation="/var/log/syslog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="tippingpointxseries" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="tippingpointxseries" toolType="Firewalls" version="$Revision: #4 $" vendor="TippingPoint" fullDescription="Collects Firewall, VPN, and Web events from the Tippingpoint X-series." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Tippingpoint X505" id="tippingpointxseries" version="22" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, WebTrafficAudit: Web filter, Access" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\t[-\w.]+\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t(?:Web Filter|Access).*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$16" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Access *" description="access" format="URL Access by &quot;$5&quot;" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Web Filter Category match .+ allows *" description="filter-allows" format="URL Access by &quot;$5&quot;" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Web Filter Category match .+ denies *" description="filter-denies" format="Blocked URL Access by &quot;$5&quot;" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Web Filter Category match .+ denies" description="filter-denies" format="Web Content" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="URL" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="Category" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="2, UDPTrafficAudit: Session start,end" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\tUDP\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t(?:\w+ Session Start|Session ended).*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="UDP traffic from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13, Info: &quot;$16&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="3, TCPTrafficAudit: Session start,end" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\tTCP\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t(?:\w+ Session Start|Session ended).*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="TCP traffic from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13, Info: &quot;$16&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="4, ICMPTrafficAudit: Session start,end" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\tICMP\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t(?:\w+ Session Start|Session ended).*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="ICMP traffic from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13, Info: &quot;$16&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP Reserved" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="0" format="ICMP Echo Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1" description="1" format="ICMP Unassigned" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2" description="2" format="ICMP Unassigned" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="3" format="ICMP Host Unreachable" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="4" format="ICMP Source Quench" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="5" format="ICMP Redirect" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="6" format="ICMP Alternate Host Address" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7" description="7" format="ICMP Unassigned" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="8" format="ICMP Echo Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="9" format="ICMP Router Advertisement" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="10" format="ICMP Router Selection" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="11" format="ICMP Time Exceeded" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="12" format="ICMP Parameter Problem" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="13" description="13" format="ICMP Timestamp Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="14" description="14" format="ICMP Timestamp Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="15" description="15" format="ICMP Information Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="16" description="16" format="ICMP Information Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="17" description="17" format="ICMP Address Mask Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="18" description="18" format="ICMP Address Mask Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30" format="ICMP Traceroute" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="31" format="ICMP Datagram Conversion Error" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="32" format="ICMP Mobile Host Redirect" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="33" format="ICMP IPv6 Where-are-you" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="34" format="ICMP Ipv6 I-Am-Here" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="35" format="ICMP Mobile Registration Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="36" format="ICMP Mobile Registration Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="37" format="ICMP Domain Name Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="38" format="ICMP Domain Name Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="39" format="ICMP SKIP Algorithm Discovery Protocol" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="40" format="ICMP Authentication Failures" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RoutingTrafficAudit" description="5, RoutingTrafficAudit: Session start,end" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\tIGMP\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t(?:\w+ Session Start|Session ended).*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10 traffic from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13, Info: &quot;$16&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="6, IPTrafficAudit: Session start,end" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\t[-\w.]+\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t(?:\w+ Session Start|Session ended).*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="IP traffic from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13, Info: &quot;$16&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="7, ApplicationTrafficAudit: catchall" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(fws)\] ([\d.]+):(\d+)\t([\d.]+):(\d+)\t(\d+)\t([-\w.]+)\(\d+\)\t[-a-f\d]{36}\t([-\w.]+)\t[-a-f\d]{36}\t([-\w.]+)\t(\d+)\t([^\t]+)\t([^\t]+)\t[\d ]+\t[\d ]+\t(.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[fws\] [\d.]+:\d+\t[\d.]+:\d+\t\d+\t[-\w.]+\(\d+\)\t[-a-f\d]{36}\t[-\w.]+\t[-a-f\d]{36}\t[-\w.]+\t\d+\t[^\t]+\t[^\t]+\t[\d ]+\t[\d ]+\t" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$16" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Rule: $13, Category: &quot;$14&quot;, URL: &quot;$15&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+" description="all-blank" format="Rule: $13" matcherInput="$14$15" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\s+" description="url-blank" format="Rule: $13, Category: &quot;$14&quot;" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\s+" description="cat-blank" format="Rule: $13, URL: &quot;$15&quot;" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Web Filter Category match .+ denies" description="filter-denies" format="Web Content" matcherInput="$16" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+" description="proto" format="$10" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="8, ServiceInfo: audit, System time has been updated" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] user=(\S+) src=([\d.]+) iface=(\d+) access=(\d+) (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[audit\] user=\S+ src=[\d.]+ iface=\d+ access=\d+ System time has been updated by RTC \(correction offset=-?\d+ second\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="System time has been updated" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Src: $6, iface:$7, access:$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="9, ServiceInfo: sys, Web Filter Service alternative server" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[sys\] Web Filter Service at [-\w.]+ is unavailable, using alternative server [-\w.]+\([\d.]+\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Web Filter Service using alternative server" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Filter" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="10, ServiceInfo: sys, Web Filter Service available" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[sys\] Web Filter Service at [-\w.]+\([\d.]+\) is now available" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Web Filter Service now available" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Filter" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="11, ServiceWarning: audit, Firewall Session Log rollover" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] user=(\S+) src=([\d.]+) iface=(\d+) access=(\d+) Firewall Session Log rollover: (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[audit\] user=\S+ src=[\d.]+ iface=\d+ access=\d+ Firewall Session Log rollover:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Firewall Session Log rollover" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Src: $6, iface:$7, access:$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12, ServiceWarning: audit, Host refused" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] user=(\S+) src=([\d.]+) iface=(\d+) access=(\d+) Host ([-\w.]+) refused: (.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[audit\] user=\S+ src=[\d.]+ iface=\d+ access=\d+ Host [-\w.]+ refused:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Host &quot;$9&quot; refused" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Src: $6, iface:$7, access:$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="13, ServiceWarning: sys, SOAP FAULT" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] SOAP FAULT, (.*)" pattern="^\d+ [-\w.]+ [-\w.]+ \[sys\] SOAP FAULT, SOAP-ENV:Server.userException java.rmi.RemoteException: Authorization failed., TMCProd1.tippingpoint.com" version="1" version_type="int">
+			<FastField _type="null" defaultValue="SOAP fault" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="14, ServiceWarning: sys, Web Filter Service default rule applied" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[sys\] Web Filter Service at [-\w.]+\([\d.]+\) is unavailable. Default Rule applied" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Web Filter Service unavailable, default rule applied" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Web Filter" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="15, SoftwareUpdate: sys, AutoDV update failed" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[sys\] AutoDV update attempts failed \d+ times, aborting" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="AutoDV update" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="16, SoftwareUpdate: sys, No response from TMC" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] (.+)" pattern="^\d+ [-\w.]+ [-\w.]+ \[sys\] No response from TMC" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="AutoDV update" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SoftwareSource" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="No response from TMC \(([-\w.]+)\)" description="tmc-host" format="$7" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="17, UserLogonFailure: audit, Login failed" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] user=(\S+) src=([\d.]+) iface=(\d+) access=(\d+) Login failed for user (\S+) *$" pattern="^\d+ [-\w.]+ [-\w.]+ \[audit\] user=\S+ src=[\d.]+ iface=\d+ access=\d+ Login failed for user \S+ *$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="iface:$7, access:$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="18, UserLogonFailure: audit, user staff not found" matcher="^(\d+) ([-\w.]+) ([-\w.]+) \[(\w+)\] user=(\S+) src=([\d.]+) iface=(\d+) access=(\d+) Login failure - user (.+) not found *$" pattern="^\d+ [-\w.]+ [-\w.]+ \[audit\] user=\S+ src=[\d.]+ iface=\d+ access=\d+ Login failure - user .+ not found" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="iface:$7, access:$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="user not found" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ [-\w.]+ \[\w+\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Tippingpoint X-series data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

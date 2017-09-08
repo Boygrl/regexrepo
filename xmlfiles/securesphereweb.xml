@@ -1,0 +1,1460 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="DO_NOT_USE_FOR_CONNECTOR_DISCOVERY" description="SecureSphere Web Application Firewall 6.0" fullDescription="Collects events from Imperva SecureSphere Web Application Firewall 6.0 using firmware version 6.0+." logInterval="1" logLocation="/var/log/local4.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="SecureSphere Web" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="securesphereweb" toolType="Data Loss Prevention" vendor="Imperva" version="$Revision: #25 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="SecureSphere Web Application Firewall 6.0" id="securesphereweb" version="228" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, WebTrafficAudit: Profile; Unauthorized Access to URL" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Profile;.*Desc=Unauthorized Access to URL.*DstPort=(?:80|443)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="URL Access from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="Blocked" format="Blocked URL Access from &quot;$10&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14: SvrGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Web Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="https://([^;]+);.*" description="appname-https" format="https://$19" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="http://([^;]+);.*" description="appname" format="http://$19" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="80:Unauthorized Access to URL (.*)" description="http" format="http://$19" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="443:Unauthorized Access to URL (.*)" description="https" format="https://$19" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, WebTrafficAudit: Custom; Suspicious Response Code" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Custom.*Desc=\s*Suspicious Response Code" version="3" version_type="int">
+			<FastField _type="null" defaultValue="URL Access from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SvrGrp:$15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="http://([^;]+);.*" description="appname" format="http://$19" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="http-.*" description="parse for http out of ServiceName" format="http://$8" matcherInput="$16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="3, HTTPApplicationAccess: Protocol; URL is Above Root Directory" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=(?:Multiple|Distributed)? *URL is Above Root Directory[^;]*;.+;DstPort=(?:80|443)" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="blocked" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$19" matcherInput="$9:$5" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="4, HTTPInvalidFormatAccess: Protocol; Abnormally Long Header Line request header (name|value)" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Abnormally Long Header Line request header (?:name|value).*DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="5, HTTPInvalidFormatAccess: Protocol; Abnormally Long Request method" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Abnormally Long Request method" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14: SvrGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="6, HTTPInvalidFormatAccess: Protocol; Malformed URL" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Malformed URL[^;]*;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SvrGrp:$15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="7, HTTPInvalidFormatAccess: Protocol; Illegal Response Code" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol.*Desc=Illegal Response Code" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SvrGrp:$15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="8, WebTrafficAudit: Protocol; Unknown HTTP Request Method" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Protocol.*Desc=(?:Multiple|Distributed )?Unknown HTTP Request Method[^;]*;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access by &quot;$10&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="9, HTTPInvalidFormatAccess: Protocol; NULL Character in Method" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol.*Desc=NULL Character in Method" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SvrGrp:$15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="10, HTTPInvalidFormatAccess: Protocol; Illegal Byte Code Character in" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Protocol.*?Desc=[\w ]*Illegal Byte Code Character in [^;]+;" version="7" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="11, WebTrafficAudit: Protocol; Illegal HTTP Version" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Protocol;.*Desc=(?:Distributed |Multiple )?Illegal HTTP Version.*;Sev=[^;]+;.+;DstPort=(?:80|443)" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access by &quot;$10&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="12, HTTPDynamicContentAccess: Signature; PHP Remote File Include Vulnerability" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple )?[^;]*Remote File Include Vulnerability[^;]*;.+;DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="13, WebTrafficAudit: Custom; LAC DPW" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Custom;.*Desc=(?:Distributed )?LAC DPW - [^;]+;.+;DstPort=(?:80|443)" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access by &quot;$10&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="14, HTTPApplicationAccess: Correlation; Cross-site scripting on" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Correlation;.*Desc=Cross-site scripting on [^;]+;.+;DstPort=(?:80|443)" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="15, HTTPApplicationAccess: Correlation; [Multiple] Cross-site scripting from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Correlation;.*Desc=.*?Cross-site scripting from [\d.]+.+?DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="16, HTTPApplicationAccess: Signature; {Distributed} E-mail collector robots, {Distributed} BlueCoat proxy manipulation attempt" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Signature;.*Desc=(?:[\w ]*E-mail collector robots \d+\S*;|[\w ]*(?:BlueCoat proxy manipulation|Robots site scan) attempt)" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-ID: $18; Alert#: $19; Event#: $20" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$19" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="17, HTTPApplicationAccess: Signature; Multiple E-mail collector robots from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=Multiple E-mail collector robots \d+\([-+]\) +from [\d.]+;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$19" matcherInput="$9:$5" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="18, HTTPApplicationAccess: Signature; Multiple signatures from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=Multiple signatures from [\d.]+;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServiceAccess" description="19, HTTPServiceAccess: Correlation; Multiple SQL injection from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Correlation;.*Desc=Multiple SQL injection from [\d.]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServiceAccess" description="20, HTTPServiceAccess: Correlation; SQL injection from in" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Correlation;.*Desc=SQL injection from [\d.]+ in [^;]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServiceAccess" description="21, HTTPServiceAccess: Correlation; SQL injection on parameter in" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);.*?RuleName=([^;]+);SvrGrp=([^;]+);ServiceName=([-\w]+);AppName=([^;]+);(.*)" pattern="Web:Type=Correlation;.*Desc=SQL injection on parameter [-_\w\W]* in [^;]+;.+;DstPort=(?:80|443)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $15; Alert#: $20; Event#: $2" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$13; SrvGrp: $14; ServiceName: $15; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="22, HTTPInvalidFormatAccess: Protocol; Illegal Host Name" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Illegal Host Name\s*;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="22 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="23, HTTPInvalidFormatAccess: Protocol; Multiple Illegal Host Name from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Multiple Illegal Host Name from [\d.]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="23 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="24, HTTPInvalidFormatAccess: Protocol; Multiple Redundant UTF-8 Encoding from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Multiple Redundant UTF-8 Encoding from [\d.]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="24 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="25, HTTPInvalidFormatAccess: Protocol; Redundant UTF-8 Encoding in" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Protocol;.*Desc=Redundant UTF-8 Encoding [^;]* in [^;]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="25 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="26, HTTPInvalidFormatAccess: Worm; Multiple URL worm attacks from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Worm;.*Desc=Multiple URL worm attacks from [\d.]+;.+;DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="26 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="27, HTTPInvalidFormatAccess: Worm; Web Worm from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Worm;.*Desc=Web Worm from [\d.]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="27 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="28, HTTPDynamicContentAccess: Signature; PHP Stream" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=PHP Stream - \w+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="28 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="29, HTTPDynamicContentAccess: Worm; Access to" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Worm;.*Desc=Access to: [^;]+;.+;DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="29 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="30, ServiceInfo: Signature; Access of" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([-\w. ]+)" pattern="Web:Type=Signature;.*Desc=Access of [-\w.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="30 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="31, ServiceWarning: Protocol; Illegal Byte Code Character in URL" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=(Illegal Byte Code Character in URL \S+)\s*" pattern="Web:Type=Protocol;.*Desc=Illegal Byte Code Character in URL" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="31 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="32, HTTPDynamicContentAccess: Signature; (Multiple) Web leech " matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple )?Web leech \d+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="32 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$19" matcherInput="$9:$5" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="33, WebTrafficAudit: Signature; JCE Joomla Extension Exploit" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*);?(.*)" pattern="Web:Type=Signature;.*Desc=.*JCE Joomla Extension Exploit" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access by &quot;$10&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="33 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$19" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="34, WebTrafficAudit: Signature; {Morfeus Scanner, Paros scanner}" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*);?(.*)" pattern="Web:Type=Signature.*Desc=\s*(?:Morfeus|Paros) [\w ]*[sS]canner" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="34 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="35, WebTrafficAudit: Profile; Unauthorized SOAP Action on URL" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*);?(.*)" pattern="Web:Type=Profile.*?Desc=Unauthorized SOAP Action &quot;.+&quot; on URL" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked URL Access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="35 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="36, HTTPApplicationAccess: Signature; Multiple Directory Traversal from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Signature;.*?Desc=Multiple Directory Traversal.*?from [-\w.]+;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="36 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RemoteProcedureAccess" description="37, RemoteProcedureAccess: Signature; Multiple Remote File Include attempt" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*?Desc=[\w ]+ Multiple Remote File Include attempt" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="37 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="38, HTTPApplicationAccess: Signature; [Multiple] XSS - Basic" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=.*?XSS - Basic \d+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="38 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServiceAccess" description="39, HTTPServiceAccess: Signature; Multiple SQL Injection UNION SELECT" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple)? *SQL Injection UNION SELECT.+;DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block:((?:Multiple)? *SQL Injection UNION SELECT Attack\S* *from) ([-\w.]+).*" description="block_format-specific" format="Blocked $19 &quot;$20&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="39 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="40, HTTPDynamicContentAccess: Signature; (Multiple) Generic protection for php code injection" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple )?Generic protection for php code injection" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="40 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$19" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Interface" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPApplicationAccess" description="41, HTTPApplicationAccess: Signature; Multiple Cross Site Scripting on" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple)? *Cross Site Scripting on [^;]+;.+;DstPort=(?:80|443)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="41 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServiceAccess" description="42, HTTPServiceAccess: Signature; {Multiple,Distributed} WEB-FRONTPAGEl access from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple|Distributed)? *WEB-FRONTPAGE [\w.]+ access\S*(?: *from [-\w.]+)?;.*DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block:((?:Multiple|Distributed)? *WEB-FRONTPAGE [\w.]+ access\S* *from) ([-\w.]+)" description="block_format-specific" format="Blocked $19 &quot;$20&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="42 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $19; Alert#: $20; Event#: $21" matcherInput="$17" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="43, HTTPDynamicContentAccess: Signature; PHP External Variable Manipulation FILES Parameter" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);(.+)" pattern="Web:Type=Signature;.*Desc=PHP External Variable Manipulation FILES Parameter;.*DstPort=(?:80|443)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="43 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*?RuleName=([^;]+);SvrGrp=([^;]+);ServiceName=([^;]+);.*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$15; SrvGrp: $16; ServiceName: $17; Sev: $6; Rule-id: $18; Alert#: $19; Event#: $20" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="44, HTTPDynamicContentAccess: Signature; Multiple Apache Struts Code Execution from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*)(.*)" pattern="Web:Type=Signature;.*Desc=(?:Multiple)? *[-:\w ]*Apache Struts Code Execution - \d+\S*(?: *from [-\w.]+)?;.*DstPort=(?:80|443)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block:[-:\w ]*(Apache Struts Code Execution - \d+)" description="block_format-specific" format="Blocked $15 from &quot;$10&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block:(Multiple) *[-:\w ]*(Apache Struts Code Execution - \d+\S* *from) ([-\w.]+)?" description="block_format-specific 2" format="Blocked $15 $16 &quot;$17&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="44 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14; SrvGrp: $15; ServiceName: $16; Sev: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null rule ID" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $19; Event#: $20" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?rule-id=([-\d.]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Rule-id: $20; Alert#: $21; Event#: $22" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*?Alert#=([-\d]+);Event#=(\d+).*" description="long" format="$14; SrvGrp: $15; ServiceName: $16; Sev: $6; Alert#: $20; Event#: $21" matcherInput="$18" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="45, HTTPDynamicContentAccess: Signature; Multiple WordPress-TimThumb-Plugin-RCE from" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);(.+)" pattern="Web:Type=Signature;.*Desc=(?:Multiple)? *[-:\w ]*WordPress-TimThumb-Plugin-RCE\S*(?: *from [-\w.]+)?;.*DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block:[-:\w ]*(WordPress-TimThumb-Plugin-RCE)" description="block_format-specific" format="Blocked $15 from &quot;$10&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block:(Multiple) *[-:\w ]*(WordPress-TimThumb-Plugin-RCE\S* *from) ([-\w.]+)?" description="block_format-specific 2" format="Blocked $15 $16 &quot;$17&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="45 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?RuleName=([^;]+);SvrGrp=([^;]+);ServiceName=([^;]+);.*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$15; SrvGrp: $16; ServiceName: $17; Sev: $6; Rule-id: $18; Alert#: $19; Event#: $20" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPFileRequestAccess" description="46, HTTPDynamicContentAccess: Signature; Access of ws_ftp.log" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);(.+)" pattern="Web:Type=Signature;.*Desc=Access of ws_ftp.log;.*DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="46 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?RuleName=([^;]+);SvrGrp=([^;]+);ServiceName=([^;]+);.*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$15; SrvGrp: $16; ServiceName: $17; Sev: $6; Rule-id: $18; Alert#: $19; Event#: $20" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServerAccess" description="47, HTTPServerAccess: Signature; WEB-IIS _vti_inf access" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);(.+)" pattern="Web:Type=Signature;.*Desc=WEB-IIS _vti_inf access;.*DstPort=(?:80|443)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="47 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*?RuleName=([^;]+);SvrGrp=([^;]+);ServiceName=([^;]+);.*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$15; SrvGrp: $16; ServiceName: $17; Sev: $6; Rule-id: $18; Alert#: $19; Event#: $20" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RemoteConsoleAccess" description="48, RemoteConsoleAccess: Signature; Bash Remote Command Execution" matcher="(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);(.+)" pattern="Web:Type=Signature;.*Desc=Multiple CVE-2014-6271: Bash Remote Command Execution[^;]+;.*DstPort=(?:80|443)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked $5" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="48 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*?RuleName=([^;]+);SvrGrp=([^;]+);ServiceName=([^;]+);.*?rule-id=([-\d]+).*?Alert#=([-\d]+);Event#=(\d+).*" description="long1" format="$15; SrvGrp: $16; ServiceName: $17; Sev: $6; Rule-id: $18; Alert#: $19; Event#: $20" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="48, NullAlert: http void messages" matcher=".*" pattern="Web:Type=http.*Message=;Username=;Subsystem=;Sev=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Syslog Data ($Revision: #25 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SecureSphere-NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="49, NullAlert: Signature; (Distributed) Directory Traversal void messages" matcher=".*" pattern="Web:Type=Signature;EventTime=\d+-\d\d-\d\d \d\d:\d\d:\d\d.\d+;Desc=(?:Distributed )?Directory Traversal - \d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Syslog Data ($Revision: #25 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SecureSphere-NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="50, NullAlert: Illegal Byte Code Character" matcher=".*" pattern="Web:Type=Protocol.*Desc=Illegal Byte Code Character in Method" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Syslog Data ($Revision: #25 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SecureSphere-NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: SecureSphere unmatched" matcher="(\d+) (\S+).*" pattern="^(\d+) (\S+) Web:Type=([^;]*);EventTime=([^;]*);.*" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched securesphereweb Data ($Revision: #25 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: Black Hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Nortel WLAN Security Switch" fullDescription="Collects events from the following Nortel WLAN Security Switches: WLAN Access Point 2330, 2330A, 2330B, 2332, 2350, 2360/2361, 2380, 2382.&#xa;&#xa;" logInterval="1" logLocation="/var/log/local6.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Nortel WSS" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="nortelwss" toolType="Routers/Switches" vendor="Nortel" version="$Revision: #7 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Nortel WLAN Security Switch" id="nortelwss" version="14" version_type="int">
+		<FastPattern _type="null" alertName="CoreScan" description="1, CoreScan: netstumbler/wellenreiter" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (\w+ detected from ([a-f\d:]{17}))\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+) SSID *(.*)" pattern="^\d+ [-\w.]+.*? IDS_ALERT: (?:Netstumbler|Wellenreiter) detected from [a-f\d:]{17}\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+ SSID *.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="ssid" format="Seen by AP Port: $6, Radio: $7, Channel: $8, SSID: &quot;$10&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="2, LinkControlTrafficAudit: adhoc client frame" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (Adhoc client frame detected from ([a-f\d:]{17}))\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+) SSID *(.*)" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Adhoc client frame detected from [a-f\d:]{17}\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+ SSID *.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="ssid" format="Seen by AP Port: $6, Radio: $7, Channel: $8, SSID: &quot;$10&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="3, LinkControlTrafficAudit: client seen" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): Client Mac ([a-f\d:]{17}) is seen on the wired network by WSS ([\d.]+) on port (\d+) vlan (\d+) tag (\d+)\. Detected by listener ([a-f\d:]{17})\(port (\d+), radio (\d+)\), channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Client Mac [a-f\d:]{17} is seen on the wired network by WSS [\d.]+ on port \d+ vlan \d+ tag \d+\. Detected by listener [a-f\d:]{17}\(port \d+, radio \d+\), channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Client $4 is seen on wired network by WSS $5 on port $6, VLAN $7, Tag $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Detected by Listener: $9, Port: $10, Radio: $11, Channel: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="4, LinkControlTrafficAudit: decrypt errors" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (Client ([a-z\d:]{17}) is .+?)\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Client [a-z\d:]{17} is sending packets with decrypt errors\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="5, LinkControlTrafficAudit: interfering xtmr" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (ADDED|DELETED) Interfering Xmtr Mac ([a-f\d:]{17})\s*" pattern="^\d+ [-\w.]+.*? ROGUE_AP_ALERT: (?:ADDED|DELETED) Interfering Xmtr Mac [a-f\d:]{17}" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Interfering transmitter mac $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ADDED" description="added" format="Added interfering transmitter mac $5" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="DELETED" description="deleted" format="Deleted interfering transmitter mac $5" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="6, LinkControlTrafficAudit: listnr mac" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): Listnr Mac ([a-f\d:]{17}) MX IPaddr ([\d.]+) (\w+) (\d+) Radio (\d+) Chan (\d+) RSSI (-?\d+) SSID *(.*)" pattern="^\d+ [-\w.]+.*? ROGUE_AP_ALERT: Listnr Mac [a-f\d:]{17} MX IPaddr [\d.]+ (?:Port|Dap) \d+ Radio \d+ Chan \d+ RSSI -?\d+ SSID *.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Listener mac $4, MX IP: $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6: $7, Radio: $8, Channel: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="ssid" format="$6: $7, Radio: $8, Channel: $9, SSID: &quot;$11&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="7, LinkControlTrafficAudit: weak wep" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (Client ([a-z\d:]{17}) is .+?)\. Seen by AP on (\w+) (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Client [a-z\d:]{17} is using weak wep initialization vector\. Seen by AP on (?:port|dap) \d+, radio \d+ on channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $7, Radio: $8, Channel: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="dap" description="dap" format="Seen by AP Dap: $7, Radio: $8, Channel: $9" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="8, LinkControlAccess: broadcast deauth" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (AP ([a-f\d:]{17}) is .+?)\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: AP [a-f\d:]{17} is sending broadcast deauthentications\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="9, LinkControlAccess: fake ap" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (FakeAP B?SSID attack detected( from [a-f\d:]{17})?)\. Seen by AP on (\w+) (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+) SSID *(.*)" pattern="^\d+ [-\w.]+.*? IDS_ALERT: FakeAP B?SSID attack detected(?: from [a-f\d:]{17})?\. Seen by AP on (?:port|dap) \d+, radio \d+ on channel \d+ with RSSI -?\d+ SSID *.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $7, Radio: $8, Channel: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="dap, .+" description="dap-ssid" format="Seen by AP Dap: $7, Radio: $8, Channel: $9, SSID: &quot;$11&quot;" matcherInput="$6, $11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="port, .+" description="port-ssid" format="Seen by AP Port: $7, Radio: $8, Channel: $9, SSID: &quot;$11&quot;" matcherInput="$6, $11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="dap" description="dap" format="Seen by AP Dap: $7, Radio: $8, Channel: $9" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\sfrom ([a-f\d:]{17})" description="from" format="$13" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="10, LinkControlAccess: ap spoofed" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): AP Mac ([a-f\d:]{17})\(ssid (.*?)\) is being spoofed\. (Received fingerprint \d+ does not match our fingerprint \d+)\. Detected by listener ([a-f\d:]{17})\((\w+) (\d+), radio (\d+)\), channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: AP Mac ([a-f\d:]{17})\(ssid .*?\) is being spoofed\. Received fingerprint \d+ does not match our fingerprint \d+\. Detected by listener [a-f\d:]{17}\((?:port|dap) \d+, radio \d+\), channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="AP $4 is being spoofed" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="ssid" format="AP $4 (SSID &quot;$5&quot;) is being spoofed" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Detected by Listener: $7, Port: $9, Radio: $10, Channel: $11, Info: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="dap" description="dap" format="Detected by Listener: $7, Dap: $9, Radio: $10, Channel: $11, Info: &quot;$6&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="11, LinkControlAccess: frame spoof" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (\w+ frame from AP ([a-f\d:]{17}) is being spoofed)\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: (?:Deauthentication|Disassociation) frame from AP [a-f\d:]{17} is being spoofed\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="12, LinkControlAccess: masquerading" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): AP Mac ([a-f\d:]{17})\(ssid (.+?)\) is masquerading our ssid used by ([a-f\d:]{17})\. Detected by listener ([a-f\d:]{17})\(port (\d+), radio (\d+)\), channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: AP Mac [a-f\d:]{17}\(ssid .+?\) is masquerading our ssid used by [a-f\d:]{17}\. Detected by listener [a-f\d:]{17}\(port \d+, radio \d+\), channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="AP $4 is masquerading the SSID &quot;$5&quot; used by $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Detected by Listener: $7, Port: $8, Radio: $9, Channel: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="13, LinkControlAccess: not in list" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): AP Mac ([a-f\d:]{17})\(ssid (.+?)\) is not part of (\w+-list)\. Detected by listener ([a-f\d:]{17})\(port (\d+), radio (\d+)\), channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: AP Mac [a-f\d:]{17}\(ssid .+?\) is not part of (?:ssid|vendor)-list\. Detected by listener [a-f\d:]{17}\(port \d+, radio \d+\), channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="AP $4 (SSID &quot;$5&quot;) is not part of $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Detected by Listener: $7, Port: $8, Radio: $9, Channel: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="14, LinkControlAccess: null responses" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (AP ([a-f\d:]{17}) is .+?)\. Seen by AP on (\w+) (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: AP [a-f\d:]{17} is sending null probe responses\. Seen by AP on (?:port|dap) \d+, radio \d+ on channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $7, Radio: $8, Channel: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="dap" description="dap" format="Seen by AP Dap: $7, Radio: $8, Channel: $9" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlAccess" description="15, LinkControlAccess: wireless bridge" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (Wireless bridge detected with address ([a-f\d:]{17}))\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+) SSID *(.*)" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Wireless bridge detected with address [a-f\d:]{17}\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+ SSID *.*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="ssid" format="Seen by AP Port: $6, Radio: $7, Channel: $8, SSID: &quot;$10&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlDenial" description="16, LinkControlDenial: message flood" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (Client ([a-z\d:]{17}) is .+?)\. Seen by AP on port (\d+), radio (\d+) on channel (\d+) with RSSI (-?\d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Client [a-z\d:]{17} is sending .+? message flood\. Seen by AP on port \d+, radio \d+ on channel \d+ with RSSI -?\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Seen by AP Port: $6, Radio: $7, Channel: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlDenial" description="17, LinkControlDenial: request flood" matcher="^(\d+) ([-\w.]+).*? ([A-Z_]+): (Client ([a-f\d:]{17}) is sending [-\w]+ request flood on port \d+).*" pattern="^\d+ [-\w.]+.*? IDS_ALERT: Client [a-f\d:]{17} is sending (?:re-|dis)?associate request flood on port \d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMACAddress" type="8" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="18, UserLogoff: SSH session closed user logout" matcher="(\d+) ([-\w.]+) (\w+) *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?\].*? ([A-Z ]+) SSH:User (\S+)? session closed\. User logout" pattern="\d+ [-\w.]+ \w+ *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?\].*? SSH INFO SSH:User \S+? session closed\. User logout" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Type: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="19, ServiceInfo: CLILOG INFO" matcher="(\d+) ([-\w.]+) (\w+) *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?.*\].*? (([\d xa-fA-F]+) ([\w]+)) (([\w]+) [\w]+)  +(.*)" pattern="(\d+) [-\w.]+ \w+ *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?.*\] [\S ]+? GlobalRouter CLILOG INFO .*SSH.*" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$8 SSH: $6, $9" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Type: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8: $4, $9" fieldName="InfoMessage" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="20, UserLogoff: SSH, user logout" matcher="(\d+) ([-\w.]+) (\w+) *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?.*\].*? ([A-Z ]+) SSH: User (\S+)\.?.* logout.*" pattern="(\d+) [-\w.]+ \w+ *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?.*\].*? SSH INFO SSH: User .* logout" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Type: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="21, UserLogon: SSH, user login" matcher="(\d+) ([-\w.]+) (\w+) *\[(?:[-/\d]{8,10}|\d{2}/\d{2}/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?.*\].*? (([\d xa-fA-F]+) ([\w]+)) ([A-Z ]+) SSH: User (\S+) login (\S+)\.? from ([\d.]+).*" pattern="(\d+) [-\w.]+ \w+ *\[(?:[-/\d]{8,10}|\d{2}/\d{2}/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?.*\].*?.* SSH INFO SSH: User \S+ login \S+? from [\d.]+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$9&quot; from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Type: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="22, UserLogoff: SSH session closed user logout - authentication failed" matcher="(\d+) ([-\w.]+) (\w+) *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?\].*? ([A-Z ]+) SSH: User (\S+)? session closed\. ([\w ]+)" pattern="\d+ [-\w.]+ \w+ *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?\].*? SSH INFO SSH: User \S+? session closed\. Authentication failed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$5&quot;: $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Type: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="23, UserLogoff: SSH session closed login aborted" matcher="(\d+) ([-\w.]+) (\w+) *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?\].*? ([A-Z ]+) SSH: User (\S+)? session closed\. Login aborted" pattern="\d+ [-\w.]+ \w+ *\[(?:[-/\d]{8,10}|\d{2}\/\d{2}\/\d{2})? \d{2}:\d{2}:\d{2}(?:\.\d{3})?\].*? SSH INFO SSH: User \S+? session closed\. Login aborted" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Login aborted &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Type: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+.*? [A-Z_]+: *\S" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched WLAN Security Switch data ($Revision: #7 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

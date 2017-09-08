@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="Squid Access Log" fullDescription="" logInterval="1" logLocation="/var/log/squid/access.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="spop" readerName="Squid Access Log" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="SquidAccessLog" toolType="Proxy Servers and Content Filters" vendor="" version="$Revision: #8 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Squid Access Log" id="SquidAccessLog" version="32" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert TCP_[A-Z]+/407" matcher=".*\b(\d+)\.(\d+)\s+(\d+)\s+([-\w.]+)\s+(TCP_\w+)/(\d+)\s+(\d+)\s+(\w+)\s+(.*?)\s+(\S+)\s+(\w+)/([-\w.]+)\s+(?:(\S*/?\S+)|-)\s*.*" pattern="\d+\.\d+\s+\d+\s+[-\w.]+\s+TCP_\w+/407\s+\d+\s+\w+\s+\w+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="FileTransferTrafficAudit: ftp traffic" matcher=".*\b(\d+)\.(\d+)\s+(\d+)\s+([-\w.]+)\s+(TCP_\w+)/(\d+)\s+(\d+)\s+(\w+)\s+(.*?)\s+(\S+)\s+(\w+)/([-\w.]+)\s+(?:(\S*/?\S+)|-)\s*.*" pattern="\d+\.\d+\s+\d+\s+[-\w.]+\s+TCP_\w+/\d+\s+\d+\s+\w+\s+(?:ftp|gopher):" version="7" version_type="int">
+			<FastField _type="null" defaultValue="FTP Access By &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="TCP_DENIED,gopher.*" description="gopher-denied" format="Denied FTP (gopher) Access By &quot;$4&quot;" matcherInput="$5,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="gopher.*" description="gopher" format="FTP (gopher) Access By &quot;$4&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Denied FTP Access By &quot;$4&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SquidAL 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="URL: &quot;$9&quot;, Size: $3, Request: $8, Response: $6, Connection: $11, Content-Type: $13, User: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-,(?:\*/\*|-)" description="no-contenttype-user" format="URL: &quot;$9&quot;, Size: $3, Request: $8, Response: $6, Connection: $11" matcherInput="$10,$13" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:\*/\*|-)" description="no-contenttype" format="URL: &quot;$9&quot;, Size: $3, Request: $8, Response: $6, Connection: $11, User: $10" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-" description="no-user" format="URL: &quot;$9&quot;, Size: $3, Request: $8, Response: $6, Connection: $11, Content-Type: $13" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?:-|N/A)" description="no-ip" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\w+://[-\w.]+:(\d+).*" description="port" format="$15" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Web Traffic Content Filter" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: web traffic" matcher=".*\b(\d+)\.(\d+)\s+(\d+)\s+([-\w.]+)\s+(TCP_\w+)/(\d+)\s+(\d+)\s+(\w+)\s+(.*?)\s+(\S+)\s+(\w+)/([-\w.]+)\s+(?:(\S*/?\S+)|-)\s*.*" pattern="\d+\.\d+\s+\d+\s+[-\w.]+\s+TCP_\w+/\d+\s+\d+\s+\w+\s+\w+" version="13" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="URL Access Error By &quot;$4&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Denied URL Access By &quot;$4&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="Secure URL Access By &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SquidAL 2" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="SquidAL 1" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="SquidAL 4" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Request: $8, Response: $6, Content-Type: $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(?:\*/\*|-)" description="no-contenttype" format="Request: $8, Response: $6" matcherInput="$13" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?:-|N/A),([-\w.]+):\d+" description="no-ip-got-target" format="$15" matcherInput="$12,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:-|N/A)" description="no-ip" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="port" format="$15" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Web Traffic Content Filter" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="URL" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="CONNECT,([-\w.]+):443" description="connect-port-443" format="https://$15/" matcherInput="$8,$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="no user" format="" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: URL Access error" matcher=".*\b(\d+)\.(\d+)\s+(\d+)\s+([-\w. ]+)\s+(TCP_\w+)/(\d+)\s+(\d+)\s+(\w+)\s+(.*?)\s+(\S+)\s+(\w+)/([-\w.]+)(?:(\S*/?\S+)|-).*" pattern="\d+\.\d+\s+\d+\s+[-\w. ]+\s+TCP_\w+/\d+\s+\d+\s+\w+\s+\w+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="URL Access Error By &quot;$4&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Denied URL Access By &quot;$4&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="Secure URL Access By &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SquidAL 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="SquidAL 1" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="SquidAL 4" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Request: $8, Response: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:\*/\*|-)" description="no-contenttype" format="Request: $8, Response: $6" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:-|N/A),([-\w.]+):\d+" description="no-ip-got-target" format="$15" matcherInput="$12,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:-|N/A)" description="no-ip" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+:(\d+)" description="port" format="$15" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Web Traffic Content Filter" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="CONNECT,([-\w.]+):443" description="connect-port-443" format="https://$15/" matcherInput="$8,$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="no user" format="" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: URL Access" matcher=".*\b(\d+)\.(\d+)\s+(\d+)\s+([-\w. ]+)\s+(TCP_\w+)/(\d+)\s+(\d+)\s+(\w+)\s+(.*)" pattern="\d+\.\d+\s+\d+\s+[-\w. ]+\s+TCP_\w+/\d+\s+\d+\s+\w+\s+\w+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="URL Access Error By &quot;$4&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="Denied URL Access By &quot;$4&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="Secure URL Access By &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SquidAL 3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="SquidAL 1" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="SquidAL 4" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Request: $8, Response: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:\*/\*|-)" description="no-contenttype" format="Request: $8, Response: $6" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="CONNECT,([-\w.]+):443" description="connect-port-443" format="https://$15/" matcherInput="$8,$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WebTrafficAudit: None" matcher=".*\b(\d+)\.(\d+)\s+(\d+)\s+([-\w.]+)\s+(\w+)/(\d+)\s+(\d+)\s+(\w+)\s+(.*?)\s+(\S+)\s+(\w+)/([-\w.]+)\s+(?:(\S*/?\S+)|-)\s*.*" pattern="\d+\.\d+\s+\d+\s+[-\w.]+\s+NONE/\d+ \d+ HEAD" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SquidAL 2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="TCP_DENIED" description="denied" format="SquidAL 1" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CONNECT" description="connect" format="SquidAL 4" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Request: $8, Response: $6, Content-Type: $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:\*/\*|-)" description="no-contenttype" format="Request: $8, Response: $6" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched squid data" matcher=".*\b(\d+)\.(\d+)\s+\d+\s+[-\w. ]+\s+TCP_\w+/\d+\s+\d+\s+\w+.*" pattern="\d+\.\d+\s+\d+\s+[-\w. ]+\s+TCP_\w+/\d+\s+\d+\s+\w+" version="17" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched Squid Access Log Data ($Revision: #8 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched squid data {None}" matcher=".*\b(\d+)\.(\d+)\s+\d+\s+[-\w. ]+\s+\w+/\d+\s+\d+\s+\w+.*" pattern="\d+\.\d+\s+\d+\s+[-\w. ]+\s+NONE/\d+\s+\d+\s+\w+" version="17" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched Squid Access Log Data ($Revision: #8 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

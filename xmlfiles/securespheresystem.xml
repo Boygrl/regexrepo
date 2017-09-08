@@ -1,0 +1,1148 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="DO_NOT_USE_FOR_CONNECTOR_DISCOVERY" description="SecureSphere System and Firewall Events 6.0" fullDescription="Collects events from Imperva  Firewalls using firmware version 6.0+." logInterval="1" logLocation="/var/log/local4.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="SecureSphere System" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="securespheresystem" toolType="Data Loss Prevention" vendor="Imperva" version="$Revision: #4 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="SecureSphere System and Firewall Events 6.0" id="securespheresystem" version="160" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="Firewall, NullAlert, Unauthorized Access to Service (Drop All Unblocked TrafficAudits)" matcher=".*" pattern="Firewall:Type=Firewall;.*Desc=(?:Unauthorized|Multiple violations).*Action=None" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="1, Firewall, TCPTrafficAudit, Unauthorized Access to Service" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Desc=(?:Unauthorized|Multiple violations).*Proto=TCP" version="3" version_type="int">
+			<FastField _type="null" defaultValue="TCP traffic from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="Blocked" format="Blocked TCP traffic from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) on port N/A" description="if port is N/A use DstPort" format="$17 on port $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="2, Firewall, IPTrafficAudit, Unauthorized Access to Service" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Desc=(?:Unauthorized|Multiple violations).*Proto=IP" version="4" version_type="int">
+			<FastField _type="null" defaultValue="IP traffic from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="Block" format="Blocked IP traffic from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) on port N/A" description="if port is N/A use DstPort" format="$17 on port $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="3, Firewall, UDPTrafficAudit, Unauthorized Access to Service" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Desc=(?:Unauthorized|Multiple violations).*Proto=UDP" version="3" version_type="int">
+			<FastField _type="null" defaultValue="UDP traffic from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="Blocked" format="Blocked UDP traffic from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) on port N/A" description="if port is N/A use DstPort" format="$17 on port $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="4, Firewall, ICMPTrafficAudit, Unauthorized Access to Service" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Desc=(?:Unauthorized|Multiple violations).*Proto=ICMP" version="3" version_type="int">
+			<FastField _type="null" defaultValue="ICMP traffic from &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="Blocked" format="Blocked ICMP traffic from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) on port N/A" description="if port is N/A use DstPort" format="$17 on port $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0:.* on port (\d+)" description="parse for port" format="$17" matcherInput="$9:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LandAttackDenial" description="5, Firewall, LandAttackDenial, LAND Attack " matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Desc=(?:Multiple IP - )?LAND Attack from.*Proto=ICMP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?LAND Attack from (\S*):Block" description="LAND Attack; Blocked" format="Blocked LAND Attack from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?LAND Attack from (\S*)" description="LAND Attack" format="LAND Attack from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualIPTraffic" description="6, Firewall, UnusualIPTraffic, IP messages (keep towards bottom of other TrafficAudits)" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Proto=IP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad IP Option Length from (\S*):Block" description="Bad IP Option Length; Blocked" format="Blocked Bad IP Option Length from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad IP Option Length from (\S*)" description="Bad IP Option Length" format="Bad IP Option Length from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad IP Option Padding from (\S*):Block" description="Bad IP Option Padding; Blocked" format="Blocked Bad IP Option Padding from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad IP Option Padding from (\S*)" description="Bad IP Option Padding" format="Bad IP Option Padding from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad Source IP Address from (\S*):Block" description="Bad Source IP Address; Blocked" format="Blocked Bad Source IP Address from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad Source IP Address from (\S*)" description="Bad Source IP Address" format="Bad Source IP Address from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad Fragment from (\S*):Block" description="Bad Fragment; Blocked" format="Blocked Bad Fragment from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad Fragment from (\S*)" description="Bad Fragment" format="Bad Fragment from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad Total Length from (\S*):Block" description="Bad Total Length; Blocked" format="Blocked Bad Total Length from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad Total Length from (\S*)" description="Bad Total Length" format="Bad Total Length from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Micro-Fragment from (\S*):Block" description="Micro-Fragment; Blocked " format="Blocked Micro-Fragment from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Micro-Fragment from (\S*)" description="Micro-Fragment" format="Micro-Fragment from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Too Small TTL from (\S*):Block" description="Too Small TTL (remove Multiple IP, IP in Desc); Blocked" format="Blocked Too Small TTL from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Too Small TTL from (\S*)" description="Too Small TTL (remove Multiple IP, IP in Desc)" format="Too Small TTL from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="IP - Too Small TTL \S*:Block" description="Too Small TTL (no IP in Desc); Blocked " format="Blocked Too Small TTL from &quot;$10&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="IP - Too Small TTL \S*" description="Too Small TTL (no IP in Desc)" format="Too Small TTL from &quot;$10&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Invalid IP Flags from (\S*):Block" description="Invalid IP Flags; Blocked" format="Blocked Invalid IP Flags from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Invalid IP Flags from (\S*)" description="Invalid IP Flags" format="Invalid IP Flags from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Unknown IP Option from (\S*):Block" description="Unknown IP Option; Blocked " format="Blocked Unknown IP Option from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Unknown IP Option from (\S*)" description="Unknown IP Option" format="Unknown IP Option from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualTCPTraffic" description="7, Firewall, UnusualTCPTraffic, TCP messages (keep towards bottom of other TrafficAudits)" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Proto=TCP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad TCP Option Length from (\S*):Block" description="Bad TCP Option Length; Blocked" format="Blocked Bad TCP Option Length from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad TCP Option Length from (\S*)" description="Bad TCP Option Length" format="Bad TCP Option Length from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad TCP Option Padding from (\S*):$7" description="Bad TCP Option Padding; Blocked" format="Blocked Bad TCP Option Padding from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad TCP Option Padding from (\S*)" description="Bad TCP Option Padding" format="Bad TCP Option Padding from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Illegal TCP Option from (\S*):Block" description="Illegal TCP Option; Blocked" format="Blocked Illegal TCP Option from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Illegal TCP Option from (\S*)" description="Illegal TCP Option" format="Illegal TCP Option from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Modified TCP Retransmission Data from (\S*):Block" description="Modified TCP Retransmission Data; Blocked " format="Blocked Modified TCP Retransmission Data from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Modified TCP Retransmission Data from (\S*)" description="Modified TCP Retransmission Data" format="Modified TCP Retransmission Data from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SSL Untraceable Connection (.*):Block" description="SSL Untraceable Connection Unsupported Cipher; Blocked " format="Blocked SSL Untraceable Connection - &quot;$17&quot; from &quot;$10&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SSL Untraceable Connection (.*)" description="SSL Untraceable Connection Unsupported Cipher" format="SSL Untraceable Connection - &quot;$17&quot; from &quot;$10&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad State from (\S*):Block" description="Bad State; Blocked" format="Blocked Bad State from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Bad State from (\S*)" description="Bad State" format="Bad State from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?LAND Attack from (\S*):Block" description="LAND Attack; Blocked " format="Blocked LAND Attack from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?LAND Attack from (\S*)" description="LAND Attack" format="LAND Attack from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Micro-Fragment from (\S*):Block" description="Micro-Fragment; Blocked" format="Blocked Micro-Fragment from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Micro-Fragment from (\S*)" description="Micro-Fragment" format="Micro-Fragment from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Non Zero Reserved Flags from (\S*):Block" description="Non Zero Reserved Flags; Blocked" format="Blocked Non Zero Reserved Flags from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Non Zero Reserved Flags from (\S*)" description="Non Zero Reserved Flags" format="Non Zero Reserved Flags from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with Data from (\S*):Block" description="SYN with Data; Blocked" format="Blocked SYN with Data from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with Data from (\S*)" description="SYN with Data" format="SYN with Data from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with FIN from (\S*):Block" description="SYN with FIN; Blocked " format="Blocked SYN with FIN from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with FIN from (\S*)" description="SYN with FIN" format="SYN with FIN from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with Non Zero ACK Sequence from (\S*):Block" description="SYN with Non Zero ACK Sequence; Blocked" format="Blocked SYN with Non Zero ACK Sequence from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with Non Zero ACK Sequence from (\S*)" description="SYN with Non Zero ACK Sequence" format="SYN with Non Zero ACK Sequence from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with RST from (\S*):Block" description="SYN with RST; Blocked" format="Blocked SYN with RST from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with RST from (\S*)" description="SYN with RST" format="SYN with RST from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with FIN from (\S*):Block" description="SYN with FIN; Blocked" format="Blocked SYN with FIN from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?SYN with FIN from (\S*)" description="SYN with FIN" format="SYN with FIN from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?TCP Unexpected SYN from (\S*):Block" description="TCP Unexpected SYN; Blocked" format="Blocked TCP Unexpected SYN from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?TCP Unexpected SYN from (\S*)" description="TCP Unexpected SYN" format="TCP Unexpected SYN from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Unknown TCP Option from (\S*):Block" description="Unknown TCP Option; Blocked" format="Blocked Unknown TCP Option from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Unknown TCP Option from (\S*)" description="Unknown TCP Option" format="Unknown TCP Option from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualICMPTraffic" description="8, Firewall, UnusualICMPTraffic, ICMP messages (keep towards bottom of other TrafficAudits)" matcher="^(\d+) (\S+) Firewall:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^\s]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*)" pattern="Firewall:Type=Firewall;.*Proto=ICMP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?LAND Attack from (\S*):Block" description="LAND Attack; Blocked" format="Blocked LAND Attack from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?LAND Attack from (\S*)" description="LAND Attack" format="LAND Attack from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Too Small TTL from (\S*):Block" description="Too Small TTL (remove Multiple IP, IP in Desc); Blocked" format="Blocked Too Small TTL from &quot;$17&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:Multiple IP - )?Too Small TTL from (\S*)" description="Too Small TTL (remove Multiple IP, IP in Desc)" format="Too Small TTL from &quot;$17&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="IP - Too Small TTL \S*:Block" description="Too Small TTL (no IP in Desc); Blocked" format="Blocked Too Small TTL from &quot;$10&quot;" matcherInput="$5:$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="IP - Too Small TTL \S*" description="Too Small TTL (no IP in Desc)" format="Too Small TTL from &quot;$10&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="9, System, UserLogoff, User logged out" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=UserLogo(?:ut|ff)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff " fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User (.*) logged out.(?: \([^\)]+\))?" description="parse for user; remove logoff reason" format="Logoff &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User .* logged out. \(([^\)]+)\)" description="reason for logoff if included in Desc" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User (.*) logged out.(?: \([^\)]+\))?" description="parse for user" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="10, System, UserLogon, User logged in from" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=UserLogin" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User (\S+) logged in from (\S+)." description="parse for user and ip" format="Logon &quot;$12&quot; from &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="User (.*) logged .*" description="parse for user" format="Logon &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User (.*) logged .*" description="parse for user" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User \S+ logged in from (\S+)." description="parse for user and ip" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="11, System, UserLogonFailure, User logged in from" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=LoginFailed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Login failed for user (.*)\(IP: ([^)]+).*" description="parse for user and ip" format="Logon Failure &quot;$12&quot; from &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Login failed for user (.*)\(.*" description="parse for user and ip" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^:]+:\s+([^)]+)\).*" description="parse for ip" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Reason: (.*)" description="parse for failure reason" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAudit" description="12, System, PolicyAudit, Policy created" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=\s*Policy\s+&quot;[^&quot;]+&quot;\s+created\s*;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+(.*)\s+:\S+" description="insert username" format="$12 by &quot;$8&quot;" matcherInput="$7:$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+(.*)\s+" description="remove spaces if present" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="13, System, PolicyModify, Policy changed" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=(?:PolicyChanged|Regular).*Message=\s*Policy\s+&quot;[^&quot;]+&quot;\s+changed\s*;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+(.*)\s+" description="remove spaces if present" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+(.*)\s+" description="remove spaces if present" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="14, System, PolicyModify, Parameter changed" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=ConfigSystemParameter.*Message=Parameter.*value changed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Parameter (.*) value changed" description="add quotes" format="Parameter &quot;$12&quot; value changed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="15, System, PolicyModify, password setting has been changed" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=\s*Password setting (.*) has been changed to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Password setting &quot;(.*)&quot; has been changed to &quot;(\S+)&quot;.*" description="add quotes" format="Password setting &quot;$12&quot; changed to &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*(.*)\s" description="remove spaces" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="16, System, PolicyAccess, Regular, HTTP method is (not)? allowed in URL" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=HTTP method \S+ is(?: not)? allowed in URL\s+\S+.+Web Application:\s+[-\w\s.]+ - [-\w\s.]+ - ([-\w\s.]+)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(HTTP method \S+ is(?: not)? allowed in URL)\s+(\S+).+Web Application:\s+[-\w\s.]+ - [-\w\s.]+ - [-\w\s.]+\s{3}\." description="method allowed in URL" format="$12 for &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Web Application:\s+([-\w]+) - ([-\w]+) - ([^.]+)   \." description="parse for app" format="Web Application: $12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="17, System, PolicyAccess, Regular, URL was added to the profile in protect | learn mode" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=URL\s+.+ was added to the profile in \S+ mode\. Web Application:\s+[-\w\s._]+ - [-\w\s._]+ - ([-\w\s._]+)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="URL\s+(.+) was added to the profile in (protect|learn) mode\..*" description="URL was added to the profile in protect | learn mode" format="URL &quot;$12&quot; was added to the profile in &quot;$13&quot; mode" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+\. (.+)\." description="details" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="18, System, PolicyAccess, Regular, URL was (updated | deleted from the profile)" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=URL\s+.+ was (?:updated|deleted from the profile)\. Web Application:\s+[-\w\s._]+ - [-\w\s._]+ - ([-\w\s._]+)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="URL\s+(.+) (\([^)]+\)) was updated\..*" description="URL was updated" format="URL &quot;$12&quot; $13 was updated" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="URL\s+(.+) (\([^)]+\)) was deleted from the profile\..*" description="URL was deleted from the profile" format="URL &quot;$12&quot; $13 was updated" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+deleted from the profile. (Web Application:\s+[-\w\s._]+ - [-\w\s._]+ - [-\w\s._]+)  \." description="web app info - URL was deleted from profile" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+\. (.+)\." description="details - URL was updated" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="19, System, PolicyAccess, Regular, Folder was updated" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=Folder\s+.+ was updated\. Web Application:\s+[-\w\s._]+ - [-\w\s._]+ - ([-\w\s._]+)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Folder\s+(.+) was updated\..+\.\. The folder was (locked|unlocked)\." description="format output" format="The folder &quot;$12&quot; was $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Web Application: ([-\w]+) - ([-\w]+) - ([^.]+)  \.\..*" description="parse for app" format="Web Application: $12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="20, System, PolicyAccess, Regular, Query Group was updated" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=Query Group .+ in [^:]+: [-\w\s._]+ - [-\w\s._]+ - ([-\w\s._]+)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Query Group\s+\((.+)\) in [^:]+:\s+[-\w\s.]+ - [-\w\s.]+ - ([-\w\s.]+)  was updated\..*" description="Query Group was updated with parens" format="Query Group &quot;$12&quot; in &quot;$13&quot; was updated" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Query Group (.+) in [^:]+:\s+[-\w\s.]+ - [-\w\s.]+ - ([-\w\s.]+)  was updated\..*" description="Query Group was updated w/o parens" format="Query Group &quot;$12&quot; in &quot;$13&quot; was updated" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+\. (.+)\." description="details - Query Group was updated" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyScopeChange" description="21, System, PolicyScopeChange, Policy applied to" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=\s*Policy\s+&quot;[^&quot;]+&quot;\s+applied to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+Policy &quot;([^&quot;]+)&quot; applied to ([^\s]+)\s- ([^\s]+)\s- ([^$]+)\s{3}.*" description="'...' delimited format 1" format="Policy &quot;$12&quot; applied to &quot;$13/$14/$15&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Policy &quot;([^&quot;]+)&quot; applied to ([^\s]+)\s- ([^\s]+)\s- ([^\s]+).*" description="'-' delimited format 2" format="Policy &quot;$12&quot; applied to &quot;$13/$14/$15&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Policy &quot;([^&quot;]+)&quot; applied to (.*)\s{2}" description="catchall - not delimited by  '-'" format="Policy &quot;$12&quot; applied to &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ModificationType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+Policy &quot;[^&quot;]+&quot; applied to ([^\s]+)\s- ([^\s]+)\s- ([^$]+)\s{3}.*" description="'...' delimited format 1" format="$12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+ Policy &quot;[^&quot;]+&quot; applied to ([^-]+) - ([^\s]+)\.\.\.\s- ([^\s]+).*" description="'- delimited format 2" format="$12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Policy &quot;[^&quot;]+&quot; applied to (.*)\s{2}" description="catchall - not delimited by  '-'" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="PolicyName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+ Policy &quot;([^&quot;]+)&quot;.*" description="clean format" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyScopeChange" description="22, System, PolicyScopeChange, Regular, Gateway group assigned to server group" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=(?:IP changed:)?\s*Gateway group \S+ assigned to server group .+ for IP address \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:IP changed:)?\s*Gateway group (\S+) assigned to server group (.+) for IP address (\S+)\s{1,2}" description="add quotes" format="Gateway group &quot;$12&quot; assigned to server group &quot;$13&quot; for IP &quot;$14&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="22 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Gateway Group Assignment" fieldName="ModificationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="23, System, UserLogoff, Session of User killed by user" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=UserKicked.*Message=Session\(s\) of User \S+ killed by user \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Session\(s\) of User (\S+) killed by user (\S+)\." description="add qutoes" format="User Logoff &quot;$12&quot; by user &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="23 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session killed" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Session\(s\) of User (\S+) killed by user \S+\." description="dst account" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="24, System, UserModifyAttribute, Password reset/changed" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Password(?:Reset|Changed).*Message=Password (?:reset for|changed)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Password reset for (.*)" description="password reset" format="Password reset for &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Password changed" description="password changed" format="Password changed for &quot;$8&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="24 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Password reset for (.*)" description="password reset" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Password changed" description="password changed" format="$8" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="password reset" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Password reset for (.*)" description="password reset" format="Password reset for $12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Password changed" description="password changed" format="Password changed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="25, System, UserModifyPrivileges, User granted permission to" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=PermissionsChanged.*Message=\s+User .* granted permission to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) granted permission to (.*)" description="granted permission to" format="User &quot;$12&quot; granted permission on $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="25 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) granted permission to .*" description="granted permission on" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User .* granted (\S+) on item Web Application .*" description="reformat" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+User .* granted permission to (.*)" description="granted permission to" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="26, System, UserModifyPrivileges, User granted EDIT|VIEW|permission on" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=PermissionsChanged.*Message=\s+User .* granted \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) granted (\S+) on item (.*)\s{2}" description="granted EDIT/VIEW on item" format="User &quot;$12&quot; granted &quot;$13&quot; privileges on &quot;$14&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+User (.*) granted permission on (.*)\s" description="granted permission on" format="User &quot;$12&quot; granted permission on $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="26 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) granted \S+ on item .*" description="granted EDIT/VIEW on item" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+User (.*) granted permission on .*" description="granted permission on" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User .* granted (\S+) on item.*" description="reformat" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AccessTarget" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User .* granted \S+ on item Web Application ([^(?: -)]+) - [^(?: -)]+ - ([^;]+)\s\s\s.*" description="granted EDIT/VIEW on item" format="$12/$13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+User .* granted \S+ on item (.*)\s{2}" description="granted EDIT/VIEW on item" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+User (.*) granted permission on (.*)\s" description="granted permission on" format="$13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="27, System, UserModifyPrivileges, User revoked privileges on item" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=PermissionsChanged.*Message=\s+User .* revoked privileges on item" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) revoked privileges on item .*" description="reformat" format="Privileges revoked for user &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="27 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (\S+) .*" description="reformat" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="revoke" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AccessTarget" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User .* revoked privileges on item ([^-)]+) - ([^;)]+)\s\s\.*" description="'-' delimited format 1" format="$12/$13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+User .* revoked privileges on item (.*)\s{2}" description="catchall - not delimited by  '-'" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChangeGroupAttribute" description="28, System, ChangeGroupAttribute, Group revoked privileges" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=PermissionsChanged.*Message=\s+Group .* (?:revoked privileges (?:on|to)|granted permission (?:on|to))" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+Group (.*) revoked privileges to (.*)" description="revoked privileges to" format="Privileges revoked for group &quot;$12&quot; to $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) revoked privileges on (.*)" description="revoked privileges on" format="Privileges revoked for group &quot;$12&quot; on &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) granted permission to (.*)" description="granted permission to" format="Group &quot;$12&quot; granted permission to &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) granted permission on (.*)\s" description="granted permission on" format="Group &quot;$12&quot; granted permission on &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="28 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+Group (.*) granted permission .*" description="granted permission" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) granted permission .*" description="" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) revoked privileges .*" description="revoked privileges" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+Group (.*) revoked privileges to (.*)" description="revoked privileges to" format="privileges revoked for group $12 to $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) revoked privileges on (.*)\s" description="revoked privileges on" format="privileges revoked for group $12 on $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) granted permission to (.*)" description="granted permission to" format="granted permission to &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s+Group (.*) granted permission on (.*)\s" description="granted permission on" format="granted permission on &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewDomainMember" description="29, System, NewDomainMember, User created" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=User .* created" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User (.*) created" description="add qutoes" format="Created User &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="29 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DomainMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="User (.*) created" description="add qutoes" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroupMember" description="30, System, NewGroupMember, User was added to group" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=\s+User .* was added to group .*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) was added to group (.*)\s" description="add qutoes" format="User &quot;$12&quot; was added to group &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="30 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User .* was added to group (.*)\s" description="add qutoes" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s+User (.*) was added to group .*\s" description="add qutoes" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="31, System, PolicyAccess, Regular, Group created" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=.+ Group .+ was created" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+) Group (.+) was created\." description="add quotes" format="$12 group &quot;$13&quot; was created" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="31 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceAudit" description="32, System, ServiceAudit, service was created" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=[-\w\s]+ - [-\w\s]+ - ([-\w\s]+)  was (?:created|deleted)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w\s]+ - [-\w\s]+ - ([-\w\s]+)  was created\." description="service created" format="Created service &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[-\w\s]+ - [-\w\s]+ - ([-\w\s]+)  was deleted\." description="service deleted" format="Deleted service &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="32 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w\s]+ - [-\w\s]+ - ([-\w\s]+)  was created.*" description="3rd segment" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="33, System, ServiceInfo, Site was created" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=Site [-\w\s]+ was created" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Site ([-\w\s]+) was created\." description="add quotes" format="Site &quot;$12&quot; was created" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="33 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Site ([-\w\s]+) was created\." description="remove period" format="Site $12 was created" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="34, System, ServiceInfo, ADC content has not been updated" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=OldAdcContent.*Message=The ADC content has not been updated for the last \S+ days" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="The ADC content has not been updated for the last (\S+) days\." description="remove period" format="ADC content has not been updated for the last $12 days" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="34 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="The ADC content has not been updated for the last (\S+) days\." description="remove period" format="ADC content has not been updated for the last $12 days" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteGroup" description="35, System, DeleteGroup, Regular, Group deleted" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=\S+ Group .+ was deleted" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\S+) Group (.+) was deleted\." description="server group deleted" format="$12 group &quot;$13&quot; was deleted" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="35 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ Group (.+) was deleted\." description="server group deleted" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteGroup" description="36, System, DeleteGroup, Regular, Gateway Group removed from server group" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=\s+Gateway Group \S+ removed from server group \S+ for IP address [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Gateway Group (\S+) removed from server group (\S+) for IP address ([\d.]+)\s+" description="add quotes" format="Gateway group &quot;$12&quot; removed from server group &quot;$13&quot; for IP &quot;$14&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="36 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Gateway Group \S+ removed from server group \S+ for IP address ([\d.]+)\s+" description="parse for ip" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Gateway Group (\S+) removed from server group \S+ for IP address [\d.]+\s+" description="parse for ip" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="37, System, PolicyAccess, Regular, Site | URL List was created" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=(?:Site|URL List) .+ was created" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(Site|URL List) (.+) was created\." description="add quotes" format="$12 &quot;$13&quot; was created" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="37 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="38, System, SystemStatus, Regular, Operation mode for Server Group changed to" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=Regular.*Message=Operation mode for Server Group .+ changed to" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Operation mode for Server Group (.+) changed to (\S+)" description="add quotes" format="Operation mode for server group &quot;$12&quot; changed to &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="38 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Operation mode for Server Group (.+) changed to (\S+)" description="add quotes" format="Operation mode for Server Group &quot;$12&quot; changed to &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="39, System, SystemStatus, GatewayStateChange, Gateway is now up | down" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=GatewayStateChange.*Message=Gateway gateway is now (?:up|down)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Gateway (\S+) is now (\S+)\." description="add quotes" format="Gateway &quot;$12&quot; is now &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="39 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Gateway (\S+) is now (\S+)\." description="parse for system and status" format="$12 $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Gateway (\S+) is now (\S+)\." description="add quotes" format="Gateway $12 is now $13" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="40, System, SystemStatus, ServerStatus, Server started on IP" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=ServerStatus.*Message=Server started on IP" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server started on IP (\S+)" description="add quotes" format="Server started on IP &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="40 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Server started on IP (\S+)" description="add quotes" format="Server started on IP &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="41, SystemStatus, GatewayStateChange, The status of the gateway gateway is" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=GatewayStateChange.*Message=The status of the gateway [-\w\s._]+ is" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="The status of the gateway ([-\w\s._]+) is (\S+)\..*" description="add quotes. catch to 1st period" format="The status of the gateway &quot;$12&quot; is &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="41 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="The status of the gateway ([-\w\s.]+) is (\S+)\..*" description="add quotes. catch to 1st period" format="$12 $13" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\. (.*)\." description="catch after 2nd period" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="42, SystemStatus, GatewayThroughputThreshold, The status of the gateway gateway is" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=GatewayThroughputThreshold.*Message=The throughput of gateway [-\w\s._]+ is \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="The throughput of gateway ([-\w\s._]+) is (\S+) (\S+)\." description="add quotes." format="The throughput of gateway &quot;$12&quot; is &quot;$13&quot; $14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="42 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\. (.*)\." description="catch after 2nd period" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="The throughput of gateway ([-\w\s._]+) is (\S+) (\S+)\." description="add quotes." format="The throughput of gateway &quot;$12&quot; is &quot;$13&quot; $14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="43, SoftwareUpdate, DownloadAdcContentSucceeded | FailedToDownloadAdcContent, The status of the gateway gateway is" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=(?:DownloadAdcContentSucceeded|FailedToDownloadAdcContent).*Message=ADC content upload has \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ADC content upload has (\S+)\..*" description="remove period" format="ADC content upload has &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="43 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^.]+\. Error information: ([^.]+)\." description="error msg" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ADC content upload has (\S+)\..*" description="remove period" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="ADC Content" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SoftwareUpdate" description="44, SoftwareUpdate, ODM, Web Vulnerability Management upgrade" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="System:Type=ODM.*Message=\s*Web Vulnerability Management upgrade" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Web Vulnerability Management upgrade(?: has)? (\S+)\..*" description="remove period and spaces" format="Web Vulnerability Management upgrade &quot;$12&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="44 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^.]+\. Error information: ([^.]+)\." description="error msg on failure" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InstallOperation" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*Web Vulnerability Management upgrade(?: has)? (\S+)\..*" description="get status" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Web Vulnerability Management" fieldName="SoftwarePackage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="45, ProcessWarning, Assessment (Failed)" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);Status=([^;]*);PolicyName=([^;]*);Job=([^;]*);LastStat=([^;]*);NextRun=([^;]*);DisplayName=([^;]*);Schema=([^\s]*);GrpName=([^;]*);ActionSet=([^;]*)" pattern="System:Type=Assessment;.*Status=Failed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$8 $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="45 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8 $7" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="46, ProcessStop, Assessment" matcher="^(\d+) (\S+) System:Type=([^;]*);EventTime=([^;]*);Status=([^;]*);PolicyName=([^;]*);Job=([^;]*);LastStat=([^;]*);NextRun=([^;]*);DisplayName=([^;]*);Schema=([^\s]*);GrpName=([^;]*);ActionSet=([^;]*)" pattern="System:Type=Assessment;.*Status=Finished" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$8 $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="46 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8 $7" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert, AuditView drops" matcher=".*" pattern="System:Type=AuditView.*Message=Audit view [^-]+- [^-]+-(?: [^-]+-)? [^;]+;" version="2" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert, User info changed for" matcher=".*" pattern="System:Type=Regular.*User info changed for" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert, Default archive settings changed" matcher=".*" pattern="System:Type=Regular.*Default archive settings changed" version="3" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="^(\d+) (\S+) (Firewall|System):Type=([^;]*);EventTime=([^;]*);.*" pattern="" version="8" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched securespheresystem Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="30" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

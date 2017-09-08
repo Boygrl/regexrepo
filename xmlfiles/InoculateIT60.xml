@@ -1,0 +1,274 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="InoculateIT 6.0" eventIds="1,2,3" logInterval="1" logLocation="Application" logManagementOutput="10.254.10.18" logManagementPort="10102" logStartPoint="-1" logType="NtReader" node="spop" readerName="InoculateIT v6" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="InoculateIT60" toolType="Anti-Virus" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file attributeName="logLocation" enabled="false" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false" guiVersion="4"></string>
+		<integer attributeName="logManagementPort" enabled="false" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false" guiVersion="4"></integer>
+		<select attributeName="readerOutput" enabled="false" labelText="Output:" preferredOrder="90" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" selectItems="Alert;InDepth;Alert, InDepth" visible="false" guiVersion="4"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="InoculateIT 6.0" id="InoculateIT60" sysVersion="3.0" version="1" version_type="int">
+		<FastPattern _type="null" alertName="VirusSummaryAttack" description="Virus Scan Results - 1|2|3, Scan Job" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="source=&quot;InoculateIT&quot;.*Scan Job.*had the following results" version="226" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="FilesQuarantined" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*\[File Renamed: ([0-9]+)].*" description="renamed" format="$28" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*\[File Moved: ([0-9]+)\].*" description="moved" format="$28" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*\[(Scan Error: [0-9]+)\].*" description="scan error" format="$28" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*(File Cure Error: \d+).*" description="File Cure Error" format="$28" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FilesCleaned" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Virus Cured: (\d)+.*" description="cured" format="$28" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Unable to resolve username." description="Unable to resolve" format="N/A" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus scan" fieldName="EventInfo" type="1" type_type="int" version="31" version_type="int">
+				<FastFormatter _type="null" condition="(.*)had the following results:(No Infection Found.)" description="completed - no infection found" format="$28completed: $29" matcherInput="$19" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)had the following results.*" description="completed - viruses found" format="$28completed: Infection found" matcherInput="$19" version="5" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FilesDeleted" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*\[File Deleted: ([0-9]+)\].*" description="File Deleted" format="$28" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FilesInfected" type="2" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*\[File Infected: ([0-9]+)\].*" description="File Infected" format="$28" matcherInput="$19" version="5" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Virus Detected" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;3&quot;.*source=&quot;InoculateIT&quot;.*&lt;String2&gt;\s*26\s*&lt;/String2&gt;" version="214" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="VirusDetected" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="(The )?(.*) was detected.*" description="Virus name" format="$29" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*) in.*" description="default" format="$28" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition=".*File Status: .*[Cc]ure.*" description="cure -" format="Clean" matcherInput="$19" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Moved" description="Quarantine" format="Quarantine" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Deleted,*" description="Delete" format="Delete" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Renamed,*" description="rename" format="Rename" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*Machine:\s?(.*?),?\sUser.*" description="source in description" format="$28" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceAccount" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*User:\s?([^\.]+).*" description="user name in description" format="$28" matcherInput="$19" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition=".*File Status: Cure failed, file moved.*" description="Cure Failed, file moved" format="Quarentine" matcherInput="$19" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Cure failed, file renamed.*" description="Cure failed, file renamed" format="Rename" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Cure failed, file restored.*" description="Cure failed, file restored" format="Leave Alone" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: No cure for this file." description="Cure failed, left alone" format="Left Alone" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="13" version_type="int">
+				<FastFormatter _type="null" condition=".*File Status: Deleted,*" description="File Deleted" format="Deleted" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Cured.*" description="Cure" format="Cleaned" matcherInput="$19" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status:( Cure failed, file)? [Mm]oved.*" description="File Moved" format="Quarantined" matcherInput="$19" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status:( Cure failed, file)? [rR]enamed.*" description="File renamed" format="Renamed" matcherInput="$19" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="InfectedFile" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition=".*(.:\\.*)\. Machine:.*" description="Infected File" format="$28" matcherInput="$19" version="5" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus, Left Alone" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition="The (.*) was detected .*File Status: Deleted,*" description="File Deleted" format="Virus: $28, Deleted" matcherInput="$19" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Cured.*" description="Cure" format="Virus Cleaned" matcherInput="$19" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="The (.*) was detected.*File Status:( Cure failed, file)? [Mm]oved.*" description="File Moved" format="Virus: $28, Quarantined" matcherInput="$19" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="The (.*) was detected.*File Status:( Cure failed, file)? [rR]enamed.*" description="File renamed" format="Virus: $28,  Renamed" matcherInput="$19" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*Sucker virus.*File Status: No cure for this file.*" description="File left alone, cure failed" format="Virus: Sucker virus, Left Alone" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="The (.* virus) .*File Status: Infected" description="Virus left alone" format="Virus: $28, Left Alone" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Memory Virus Detected" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;3&quot;.*source=&quot;InoculateIT&quot;.*An infection.*memory" version="219" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="VirusDetected" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="An infection (.*) was detected.*" description="Virus name" format="$28" matcherInput="$19" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Scan computer Immediately!  $20" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no extra details" format="$19" matcherInput="$20" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="13" version_type="int">
+				<FastFormatter _type="null" condition=".* detected and removed.*" description="Deleted" format="Deleted" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*Machine:\s?(.*?),?\sUser.*" description="source in description" format="$28" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition=".*User:\s?([^\.]+).*" description="user name in description" format="$28" matcherInput="$19" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition=".*File Status: Cure failed, file moved.*" description="Cure Failed, file moved" format="Quarentine" matcherInput="$19" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Cure failed, file renamed.*" description="Cure failed, file renamed" format="Rename" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: Cure failed, file restored.*" description="Cure failed, file restored" format="Leave Alone" matcherInput="$19" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*File Status: No cure for this file." description="Cure failed, left alone" format="Left Alone" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*detected and removed.*" description="File Deleted" format="Deleted" matcherInput="$19" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Memeory" fieldName="InfectedFile" type="1" type_type="int" version="8" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Memory Virus, Left Alone" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition="An infection (.*) was detected and removed .*" description="File Deleted" format="Memeory Virus: $28, Deleted" matcherInput="$19" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="An infections (.*) was detected in your" description="Unable to remove" format="Memeory Virus: $28, Left Alone" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="Service Errors - 2|3, [eE]rror|Failed|failed" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;[2|3]&quot;.*source=&quot;InoculateIT&quot;.*([eE]rror|Failed|failed)" version="210" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIT: service error" fieldName="EventInfo" type="1" type_type="int" version="32" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="Unauthorized Messages - 3, [Uu]nauthorized" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;3&quot;.*source=&quot;InoculateIT&quot;.* [Uu]nauthorized" version="211" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$20" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no extra details" format="" matcherInput="$20" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIT: service error" fieldName="EventInfo" type="1" type_type="int" version="32" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="Service Maintenance2 - 1, started to purge" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;1&quot;.*source=&quot;InoculateIT&quot;.*started to purge" version="207" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="InoculateIT:Service maitenance" fieldName="EventInfo" type="1" type_type="int" version="35" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIt: Job Server" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="Service Started - 1, started" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;1&quot;.*source=&quot;InoculateIT&quot;.*(started|restoring)" version="205" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\[(Scan Error: [0-9]+)\].*" description="scan error" format="$28" matcherInput="$19" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIT: service started" fieldName="EventInfo" type="1" type_type="int" version="33" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="Service Stopped - 1, stopping" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;1&quot;.*source=&quot;InoculateIT&quot;.*(stopping|finished)" version="199" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\[(Scan Error: [0-9]+)\].*" description="scan error" format="$28" matcherInput="$19" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="InoculateIT: service stopping" fieldName="EventInfo" type="1" type_type="int" version="34" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="Unknown Scan Memeory results" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;1&quot;.*source=&quot;InoculateIT&quot;.*Scan memory" version="198" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19  $20" fieldName="InfoMessage" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no extra details." format="$19" matcherInput="$20" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="InoculateIT: Unknown scan memory results" fieldName="EventInfo" type="1" type_type="int" version="34" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIt: Job Server" fieldName="ServiceName" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="Service Maintenance1 - 1" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;1&quot;.*source=&quot;InoculateIT&quot;" version="205" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="InfoMessage" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="InoculateIT:Service maitenance" fieldName="EventInfo" type="1" type_type="int" version="34" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIt: Job Server" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="InoculateIT warning - 2," matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;2&quot;.*source=&quot;InoculateIT&quot;" version="196" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIT warning" fieldName="EventInfo" type="1" type_type="int" version="34" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ServiceName" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="InoculateIT Critical warning - 3" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;(?:[^&lt;]*&lt;String1&gt;\s*(.*?)\s*&lt;/String1&gt;)?(?:[^&lt;]*&lt;String2&gt;\s*(.*?)\s*&lt;/String2&gt;)?(?:[^&lt;]*&lt;String3&gt;\s*(.*?)\s*&lt;/String3&gt;)?(?:[^&lt;]*&lt;String4&gt;\s*(.*?)\s*&lt;/String4&gt;)?(?:[^&lt;]*&lt;String5&gt;\s*(.*?)\s*&lt;/String5&gt;)?(?:[^&lt;]*&lt;String6&gt;\s*(.*?)\s*&lt;/String6&gt;)?(?:[^&lt;]*&lt;String7&gt;\s*(.*?)\s*&lt;/String7&gt;)?(?:[^&lt;]*&lt;String8&gt;\s*(.*?)\s*&lt;/String8&gt;)?(?:[^&lt;]*&lt;String9&gt;\s*(.*?)\s*&lt;/String9&gt;)?(?:[^&lt;]*&lt;String10&gt;\s*(.*?)\s*&lt;/String10&gt;)?(?:[^&lt;]*&lt;String11&gt;\s*(.*?)\s*&lt;/String11&gt;)?(?:[^&lt;]*&lt;String12&gt;\s*(.*?)\s*&lt;/String12&gt;)?.*" pattern="eventId=&quot;3&quot;.*source=&quot;InoculateIT&quot;" version="197" version_type="int">
+			<FastField _type="null" defaultValue="$12, event number: $16" fieldName="ProviderSID" type="1" type_type="int" version="6" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="DetectionIP" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DetectionTime" type="4" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="(\d\d:\d\d:\d\d)\s(\d\d)/(\d\d)/(\d\d)" description="change date" format="20$31-$29-$30 $28.0" matcherInput="$15" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$19" fieldName="WarningMessage" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="ServiceName" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="InoculateIT Critical Warning" fieldName="EventInfo" type="1" type_type="int" version="35" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="Catch unmapped InoculateIT (eTrust Antivirus) events" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;.*" pattern="source=&quot;InoculateIT&quot;" version="34" version_type="int">
+			<FastField _type="null" defaultValue="$12 $6" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmapped InoculateIT AV Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="18" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

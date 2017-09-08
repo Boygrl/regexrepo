@@ -1,0 +1,1744 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="Linux Auditd" fullDescription="" logInterval="1" logLocation="/var/log/audit/audit.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="manager,spop" readerName="Linux Auditd" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="linuxauditd" toolType="Operating Systems" vendor="" version="$Revision: #36 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Linux Auditd" id="linuxauditd" version="280" version_type="int">
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: USER_START, acct" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='[\w=]*PAM[: ]+[\w ]+[: ]+.*(?:acct|user)=&quot;?(\S+?)&quot;?[: ]+exe=&quot;?(.+)&quot;? \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=(\S*) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_START\b" version="9" version_type="int">
+			<FastField _type="null" defaultValue="PAM User Logon &quot;$9&quot; for service &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+).*" description="subj" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="remove &quot;?&quot;" format="" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: USER_START, id" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='([=\w ]+)[: ]+id=&quot;?(\S+?)&quot;?[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_START\b" version="6" version_type="int">
+			<FastField _type="null" defaultValue="User Logon &quot;$13&quot; for service &quot;$11&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $17" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$11&quot;, result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+).*" description="subj" format="exe=&quot;$11&quot;, $17, result: $15" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: USER_END, acct" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='[\w=]*PAM(?:session close)?[: ]+[\w ]+[: ]+.*(?:acct|user)=&quot;?(\S+?)&quot;?[: ]+exe=&quot;?((?:[^&quot;]+|\S+))&quot;? \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=(\S*) res(?:ult)?=(\w+)\)?'.*" pattern="^type=USER_END\b" version="8" version_type="int">
+			<FastField _type="null" defaultValue="PAM User Logoff &quot;$9&quot; for service &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+).*" description="subj" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: USER_END, id" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='([=\w ]+)[: ]+id=&quot;?(\S+?)&quot;?[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=(\S+) res(?:ult)?=(\w+)\)?'.*" pattern="^type=USER_END\b" version="5" version_type="int">
+			<FastField _type="null" defaultValue="User Logoff &quot;$13&quot; for service &quot;$11&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$17, result: $15" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: CRED_ACQ" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+) (.*)msg='[\w=]*PAM[: ]+setcred[: ]+.*(?:acct|user)=&quot;?(\S+?)&quot;?[: ]+exe=&quot;?(.+)&quot;? \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=(\S*) (?:result|res)=(\w+)\)?'.*" pattern="type=CRED_ACQ\b" version="23" version_type="int">
+			<FastField _type="null" defaultValue="PAM Set Credentials for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*(subj=\S+).*" description="subj" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="remove &quot;?&quot;" format="" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: USER_ACCT" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='[\w/;= ]*(?:PAM[: ]+accounting.*)?[: ]+(?:acct|user)=&quot;?(\S+?)&quot;?[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=([\S?]*) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_ACCT\b" version="28" version_type="int">
+			<FastField _type="null" defaultValue="User Accounting for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=\S+).*" description="subj" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: USER_ACCT - format 2" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+)(?: uid=(\d+) reset=\d+)? exe=&quot;?(.+)&quot;? \(?hostname=([-\w.?]+),? addr=([\w:.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_ACCT\b" version="4" version_type="int">
+			<FastField _type="null" defaultValue="User Accounting for UID &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $17" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$11&quot;, Terminal: $14, result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=\S+).*" description="subj" format="exe=&quot;$11&quot;, $17, Terminal: $14, result: $15" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: USER_AUTH" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='([-=?\w: ]+)[: ]+.*(?:acct|user)=&quot;?(\S+?)&quot;?[: ]+exe=&quot;?([^&quot;]+)&quot;? \(?hostname=(\S+),? addr=(\S+),? terminal=(\S*) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_AUTH\b" version="33" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="[\w=]*PAM[: ]+authentication,\?,[\d.].*" description="pam-authentication-eroteme-address" format="User Authentication for &quot;$13&quot;" matcherInput="$9,$10,$13" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[\w=]*PAM[: ]+authentication,\?.*" description="pam-authentication-eroteme" format="User Authentication" matcherInput="$9,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[\w=]*PAM[: ]+authentication.*" description="pam-authentication" format="User Authentication for &quot;$10&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[\w=]*PAM[: ]+unix_chkpwd.*" description="pam-unix_chkpwd" format="User unix_chkpwd for &quot;$10&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="op=([\w ]+) algo=[-\w]+ size=\d+ fp=[a-f\d:]+ rport=\d+" description="op-algo-sizp-fp-rport" format="Auth Operation &quot;$17&quot; for &quot;$10&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="op=([-\w ]+).*" description="op" format="Auth Operation &quot;$17&quot; for &quot;$10&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $17" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$11&quot;, result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=\S+).*,op=[\w ]+ (algo=[-\w]+) size=\d+ (fp=[a-f\d:]+) (rport=\d+).*" description="subj-op-algo-sizp-fp-rport" format="exe=&quot;$11&quot;, $17, result: $15, $18, $19, $20" matcherInput="$8,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="op=[\w ]+ (algo=[-\w]+) size=\d+ (fp=[a-f\d:]+) (rport=\d+).*" description="op-algo-sizp-fp-rport" format="exe=&quot;$11&quot;, result: $15, $17, $18, $19" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".* (subj=\S+).*" description="subj" format="exe=&quot;$11&quot;, $17, result: $15" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\?,?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: USER_ERR" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? *pid=(\d+) uid=(\S+) auid=(\S+) (.*)msg='[\w=]*PAM[: ]+([\w ]+)[: ]+.*(?:acct|user)=&quot;?(\S+?)&quot;?[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=(\S+?),? addr=(\S+?),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_ERR\b" version="9" version_type="int">
+			<FastField _type="null" defaultValue="PAM acct state error &quot;$9&quot; for &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="PAM acct state error &quot;$9&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $17" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$11&quot;, result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(subj=\S+).*" description="subj" format="exe=&quot;$11&quot;, $17, result: $15" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: USER_LOGIN, failed" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?)[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([:\w.?]+),? terminal=(\S+) res=(\w+)\)?'.*" pattern="type=USER_LOGIN\b .+ (?:result|res)=[Ff]ailed" version="12" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="op=login (?:acct|id)=(.+)" description="op-login-acct-id" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=&quot;(.+)&quot;" description="acct-quotes" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=(.+)" description="acct" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=\S+,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" description="uid-ip" format="Logon Failure &quot;$12&quot;" matcherInput="$9,$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=(\S+).*" description="uid" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="op=login (?:acct|id)=(.+)" description="op-login-acct-id" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=&quot;(.+)&quot;" description="acct-quotes" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=(.+)" description="acct" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0,acct=.*" description="uid-zero-acct" format="$7" matcherInput="$6,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=(\S+).*" description="uid" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="::[a-f\d]+:([\d.]+)" description="src_machine" format="$16" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="LogonProcess" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FailedAuthentication" description="FailedAuthentication: ANOM_LOGIN_FAILURES" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?) uid=(\d+) +(exe=&quot;[^&quot;]+&quot;) hostname=([-\w.?]+) addr=([\d.?]+),? terminal=(\S+) res=(\w+)\)?'.*" pattern="type=ANOM_LOGIN_FAILURES\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Multiple authentication failures for UID &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="op=login (?:acct|id)=(.+)" description="op-login-acct-id" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=&quot;(.+)&quot;" description="acct-quotes" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=(.+)" description="acct" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=\S+,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" description="uid-ip" format="Logon Failure &quot;$12&quot;" matcherInput="$9,$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=(\S+).*" description="uid" format="Logon Failure &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $17" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11, result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$17, $11, result: $15" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Multiple Authentication Failures" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="PAM" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserDisable" description="UserDisable: RESP_ACCT_LOCK" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?) uid=(\d+) +(exe=&quot;[^&quot;]+&quot;) hostname=([-\w.?]+) addr=([\d.?]+),? terminal=(\S+) res=(\w+)\)?'.*" pattern="type=RESP_ACCT_LOCK\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Disabling UID &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $17" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11, result: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$17, $11, result: $15" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Account Lock" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: ADD_USER" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+) exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=ADD_USER\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="User modification $14 for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="op=([^=]+) \w+=.*" description="op" format="User modification ($16) $14" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*acct=&quot;?([^=&quot;,]+).*" description="acct" format="User modification $14 for &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(?:acct|id)=&quot;?([^=&quot;,]+).*" description="acct-id" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: DEL_GROUP, ADD_GROUP" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+) exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=(?:DEL|ADD)_GROUP\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User modification $14 for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="op=([^=]+) \w+=.*" description="op" format="User modification ($16) $14" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*acct=&quot;?([^=&quot;,]+).*" description="acct" format="User modification $14 for &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*acct=&quot;?([^=&quot;,]+).*" description="acct" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: DEL_USER" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+) exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=DEL_USER\b" version="5" version_type="int">
+			<FastField _type="null" defaultValue="User modification $14 for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="op=([^=]+) \w+=.*" description="op" format="User modification ($16) $14" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*acct=&quot;?([^=&quot;,]+).*" description="acct" format="User modification $14 for &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="sess" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(?:acct|id)=&quot;?([^=&quot;,]+).*" description="acct-id" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: USER_CHAUTHTOK" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+) exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_CHAUTHTOK\b" version="6" version_type="int">
+			<FastField _type="null" defaultValue="User modification $14 for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="op=([^=]+) \w+=.*" description="op" format="User modification ($16) $14" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*(?:acct|id)=&quot;?([^=&quot;,]+).*" description="acct-id" format="User modification $14 for &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(?:acct|id)=&quot;?([^=&quot;,]+).*" description="acct-id" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: USER_ROLE_CHANGE" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?)[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=USER_ROLE_CHANGE\b" version="6" version_type="int">
+			<FastField _type="null" defaultValue="User modification $14 for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="pam: default-context=[-\w:.]+ selected-context=([-\w:.]+)" description="pam-context" format="Selected context &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=\S+).*" description="subj" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: USER_LOGIN, catchall" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?)[: ]+exe=&quot;?(.+)&quot;? \(?hostname=([-\w.?]+),? addr=([\da-f:.?]+),? terminal=(\S+) res=(\w+)\)?'.*" pattern="type=USER_LOGIN\b" version="13" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="uid=\S+,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}" description="uid-ip" format="Logon &quot;$12&quot;" matcherInput="$9,$12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=&quot;(.+)&quot;" description="acct-quotes" format="Logon &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=(.+)" description="acct" format="Logon &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=(\S+).*" description="uid" format="Logon &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="op=login (?:acct|id)=(.+)" description="op-login-acct-id" format="Logon &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+).*" description="subj" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="op=login (?:acct|id)=(.+)" description="op-login-acct-id" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=&quot;(.+)&quot;" description="acct-quotes" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="acct=(.+)" description="acct" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0,acct=.*" description="uid-zero-acct" format="$7" matcherInput="$6,$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="uid=(\S+).*" description="uid" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="LogonProcess" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: USER_LOGOUT" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='([^']+)[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\da-f:.?]+),? terminal=(\S+) res(?:ult)?=(\w+)\)?'.*" pattern="type=USER_LOGOUT\b" version="14" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition="[\w=:]*username &quot;?(\S+?)&quot;? logged out.*" description="username-logged-out" format="Logoff &quot;$16&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\?;op=login id=(\S+).*" description="addr_missing" format="Logoff &quot;$7&quot;" matcherInput="$12;$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="op=login id=(\d+).*" description="op-login-id" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="[\w=:]*username &quot;?(\S+?)&quot;? logged out.*" description="username-logged-out" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessAudit" description="ProcessAudit: CWD" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\)[: ]+cwd=&quot;([^&quot;]*)&quot;" pattern="type=CWD" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Change Working Directory to &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileExecute" description="FileExecute: EXECVE" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\)[: ]+argc=(\d+) (a0=.+)" pattern="type=EXECVE\b" version="3" version_type="int">
+			<FastField _type="null" defaultValue="execve" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="10,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot; a8=&quot;([^&quot;]+)&quot; a9=&quot;([^&quot;]+)&quot;.*" description="argc10" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15 $16 $17&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="9,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot; a8=&quot;([^&quot;]+)&quot;.*" description="argc9" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15 $16&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="8,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot;.*" description="argc8" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="7,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot;.*" description="argc7" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot;.*" description="argc6" format="Execute &quot;$8 $9 $10 $11 $12 $13&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot;.*" description="argc5" format="Execute &quot;$8 $9 $10 $11 $12&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot;.*" description="argc4" format="Execute &quot;$8 $9 $10 $11&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot;.*" description="argc3" format="Execute &quot;$8 $9 $10&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot;.*" description="argc2" format="Execute &quot;$8 $9&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="argc1" format="Execute &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $8" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="a0" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileExecute" description="FileExecute: USER_CMD" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='cwd=&quot;([^&quot;]+)&quot; cmd=(\S+) \(?terminal=(\S+) res=(\w+)\)?'.*" pattern="type=USER_CMD" version="19" version_type="int">
+			<FastField _type="null" defaultValue="CMD $10 from &quot;$9&quot; at &quot;$11&quot;" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="[A-F\d]+" description="cmdhex" format="CMD &quot;$10&quot; from &quot;$9&quot; at &quot;$11&quot;" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $14" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$14, result: $12" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid-zero" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="AccessProperties" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: SYSCALL" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+arch=[a-f\d]+ syscall=\d+ (?:per=\d+ )?success=(\w+ exit=-?[^=]+) a0=[a-f\d]+ a1=[a-f\d]+ a2=[a-f\d]+ a3=[a-f\d]+ items=\d+.* pid=(\d+) auid=(\S+) uid=(\S+) (.+) (comm=[-&quot;\w.]+)[: ]+(exe=.*)" pattern="type=SYSCALL\b" version="27" version_type="int">
+			<FastField _type="null" defaultValue="$1 for $10" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="exe=&quot;([^&quot;]+)&quot;.*yes exit=.+" description="exe-quotes success" format="$1 for &quot;$13&quot; success" matcherInput="$11 $5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="exe=&quot;([^&quot;]+)&quot;.*no exit=.+" description="exe-quotes failed" format="$1 for &quot;$13&quot; failed" matcherInput="$11 $5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $13" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="auid=$7 $9 $10 $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="auid=$7 $9 $10 $11 $13" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceLogonID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventMessage" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="no exit=-1\b.*" description="failed -1" format="Exit: -1 Operation not permitted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-2\b.*" description="failed -2" format="Exit: -2 No such file or directory" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-3\b.*" description="failed -3" format="Exit: -3 No such process" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-4\b.*" description="failed -4" format="Exit: -4 Interrupted system call" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-5\b.*" description="failed -5" format="Exit: -5 I/O error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-6\b.*" description="failed -6" format="Exit: -6 No such device or address" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-7\b.*" description="failed -7" format="Exit: -7 Argument list too long" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-8\b.*" description="failed -8" format="Exit: -8 Exec format error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-9\b.*" description="failed -9" format="Exit: -9 Bad file number" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-10\b.*" description="failed -10" format="Exit: -10 No child processes" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-11\b.*" description="failed -11" format="Exit: -11 Try again" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-12\b.*" description="failed -12" format="Exit: -12 Out of memory" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-13\b.*" description="failed -13" format="Exit: -13 Permission denied" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-14\b.*" description="failed -14" format="Exit: -14 Bad address" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-15\b.*" description="failed -15" format="Exit: -15 Block device required" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-16\b.*" description="failed -16" format="Exit: -16 Device or resource busy" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-17\b.*" description="failed -17" format="Exit: -17 File exists" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-18\b.*" description="failed -18" format="Exit: -18 Cross-device link" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-19\b.*" description="failed -19" format="Exit: -19 No such device" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-20\b.*" description="failed -20" format="Exit: -20 Not a directory" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-21\b.*" description="failed -21" format="Exit: -21 Is a directory" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-22\b.*" description="failed -22" format="Exit: -22 Invalid argument" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-23\b.*" description="failed -23" format="Exit: -23 File table overflow" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-24\b.*" description="failed -24" format="Exit: -24 Too many open files" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-25\b.*" description="failed -25" format="Exit: -25 Not a typewriter" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-26\b.*" description="failed -26" format="Exit: -26 Text file busy" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-27\b.*" description="failed -27" format="Exit: -27 File too large" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-28\b.*" description="failed -28" format="Exit: -28 No space left on device" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-29\b.*" description="failed -29" format="Exit: -29 Illegal seek" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-30\b.*" description="failed -30" format="Exit: -30 Read-only file system" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-31\b.*" description="failed -31" format="Exit: -31 Too many links" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-32\b.*" description="failed -32" format="Exit: -32 Broken pipe" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-33\b.*" description="failed -33" format="Exit: -33 Math argument out of domain of func" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-34\b.*" description="failed -34" format="Exit: -34 Math result not representable" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-35\b.*" description="failed -35" format="Exit: -35 Resource deadlock would occur" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-36\b.*" description="failed -36" format="Exit: -36 File name too long" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-37\b.*" description="failed -37" format="Exit: -37 No record locks available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-38\b.*" description="failed -38" format="Exit: -38 Function not implemented" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-39\b.*" description="failed -39" format="Exit: -39 Directory not empty" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-40\b.*" description="failed -40" format="Exit: -40 Too many symbolic links encountered" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-41\b.*" description="failed -41" format="Exit: -41 Operation would block" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-42\b.*" description="failed -42" format="Exit: -42 No message of desired type" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-43\b.*" description="failed -43" format="Exit: -43 Identifier removed" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-44\b.*" description="failed -44" format="Exit: -44 Channel number out of range" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-45\b.*" description="failed -45" format="Exit: -45 Level 2 not synchronized" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-46\b.*" description="failed -46" format="Exit: -46 Level 3 halted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-47\b.*" description="failed -47" format="Exit: -47 Level 3 reset" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-48\b.*" description="failed -48" format="Exit: -48 Link number out of range" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-49\b.*" description="failed -49" format="Exit: -49 Protocol driver not attached" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-50\b.*" description="failed -50" format="Exit: -50 No CSI structure available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-51\b.*" description="failed -51" format="Exit: -51 Level 2 halted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-52\b.*" description="failed -52" format="Exit: -52 Invalid exchange" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-53\b.*" description="failed -53" format="Exit: -53 Invalid request descriptor" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-54\b.*" description="failed -54" format="Exit: -54 Exchange full" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-55\b.*" description="failed -55" format="Exit: -55 No anode" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-56\b.*" description="failed -56" format="Exit: -56 Invalid request code" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-57\b.*" description="failed -57" format="Exit: -57 Invalid slot" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-58\b.*" description="failed -58" format="Exit: -58 Deadlock" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-59\b.*" description="failed -59" format="Exit: -59 Bad font file format" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-60\b.*" description="failed -60" format="Exit: -60 Device not a stream" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-61\b.*" description="failed -61" format="Exit: -61 No data available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-62\b.*" description="failed -62" format="Exit: -62 Timer expired" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-63\b.*" description="failed -63" format="Exit: -63 Out of streams resources" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-64\b.*" description="failed -64" format="Exit: -64 Machine is not on the network" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-65\b.*" description="failed -65" format="Exit: -65 Package not installed" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-66\b.*" description="failed -66" format="Exit: -66 Object is remote" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-67\b.*" description="failed -67" format="Exit: -67 Link has been severed" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-68\b.*" description="failed -68" format="Exit: -68 Advertise error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-69\b.*" description="failed -69" format="Exit: -69 Srmount error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-70\b.*" description="failed -70" format="Exit: -70 Communication error on send" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-71\b.*" description="failed -71" format="Exit: -71 Protocol error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-72\b.*" description="failed -72" format="Exit: -72 Multihop attempted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-73\b.*" description="failed -73" format="Exit: -73 RFS specific error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-74\b.*" description="failed -74" format="Exit: -74 Not a data message" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-75\b.*" description="failed -75" format="Exit: -75 Value too large for defined data type" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-76\b.*" description="failed -76" format="Exit: -76 Name not unique on network" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-77\b.*" description="failed -77" format="Exit: -77 File descriptor in bad state" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-78\b.*" description="failed -78" format="Exit: -78 Remote address changed" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-79\b.*" description="failed -79" format="Exit: -79 Can not access a needed shared library" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-80\b.*" description="failed -80" format="Exit: -80 Accessing a corrupted shared library" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-81\b.*" description="failed -81" format="Exit: -81 .lib section in a.out corrupted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-82\b.*" description="failed -82" format="Exit: -82 Attempting to link in too many shared libraries" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-83\b.*" description="failed -83" format="Exit: -83 Cannot exec a shared library directly" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-84\b.*" description="failed -84" format="Exit: -84 Illegal byte sequence" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-85\b.*" description="failed -85" format="Exit: -85 Interrupted system call should be restarted" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-86\b.*" description="failed -86" format="Exit: -86 Streams pipe error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-87\b.*" description="failed -87" format="Exit: -87 Too many users" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-88\b.*" description="failed -88" format="Exit: -88 Socket operation on non-socket" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-89\b.*" description="failed -89" format="Exit: -89 Destination address required" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-90\b.*" description="failed -90" format="Exit: -90 Message too long" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-91\b.*" description="failed -91" format="Exit: -91 Protocol wrong type for socket" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-92\b.*" description="failed -92" format="Exit: -92 Protocol not available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-93\b.*" description="failed -93" format="Exit: -93 Protocol not supported" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-94\b.*" description="failed -94" format="Exit: -94 Socket type not supported" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-95\b.*" description="failed -95" format="Exit: -95 Operation not supported on transport endpoint" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-96\b.*" description="failed -96" format="Exit: -96 Protocol family not supported" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-97\b.*" description="failed -97" format="Exit: -97 Address family not supported by protocol" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-98\b.*" description="failed -98" format="Exit: -98 Address already in use" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-99\b.*" description="failed -99" format="Exit: -99 Cannot assign requested address" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-100\b.*" description="failed -100" format="Exit: -100 Network is down" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-101\b.*" description="failed -101" format="Exit: -101 Network is unreachable" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-102\b.*" description="failed -102" format="Exit: -102 Network dropped connection because of reset" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-103\b.*" description="failed -103" format="Exit: -103 Software caused connection abort" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-104\b.*" description="failed -104" format="Exit: -104 Connection reset by peer" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-105\b.*" description="failed -105" format="Exit: -105 No buffer space available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-106\b.*" description="failed -106" format="Exit: -106 Transport endpoint is already connected" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-107\b.*" description="failed -107" format="Exit: -107 Transport endpoint is not connected" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-108\b.*" description="failed -108" format="Exit: -108 Cannot send after transport endpoint shutdown" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-109\b.*" description="failed -109" format="Exit: -109 Too many references: cannot splice" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-110\b.*" description="failed -110" format="Exit: -110 Connection timed out" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-111\b.*" description="failed -111" format="Exit: -111 Connection refused" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-112\b.*" description="failed -112" format="Exit: -112 Host is down" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-113\b.*" description="failed -113" format="Exit: -113 No route to host" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-114\b.*" description="failed -114" format="Exit: -114 Operation already in progress" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-115\b.*" description="failed -115" format="Exit: -115 Operation now in progress" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-116\b.*" description="failed -116" format="Exit: -116 Stale NFS file handle" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-117\b.*" description="failed -117" format="Exit: -117 Structure needs cleaning" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-118\b.*" description="failed -118" format="Exit: -118 Not a XENIX named type file" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-119\b.*" description="failed -119" format="Exit: -119 No XENIX semaphores available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-120\b.*" description="failed -120" format="Exit: -120 Is a named type file" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-121\b.*" description="failed -121" format="Exit: -121 Remote I/O error" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-122\b.*" description="failed -122" format="Exit: -122 Quota exceeded" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-123\b.*" description="failed -123" format="Exit: -123 No medium found" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-124\b.*" description="failed -124" format="Exit: -124 Wrong medium type" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-125\b.*" description="failed -125" format="Exit: -125 Operation Canceled" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-126\b.*" description="failed -126" format="Exit: -126 Required key not available" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-127\b.*" description="failed -127" format="Exit: -127 Key has expired" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-128\b.*" description="failed -128" format="Exit: -128 Key has been revoked" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-129\b.*" description="failed -129" format="Exit: -129 Key was rejected by service" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-130\b.*" description="failed -130" format="Exit: -130 Owner died" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no exit=-131\b.*" description="failed -131" format="Exit: -131 State not recoverable" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="yes exit=(\d+)\b.*" description="success" format="Exit: $13" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: PATH" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+item=\d+ +(\w+=.+)" pattern="type=PATH\b" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$1 $5" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="name=&quot;?([^&quot;]+)&quot;? inode=\d+ dev=(\S+) mode=\d+.*" description="name-inode-device" format="$1 &quot;$7&quot;, device &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="name=&quot;?([^&quot;]+)&quot;? flags=\d+ inode=\d+ dev=(\S+) mode=\d+.*" description="name-flags-inode-device" format="$1 &quot;$7&quot;, device &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="flags=\d+ inode=\d+ dev=(\S+) mode=\d+.*" description="flags-inode-device" format="$1 device &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $5" fieldName="EventMessage" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="name=&quot;?[^&quot;]+&quot;? inode=(\d+) dev=\S+ mode=(\d+).*" description="name-inode-device" format="inode: $7, mode: $8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="name=&quot;?[^&quot;]+&quot;? flags=(\d+) inode=(\d+) dev=\S+ mode=(\d+).*" description="name-flags-inode-device" format="flags: $7, inode: $8, mode: $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="flags=(\d+) inode=(\d+) dev=\S+ mode=(\d+).*" description="flags-inode-device" format="flags: $7, inode: $8, mode: $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: SYSTEM_RUNLEVEL" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?)[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=SYSTEM_RUNLEVEL\b" version="4" version_type="int">
+			<FastField _type="null" defaultValue="System run level change" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="old-level=(\d+) new-level=(\d+)" description="level" format="System run level change from $16 to $17" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid0" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="terminal: $13" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: SYSTEM_SHUTDOWN" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='(.+?)[: ]+exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=(\S+) (?:result|res)=(\w+)\)?'.*" pattern="type=SYSTEM_SHUTDOWN\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="System Shut Down Message" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid0" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="terminal: $13" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: ANOM_ABEND. subj" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+auid=(\S+) uid=\S+ gid=\d+ ses=(\d+) subj=(\S+) pid=(\d+) comm=&quot;([^&quot;]+)&quot; sig=(\d+).*" pattern="type=ANOM_ABEND\b" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Process ended abnormally for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $12" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="auid: $5, ses: $6, sig: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: ANOM_ABEND, no subj" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+auid=(\S+) uid=\S+ gid=\d+ ses=(\d+) pid=(\d+) comm=&quot;([^&quot;]+)&quot; sig=(\d+).*" pattern="type=ANOM_ABEND\b" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Process ended abnormally for &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $11" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="auid: $5, ses: $6, sig: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Process ended abnormally for &quot;$8&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: APPARMOR_DENIED" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+operation=&quot;(\w+)&quot; requested_mask=&quot;([\w:]+)&quot; denied_mask=&quot;([\w:]+)&quot; fsuid=(\d+) name=&quot;([^&quot;]+)&quot; pid=(\d+) parent=(\d+) profile=&quot;([^&quot;]+)&quot;" pattern="type=APPARMOR_DENIED\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="AppArmor denied for &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $14" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Operation: &quot;$5&quot;, Request Mask: &quot;$6&quot;, Denied Mask: &quot;$7&quot;, Parent: $11, Profile: &quot;$12&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: APPARMOR_DENIED  format 2" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+operation=&quot;([^&quot;]+)&quot; info=&quot;([^&quot;]+)&quot; error=(\S+) pid=(\d+)" pattern="type=APPARMOR_DENIED\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="AppArmor denied for operation &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $14" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Error: $7, Info: &quot;$6&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: USER_AVC {denied}" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+) *(.*?) msg='(.+?)[: ]+exe=&quot;([^&quot;]*)&quot; .*\(?hostname=([-\w.?]+),? addr=([\d.?]+),? terminal=([-\w.,?]+) *(?:(?:result|res)=(\w+))?\)?'.*" pattern="type=USER_AVC\b.*msg='avc: *denied" version="3" version_type="int">
+			<FastField _type="null" defaultValue="User AVC denied." fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=(\S+).*?;null" description="result_null" format="subj: $16" matcherInput="$8;$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".* subj=(\S+).*" description="subj" format="$16, result: $14" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ProcessID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?:\?|)" description="process id_invalid" format="$5" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0" description="uid0" format="$7" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CONFIG_CHANGE, op" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+auid=(\S+).* subj=(\S+) op=(.+) key=(\S+) list=(\d+) res=(\w+).*" pattern="type=CONFIG_CHANGE .+ op=" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Configuration change by auid &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $12" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6, result: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7, key=$8, list=$9" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CONFIG_CHANGE, subj, audit_enabled" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\S+) auid=(\S+).* subj=([-\w:.]+) audit_enabled=(\d+) res=(\w+).*" pattern="type=CONFIG_CHANGE .+ subj=[-\w:.]+ audit_enabled=" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Configuration change by auid &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $12" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8, result: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="audit_enabled=$9" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CONFIG_CHANGE, subj" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(\w+=\d+ old=\d+) (?:by )?auid=(\S+).* subj=(\S+) res=(\w+).*" pattern="type=CONFIG_CHANGE .+ subj=" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Configuration change by auid &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $10" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7, result: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: LABEL_LEVEL_CHANGE" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=(\d+) uid=(\d+) auid=(\S+).* msg='printer=(\S+) uri=(\S+).* exe=(\S+) \(?hostname=(\S+) addr=(\S+) terminal=(\S+) res=(\S+)\)?'.*" pattern="type=LABEL_LEVEL_CHANGE\b" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Label Level change by auid &quot;$7&quot; at terminal &quot;$13&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="unknown terminal" format="Label Level change by auid &quot;$7&quot;" matcherInput="$13" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="hostname: &quot;$11&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="uri: &quot;$9&quot;, exe: $10" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: ANOM_PROMISCUOUS (Ethernet device promiscuous mode warning)" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+dev=(\S+) prom=(\d+) old_prom=(\d+) auid=(\S+) (.*)ses=(\d+).*" pattern="type=ANOM_PROMISCUOUS" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Ethernet device &quot;$5&quot; promiscuous mode warning" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $12" matcherInput="$0" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9ses=$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5 promiscuous" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5 went from prom $7 to prom $6" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: USYS_CONFIG, op" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=\d+ uid=\d+ auid=(\S+) msg='(.+): op=(.+) id=(\d+) res=(\w+)'.*" pattern="type=USYS_CONFIG .+ op=changing system time" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$7 by auid &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $11" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7 $9" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: USYS_CONFIG, exe" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+user pid=\d+ uid=\d+ auid=(\S+) subj=(\S+) msg='(.+): exe=(.+) \((.+)\)'.*" pattern="type=USYS_CONFIG .+ msg='changing system time" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7 by auid &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $11" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7 $8" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart: DAEMON_START" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+([^,]+), ver=([\d.]+),? format=(\w+),?.* auid=(\S+) pid=(\d+)(.*) res=(\w+)([=,\w ]*)" pattern="type=DAEMON_START\b" version="14" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $14" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="version: $6, format: $7, result: $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$14, version: $6, format: $7, result: $11" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="auditd" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[, ]+([\w ]*)pid=\d+.*" description="pid" format="$14" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="ServiceStop: DAEMON_END" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+([^,]+), \S+ auid=(\S+) pid=(\d+) subj=(\S*) res=(\w+)([=,\w ]*)" pattern="type=DAEMON_END" version="13" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $12" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8; result: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="" description="no subj" format="result: $9" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="auditd" fieldName="ServiceName" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="[, ]+([\w ]*)pid=\d+.*" description="pid" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="stop" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceStart: DAEMON_RESUME" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+((\S+) resuming logging, .*) auid=(\S+) pid=(\S+)(.*) res=(\w+)" pattern="type=DAEMON_RESUME\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $14" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="result: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$12, result: $10" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceStart: DAEMON_ROTATE" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+((\S+) .*) auid=(\S+) pid=(\S+)(.*)" pattern="type=DAEMON_ROTATE\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $14" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* subj=([-\w:.]+).*" description="subj" format="$11" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="IPSecTrafficAudit: CRYPTO_KEY_USER" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='op=(.+?)[: ]+exe=(.+) \(?hostname=([-\w.?]+),? addr=([\w.:?]+),? terminal=([\S?]+) res=(\w+)\)?'.*" pattern="type=CRYPTO_KEY_USER\b" version="9" version_type="int">
+			<FastField _type="null" defaultValue="IPSec traffic from &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=$10, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+) (\w+) (kind=\w+) fp=[a-f\d:?]+ (direction=[-\w]+).*" description="subject-op-kind-direction" format="exe= $10, $16, op: $17, $18, $19, result: $14" matcherInput="$8 $9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+) (\w+) (kind=\w+) fp=[a-f\d:?]+.*" description="subject-op-kind" format="exe=$10, $16, op: $17, $18, result: $14" matcherInput="$8 $9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".* (subj=[-\w:.]+).*" description="subject" format="exe=$10, $16, result: $14" matcherInput="$8 $9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* laddr=([-\w.]+).*" description="laddr" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* rport=(\d+).*" description="rport" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* lport=(\d+).*" description="lport" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="IPSec" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="IPSecTrafficAudit: CRYPTO_SESSION" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+(?:user)? pid=(\d+) uid=(\S+) auid=(\S+)(.*) msg='op=(.+) +exe=&quot;([^&quot;]+)&quot; \(?hostname=([-\w.?]+),? addr=([\d.:?]+),? terminal=(\S+) res=(\w+)\)?'.*" pattern="type=CRYPTO_SESSION\b" version="8" version_type="int">
+			<FastField _type="null" defaultValue="IPSec traffic from &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="exe=&quot;$10&quot;, result: $14" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*(subj=[-\w:.]+).* (cipher=[-\w]+).*" description="subject-cipher" format="exe=&quot;$10&quot;, $16, $17, result: $14" matcherInput="$8 $9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".* (cipher=[-\w]+).*" description="cipher" format="exe=&quot;$10&quot;, $16, result: $14" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="eroteme" format="" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* laddr=([-\w.]+).*" description="laddr" format="$16" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* rport=(\d+).*" description="rport" format="$16" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* lport=(\d+).*" description="lport" format="$16" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="IPSec" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="ProcessInfo: DAEMON_CONFIG" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\) ([^,]+), auid=(\S+) pid=(\d+) subj=(\S*) res=(\w+)([=,\w ]*)" pattern="type=DAEMON_CONFIG" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $12" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8; result: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\?" description="q_subj" format="result: $9" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="" description="no subj" format="result: $9" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart: SERVICE_START" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\): pid=(\S+).+?auid=(\S+).*?ses=(\S+).*?comm=&quot;([^&quot;]+)&quot; exe=&quot;([^&quot;]+)&quot;.*" pattern="type=SERVICE_START\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Service &quot;$8&quot; start" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service &quot;$8&quot; start" fieldName="StartMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="ServiceStop: SERVICE_STOP" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\): pid=(\S+).+?auid=(\S+).*?ses=(\S+).*?comm=&quot;([^&quot;]+)&quot; exe=&quot;([^&quot;]+)&quot;.*" pattern="type=SERVICE_STOP\b" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Service &quot;$8&quot; stop" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service &quot;$8&quot; stop" fieldName="StopMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: NETFILTER_CFG" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+ (.+)" pattern="type=NETFILTER_CFG\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: ANOM_ABEND, unconfined" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+auid=(\S+) uid=\S+ gid=\d+ ses=(\d+).+?pid=(\d+) comm=&quot;([^&quot;]+)&quot; reason=&quot;([^&quot;]+)&quot; sig=(\d+).*" pattern="type=ANOM_ABEND\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Process ended abnormally because of &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="auid: $5, ses: $6, sig: $10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Process ended abnormally because of &quot;$9&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: NETFILTER_CFG" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+ (.+)" pattern="type=NETFILTER_CFG\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning: SELINUX_ERR msg" matcher="type=(\w+) msg=[^(]+\((\d+).(\d+):(\d+)\)(.*)" pattern="type=[A-Z0-9_]+ msg=[^(]+\((\d+).(\d+):\d+\).* invalid context" version="1" version_type="int">
+			<FastField _type="null" defaultValue="invalid context" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $6" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: SOCKADDR" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+ (.+)" pattern="type=SOCKADDR\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: MAC_CONFIG_CHANGE, val" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+bool=(\S+) (.*?) auid=(\d+) ses=(\d+)" pattern="type=MAC_CONFIG_CHANGE .*?val=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Configuration change by auid &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="ses=$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="bool=$5 $6" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CONFIG_CHANGE, audit_backlog_limit" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+ audit_backlog_limit=(\d+) old=(\d+) auid=(\S+).* ses=(\d+) res=(\w+).*" pattern="type=CONFIG_CHANGE .+ audit_backlog_limit=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Configuration change by auid &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $11" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8, result: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="audit_backlog_limit=$5 old=$6" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: FD_PAIR" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+ (.+)" pattern="type=FD_PAIR\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Triggered to record the use of the pipe and socketpair system calls" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Triggered to record the use of the pipe and socketpair system calls" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: MAC_POLICY_LOAD" matcher="type=(\w+) msg=audit\((\d+).(\d+):(\d+)\)[: ]+ (.+)" pattern="type=MAC_POLICY_LOAD\b" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $16" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert Truncatedm msg" matcher=".*" pattern="type=EXECVE msg=.*?a\d+=&quot;\S+$" version="2" version_type="int">
+			<FastField _type="null" defaultValue="execve" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="9,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot; a8=&quot;([^&quot;]+)&quot;.*" description="argc9" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15 $16&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="8,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot;.*" description="argc8" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="7,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot;.*" description="argc7" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot;.*" description="argc6" format="Execute &quot;$8 $9 $10 $11 $12 $13&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot;.*" description="argc5" format="Execute &quot;$8 $9 $10 $11 $12&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot;.*" description="argc4" format="Execute &quot;$8 $9 $10 $11&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot;.*" description="argc3" format="Execute &quot;$8 $9 $10&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot;.*" description="argc2" format="Execute &quot;$8 $9&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="argc1" format="Execute &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $8" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="a0" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert Truncatedm msg 1" matcher=".*" pattern="type=EXECVE msg=.*?a\d+=&quot;$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="execve" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="9,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot; a8=&quot;([^&quot;]+)&quot;.*" description="argc9" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15 $16&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="8,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot;.*" description="argc8" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="7,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot;.*" description="argc7" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot;.*" description="argc6" format="Execute &quot;$8 $9 $10 $11 $12 $13&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot;.*" description="argc5" format="Execute &quot;$8 $9 $10 $11 $12&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot;.*" description="argc4" format="Execute &quot;$8 $9 $10 $11&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot;.*" description="argc3" format="Execute &quot;$8 $9 $10&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot;.*" description="argc2" format="Execute &quot;$8 $9&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="argc1" format="Execute &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $8" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="a0" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert Truncatedm msg 1" matcher=".*" pattern="type=EXECVE msg=.*?a\d+$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="execve" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="9,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot; a8=&quot;([^&quot;]+)&quot;.*" description="argc9" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15 $16&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="8,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot; a7=&quot;([^&quot;]+)&quot;.*" description="argc8" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14 $15&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="7,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot; a6=&quot;([^&quot;]+)&quot;.*" description="argc7" format="Execute &quot;$8 $9 $10 $11 $12 $13 $14&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot; a5=&quot;([^&quot;]+)&quot;.*" description="argc6" format="Execute &quot;$8 $9 $10 $11 $12 $13&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot; a4=&quot;([^&quot;]+)&quot;.*" description="argc5" format="Execute &quot;$8 $9 $10 $11 $12&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot; a3=&quot;([^&quot;]+)&quot;.*" description="argc4" format="Execute &quot;$8 $9 $10 $11&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot; a2=&quot;([^&quot;]+)&quot;.*" description="argc3" format="Execute &quot;$8 $9 $10&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2,a0=&quot;([^&quot;]+)&quot; a1=&quot;([^&quot;]+)&quot;.*" description="argc2" format="Execute &quot;$8 $9&quot;" matcherInput="$5,$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="argc1" format="Execute &quot;$8&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $8" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="a0=&quot;([^&quot;]+)&quot;.*" description="a0" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: EXECVE Truncated message" matcher=".*" pattern="type=\w+ msg=audit\(.*\):$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*auid=(\S+).*" description="parse for auid" format="Configuration change by auid &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*subj=(\S+).*res=(\S*)" description="subj and res" format="$7; res=$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*auid=(\S+).*" description="New Formatter" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) by.*" description="parse up to auid" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: EXECVE Truncated message 2" matcher=".*" pattern="type=\w+ msg=audit\(.*\):.*=[A-Z0-9]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*auid=(\S+).*" description="parse for auid" format="Configuration change by auid &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*subj=(\S+).*res=(\S*)" description="subj and res" format="$7; res=$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceLogonID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*auid=(\S+).*" description="New Formatter" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*) by.*" description="parse up to auid" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: AVC, AVC_PATH, BPRM_FCAPS, CRED_ DISP, CRED_ REFR, LOGIN, PATH, FS_INODE, FS_WATCH" matcher=".*" pattern="type=(?:AVC|AVC_PATH|BPRM_FCAPS|CRED_DISP|CRED_REFR|LOGIN|FS_INODE|FS_WATCH)\b" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="type=(\w+) msg=[^(]+\((\d+).(\d+):(\d+)\).*" pattern="type=[A-Z0-9_]+ msg=[^(]+\((\d+).(\d+):\d+\).*" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched linuxauditd Data ($Revision: #36 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*(ses=\d+).*" description="ses" format="$1 $4 $6" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

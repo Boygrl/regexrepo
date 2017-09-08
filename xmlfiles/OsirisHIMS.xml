@@ -1,0 +1,134 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Osiris Host Integrity Monitoring System" eventIds="all" logInterval="1" logLocation="Application" logManagementOutput="10.254.10.18" logManagementPort="10102" logStartPoint="-1" logType="NtReader" node="spop" readerName="OsirisHIMS" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="OsirisHIMS" toolType="IDS and IPS" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="false" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Osiris Host Integrity Monitoring System" id="OsirisHIMS" sysVersion="3.0" version="19" version_type="int">
+		<FastPattern _type="null" alertName="FileDelete" description="0 - FileDelete [missing]" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[([^]]+)\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;0&quot;.*source=&quot;osirismd.*String1&gt;\s*\[\d\d\d\]\[[^]]*\]\[missing\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected &quot;$17&quot; file" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[^\]]+[^-.\w_\]]([^\]]+)\].*" description="missing" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".+[^-.\w_\]]([^\]]+);pid.*" description="missing - pid" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*exe=([^\]]+);pid.*" description="exe - pid" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\[([^]]*)\].*" description="brackets" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="0 - FileCreate [new]" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[([^]]+)\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;0&quot;.*source=&quot;osirismd.*String1&gt;\s*\[\d\d\d\]\[[^]]*\]\[new\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected &quot;$17&quot; file" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[^\]]+[^-.\w_\]]([^\]]+)\].*" description="new" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".+[^-.\w_\]]([^\]]+);pid.*" description="new - pid" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*exe=([^\]]+);pid.*" description="exe - pid" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\[([^]]*)\].*" description="brackets" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceAudit" description="0 - FileDataWrite [cmp] - service" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[([^]]+)\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;0&quot;.*source=&quot;osirismd.*String1&gt;\s*\[\d\d\d\]\[[^]]*\]\[cmp\].*service:[^]]+\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Detected &quot;$17&quot; file" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*service:([^;]+);.*" description="service" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*service:([^;]+);.*" description="service" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDataWrite" description="0 - FileDataWrite [cmp]" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[([^]]+)\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;0&quot;.*source=&quot;osirismd.*String1&gt;\s*\[\d\d\d\]\[[^]]*\]\[cmp\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Detected &quot;$17&quot; file" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[^\]]+[^-.\w_\]]([^\]]+)\].*" description="cmp" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".+[^-.\w_\]]([^\]]+);pid.*" description="cmp - pid" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*service:([^;]+);.*" description="service" format="Detected $17 &quot;$20&quot;" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*exe=([^\]]+);pid.*" description="exe - pid" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*service:([^;]+);.*" description="service" format="Service: $20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\[([^]]*)\].*" description="brackets" format="$20" matcherInput="$18" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="[200,801] ServiceStart" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[[^]]+\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;1001&quot;.*source=&quot;osirismd.*String1&gt;\s*\[(200|801)\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$17" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="[201] ServiceStop" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[[^]]+\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;1001&quot;.*source=&quot;osirismd.*String1&gt;\s*\[201\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$17" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Stop" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo [info]" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[[^]]+\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;1001&quot;.*source=&quot;osirismd.*String1&gt;\s*\[\d\d\d\]\[[^]]*\]\[info\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$17" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning [other]" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[[^]]+\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;1001&quot;.*source=&quot;osirismd.*String1&gt;\s*\[\d\d\d\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$17" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unable.*" description="no name" format="" matcherInput="$1" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$16" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$17" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="&lt;\S+\s+[^&gt;]*account=&quot;([^&quot;]*)&quot;[^&gt;]*accountType=&quot;([^&quot;]*)&quot;[^&gt;]*computer=&quot;([^&quot;]*)&quot;[^&gt;]*domain=&quot;([^&quot;]*)&quot;[^&gt;]*eventCategory=&quot;([^&quot;]*)&quot;[^&gt;]*eventId=&quot;([^&quot;]*)&quot;[^&gt;]*eventIdHigh=&quot;([^&quot;]*)&quot;[^&gt;]*eventType=&quot;([^&quot;]*)&quot;[^&gt;]*recordNumber=&quot;([^&quot;]*)&quot;[^&gt;]*reserved=&quot;([^&quot;]*)&quot;[^&gt;]*reservedFlags=&quot;([^&quot;]*)&quot;[^&gt;]*source=&quot;([^&quot;]*)&quot;[^&gt;]*timeGenerated=&quot;([^&quot;]*)&quot;[^&gt;]*timeWritten=&quot;([^&quot;]*)&quot;[^&gt;]*&gt;[^&lt;]*&lt;String1&gt;\[(\d+)\]\[([^]]+)\]\[[^]]+\]\s*(.+)&lt;/String1&gt;.*" pattern="eventId=&quot;(0|1001)&quot;.*source=&quot;osirismd.*&lt;String1&gt;\[\d{3}\]" version="102" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched OsirisHIMS Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="29" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $6 - $15" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="10" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="16" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

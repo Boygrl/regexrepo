@@ -1,0 +1,118 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="SELinux" logInterval="1" logLocation="/var/log/audit/audit.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="SELinux" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="selinux" toolType="Operating Systems" version="$Revision: #4 $" vendor="Open Source" fullDescription="Collects events from devices running SELinux." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="SELinux" id="selinux" version="53" version_type="int">
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure tclass=file" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\): avc:\s+(\S+)\s+{ ([^}]+) } for\s+pid=(\S+)(?: comm=&quot;?([^&quot; ]+)&quot;?)?(?: exe=&quot;?([^&quot; ]+)&quot;?)?(?: path=&quot;?([^&quot; ]+)&quot;?)?(?: name=&quot;?([^&quot; ]+)&quot;?)?(?: dev=&quot;?([^&quot; ]+)&quot;?)?(?: ino=&quot;?([^&quot; ]+)&quot;?)?(?: scontext=(\S+))?(?: tcontext=(\S+))? tclass=(\S+)" pattern="avc:\s+denied.*tclass=file" version="9" version_type="int">
+			<FastField _type="null" defaultValue="Access denied to $16 &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null:null:\w+:[^:]+:(?:[^:]+:)?([\w+]+):\S+" description="if path and name  are null parse tcontext for file" format="Access denied to $16 &quot;$18&quot;" matcherInput="$10:$11:$15" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="null:(\S+)" description="if path doesn't exist use name" format="Access denied to $16 &quot;$18&quot;" matcherInput="$10:$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="comm: $8; dev: $12; ino: $13; exe: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse tcontext for username 1st" format="$18" matcherInput="$15" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse scontext for username if not in tcontext" format="$17" matcherInput="$13" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="AccessRequested" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null:null:\w+:[^:]+:(?:[^:]+:)?([\w+]+):\S+" description="if path and name  are null parse tcontext for file" format="$18" matcherInput="$10:$11:$15" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="null:(\S+)" description="if path doesn't exist use name" format="$18" matcherInput="$10:$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServingProcess" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="AccessProperties" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OperationType" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure tclass=dir" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\): avc:\s+(\S+)\s+{ ([^}]+) } for\s+pid=(\S+)(?: comm=&quot;?([^&quot; ]+)&quot;?)?(?: exe=&quot;?([^&quot; ]+)&quot;?)?(?: path=&quot;?([^&quot; ]+)&quot;?)?(?: name=&quot;?([^&quot; ]+)&quot;?)?(?: dev=&quot;?([^&quot; ]+)&quot;?)?(?: ino=&quot;?([^&quot; ]+)&quot;?)?(?: scontext=(\S+))?(?: tcontext=(\S+))? tclass=(\S+)" pattern="avc:\s+denied.*tclass=dir" version="9" version_type="int">
+			<FastField _type="null" defaultValue="Access denied to $16 &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="use $11 of $10 is null" format="Access denied to $16 &quot;$11&quot;" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="comm: $8; dev: $12; ino: $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse tcontext for username" format="$18" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="AccessRequested" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null:null:\w+:[^:]+:(?:[^:]+:)?([\w+]+):\S+" description="if path doesn't exist parse tcontext for file" format="$17" matcherInput="$10:$11:$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="null" description="use name if path is null" format="$11" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServingProcess" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="AccessProperties" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OperationType" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure tclass=process" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\): avc:\s+(\S+)\s+{ ([^}]+) } for\s+pid=(\S+)(?: comm=&quot;?([^&quot; ]+)&quot;?)?(?: exe=&quot;?([^&quot; ]+)&quot;?)?(?: path=&quot;?([^&quot; ]+)&quot;?)?(?: name=&quot;?([^&quot; ]+)&quot;?)?(?: dev=&quot;?([^&quot; ]+)&quot;?)?(?: ino=&quot;?([^&quot; ]+)&quot;?)?(?: scontext=(\S+))?(?: tcontext=(\S+))? tclass=(\S+)" pattern="avc:\s+denied.*tclass=process" version="7" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\w+:[^:]+:(?:[^:]+:)?([\w+]+):\S+" description="parse tcontext for file" format="Access denied to $16 &quot;$18&quot;" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$16 $4" fieldName="ProviderSID" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="comm: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse tcontext for username" format="$18" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="AccessRequested" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\w+:[^:]+:(?:[^:]+:)?([\w+]+):\S+" description="parse tcontext for file" format="$18" matcherInput="$15" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServingProcess" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="AccessProperties" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OperationType" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure tclass=udp_socket" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\): avc:\s+(\S+)\s+{ ([^}]+) } for\s*(?: pid=(\S+))?(?: comm=&quot;?([^&quot; ]+)&quot;?)?(?: exe=&quot;?([^&quot; ]+)&quot;?)?(?: lport=&quot;?[^&quot; ]+&quot;?)?(?: scontext=(\S+))?(?: tcontext=(\S+))? tclass=(\S+)" pattern="avc:\s+denied.*tclass=udp_socket" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null:\w+:.*:(\w+_\w):\w+" description="if comm doesn't exist parse tcontext for file 1" format="Access $5 to $12 &quot;$14&quot;" matcherInput="$8:$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="null:\w+:.*:(\w+)" description="if comm doesn't exist parse tcontext for file 2" format="Access $5 to $12 &quot;$14&quot;" matcherInput="$8:$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\S+" description="use comm if it exist" format="Access $5 to $12 &quot;$13&quot;" matcherInput="$8" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12 $4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse tcontext for username 1st" format="$14" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse scontext for username if not in tcontext" format="$14" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="AccessRequested" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[a-zA-Z0-9]+:.*:(\w+)" description="parse tcontext for filename" format="$14" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="AccessProperties" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure tclass=rawip_socket" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):(\d+)\): avc:\s+(\S+)\s+{ ([^}]+) } for\s+pid=(\S+)(?: exe=&quot;?([^&quot; ]+)&quot;?)?(?: lport=&quot;?[^&quot; ]+&quot;?)?(?: scontext=(\S+))?(?: tcontext=(\S+))? tclass=(\S+)" pattern="avc:\s+denied.*tclass=rawip_socket" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\w+:.*:(\w+)" description="parse tcontext for file" format="Access $5 to $11 &quot;$13&quot;" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11 $4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="exe: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse tcontext for username 1st" format="$13" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([a-zA-Z0-9]+):.*" description="parse scontext for username if not in tcontext" format="$13" matcherInput="$9" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="AccessRequested" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[a-zA-Z0-9]+:.*:(\w+)" description="parse tcontext for filename" format="$13" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServingProcess" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="AccessProperties" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OperationType" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="New SELinux Tool Data" matcher="type=(\S+) msg=[^(]+\((\d+).(\d+):\d+\).*" pattern="type=[Aa][Vv][Cc]" version="28" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched SELinux Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2$3" fieldName="DetectionTime" type="4" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="2" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

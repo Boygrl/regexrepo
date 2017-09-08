@@ -1,0 +1,1140 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Solaris 10 BSM Auditing" fullDescription="Collects events from Solaris 10 servers running the Basic Security Module." logInterval="1" logLocation="/var/adm/auditlog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Solaris BSM" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="solarisbsm" toolType="Operating Systems" vendor="Solaris" version="$Revision: #6 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Solaris 10 BSM Auditing" id="solarisbsm" version="16" version_type="int">
+		<FastPattern _type="null" alertName="" description="null - general ioctl removal" matcher=".*" pattern="\s\S*ioctl\S*\(" version="11" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - explicit stat removal" matcher=".*" pattern="\sstat\(" version="14" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - general access removal" matcher=".*" pattern="\s\S*access\S*\(" version="15" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - general fork removal" matcher=".*" pattern="\s\S*fork\S*\(" version="13" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - general munmap removal" matcher=".*" pattern="\s\S*munmap\S*\(" version="14" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - general doorfs removal" matcher=".*" pattern="\s\S*doorfs\S*\(" version="12" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon - login - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) - (.*) ok(?: session (\d+))? by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] login - .* ok (?:session|by)" version="36" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon - screenlock - unlock ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) - (.*) ok(?: session (\d+))?(\d+) by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] screenlock - unlock ok (?:session|by)" version="35" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="LogonType" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon - passwd|su ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) ok(?: session (\d+))? by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:passwd|su) ok (?:session|by)" version="38" version_type="int">
+			<FastField _type="null" defaultValue="Logon" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition=".* success for user (\S+).*" description="user" format="Logon &quot;$9&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".* success for user (\S+).*" description="user" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$9" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonType" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon - ftp access ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (.*) ok session (\S+) by (.*) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] ftp access \S+ session \S+ by \S+ as" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ftp access" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure - login|screenlock - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) - (.*) \S+(?: session (\d+))? by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:login|screenlock) - .* failed (?:session|by)" version="30" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".* text (.*)" description="text" format="$10" matcherInput="$8" version="5" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure - passwd|su failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) failed(?: session (\d+))? by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:passwd|su) failed (?:session|by)" version="38" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition=".* failure for user (\S+).*" description="user" format="Logon Failure &quot;$9&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".* failure for user (\S+).*" description="user" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$9" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonProcess" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from \S+ (\S+) .*" description="after machine" format="$9" matcherInput="$7" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonType" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".* text (.*)" description="text" format="$9" matcherInput="$7" version="6" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff - ftp logout ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (.*) ok session (\S+) by (.*) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] ftp logout ok session \S+ by \S+ as" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff - screenlock - lock ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) - (.*) ok(?: session (\d+))? by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] screenlock - lock ok (?:session|by)" version="46" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="LogonType" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff - logout ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) ok(?: session (\d+))? by (\S+) as ([^:]+):(.*)" pattern="audit: \[ID \d+ audit.notice\] logout ok (?:session|by)" version="34" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="\S+ from (\S+).*" description="from" format="$9" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileExecute" description="FileExecute - exec\w+ - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] exec\w+\(\d\) ok" version="58" version_type="int">
+			<FastField _type="null" defaultValue="File execute by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; execute by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="execute" fieldName="OperationType" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData - login, logout, su, passwo?r?d, screenlock, ssh" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (.*)" pattern="audit: \[ID \d+ audit.notice\].* (?:login|logout|su|passwo?r?d?|screenlock|ssh) .*" version="42" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Solaris BSM Auth Data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChangeGroupAttribute" description="ChangeGroupAttribute - set\S*g(id|rp)" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] set\S*g(id|rp)\(\d\) (?:ok|failed)" version="37" version_type="int">
+			<FastField _type="null" defaultValue="Group modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange - [fl]?ch(mod|own)(at)? - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] [fl]?ch(?:mod|own)(?:at)?\(\d\) ok" version="46" version_type="int">
+			<FastField _type="null" defaultValue="File modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; modified by &quot;$6&quot; $4" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - [fl]?ch(mod|own)(at)? - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] [fl]?ch(?:mod|own)(?:at)?\(\d\) failed" version="46" version_type="int">
+			<FastField _type="null" defaultValue="File modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; modified by &quot;$6&quot; $4" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="FileAttributeChange - facl|rename(at)? - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:facl|rename(?:at)?)\(\d\) ok" version="49" version_type="int">
+			<FastField _type="null" defaultValue="File modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; modified by &quot;$6&quot; $4" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - facl|rename(at)? - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:facl|rename(?:at)?)\(\d\) failed" version="49" version_type="int">
+			<FastField _type="null" defaultValue="File modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; modified by &quot;$6&quot; $4" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAudit" description="FileAudit - fcntl - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] fcntl\(\d\) ok" version="53" version_type="int">
+			<FastField _type="null" defaultValue="File control by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; control by &quot;$6&quot; $4" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - fcntl - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] fcntl\(\d\) failed" version="54" version_type="int">
+			<FastField _type="null" defaultValue="File control by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; control by &quot;$6&quot; $4" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="FileCreate - creat|mknod - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:creat|mknod)\(\d\) ok" version="57" version_type="int">
+			<FastField _type="null" defaultValue="File created by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; created by &quot;$6&quot; $4" matcherInput="$10" version="3" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - creat|mknod - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:creat|mknod)\(\d\) failed" version="57" version_type="int">
+			<FastField _type="null" defaultValue="File created by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; created by &quot;$6&quot; $4" matcherInput="$10" version="3" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDataWrite" description="FileDataWrite - p?writev? - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] p?writev?\(\d\) ok" version="60" version_type="int">
+			<FastField _type="null" defaultValue="File written to by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; written to by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - p?writev? - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] p?writev?\(\d\) failed" version="58" version_type="int">
+			<FastField _type="null" defaultValue="File written to by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; written to by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="FileDelete - rmdir - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] rmdir\(\d\) ok" version="73" version_type="int">
+			<FastField _type="null" defaultValue="File removed by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; removed by &quot;$6&quot; $4" matcherInput="$10" version="7" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - rmdir - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] rmdir\(\d\) failed" version="74" version_type="int">
+			<FastField _type="null" defaultValue="File removed by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; removed by &quot;$6&quot; $4" matcherInput="$10" version="7" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - exec\w+ - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] exec\w+\(\d\) failed" version="58" version_type="int">
+			<FastField _type="null" defaultValue="File execute by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; execute by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileLink" description="FileLink - (read|sym)?link - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:read|sym)?link\(\d\) ok" version="65" version_type="int">
+			<FastField _type="null" defaultValue="File linked to by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; linked to by &quot;$6&quot; $4" matcherInput="$10" version="5" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) text .*" description="up to text" format="$12" matcherInput="$10" version="0" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LinkName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* text (.*)" description="after text" format="$12" matcherInput="$10" version="0" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - (read|sym)?link - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:read|sym)?link\(\d\) failed" version="62" version_type="int">
+			<FastField _type="null" defaultValue="File linked to by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; linked to by &quot;$6&quot; $4" matcherInput="$10" version="5" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*) text .*" description="up to text" format="$12" matcherInput="$10" version="0" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LinkName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".* text (.*)" description="after text" format="$12" matcherInput="$10" version="0" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileRead" description="FileRead - (p?readv?|open(at)?|futimesat) - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+)(?: - (.*))? (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:p?readv?|open(?:at)?|futimesat)\(\d\)(?: - .*)? ok" version="68" version_type="int">
+			<FastField _type="null" defaultValue="File read by &quot;$7&quot; $5" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$13&quot; read by &quot;$7&quot; $5" matcherInput="$11" version="7" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="OperationType" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$4" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - (p?readv?|open(at)?|access|futimesat) - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+)(?: - (.*))? (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:p?readv?|open(?:at)?|access|futimesat)\(\d\)(?: - .*)? failed" version="70" version_type="int">
+			<FastField _type="null" defaultValue="File read by &quot;$7&quot; $5" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$13&quot; read by &quot;$7&quot; $5" matcherInput="$11" version="7" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="OperationType" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileRead" description="FileRead - [fl]stat(vfs|at)? - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] [fl]?stat(?:vfs|at)?\(\d\) (?:-.* )?ok" version="71" version_type="int">
+			<FastField _type="null" defaultValue="File read by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="13" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; read by &quot;$6&quot; $4" matcherInput="$10" version="6" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - [fl]stat(vfs|at)? - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] [fl]?stat(?:vfs|at)?\(\d\) failed" version="67" version_type="int">
+			<FastField _type="null" defaultValue="File read by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="13" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; read by &quot;$6&quot; $4" matcherInput="$10" version="6" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="FileSystemAudit - (getdents|sysfs|ustat)" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:getdents|sysfs|ustat)\(\d\) (?:ok|failed)" version="64" version_type="int">
+			<FastField _type="null" defaultValue="File System read by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File System &quot;$12&quot; read by &quot;$6&quot; $4" matcherInput="$10" version="8" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileWrite" description="FileWrite - (audit(svc)?|close|utimes?) - ok" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S*\s*\S+) (ok)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] \S*\s*(?:audit(?:svc)?|close|utimes?)\(\d\) ok" version="71" version_type="int">
+			<FastField _type="null" defaultValue="File written by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; written by &quot;$6&quot; $4" matcherInput="$10" version="8" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="FileAuditFailure - (audit(svc)?|close|utimes?) - failed" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S*\s*\S+) (failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] \S*\s*(?:audit(?:svc)?|close|utimes?)\(\d\) failed" version="70" version_type="int">
+			<FastField _type="null" defaultValue="File written by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; written by &quot;$6&quot; $4" matcherInput="$10" version="8" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MountFileSystem" description="MountFileSystem - mount" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] mount\(\d\) (?:ok|failed)" version="67" version_type="int">
+			<FastField _type="null" defaultValue="Mount File System by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="Mount File System &quot;$12&quot; by &quot;$6&quot; $4" matcherInput="$10" version="9" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify - [gs]et(audit(_addr)?|auid|groups|ppriv)" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] [gs]et(?:audit(?:_addr)?|auid|groups|ppriv)\(\d\) (?:ok|failed)" version="70" version_type="int">
+			<FastField _type="null" defaultValue="Privileges modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="Privileges &quot;$12&quot; modified by &quot;$6&quot; $4" matcherInput="$10" version="7" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 $4" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify - (acct|acl|auditon|stime|sysinfo)" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+)(?: - (.*))? (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:acct|acl|auditon|stime|sysinfo|execve)\(\d\)(?: - (.*))? (?:ok|failed)\s" version="76" version_type="int">
+			<FastField _type="null" defaultValue="Privileges modified by &quot;$7&quot; $5" fieldName="EventInfo" type="1" type_type="int" version="17" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="Privileges of &quot;$13&quot; modified by &quot;$7&quot; $5" matcherInput="$11" version="9" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4 $5" fieldName="ChangeDetails" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="$3 $5" matcherInput="$4" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart - cron-invoke" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] cron-invoke (?:ok|failed)" version="58" version_type="int">
+			<FastField _type="null" defaultValue="Cron job started by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="Cron job &quot;$12&quot; started by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ImageFile" type="1" type_type="int" version="0" version_type="int">
+				<FastFormatter _type="null" condition=".* text (.*)" description="text" format="$12" matcherInput="$10" version="-1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="ProcessStop - \S+[Ee]xit|kill" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:\S*[Ee]xit|kill)\(\d\) (?:ok|failed)" version="58" version_type="int">
+			<FastField _type="null" defaultValue="File exited by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="File &quot;$12&quot; exited by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemReboot" description="SystemReboot - reboot" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] reboot\(\w+\) (?:ok|failed)" version="58" version_type="int">
+			<FastField _type="null" defaultValue="System reboot by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="System &quot;$12&quot; reboot by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemShutdown" description="SystemShutdown - shutdown" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] shutdown\(\d\) (?:ok|failed)" version="58" version_type="int">
+			<FastField _type="null" defaultValue="System shutdown by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="System &quot;$12&quot; shutdown by &quot;$6&quot; $4" matcherInput="$10" version="4" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus - system booted" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (system booted) text (.*)" pattern="audit: \[ID \d+ audit.notice\] system booted" version="57" version_type="int">
+			<FastField _type="null" defaultValue="$3: $4" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3: $4" fieldName="StatusMessage" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnmountFileSystem" description="UnmountFileSystem - umount2?" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] umount2?\(\d\) (?:ok|failed)" version="69" version_type="int">
+			<FastField _type="null" defaultValue="Unmount File System by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition=".*/(.*)" description="short filename" format="Unmount File System &quot;$12&quot; by &quot;$6&quot; $4" matcherInput="$10" version="9" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute - ([gs]etcontext|setr?e?uid)" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+) (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] (?:[gs]etcontext|setr?e?uid)\(\d\) (?:ok|failed)" version="42" version_type="int">
+			<FastField _type="null" defaultValue="User modified by &quot;$6&quot; $4" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no session" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify - crontab-modify" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (\S+)(?: - (.*))? (ok|failed)(?: session (\d+))? by (\S+) as ([^:]+):(\S+) from (\S+)(?: obj )?(.*)" pattern="audit: \[ID \d+ audit.notice\] crontab-modify" version="1" version_type="int">
+			<FastField _type="null" defaultValue="crontab-modify by &quot;$7&quot; as &quot;$8&quot; $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Session: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9 from $10 obj $11" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - [gs]et command removal" matcher=".*" pattern="\s\S*[gs]et\S*\(" version="19" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - _\S+ command removal" matcher=".*" pattern="\s_\S*\(" version="13" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - brk command removal" matcher=".*" pattern="\s\S*brk\S*\(" version="15" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - dir command removal" matcher=".*" pattern="\s\S*dir\S*\(" version="15" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - seek command removal" matcher=".*" pattern="\s\S*seek\S*\(" version="17" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - mem command removal" matcher=".*" pattern="\s\S*mem\S*\(" version="19" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - msg command removal" matcher=".*" pattern="\s\S*msg\S*\(" version="20" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - sem command removal" matcher=".*" pattern="\s\S*sem\S*\(" version="20" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - shm command removal" matcher=".*" pattern="\s\S*shm\S*\(" version="21" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - sig command removal" matcher=".*" pattern="\s\S*sig\S*\(" version="22" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - time command removal" matcher=".*" pattern="\s\S*time\S*\(" version="23" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - processor command removal" matcher=".*" pattern="\s\S*processor\S*\(" version="25" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - alarm command removal" matcher=".*" pattern="\s\S*alarm\S*\(" version="15" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - acct command removal" matcher=".*" pattern="\s\S*acct\S*\(" version="16" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - unlink command removal" matcher=".*" pattern="\s\S*unlink\S*\(" version="17" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - prio command removal" matcher=".*" pattern="\s\S*prio\S*\(" version="18" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - path command removal" matcher=".*" pattern="\s\S*path\S*\(" version="19" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - chroot command removal" matcher=".*" pattern="\s\S*chroot\S*\(" version="20" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - m(?:incore|map|protect) command removal" matcher=".*" pattern="\sm(?:incore|map|protect)\(" version="23" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - p(?:_online|ause|csample|ipe|oll|riocntl|rofil) command removal" matcher=".*" pattern="\sp(?:_online|ause|csample|ipe|oll|riocntl|rofil)\(" version="23" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - profile command removal" matcher=".*" pattern="\sprofile command\s" version="23" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - s(?:wapctl|ync) command removal" matcher=".*" pattern="\ss(?:wapctl|ync)\(" version="25" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - u(?:admin|limit|mask|name|ucopy) command removal" matcher=".*" pattern="\su(?:admin|limit|mask|name|ucopy)\(" version="26" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - (?:dup|nice|vhangup|waitid|yield) command removal" matcher=".*" pattern="\s(?:dup|nice|vhangup|waitid|yield)\(" version="27" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - (accept, bind, connect, socket) command removal" matcher=".*" pattern="\s(?:accept|bind|connect|socket)\(" version="18" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="null - [gs]et command removal" matcher=".*" pattern="\sinit\(" version="18" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="^(\d+) ([-\w.]+) .*audit: \[ID \d+ audit.notice\] (.*)" pattern="audit: \[ID \d+ audit.notice\]" version="42" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Solaris BSM Data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="10" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="." version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

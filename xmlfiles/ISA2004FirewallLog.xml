@@ -1,0 +1,336 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="Microsoft ISA 2004/2006 Firewall (ISA Server file format)" dstIpField="5" dstPortField="11" fieldList="#Fields: " fileFormatterType="Daily: yyyymmdd" integer_length="3" logInterval="1" logLocation="C:\Program Files\Microsoft ISA Server\ISALogs\\" logManagementOutput="10.254.10.18" logManagementPort="10101" logMidfix="_FWS_" logPostfix=".iis" logPrefix="ISALOG_" logStartPoint="-1" logType="ISA2004Reader" node="spop" readerName="Microsoft ISA 2004 and 2006 Firewall" readerOutput="Alert" secondFileFormatterType="Increment: Padded#" stateVars="logStartPoint,fieldList,readerName,currentLogLocation,firstLogLocation" currentLogLocation="" firstLogLocation="" timeZone="Local" toolId="ISA2004FirewallLog" toolType="Firewalls" useDaylightSavings="false" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log Directory or File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<select attributeName="fileFormatterType" enabled="true" formatRule="" formatted="false" labelText="New File Name Interval:" preferredOrder="2" selectItems="Daily: yyyymmdd" toolTipText="New log file generation format (daily with rotating integer counter)" visible="true"></select>
+		<select attributeName="timeZone" enabled="false" formatRule="" formatted="false" labelText="Time Zone:" preferredOrder="3" selectItems="Local;GMT" toolTipText="Configured Time Zone for log files (local or GMT)" visible="false"></select>
+		<boolean attributeName="useDaylightSavings" enabled="true" labelText="Use Daylight Savings:" preferredOrder="4" toolTipText="Enable to account for Daylight Savings Time when appropriate" visible="false"></boolean>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Microsoft ISA 2004/2006 Firewall (ISA Server file format)" id="ISA2004FirewallLog" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="UDP Connection" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^:]+):([^,]\d+),\s([^:]+):([^,]\d+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern="., *UDP,.*" version="31" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 UDP" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$7" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="port" format="$8" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$13, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$13, for process $29" matcherInput="$13" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$37-$35-$36 $38:$39:$40.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="$10" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Internal" description="internal" format="$10 - $14" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="VPN Clients" description="VPN" format="$10 - $14" matcherInput="$10" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Local Host" description="Local Host" format="$10 - $14" matcherInput="$10" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="17" version_type="int">
+				<FastFormatter _type="null" condition="UdpMap" description="Map" format="A UDP mapping has been created" matcherInput="$12" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$12" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate" description="Terminate" format="Terminate $15 communication" matcherInput="$12" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Request denied by the firewall policy" format="Request denied by the firewall policy, $14,  for process, $29" matcherInput="$12" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish" description="Establish" format="Establish $15 communication" matcherInput="$12" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$12" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$12" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="UDP incoming/outgoing" matcherInput="$12" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="TCP Connection" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^:]+):([^,]\d+),\s([^:]+):([^,]\d+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern="., *TCP,.*" version="32" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 TCP" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hypen" format="" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="adderss" format="$7" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hypen" format="" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="port" format="$8" matcherInput="$8" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hypen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $26" matcherInput="$22" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="13301" description="Request denied by the firewall policy" format="Request denied by firewall policy, for process $26" matcherInput="$22" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="20000" description="Connection terminated normally" format="Connection terminated normally, for process $26" matcherInput="$22" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="20001" description="Connection terminated abnormally" format="Connection terminated abnormally, for process $26" matcherInput="$22" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="20002" description="Malformed request packet" format="Malformed request packet, for process $26" matcherInput="$22" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$22, for process $26" matcherInput="$22" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$22, for process $26" matcherInput="$22" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="4" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$37-$35-$36 $38:$39:$40.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="$10" matcherInput="$14" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="VPN Clients" description="VPN" format="$10 - $14" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Local Host" description="Local Host" format="$10 - $14" matcherInput="$10" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="17" version_type="int">
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$12" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$12" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$12" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Connect" description="Connect" format="Outgoing connection request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate" description="Terminate" format="Terminate $15 connection" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish" description="Establish" format="Establish $15 connection" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Denied" format="$15 denied by rule, $14" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Accept" description="Accept" format="Incoming connection request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="Connection accept/request" matcherInput="$12" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMP Connection (1: type field)" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^:]+):([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern="., *ICMP, [.\d]+:\d+, " version="41" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 ICMP1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$7" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition="0" description="0 ICMP Echo Reply" format="ICMP Echo Reply" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[127]" description="1, 2, 7 ICMP Unassigned" format="ICMP Unassigned" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3" description="3 ICMP Host Unreachable" format="ICMP Host Unreachable" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4" description="4 ICMP Source Quench " format="ICMP Source Quench " matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5" description="5 ICMP Redirect " format="ICMP Redirect  " matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6" description="6 ICMP Alternate Host Address" format="ICMP Alternate Host Address" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8" description="8 ICMP Echo Request" format="ICMP Echo Request" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9" description="9 ICMP Router Advertisement" format="ICMP Router Advertisement" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10" description="10 ICMP Router Selection" format="ICMP Router Selection" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11" description="11 ICMP Time Exceeded" format="ICMP Time Exceeded" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="12" description="12 ICMP Parameter Problem" format="ICMP Parameter Problem" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="13" description="13 ICMP Timestamp Request" format="ICMP Timestamp Request" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="14" description="14 ICMP Timestamp Reply" format="ICMP Timestamp Reply" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="15" description="15 ICMP Information Request" format="ICMP Information Request" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="16" description="16 ICMP Information Reply" format="ICMP Information Reply" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="17" description="17 ICMP Address Mask Request" format="ICMP Address Mask Request" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="18" description="18 ICMP Address Mask Reply" format="ICMP Address Mask Reply" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="19|2[0-9]|4[1-9]|[5-9][0-9]|1[0-9][0-9]|2[01][0-9]|22[0-5]" description="19-29, 41-255 ICMP Reserved" format="ICMP Reserved" matcherInput="$6" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30" description="30 ICMP Traceroute" format="ICMP Traceroute" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31" description="31 ICMP Datagram Conversion Error" format="ICMP Datagram Conversion Error" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="32 ICMP Datagram Conversion Error" format="ICMP Datagram Conversion Error" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32" description="32 ICMP Mobile Host Redirect" format="ICMP Mobile Host Redirect" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33" description="33 ICMP IPv6 Where-are-you" format="ICMP IPv6 Where-are-you" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34" description="34 ICMP Ipv6 I-Am-Here" format="ICMP Ipv6 I-Am-Here" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35" description="35 ICMP Mobile Registration Request" format="ICMP Mobile Registration Request" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36" description="36 ICMP Mobile Registration Reply" format="ICMP Mobile Registration Reply" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37" description="37 ICMP Domain Name Request" format="ICMP Domain Name Request" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38" description="38 ICMP Domain Name Reply" format="ICMP Domain Name Reply" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39" description="39 ICMP SKIP Algorithm Discovery Protocol" format="ICMP SKIP Algorithm Discovery Protocol" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40" description="40 ICMP Authentication Failures" format="ICMP Authentication Failures" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$13, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$13, for process $29" matcherInput="$13" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$36-$34-$35 $37:$38:$39.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="22" version_type="int">
+				<FastFormatter _type="null" condition="UdpMap" description="Map" format="A UDP mapping has been created" matcherInput="$11" version="8" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$11" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate" description="Terminate" format="Terminate $14 communication" matcherInput="$11" version="8" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Request denied by the firewall policy" format="Request denied by the firewall policy, $14,  for process, $29" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish" description="Establish" format="Establish $14 communication" matcherInput="$11" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$11" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="UDP incoming/outgoing" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMP Connection (2: no type field)" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern="., *ICMP,.*" version="43" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 ICMP2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$6" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="10" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$13, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$13, for process $29" matcherInput="$13" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$35-$33-$34 $36:$37:$38.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="24" version_type="int">
+				<FastFormatter _type="null" condition="UdpMap" description="Map" format="A UDP mapping has been created" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$10" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate" description="Terminate" format="Terminate $13 communication" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Request denied by the firewall policy" format="Request denied by the firewall policy, $13" matcherInput="$10" version="8" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish" description="Establish" format="Establish $13 communication" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$10" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$10" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="UDP incoming/outgoing" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PointToPointAccess" description="PPTP Connection (1: GRE)" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern="., GRE, " version="72" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 PPTP1" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$6" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$13, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$13, for process $29" matcherInput="$13" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$35-$33-$34 $36:$37:$38.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="28" version_type="int">
+				<FastFormatter _type="null" condition="UdpMap" description="Map" format="A UDP mapping has been created" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$10" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate" description="Terminate" format="Terminate $13 communication" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Request denied by the firewall policy" format="Request denied by the firewall policy, $13" matcherInput="$10" version="8" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish" description="Establish" format="Establish $13 communication" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$10" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$10" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="UDP incoming/outgoing" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="intermediate" format="$12" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PointToPointAccess" description="PPTP Connection (2: Device)" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern="^([\w.-]+),\s([^,]+),\s([^,]+),\s-, " version="91" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$6" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$6" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="ISA2004 PPTP2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$13, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$13, for process $29" matcherInput="$13" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$35-$33-$34 $36:$37:$38.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="PPTP" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="Interface" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$13" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="35" version_type="int">
+				<FastFormatter _type="null" condition="UdpMap" description="Map" format="A UDP mapping has been created" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$10" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate|Disconnection" description="Terminate" format="Terminate $13 communication" matcherInput="$10" version="10" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Request denied by the firewall policy" format="Request denied by the firewall policy, $13" matcherInput="$10" version="8" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish|Successful Connection" description="Establish" format="Establish $13 communication" matcherInput="$10" version="10" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$10" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$10" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="UDP incoming/outgoing" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Intermediate" description="intermediate" format="$12" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Unsuccessful Connection" description="Unsuccessful Connection" format="$8 - $10" matcherInput="$10" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RoutingAccess" description="IGMP Connection" matcher="([\w.-]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+),\s([^,]+).*" pattern=", IGMP, " version="69" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 IGMP" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$6" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionIP" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$1" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="0" description="Operation successful" format="Operation successful, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="([0-9][0-9]|100)" description="Windows (Win32) error code" format="Win32 error code:$13, for process $29" matcherInput="$13" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(1[0-1]00[0-4])|(10[0-9][0-9][0-9])" description="A Winsock error code" format="Winsock error code:$13, for process $29" matcherInput="$13" version="4" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="39" version_type="int">
+				<FastFormatter _type="null" condition="(\d+)/(\d+)/(\d+)\s(\d+):(\d+):(\d+).*" description="Date / Time" format="$35-$33-$34 $36:$37:$38.000000000" matcherInput="$2 $3" version="34" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="address" format="$5" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="26" version_type="int">
+				<FastFormatter _type="null" condition="UdpMap" description="Map" format="A UDP mapping has been created" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bind" description="Bind" format="Internal port bind request" matcherInput="$10" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Terminate" description="Terminate" format="Terminate $13 communication" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Denied" description="Request denied by the firewall policy" format="Request denied by the firewall policy, $13" matcherInput="$10" version="8" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Establish" description="Establish" format="Establish $13 communication" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Listen" description="Listen" format="Internal listen on specific port operation" matcherInput="$10" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBN" description="Get host by name request" format="Get host by name request" matcherInput="$10" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GHBA" description="Get host by address request" format="Get host by address request" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="-.*" description="hypen" format="UDP incoming/outgoing" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)" description="intermediate" format="$12" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="ISAVPN NewToolData" matcher=".*" pattern="ISAVPN4, " version="9" version_type="int">
+			<FastField _type="null" defaultValue="ISA2004 NewToolData" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched ISA2004 Firewall Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern=".*" version="8" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

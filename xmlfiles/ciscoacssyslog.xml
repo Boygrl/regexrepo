@@ -1,0 +1,1474 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Cisco Secure ACS 4.1 Syslog" fullDescription="Collects events from Cisco ACS (versions 4.1 up to 5)." logInterval="1" logLocation="/var/log/local4.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Cisco ACS Syslog" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="ciscoacssyslog" toolType="Identity and Access Management" vendor="Cisco" version="$Revision: #14 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Cisco Secure ACS 4.1 Syslog" id="ciscoacssyslog" version="150" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: CisACS_05_TACACSAdmin exit, end, ping, terminal" matcher=".*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:exit|end|ping|[^,]*terminal)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon: CisACS_01_PassedAuth, (Authen|Re-key OK)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern="CisACS_01_PassedAuth.*(?:Authen OK|Re-key OK)," version="6" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="User-Name" format="Logon &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=(?:[^\\]+\\)?([^,]+),.*" description="remove domain if it exist" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^\\]+)\\[^,]+,.*" description="remove username" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*Group-Name=([^,]+),.*" description="Group-Name" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Caller-ID=([^,]+),.*" description="source" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Message-Type=([^,]+),.*" description="NAS" format="NAS $7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Cisco ACS" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Network" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure: CisACS_02_FailedAuth" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern="CisACS_02_FailedAuth.*(Auth\S+ failed|Unknown NAS|Bad request from NAS)," version="6" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=GET\s*/\s*HTTP[^,]+,.*" description="nuke Get/HTTP/1.0" format="Logon Failure" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*User-Name=\S+\\(\w+),.*" description="remove domain if exist" format="Logon Failure &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="user" format="Logon Failure &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=GET\s*/\s*HTTP[^,]+,.*" description="nuke Get/HTTP/1.0" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*User-Name=\S+\\(\w+),.*" description="remove domain if exist" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="user" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^\\]+)\\[^,]+,.*" description="remove username" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Group-Name=([^,]+),.*" description="Group-Name" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Caller-ID=([^,]*),.*" description="src ip = Caller-Id" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*NAS-IP-Address=([^,]*),.*" description="dst ip" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Authen-Failure-Code=([^,]+),.*" description="failure reason" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon Start: CisACS_03_RADIUSAcc (Start)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern=" CisACS_03_RADIUSAcc.*Acct-Status-Type=Start" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=\S+\\(\w+).*" description="remove domain" format="Logon &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="no domain" format="Logon &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Service-Type=([^,]+),|Framed-Protocol=([^,]+),|Acct-Session-Id=([^,]+),|Acct-Session-Time=([^,]+),|.)+" description="extinfo formatter" format="Service Type: $7, Framed Protocol: $8, Session ID: $9, Session Time $10" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="group name formatter" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Group-Name=([^,]+),.*" description="group name formatter" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Calling Station ID: $4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Calling-Station-Id=([^,]+),.*" description="Calling Station ID" format="Calling Station ID: $7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:NAS-IP-Address=([^,]+),|NAS-Port=([^,]+),|Framed-IP-Address=([^,]+),|.)+" description="dstmachine formatter" format="NAS IP:$7, Port: $8, Framed IP: $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Accounting" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff: CisACS_03_RADIUSAcc, (Stop)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern=" CisACS_03_RADIUSAcc.*Acct-Status-Type=Stop" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=\S+\\(\w+).*" description="remove domain" format="Logoff &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?:User-Name=([^,]+),|Login-IP-Host([^,]+),|.)+" description="no domain" format="Logoff &quot;$7&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Service-Type=([^,]+),|Framed-Protocol=([^,]+),|Acct-Session-Id=([^,]+),|Acct-Session-Time=([^,]+),|.)+" description="extinfo formatter" format="Service Type: $7, Framed Protocol: $8, Session ID: $9, Session Time $10" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=(?:[^\\]+\\)?([^,]+),.*" description="remove domain if it exist" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Calling Station ID: $4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Calling-Station-Id=([^,]+),.*" description="Calling Station ID" format="Calling Station ID: $7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:NAS-IP-Address=([^,]+),|NAS-Port=([^,]+),|Framed-IP-Address=([^,]+),|.)+" description="dstmachine formatter" format="NAS IP:$7, Port: $8, Framed IP: $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Acct-Input-Octets=([^,]+),|Acct-Output-Octets=([^,]+),|Acct-Input-Packets=([^,]+),|Acct-Output-Packets=([^,]+),|.)+" description="privex formatter" format="Input Octets $7, Output Octets $8, Input Packets $9, Output Packets $10" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Accounting" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserLogon Start: CisACS_03_RADIUSAcc (Interim Update)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern=" CisACS_03_RADIUSAcc.*Acct-Status-Type=Interim Update" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=\S+\\(\w+).*" description="remove domain" format="Interim Update for &quot;$7&quot;" matcherInput="$5" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="no domain" format="Interim Update for &quot;$7&quot;" matcherInput="$5" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Service-Type=([^,]+),|Framed-Protocol=([^,]+),|Acct-Session-Id=([^,]+),|Acct-Session-Time=([^,]+),|.)+" description="extinfo formatter" format="Service Type: $7, Framed Protocol: $8, Session ID: $9, Session Time $10" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^,]+),.*" description="group name formatter" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Group-Name=([^,]+),.*" description="group name formatter" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Calling Station ID: $4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Calling-Station-Id=([^,]+),.*" description="Calling Station ID" format="Calling Station ID: $7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:NAS-IP-Address=([^,]+),|NAS-Port=([^,]+),|Framed-IP-Address=([^,]+),|.)+" description="dstmachine formatter" format="NAS IP:$7, Port: $8, Framed IP: $9" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: CisACS_04_TACACSAcc (start|stop|NAS Port re-used|watchdog)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)" pattern="CisACS_04_TACACSAcc.*Acct-Flags=(?:start|stop|NAS Port re-used|NAS Reset|watchdog)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Acct-Flags=([^,]+),|User-Name=([^,]+),|.)+" description="format" format="Accounting session $7 for &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=(?:[^\\]+\\)?([^,]+),.*" description="remove domain if it exist" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^\\]+)\\[^,]+,.*" description="remove username" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Group-Name=([^,]+),.*" description="Group-Name" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Caller-Id=([^,]+),.*" description="New Formatter" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*NAS-IP-Address=([^,]+),.*" description="New Formatter" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: CisACS_03_RADIUSAcc NAS Port {Purged,re-used}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)" pattern="CisACS_03_RADIUSAcc.*Acct-Status-Type=NAS Port (?:Purged|re-used)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:Acct-Status-Type=([^,]+),|User-Name=([^,]+),|.)+" description="format" format="Accounting session $7 for &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=(?:[^\\]+\\)?([^,]+),.*" description="remove domain if it exist" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*User-Name=([^\\]+)\\[^,]+,.*" description="remove username" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Group-Name=([^,]+),.*" description="Group-Name" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Caller-Id=([^,]+),.*" description="Src_mac" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*NAS-IP-Address=([^,]+),.*" description="dst_mac" format="$7" matcherInput="$0" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="LinkControlTrafficAudit: CisACS_05_TACACSAdmin {shun, no shun, vlan}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=(?:([\w ]*shun)|(vlan (\d+))) ([-\w.]+),(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:no\s*)?(?:shun [-\w.]+|vlan \d+)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="shun" description="shun" format="Block connections from &quot;$7&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="no shun" description="no shun" format="Disable shun for &quot;$7&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$11" matcherInput="$5$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="TCPTrafficAudit: CisACS_05_TACACSAdmin (permit,deny) tcp {network range}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=(\w+) (\w+) ([\d.]+) ([\d.]+).*?,(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:permit|deny) tcp [\d.]+ [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6 TCP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="permit" description="permit" format="Allow TCP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="deny" description="deny" format="Block TCP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$13" matcherInput="$5$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="tcp" description="tcp" format="TCP" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="UDPTrafficAudit: CisACS_05_TACACSAdmin (permit,deny) udp {network range}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=(\w+) (\w+) ([\d.]+) ([\d.]+).*?,(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:permit|deny) udp [\d.]+ [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6 UDP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="permit" description="permit" format="Allow UDP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="deny" description="deny" format="Block UDP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$13" matcherInput="$5$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="udp" description="udp" format="UDP" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ICMPTrafficAudit: CisACS_05_TACACSAdmin (permit,deny) icmp {network range}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=(\w+) (\w+) ([\d.]+) ([\d.]+).*?,(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:permit|deny) icmp [\d.]+ [\d.]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6 ICMP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="permit" description="permit" format="Allow ICMP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="deny" description="deny" format="Block ICMP traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$13" matcherInput="$5$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="icmp" description="icmp" format="ICMP" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="IPTrafficAudit: CisACS_05_TACACSAdmin (permit,deny) ip {network range}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=\d*\s*(\w+) (\w+) [\w ]*?([\d.]+) ([\d.]+).*?,(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=\d*\s*(?:permit|deny) ip [any ]*?[\d.]+ [\d.]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6 traffic from network range: &quot;$8&quot; to &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="permit" description="permit" format="Allow traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="deny" description="deny" format="Block traffic from network range: &quot;$8&quot; to &quot;$9&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$13" matcherInput="$5$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ip" description="ip" format="IP" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RoutingTrafficAudit" description="RoutingTrafficAudit: CisACS_05_TACACSAdmin {route outside}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=\w+ (\w+) ([\d.]+) ([\d.]+)\s*([\d.]+),(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=route outside [\d.]+ [\d.]+\s*[\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Static Route defined to direct traffic to: &quot;$7&quot; &quot;$8&quot; &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$13" matcherInput="$5$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RoutingTrafficAudit" description="RoutingTrafficAudit: CisACS_05_TACACSAdmin {ip route}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=([\w ]+) ([\d.]+) ([\d.]+).*?,(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=ip route [\d.]+ [\d.]+\s*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Static Route established." fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$13" matcherInput="$5$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="IPSecTrafficAudit: CisACS_05_TACACSAdmin {crypto map, vpn tunnel protocol IPSec,tunnel group}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=crypto map|vpn-tunnel-protocol IPSec|tunnel-group [\w.]+ (?:type ipsec|general-attributes|ipsec-attributes)|vpn-filter" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="crypto map (\S+) (\d+) ([-\w ]+) (\S+).*" description="crypto map" format="Cryto map &quot;$14&quot; defined for access-list &quot;$17&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.*) vpn-tunnel-protocol IPSec" description="vpn-tunnel" format="Blocked traffic fom &quot;$14&quot;" matcherInput="$6 $10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="tunnel-group ([\w.]+).*" description="tunnel-group" format="Blocked traffic from &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin (permit,deny) {any range}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+),Group-Name=[^,]+,cmd=(\w+) (\w+) (any range \w+ \w+ any range \w+ \w+).*?,(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:permit|deny) \w+ any range \w+ \w+ any range \w+ \w+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6 $7 $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$12" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {remark,show,dir,interface,logging event,description,switch,debug,clear,copy,do show, do write, do-exec}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:remark|show|dir|interface|logging event|description|switch|debug|clear|do show|do sho|do sh|do wr|copy|do-exec)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin absolute {end,start}banner exec,configure term,perfmon interval,service timestamps,logging synchronous level,write,write memory,time range,service tcp" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:absolute (?:end|start)?|banner exec|configure term|perfmon interval|service timestamps|logging synchronous level|write(?: memory)?|time-range)|service tcp-keepalives-(in|out)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {accounting comands,channel-group mode,exec-timeout,line,line console,login authentication,transport input,transport preferred,clock timezone,ssh,match}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:accounting commands \w+ \S+|channel-group \d+ mode on|exec-timeout|line \w+ \d+|line console|login authentication|transport (?:input|preferred)|clock.*|ssh|match)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {IP Services Commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:ip (?:mask-reply|directed-broadcast|proxy-arp|access-list extended|access-group|unreachables|tcp synwait-time|domain-name|subnet-zero|route-cache same-interface|mroute-cache|nat inside|redirects|flow ingress))" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {aaa commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:aaa)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {ip, host[name] configuration commands,username,password}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:host[name]* |ip address \S+ )\S+|username [\w]+ password [\S]+|password \S+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {System Management Commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:boot (?:host|network)|ip (?:domain-lookup|finger|forward-protocol|http (?:server|access-class|authentication|timeout-policy)|source-route)|service (?:config|finger|pad|password-encryption|\w+-small-servers))" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {SNMP Commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:snmp-server)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: CisACS_05_TACACSAdmin {username dpwnetadmin privilege}" matcher="^(\d+) ([\w.]+) (CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+),Group-Name=([^,]+),cmd=([^,]+),(.*)" pattern="CisACS_05_TACACSAdmin.*cmd=username dpwnetadmin privilege" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="username dpwnetadmin.*" description="username dpwnetadmin" format="$6" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:[^\\]+\\)?([^,]+)" description="remove domain if it exist" format="$9" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\[^,]+" description="remove username" format="$9" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*NAS-IP-Address=([^,]+),.*" description="New Formatter" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {NTP Commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*ntp (?:access-group|server)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {inspect commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:inspect)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {access-list deny traffic generate log}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[access\-list \w]*(?:deny ip any any log)|do show run access" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {access-class,[no] access-list, privilege exec level}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:access-class \S+ in|[no ]*access-list|privilege exec level)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="access-list outside line \d+ extended (\w+) (\w+) host ([\d.]+) object-group \S+.*" description="acl-extended" format="access-list: $14 $15 host &quot;$16&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {[no] logging (buffer-size,ip,console critical,facility,[trap,buffered] [critical,informational,warnings],monitor,[device,origin]-id hostname,queue-limit,on,source-interface Loopback,timestamp,queue-limit)}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*(?:logging (?:[\d.]+|buffer-size \d+|console\s*(?:critical)?|facility|(?:trap|buffered)[\d ]* (?:critical|informational|warnings)|monitor|(?:device|origin)-id hostname|on|source-interface Loopback \d+|timestamp|queue-limit \d+))" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin {nat outside,inside} NAT exemption for incoming traffic" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=nat outside inside source static obj-([\d.]+) obj-([\d.]+) destination static obj-([\d.]+) obj-([\d.]+),(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=nat outside inside source static obj-[\d.]+ obj-[\d.]+ destination static obj-[\d.]+ obj-[\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="ACL: NAT exemption for incoming traffic" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$9" matcherInput="$5$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourceMachine" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Source static-obj: &quot;$6&quot; &quot;$7&quot;, Destination static-obj: &quot;$8&quot; &quot;$9&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin {shutdown, no shutdown,no user identity, no dns guard, no enable password. enable secret,no switchport}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:no )?shutdown| user-identity enable|dns-guard|enable password|enable secret|switchport|speed \w+|duplex \w+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin {network-object,subnet,object-group network,object network,router,network}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:network-object|subnet|object-group *network|object *network|router eigrp \d+)|(?:no|network [\w.]+ [\w.]+)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ChangeDetails" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin (catchall for config commands)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]*),NAS-IP-Address=([^,]*),Group-Name=([^,]*),NAS-Portname=([^,]*),service=([^,]*),cmd=([^,]*),priv-lvl=([^,]*),task_id=([^,]*),.*" pattern="CisACS_05_TACACSAdmin" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin {xlate per-session permit,deny}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=xlate per-session (?:permit|deny) \w+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_05_TACACSAdmin {policy-map, police}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=policy-map \S+|class police[\w.]+|class-map police[\w.]+|police output \S+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="policy-map (\S+)" description="policy-map_format1" format="Policy-map &quot;$14&quot; created." matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="policy-map type ([\w ]+) (\S+)" description="policy-map_format2" format="Policy-map &quot;$15&quot; created; Type: $14" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*police([\w.]+)" description="police" format="Policy-map &quot;$14&quot; created." matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ChangeDetails" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="policy-map (\S+)" description="policy-map_format1" format="Policy-map &quot;$14&quot; created." matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="policy-map type ([\w ]+) (\S+)" description="policy-map_format2" format="Policy-map &quot;$15&quot; created; Type: $14" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*police([\w.]+)" description="police" format="Policy-map &quot;$14&quot; created." matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="GroupPolicyModify" description="GroupPolicyModify: CisACS_05_TACACSAdmin {group-policy internal,attributes,group lock}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=group-policy \S+ (?:internal|attributes)|default-group-policy \S+|group-lock" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: CisACS_05_TACACSAdmin {spanning-tree, pre shared key, class inspection default, service-module, name Proxy}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=[no ]*spanning-tree|pre-shared-key|class inspection_default|service-module|name Proxy_(?:In|Out)side" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: CisACS_05_TACACSAdmin {more-cache, more system,parameters, monitor session}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:Group-Name=([^,]*)|cmd=([^,]*)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=more cache|more system:running-config|parameters|Performing configuration copy|monitor session" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin {server Commands}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=tacacs-server host [\w.]+|server [\w.]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: CisACS_05_TACACSAdmin (catchall no command)" matcher=".*" pattern="CisACS_05_TACACSAdmin(?!.*,cmd=)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart: CisACS_11_BackRestore (Backup Started)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)((?:Scheduled|Manual) Backup Started).*" pattern="(Scheduled|Manual) Backup Started" version="30" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*action-type=([^,]+),.*" description="action-type" format="$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Cisco ACS" fieldName="ParentPID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="ProcessStop: CisACS_11_BackRestore (Backup Completed)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern="CisACS_11_BackRestore.*Backup Completed" version="41" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*text-message=Backup Completed Successfully.*" description="Successfully" format="Backup Completed Successfully" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unsuccessful" fieldName="StopCondition" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*text-message=Backup Completed Successfully.*" description="Successfully" format="Successful" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="EventMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*text-message=Backup Completed Successfully.*" description="Successfully" format="Backup Completed Successfully" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="ProcessStart: CisACS_11_BackRestore (Started restoring)" matcher="^(\d+),([^,]+),(Started restoring backup file) ([^,]+).*" pattern="Restore,Started restoring backup file" version="29" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS Backup and Restore" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Restoring File $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS $2" fieldName="ProcessID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Cisco ACS" fieldName="ParentPID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: CisACS_12_Replication, Outbound replication cycle starting" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]*),status-class=[^,]+,text-message=([^,]+),.*" pattern="CisACS_12_Replication.*Outbound replication cycle starting" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="AAA Server: &quot;$5&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Replication" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: CisACS_12_Replication, Pre-checks indicate outbound replication not required" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]*),status-class=[^,]+,text-message=([^,]+),.*" pattern="CisACS_12_Replication.*Pre-checks indicate outbound replication not required" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="AAA Server: &quot;$5&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Replication" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="UserLogon, CisAcs_13_AdminAudit, Administration session started" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=(Administration session started).*" pattern="CisACS_13_AdminAudit.*Administration session started" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$6&quot; from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="CSAuth" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure, CisAcs_13_AdminAudit, Administrator login failed" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=((?:Unknown )?Administrator '([^']+)' login failed).*" pattern="CisACS_13_AdminAudit.*login failed" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure  &quot;$9&quot; from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="UserLogoff, CisACS_13_AdminAudit, Administration session finished" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=(Administration session finished).*" pattern="CisACS_13_AdminAudit.*Administration session finished" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$6&quot; from &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileRead" description="FileRead: CisACS_13_AdminAudit, (Viewed)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=Viewed &quot;([^&quot;]+)&quot; report(\.| '([^']*)').*" pattern="CisACS_13_AdminAudit.*text-message=Viewed" version="7" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$6&quot; viewed &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="null, [^-]+ - ([^.]+)" description="no csv filename" format="$6 viewed &quot;$12&quot;" matcherInput="$10, $8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Report Type: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="FileName" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="no csv filename" format="" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="View Only" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart:CisACS_13_AdminAudit, Service control started|Restarted" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=(.*)" pattern="CisACS_13_AdminAudit.*text-message=Service control : R?e?[Ss]tarted" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^:]+: \S+)," description="remove trailing punct." format="$10 by &quot;$6&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="CSAuth" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^:]+: \S+)," description="remove trailing punct." format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_13_AdminAudit,  System|Interface|Network Configuration" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d+ \d+ AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=([^,]+)," pattern="CisACS_13_AdminAudit.*text-message=(?:Updated|Reset|Added|Deleted|Edited|Created) &quot;(?:System|Interface|Network) Configuration" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\w+) &quot;([^&quot;]+)&quot; \S+ logging fields for report '([^']+)'.*" description="System Configuration - Logging" format="&quot;$6&quot; $10 $11 for &quot;$12&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\w+) &quot;System Configuration - ([^&quot;]+)&quot;.*" description="System Configuration - [^&quot;]" format="&quot;$6&quot; $10 $11" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\w+) &quot;Interface Configuration - ([^&quot;]+)&quot;.*" description="System Interface  - User Data Config" format="&quot;$6&quot; $10 $11" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\S+ &quot;Network Configuration&quot; [^']+) '[^']+'([^.]*).*" description="Network Configuration" format="$10$11" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(\S+ &quot;Network Configuration - [^']+ '[^']+').*" description="Network Configuration - " format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo: CisACS_05_TACACSAdmin, {logging source-interface}" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern="CisACS_05_TACACSAdmin.*?logging source-interface [\w ]+ \&lt;cr\&gt;," version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*logging source-interface ([-\w ]+) .*" description="event" format="The &quot;$7&quot; interface IP address is assigned as the source IP address for all syslog messages" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*logging source-interface ([-\w ]+) .*" description="event" format="The &quot;$7&quot; interface IP address is assigned as the source IP address for all syslog messages" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="PolicyModify: CisACS_13_AdminAudit,  Shell Command Authorization" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d+ \d+ AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=([^,]+),.*" pattern="CisACS_13_AdminAudit.*text-message=&quot;Shell Command Authorization" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: CisACS_13_AdminAudit, Administration Control Edited " matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d+ \d+ AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=([^,]+)," pattern="CisACS_13_AdminAudit.*text-message=&quot;[^&quot;]+&quot; (?:Edited|Added)" version="8" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="&quot;([^&quot;]+)&quot; Edited administrator account \(([^)]+)\)" description="edited admin account" format="&quot;$6&quot; edited &quot;$11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="&quot;([^&quot;]+)&quot; Added/Edited user '([^']+)'\." description="edited user" format="&quot;$6&quot; edited &quot;$11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="&quot;([^&quot;]+)&quot; Added new administrator account \(([^\)]+)\).*" description="added new admin account" format="&quot;$6&quot; added admininistrator account &quot;$11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="&quot;([^&quot;]+)&quot; Added user '([^']+).*" description="added user" format="&quot;$6&quot; added &quot;$11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[^\(]+\(([^)]+)\)" description="Edited dstacct" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*'([^']+)'\." description="Added dstacct" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Added/Edited" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChangeGroupAttribute" description="ChangeGroupAttribute: CisACS_13_AdminAudit, (Renamed)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d+ \d+ AAA Server=([^,]+),admin-username=([^,]+),browser-ip=([^,]+),text-message=([^,]+)," pattern="CisACS_13_AdminAudit.*text-message=Renamed" version="3" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Renamed &quot;[^&quot;]+&quot; for (\S+) (\S+) to '([^']+)'.*" description="Renamed" format="Renamed $10 &quot;$11&quot; to &quot;$12&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Renamed &quot;Group Setup&quot; for group (\S*) to '[^']*'\." description="parse for orig group name" format="&quot;$10&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="ChangeDetails" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Renamed &quot;Group Setup&quot; for group (\S*) to '([^']*)'\." description="reformat" format="&quot;Group Setup&quot; renamed group &quot;$10&quot; to &quot;$11&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="ServiceStart: CisACS_15_ServiceMon, Service has been restarted" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]*),text-message=(Service (\S+) [^,]+),.*" pattern="CisACS_15_ServiceMon.*Service \S+(?: has been)? re-?started" version="6" version_type="int">
+			<FastField _type="null" defaultValue="Service $7 has been restarted" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="LinkControlTrafficAudit: CisACS_05_TACACSAdmin vlan" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d (.*)cmd=(vlan (\d+)).*?([-\w.]+),(.*)NAS-IP-Address=([-\w.]+).*" pattern="CisACS_05_TACACSAdmin.*cmd=(?:no\s*)?(?:vlan \d+)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Vlan &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5$9" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)," description="trailing ," format="$12" matcherInput="$5$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroupMember" description="NewGroupMember: CisACS_05_TACACSAdmin added user" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]*)(?:Group-Name=([^,]*)|cmd=([^,]*)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=added user" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="added user ([^,]+)" description="event" format="Added user &quot;$9&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="ServiceStop: CisACS_15_ServiceMon, Service has been stopped|suspended" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d AAA Server=([^,]*),text-message=(Service (\S+) [^,]+),.*" pattern="CisACS_15_ServiceMon.*Service \S* has been (?:stopped|suspended)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\S+ (\S+) (has been \w+) for a configured function to proceed.*" description="Remove second sentence" format="Service &quot;$9&quot; $10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Service \S+ ([^.]+)\. .*" description="Service has been stopped or paused" format="Service &quot;$7&quot; $9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="CSLog" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="stopped" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*stopped.*" description="stop" format="stopped" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*suspended.*" description="suspended" format="suspended" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="StopMessage" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[^.]+\. (.*)" description="Remove first sentence" format="$9" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="IPTrafficAudit: CisACS_05_TACACSAdmin traceroute" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w+)\s+\S+ \d \d User-Name=([^,]+)(?:NAS-IP-Address=([^,]*)|Group-Name=([^,]*)|NAS-Portname=([^,]*)|service=([^,]*)|cmd=([^,]*)|priv-lvl=([^,]+)|task_id=([^,]+)|.)+.*" pattern="CisACS_05_TACACSAdmin.*cmd=traceroute [-\w.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group-Name=$7,NAS-Portname=$8,service=$9,priv-lvl=$11,task_id=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: CisACS_13_AdminAudit, (Updated group and restarted services)" matcher=".*" pattern="CisACS_13_AdminAudit.*text-message=Updated &quot;Group Setup&quot; for group '[^']+' \([^)]+\)(?: and restarted services)?.*" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: CisACS_13_AdminAudit, (Updated Logging Configurations)" matcher=".*" pattern="CisACS_13_AdminAudit.*text-message=Updated Logging Configurations.*" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: CisACS_15_ServiceMon, system-free-disk-space,System-CPU-usage" matcher=".*" pattern="CisACS_15_ServiceMon \w+ \d \d .*(?:-free-disk-space|-CPU-usage)=.*" version="2" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData CiscoACS-NTD" matcher="(\d+) ([\w.]+) (\S+ )?CisACS_\d+_\w+ .*" pattern="" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Cisco Secure ACS Syslog Data ($Revision: #14 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="CiscoACS-NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="30" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogon" description="MachineLogon Start: CisACS_03_RADIUSAcc (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*).*" pattern="^(\d+),([^,]*),([^,]*),([^,]*),Start" version="1" version_type="int">
+			<FastField _type="null" defaultValue="NAS IP:$16, Port: $15, Framed IP: $14" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS RADIUS $5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group Name: $3" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service Type: $8, Framed Protocol: $9, Session ID: $6, Session Time $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Calling Station ID: $4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Input Octets $10, Output Octets $11, Input Packets $12, Output Packets $13" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5: &quot;$2&quot; connecting to $16" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Accounting" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogoff" description="MachineLogoff Stop: CisACS_03_RADIUSAcc (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*).*" pattern="^(\d+),([^,]*),([^,]*),([^,]*),Stop" version="1" version_type="int">
+			<FastField _type="null" defaultValue="ACS RADIUS $5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="NAS IP:$16, Port: $15, Framed IP: $14" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group Name: $3" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service Type: $8, Framed Protocol: $9, Session ID: $6, Session Time $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Calling Station ID: $4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5: &quot;$2&quot; connecting to $16" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Input Octets $10, Output Octets $11, Input Packets $12, Output Packets $13" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Accounting" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit: CisACS_03_RADIUSAcc, Interim Update (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*).*" pattern="^(\d+),([^,]+),([^,]*),([^,]*),Interim Update" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5: &quot;$2&quot; connecting to $16" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS RADIUS $5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service Type: $8, Framed Protocol: $9, Session ID: $6, Session Time $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group Name: $3" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Calling Station ID: $4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="NAS IP:$16, Port: $15, Framed IP: $14" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Input Octets $10, Output Octets $11, Input Packets $12, Output Packets $13" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="SystemStatus: CisACS_04_TACACSAcc (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+) ([\w.]+) (\S+ )?(CisACS_\d+_\w*)\s+\S+ \d \d (.*)" pattern="CisACS_04_TACACSAcc.*NAS Port re-used" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$2&quot; from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*" description="no from" format="$5 for &quot;$2&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Task: $12, NAS-IP: &quot;$15&quot;" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAccess" description="PolicyAccess: CisACS_05_TACACSAdmin remark,show,dir,interface,logging event,description (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+),([^,]+),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),.*" pattern="^\d+,[^,]+,[^,]+,(?:remark|show|dir|interface|logging event|description)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS TACACS+ 1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourceMachine" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessWarning" description="ProcessWarning: CisACS_11_BackRestore (Backup Unsuccessful) (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+),([^,]+),([^,]+).*" pattern="[Uu]nsuccessful" version="1" version_type="int">
+			<FastField _type="null" defaultValue="ACS Backup and Restore" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS $2" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unsuccessful" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Backup Completed Successfully" description="Successfully" format="Successful" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="ProcessStop: CisACS_11_BackRestore (Restore Completed) (NEED SAMPLE TO CONFIGURE)" matcher="^(\d+),([^,]+),([^,]+).*" pattern="Restore,Restore of file.*Completed Successfully" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS Backup and Restore" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2 Completed Successfully" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS $2" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unsuccessful" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Completed Successfully" description="Successfully" format="Successful" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: CisACS_14_PassChanges (NEED SAMPLE TO CONFIGURE)" matcher="" pattern="" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 Password Change Attempt" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="FAILED.*" description="Failed" format="$3 Password Change Failed for &quot;$2&quot; via $4" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[Ss]uccessful" description="Successful" format="$3 Password Change Successful for &quot;$2&quot; via $4" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Password Change" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="FAILED.*" description="Failed" format="Password Change Attempt" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="UserModifyAttribute: CisACS_16_ApplAdmin (NEED SAMPLE TO CONFIGURE)" matcher="" pattern="CisACS_16_ApplAdmin" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3 Password Change Attempt" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

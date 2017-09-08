@@ -1,0 +1,79 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Proxim Orinoco WAP" logInterval="1" logLocation="/var/log/local1.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Proxim Orinoco WAP" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="proximorinoco" toolType="Routers/Switches" version="$Revision: #4 $" vendor="Proxim" fullDescription="Collects events from the proxim Orinoco Wireless Access Point." categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Proxim Orinoco WAP" id="proximorinoco" version="5" version_type="int">
+		<FastPattern _type="null" alertName="MachineLogon" description="1, MachineLogon: client login, allow" matcher="(\d+) ([-\w.]+) UPTIME:Days (\d+):Hrs (\d+):Mins (\d+):Secs (\d+): *([-a-f\d]{17}) \| STATUS = (\w+) \| SSID = ([-\w.]+) \| Auth Type = ([\w.]+) \| Cipher Type = (\w+).*" pattern="\d+ [-\w.]+ UPTIME:Days \d+:Hrs \d+:Mins \d+:Secs \d+: *[-a-f\d]{17} \| STATUS = ALLOW \| SSID = [-\w.]+ \| Auth Type = [\w.]+ \| Cipher Type = \w+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})" description="mac-format" format="Logon &quot;$13:$14:$15:$16:$17:$18&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})" description="mac-format" format="$13:$14:$15:$16:$17:$18" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogonFailure" description="2, MachineLogonFailure: client login, deny" matcher="(\d+) ([-\w.]+) UPTIME:Days (\d+):Hrs (\d+):Mins (\d+):Secs (\d+): *([-a-f\d]{17}) \| STATUS = (\w+) \| SSID = ([-\w.]+) \| Auth Type = ([\w.]+) \| Cipher Type = (\w+).*" pattern="\d+ [-\w.]+ UPTIME:Days \d+:Hrs \d+:Mins \d+:Secs \d+: *[-a-f\d]{17} \| STATUS = DENY \| SSID = [-\w.]+ \| Auth Type = [\w.]+ \| Cipher Type = \w+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})" description="mac-format" format="Logon Failure &quot;$13:$14:$15:$16:$17:$18&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})" description="mac-format" format="$13:$14:$15:$16:$17:$18" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="AuthPackage" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogoff" description="3, MachineLogoff: client deauth, " matcher="(\d+) ([-\w.]+) UPTIME:Days (\d+):Hrs (\d+):Mins (\d+):Secs (\d+): *([-a-f\d]{17}) \| STATUS = +(.+?) +\| SSID = ([-\w.]+) +\| Cipher Type = (\w+).*" pattern="\d+ [-\w.]+ UPTIME:Days \d+:Hrs \d+:Mins \d+:Secs \d+: *[-a-f\d]{17} \| STATUS =  +.+ +\| SSID = [-\w.]+ +\| Cipher Type = \w+" version="7" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})" description="mac-format" format="Logoff &quot;$12:$13:$14:$15:$16:$17&quot;" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Reason: &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationLogonID" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})-([a-f\d]{2})" description="mac-format" format="$12:$13:$14:$15:$16:$17" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="4, LinkControlTrafficAudit: deauth, heartbeat " matcher="(\d+) ([-\w.]+) UPTIME:Days (\d+):Hrs (\d+):Mins (\d+):Secs (\d+): *(.+?) *$" pattern="\d+ [-\w.]+ UPTIME:Days \d+:Hrs \d+:Mins \d+:Secs \d+: *DEAUTH:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemStatus" description="5, SystemStatus: heartbeat " matcher="(\d+) ([-\w.]+) UPTIME:Days (\d+):Hrs (\d+):Mins (\d+):Secs (\d+): *(.+?) *$" pattern="\d+ [-\w.]+ UPTIME:Days \d+:Hrs \d+:Mins \d+:Secs \d+: *(?:DEAUTH:|AP is alive)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Uptime: &quot;$3d $4h $5m $6s&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="alive" fieldName="StatusLevel" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ UPTIME:Days \d+:Hrs \d+:Mins \d+:Secs \d+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Proxim Orinoco WAP data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="GeneralSecurity" description="(enter pattern name here)" matcher=".*" pattern="" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" allFields="date time c-ip c-port cs-username cs-method cs-uri-stem cs-uri-query sc-status sc-bytes cs-bytes s-name s-port" allFiledsLocations="0,1,2,3,4,5,6,7,8,9,10,11,12" autoStart="true" categoryTags="" currentLogLocation="" description="Globalscape Secure FTP (W3C Extended file format)" fieldList="#Fields: date time c-ip c-port cs-username cs-method cs-uri-stem cs-uri-query sc-status sc-bytes cs-bytes s-name s-port" fileFormatterType="Daily: yymmdd" firstLogLocation="" fullDescription="" logInterval="1" logLocation="C:\Program Files\Globalscape\" logManagementOutput="10.254.10.18" logManagementPort="10101" logPostfix=".log" logPrefix="ex" logStartPoint="-1" logType="IISW3CReader" node="spop" readerName="Globalscape Secure FTP" readerOutput="Alert" stateVars="logStartPoint,fieldList,readerName,currentLogLocation,firstLogLocation" timeZone="GMT" toolId="globalscapeftp" toolType="File Transfer and Sharing" useDaylightSavings="false" vendor="" version="$Revision: #9 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log Directory or File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<select _type="null" attributeName="fileFormatterType" enabled="true" formatRule="" formatted="false" labelText="New File Name Interval:" preferredOrder="2" selectItems="Hourly: yymmddhh;Daily: yymmdd;Weekly: yymmw;Monthly: yymm;Increment: #" toolTipText="New log file generation format (hourly, daily, weekly, monthly, or incrementally)" visible="true">
+		</select>
+		<select _type="null" attributeName="timeZone" enabled="true" formatRule="" formatted="false" labelText="Time Zone:" preferredOrder="3" selectItems="Local;GMT" toolTipText="Configured Time Zone for log files (local or GMT)" visible="true">
+		</select>
+		<boolean _type="null" attributeName="useDaylightSavings" enabled="true" labelText="Use Daylight Savings:" preferredOrder="4" toolTipText="Enable to account for Daylight Savings Time when appropriate" visible="true">
+		</boolean>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Globalscape Secure FTP (W3C Extended file format)" id="globalscapeftp" version="29" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: quit 530: Bad Password, User not logged in" matcher=".*" pattern="\d+ [\d.]+ [-\d]+ \S+ \[\d+\]quit \S+ \S+ 530 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="2" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: noop" matcher=".*" pattern="\d+ [\d.]+ [-\d]+ \S+ \[\d+\]noop \S+ \S+ [-\d]+ [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="1, UserAuthAudit: user 331: User name okay, need password" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]user \S+ \S+ 331 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="User name &quot;$6&quot; okay, need password" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+\\(\S+)" description="dom" format="$14" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+)\\\S+" description="dom" format="$14" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="2, UserLogonFailure: 530" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]\w+ \S+ \S+ 530 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="7" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure from &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Bad password $6" fieldName="FailureReason" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="3, UserLogoff: quit, closed" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\](?:quit|closed) \S+ \S+ [-\d]+ [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+\\(\S+)" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+)\\\S+" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="4, UserLogon: pass 250" matcher="(\d+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="\d+ [\d.]+ [-\d]+ \S+ \[\d+\]pass \S+ \S+ 250 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+\\(\S+)" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+)\\\S+" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="5, UserLogon: 230" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]\w+ \S+ \S+ 230 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+\\(\S+)" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+)\\\S+" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="6, ApplicationTrafficAudit: ssh" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]ssh_\w+ \S+ \S+ [-\d]+ [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Requested &quot;$5&quot;, Status Code: $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\w+" description="info" format="Info: $6" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?!-)([-\w.]+)" description="dest-name" format="$11" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+" description="dport" format="$12" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="7, FileTransferTrafficAudit: catchall" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ []\w[]+ \S+ \S+ (?:1[15]0|12[05]|200|202|21[1-5]|22[01567]|25[07]|33[12]|350|42[156]|45[012]|511|50[0-4]|532|55[0-5]) [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Requested file &quot;$5&quot; action, Status Code: $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="110" description="110" format="Restart marker reply" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="Service ready in X minutes" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="125" description="125" format="Data connection already open, transfer starting" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="File status okay, about to open data connection" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="&quot;$5&quot; command not implemented" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="211" description="211" format="System status, or system help reply" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="212" description="212" format="Directory status" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="213" description="213" format="File status" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="214" description="214" format="Help message" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="215" description="215" format="system type" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200,type" description="200-type" format="File type set to $6" matcherInput="$8,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200-default" format="Requested file &quot;$5&quot; action, command OK" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="Service ready for new user" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="221" description="221" format="Service closing control connection. Logged out if appropriate" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="225" description="225" format="Data connection open; no transfer in progress" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="226" description="226" format="Closing data connection for &quot;$4&quot;. &quot;$5&quot; action successful" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="227" description="227" format="Entering passive mode" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="Requested file &quot;$5&quot; action okay for &quot;$4&quot;, completed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="257,mkd.*" description="257-mkd" format="&quot;$6&quot; directory created" matcherInput="$8,$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="257" description="257" format="&quot;$6&quot; created" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="331" description="331" format="User name okay, need password" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="332" description="332" format="Need account for login" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="350" description="350" format="Requested file &quot;$5&quot; action pending further information for &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="421" description="421" format="Service not available, closing control connection" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="425" description="425" format="Cannot open data connection for &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="426" description="426" format="Connection closed for &quot;$4&quot;. transfer aborted" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="450" description="450" format="Requested file &quot;$5&quot; action for &quot;$4&quot; not taken. File unavailable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="451" description="451" format="Requested file &quot;$5&quot; action for &quot;$4&quot; aborted: Local error in processing" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="452" description="452" format="Requested file &quot;$5&quot; action for &quot;$4&quot; not taken. Insufficient storage space in system" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="Syntax error, command unrecognized" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="Syntax error in parameters or arguments" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="Command not implemented" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="Bad sequence of commands" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="Command not implemented for that parameter" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="532" description="532" format="Need account for storing files" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="550" description="550" format="Requested file &quot;$5&quot; action not taken for &quot;$4&quot;. File unavailable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="551" description="551" format="Requested file &quot;$5&quot; action aborted for &quot;$4&quot;. Page type unknown" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="552" description="552" format="Requested file &quot;$5&quot; action aborted for &quot;$4&quot;. Exceeded storage allocation" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="553" description="553" format="Requested file &quot;$5&quot; action not taken for &quot;$4&quot;. File name not allowed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="554" description="554" format="Requested file &quot;$5&quot; action not taken for &quot;$4&quot;. invalid REST parameter" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="555" description="555" format="Requested file &quot;$5&quot; action not taken for &quot;$4&quot;. type or stru mismatch" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ssh_\w+" description="ssh" format="Requested &quot;$5&quot;, Status Code: $8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(rmd|mkd)" description="directory" format="Directory: $6" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)(?:stor|sent|get|created|dele|rnfr|rnto)" description="file" format="File: $6" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?!-)([-\w.]+)" description="dest-name" format="$11" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+" description="dport" format="$12" matcherInput="$12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="port" description="port" format="FTP PORT Command" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="site" description="site" format="FTP SITE Command" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="syst.*" description="syst" format="FTP SYST Command" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="cwd" description="cwd" format="FTP CWD Command" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServerAccess" description="8, HTTPServerAccess: 302" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]\w+ \S+ \S+ 302 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="HTTP found" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServerAccess" description="8, HTTPServerAccess: 400" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]\w+ \S+ \S+ 400 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="HTTP Bad Request" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServerAccess" description="9, HTTPServerAccess: 401" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \S+ \[\d+\]\w+ \S+ \S+ 401 [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="HTTP UnAuthorized" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="10, UserLogon: no port" matcher="([-\d: ]+) ([\d.]+) ([-\d]+) (\S+) (\[\d+\]\w+) (\S+) (\S+) ([-\d]+) ([-\d]+) ([-\d]+) ([-\w.]+) ([-\d]+).*" pattern="[-\d: ]+ [\d.]+ [-\d]+ \w+ \[\d+\]\w+ \S+ \S+ - [-\d]+ [-\d]+ [-\w.]+ [-\d]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+\\(\S+)" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+)\\\S+" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: trace data" matcher=".*" pattern="[-\d. ]+ [\d:]+,\d+ \[\d+\] (?:TRACE|DEBUG)" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Server Name: $11, Server Port: $12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="- -" description="no-serv-name-sport" format="" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="- \d+" description="serv-port" format="Server Port: $12" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!- )([-\w.]+).*" description="serv-name" format="Server Name: $11" matcherInput="$11 $12" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+\\(\S+)" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([-\w.]+)\\\S+" description="dom" format="$14" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="hyphen" format="" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^([-\d: ]+) (\S+).*" pattern="^[-\d: ]+ \S+ \S+ \S+ \S+ \S+ \S+ \S+ \S+ \S+ \S+ \S+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Globalscape FTP server data ($Revision: #9 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,43 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="Trend IWSVA Virus Log" beginRec="Date:" endRec="----------------------------------" fileFormatterType="Daily: yyyy.mm.dd" logInterval="1" logLocation="/etc/iscan/log/" logManagementOutput="10.254.10.18" logManagementPort="10101" logPrefix="virus.log." logPostfix="" logStartPoint="-1" logType="TrendMultiLineDirReader" node="spop" readerName="Trend IWSVA Virus" readerOutput="Alert" stateVars="logStartPoint,readerName,currentLogLocation,firstLogLocation" currentLogLocation="" firstLogLocation="" toolId="TrendIWSVAvirus" toolType="Proxy Servers and Content Filters" version="$Revision: #5 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Trend IWSVA Virus Log" id="TrendIWSVAvirus" version="11" version_type="int">
+		<FastPattern _type="null" alertName="VirusAttack" description="VirusAttack" matcher="Date:\t(\d+) Method:\t([^\t]+) From:\t([^\t]+) To:\t([^\t]*) File:\t([^\t]+) Action:\t([^\t]+) Virus:\t([^\t]+) User_id:\t(\S*).*" pattern="^Date:\t\d+ Method:\t[^\t]+ From:\t" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; detected. File Left Alone" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*file is deleted." description="Deleted" format="Virus &quot;$7&quot; detected. File Deleted" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".* moved to Quarantine.*" description="Quarantine" format="Virus &quot;$7&quot; detected. File Quarantined" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="clean" format="Clean" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*deleted.*" description="Delete" format="Delete" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*Quarantine.*" description="Quarantine" format="Quarantine" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*uncleanable.*deleted.*" description="Delete" format="Delete" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*uncleanable.*Quarantine.*" description="Quarantine" format="Quarantine" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Left Alone" fieldName="ActionTaken" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*deleted.*" description="Deleted" format="Deleted" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*Quarantine.*" description="Quarantine" format="Quarantined" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="Date:\t(\d+)\s.*" pattern="^Date:\t\d+\s" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched IWSVA virus data ($Revision: #5 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="Black Hole" matcher=".*" pattern="" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

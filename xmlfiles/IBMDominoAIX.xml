@@ -1,0 +1,1446 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="IBM Domino (AIX)" fullDescription="IBM Domino (Lotus) for AIX" logInterval="1" logLocation="/domino/local/notesdata/IBM_TECHNICAL_SUPPORT/Console.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="spop" readerName="IBMDominoAIX" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="IBMDominoAIX" toolType="Network Services" vendor="IBM" version="$Revision: #1 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="IBM Domino (AIX)" id="IBMDominoAIX" version="155" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="1, MailTrafficAudit: Router; Message transferred to" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Message ([A-F\d]{8}) transferred to (.+) for (.+) from (.+)  (Size: \d+K via \w+).*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Message [A-F\d]{8} transferred to .+ for .+ from .+  Size: \d+K via \w+" version="5" version_type="int">
+			<FastField _type="null" defaultValue="Message $2 transfered to &quot;$3&quot; for &quot;$4&quot; from &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$10-$8-$9 $11" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+@([-\w.]+)&gt;?" description="email-at-host" format="$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Size: \d+K via SMTP" description="smtp" format="SMTP" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Size: \d+K via Notes" description="notes" format="Notes" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="2, MailTrafficAudit: Router; Transferred messages via Notes" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Transferred (\d+) messages to (.+) via Notes.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Transferred \d+ messages to .+ via Notes" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Transferred $2 message(s) to &quot;$3&quot; via Notes" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="3, MailTrafficAudit: Router; Transferred messages via SMTP" matcher="[,/:\w ]*(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Transferred (\d+) messages to ([\d.]+) \(host ([-\w.]+)\) via SMTP.*" pattern="[,/:\w ]*\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Transferred \d+ messages to [\d.]+ \(host [-\w.]+\) via SMTP" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Transferred $2 message(s) to &quot;$3&quot; via SMTP" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Host: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)==\1" description="ip-equals-host" format="" matcherInput="$3==$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="4, MailTrafficAudit: Router; Transferring mail via Notes" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Transferring mail to (.+) via Notes.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Transferring mail to .+ via Notes" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Transferred mail to &quot;$2&quot; via Notes" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="5, MailTrafficAudit: Router; Transferring mail via SMTP" matcher="[,/:\w ]*(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Transferring mail to domain ([-\w.]+) \(host ([-\w.]+) \[([\d.]+)\]\) via SMTP.*" pattern="[,/:\w ]*\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Transferring mail to domain [-\w.]+ \(host [-\w.]+ \[[\d.]+\]\) via SMTP" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Transferring mail to domain &quot;$2&quot; via SMTP" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Host: $3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)==\1" description="ip-equals-host" format="" matcherInput="$3==$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="6, MailTrafficAudit: SMTP Server; Attempt to relay mail rejected" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}SMTP Server \[([-A-F\d:]+)\] Attempt to relay mail from \[([\d.]+)\] rejected for policy reasons\. ([\w ]+)\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}SMTP Server \[[-A-F\d:]+\] Attempt to relay mail from \[[\d.]+\] rejected for policy reasons\." version="2" version_type="int">
+			<FastField _type="null" defaultValue="Server &quot;$2&quot; Attempt to relay mail from &quot;$3&quot; rejected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Reason: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="7, MailTrafficAudit: SMTP Server; connected/disconnected" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}SMTP Server: ([-\w.]+ \([\d.]+\)|[\d.]+) (\w+)\.? ?(.*)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}SMTP Server: (?:[-\w.]+ \([\d.]+\)|[\d.]+) (?:dis)?connected" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Server &quot;$2&quot; $3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+ \(([\d.]+)\)" description="host-ip" format="$6" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="8, MailTrafficAudit: SMTP Server; Message received from" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}SMTP Server: Message ([A-F\d]{8}) \(MessageID: (.*)\) received from ([-\w.]+ \([\d.]+\)|[\d.]+) size (\d+) bytes.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}SMTP Server: Message [A-F\d]{8} \(MessageID: .*\) received from (?:[-\w.]+ \([\d.]+\)|[\d.]+) size \d+ bytes" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Message $2 received from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Size: $5 bytes" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+" description="messageid" format="Size: $5 bytes, MessageID: $3" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+ \(([\d.]+)\)" description="host-ip" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="9, MailTrafficAudit: SMTP Server; Relay attempt failed" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}SMTP Server: Relay attempt failed By: ([\d.]+) From: &lt;(.*)&gt; To: &lt;(.*)&gt;.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}SMTP Server: Relay attempt failed By: [\d.]+ From: &lt;.*&gt; To: &lt;.*&gt;" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Relay attempt by &quot;$2&quot; failed" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$3&quot;, To: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SMTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAudit" description="10, PolicyAudit: Access control is set" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Access control is set in (.+) to not allow replication from (.+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Access control is set in .+ to not allow replication from .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Access control is set in &quot;$2&quot; to not allow replication from &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyAudit" description="11, PolicyAudit: Console Logging is ENABLED" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Console Logging is ENABLED" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="12, PolicyModify: Router; Admin disabled auto mail forwarding" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Admin has disabled auto mail forwarding of message ([A-F\d]{8}) by (.+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Admin has disabled auto mail forwarding of message [A-F\d]{8} by" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Admin has disabled auto mail forwarding by &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$5" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$5" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Admin has disabled auto mail forwarding of message $2" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="13, ProcessStart: AMgr; Executive started" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Executive '(\d+)' started. Process id '(\d+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Executive '\d+' started. Process id '\d+'" version="3" version_type="int">
+			<FastField _type="null" defaultValue="AMgr: Executive &quot;$2&quot; started" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="14, ProcessStart: Index update started" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+):(.*)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Index update process started:" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="15, ProcessInfo: Admin Process; Completed refresh" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+): ([,\w ]+)\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Admin Process: Completed refresh of mail policies for \d+ databases, \d+ databases reported errors\." version="3" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="16, ProcessStop: AMgr; Executive shutting down" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Executive '(\d+)' shutting down\. Process id '(\d+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Executive '\d+' shutting down\. Process id '\d+'" version="3" version_type="int">
+			<FastField _type="null" defaultValue="AMgr: Executive &quot;$2&quot; shutting down" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="AMgr: Executive &quot;$2&quot; shutting down" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStop" description="17, ProcessStop: Index update shutdown" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Index update process shutdown" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Index update" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="18, ServiceInfo: Transactions/Minute" matcher="^(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([,/\w ]+)" pattern="^\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}\d+ Transactions/Minute, \d+ Notes Users\s*$" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="19, ServiceInfo: Adding/Updating database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}(\w+) '(.+)' (\w+) database '([./\w ]+)' from template '([^']+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}(?:Add|Updat)ing '.+' (?:in)?to database '[./\w ]+' from template '[^']+'" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2 &quot;$3&quot; $4 database &quot;$5&quot; from template &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$10-$8-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2 &quot;$3&quot; $4 database &quot;$5&quot; from template &quot;$6&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="20, ServiceInfo: AMgr; agent signer" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: '([^']+)' is the agent signer of agent '([^']+)' in '([^']+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: '[^']+' is the agent signer of agent '[^']+' in '[^']+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="&quot;$2&quot; is the agent signer of agent &quot;$3&quot; in &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$6" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$6" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="&quot;$2&quot; is the agent signer of agent &quot;$3&quot; in &quot;$4&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="21, ServiceInfo: AMgr; Agent will run on behalf" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: 'Agent '([^']+)' in '([^']+)' will run on behalf of '([^']+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: 'Agent '[^']+' in '[^']+' will run on behalf of '[^']+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; in &quot;$3&quot; will run on behalf of &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; in &quot;$3&quot; will run on behalf of &quot;$4&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="22, ServiceInfo: AMgr; Agent Full Admin mode" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Agent '([^']+)' in database '([./\w ]+)' signed by '([^']+)' ([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Agent '[^']+' in database '[./\w ]+' signed by '[^']+' is running in Full Administrator mode" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; in database &quot;$3&quot; signed by &quot;$4&quot; $5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="23, ServiceInfo: AMgr; Start executing agent" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Start executing agent '([^']+)' in '([-./\w ]+)' by Executive '(\d+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Start executing agent '[^']+' in '[-./\w ]+' by Executive '\d+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Start executing agent &quot;$2&quot; in &quot;$3&quot; by Executive &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Start executing agent &quot;$2&quot; in &quot;$3&quot; by Executive &quot;$4&quot;" fieldName="InfoMessage" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="24, ServiceInfo: Clearing DBIID" matcher="[,/:\w ]*?Clearing DBIID ([A-F\d]{8}) for DB ([-./\w ]+)" pattern="[,/:\w ]*?Clearing DBIID [A-F\d]{8} for DB [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Clearing DBIID $1 for DB &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="24" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Clearing DBIID $1 for DB &quot;$2&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="25, ServiceInfo: Compacted" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Compacted  ([-./\w ]+), ([\w ]+) \((&lt;?\d+)%\).*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Compacted  [-./\w ]+, (?:\d+K bytes recovered|increased by \d+K bytes) \(&lt;?\d+%\)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Compacted &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="25" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3, $4%" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="26, ServiceInfo: Compacting" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Compacting ([-./\w ]+) \((.*)\), +(.+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Compacting [-./\w ]+ \(.*\), +.+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Compacting &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="26" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="27, ServiceInfo: Deleting from database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Deleting '([^']+)' from database '([./\w ]+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Deleting '[^']+' from database '[./\w ]+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Deleting &quot;$2&quot; from database &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="27" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Deleting &quot;$2&quot; from database &quot;$3&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="28, ServiceInfo: Informational rebuild view" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Informational, rebuild view needed - ([\w ]+) \(reading ([./\w ]+) view note Title:'([^']*)'\).*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Informational, rebuild view needed - [\w ]+ \(reading [./\w ]+ view note Title:'[^']*'\)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="rebuild view needed, reading &quot;$3&quot; view note Title: &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="28" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="29, ServiceInfo: License tracker; reported users" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}License tracker: ([()\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}License tracker: Reported \d+ user\(s\) to Admin Process" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="29" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="License tracker" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="30, ServiceInfo: Pulling/Pushing" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}(\w+) ([-./\w ]+) (from|to) ([-./\\\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}(?:Pull|Push)ing [-./\w ]+ (?:from|to) [-./\\\w ]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2 &quot;$3&quot; $4 &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="30" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2 &quot;$3&quot; $4 &quot;$5&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="31, ServiceInfo: Purging old documents" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Purging old documents from database ([./\w ]+)\.{3}.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Purging old documents from database [./\w ]+\.{3}" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Purging old documents from database &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="31" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Purging old documents from database &quot;$2&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="32, ServiceInfo: Recovery Manager; Assigning new DBIID" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Recovery Manager: Assigning new DBIID for ([-./\w ]+) \(([\w ]+)\)\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Recovery Manager: Assigning new DBIID for [-./\w ]+ \([\w ]+\)\." version="2" version_type="int">
+			<FastField _type="null" defaultValue="Assigning new DBIID for &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="32" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Recovery Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="33, ServiceInfo: Replicator; added/deleted/updated" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Replicator (\w+) (\d+) document\(s\) (to|in) ([-./\\\w ]+) from ([-./\\\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Replicator (?:add|delet|updat)ed \d+ document\(s\) (?:to|in) [-./\\\w ]+ from [-./\\\w ]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2 $3 document(s) $4 &quot;$5&quot; from &quot;$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$10-$8-$9 $11" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="33" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Replicator" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2 $3 document(s) $4 &quot;$5&quot; from &quot;$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="34, ServiceInfo: Router; Daily maintenance" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Daily maintenance (\w+) for ([-./\\\w ]+)\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Daily maintenance \w+ for [-./\\\w ]+\." version="2" version_type="int">
+			<FastField _type="null" defaultValue="Daily maintenance $2 for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="34" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Daily maintenance $2 for &quot;$3&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="35, ServiceInfo: Router; Initiating maintenance" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: ([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Initiating daily mailbox maintenance" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="35" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="36, ServiceInfo: Router; notes.ini setting used" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: ([.\w ]+) \(([-\w ]+)\)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: notes\.ini setting for Log_Mailrouting being used \(note - this option may now be configured in a Server Configuration document\)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="36" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="37, ServiceInfo: Router; Received maintenance request" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Received maintenance request for ([./\w ]+), ([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Received maintenance request for [./\w ]+, processing all pending message updates" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Received maintenance request for &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="37" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="38, ServiceInfo: Run fixup" matcher="[,/:\w ]*(Run fixup on .+)" pattern="[,/:\w ]*?Run fixup on .+ before compact to get better results on this database \(it's tweaked\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="38" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="39, ServiceInfo: Running Program document" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Running Program document for '([^']+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Running Program document for '[^']+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Running Program document for &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="39" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Running Program document for &quot;$2&quot;" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="40, ServiceInfo: XSP Command Manager Refreshed" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}XSP Command Manager Refreshed" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="40" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="41, ServiceStart: console log" matcher="[,/:\w ]*?(console_\w+_\d{4}_\d{2}_\d{2}@\d{2}_\d{2}_\d{2}\.log).*" pattern="[,/:\w ]*?console_\w+_\d{4}_\d{2}_\d{2}@\d{2}_\d{2}_\d{2}\.log" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Start $1" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="console_\w+_(\d{4})_(\d{2})_(\d{2})@(\d{2})_(\d{2})_(\d{2})\.log" description="date-in-filename" format="$3-$4-$5 $6:$7:$8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="41" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Start $1" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="42, ServiceStart: Database Designer started" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Database Designer started" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="42" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Database Designer" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="43, ServiceStart: Router; Beginning compaction" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Beginning in-place compaction of mailbox file ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Beginning in-place compaction of mailbox file [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Beginning in-place compaction of mailbox file &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="43" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Beginning in-place compaction of mailbox file &quot;$2" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="44, ServiceStart: Starting replication" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Starting replication with server ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Starting replication with server [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Starting replication with server &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="44" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Replicator" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Starting replication with server &quot;$2&quot;" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="45, ServiceStop: Database shutdown" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Database ([\w ]+) shutdown" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Database (?:compactor process|Designer) shutdown" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Database $2 shutdown" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="45" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Database $2" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Database $2 shutdown" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="46, ServiceStop: Finished replication" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Finished replication with server ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Finished replication with server [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Finished replication with server &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="46" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Replicator" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Finished replication with server &quot;$2&quot;" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="47, ServiceStop: Router; Completed compaction" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Completed compaction of mailbox file ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Completed compaction of mailbox file [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Completed compaction of mailbox file &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="47" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Completed compaction of mailbox file &quot;$2" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="48, ServiceStop: console log" matcher=".*" pattern="^stop consolelog" version="2" version_type="int">
+			<FastField _type="null" defaultValue="stop consolelog" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="48" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="stop consolelog" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="49, ServiceWarning: AMgr; Agent will not run" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Agent Manager: AMgr: Agent '([^']+)' will not run. It is intended to run on '([-./\w ]*)' not '([-./\w ]+)'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Agent Manager: AMgr: Agent '[^']+' will not run. It is intended to run on '[-./\w ]*' not '[-./\w ]+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; will not run" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="49" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="It is intended to run on &quot;$3&quot; not &quot;$4&quot;" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="50, ServiceWarning: AMgr; Error validating rights" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Agent Manager: Error validating execution rights for agent '([^']+)' in database '([-./\w ]+)'\. (.+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Agent Manager: Error validating execution rights for agent '[^']+' in database '[-./\w ]+'\." version="1" version_type="int">
+			<FastField _type="null" defaultValue=" Error validating execution rights for agent &quot;$2 in database &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="50" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="51, ServiceWarning: AMgr; Agent not process documents" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Agent '([^']+)' in '([-./\w ]+)' did not process all documents successfully\. +([:\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Agent '[^']+' in '[-./\w ]+' did not process all documents successfully\." version="1" version_type="int">
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; in &quot;$3&quot; did not process all documents successfully" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="51" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="52, ServiceWarning: AMgr; Agent not execution access" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Agent '([^']+)' in '([-./\w ]+)' does not have proper execution access, cannot be run.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Agent '[^']+' in '[-./\w ]+' does not have proper execution access, cannot be run" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; in &quot;$3&quot; does not have proper execution access" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="52" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="cannot be run" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="53, ServiceWarning: AMgr; Agent error" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Agent \('([^']+)' in '([-./\w ]+)'\) error message: ([,\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Agent \('[^']+' in '[-./\w ]+'\) error message:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Agent &quot;$2&quot; in &quot;$3&quot; error" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="53" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="54, ServiceWarning: AMgr; Error executing agent" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Error executing agent '([^']+)' in '([-./\w ]+)'\. Agent signer '([-./\w ]+)': ([,\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Error executing agent '[^']+' in '[-./\w ]+'\. Agent signer '[-./\w ]+':" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Error executing agent &quot;$2&quot; in &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="54" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="55, ServiceWarning: AMgr; Task initialization failure" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}AMgr: Task initialization failure; loading agent in '([-./\w ]+)' \(Note ID (\w+)\): ([',.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}AMgr: Task initialization failure; loading agent in '[-./\w ]+' \(Note ID \w+\): " version="1" version_type="int">
+			<FastField _type="null" defaultValue="Task initialization failure; loading agent in &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="55" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Note ID: $3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Agent Manager" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="56, ServiceWarning: Cataloger unable to open database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Cataloger was unable to open database ([-./\w ]+): ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Cataloger was unable to open database [-./\w ]+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Cataloger was unable to open database &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="56" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Cataloger" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="57, ServiceWarning: Design error database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Design error for database '([-./\w ]+)': ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Design error for database '[-./\w ]+':" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Design error for database &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="57" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Database Designer" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="58, ServiceWarning: Design Refresh" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([\w ]+)\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Design Refresh can only be done on the Administration server of this database\." version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="58" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Database Designer" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="59, ServiceWarning: Error compacting" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Error compacting ([-./\w ]+): ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error compacting [-./\w ]+: [.\w ]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Error compacting &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="59" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="60, ServiceWarning: Error delivering" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Error delivering to ([-./\w ]+); ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error delivering to [-./\w ]+; [.\w ]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Error delivering to &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="60" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="61, ServiceWarning: Error opening" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Error opening ([-./\w ]+): ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error opening [-./\w ]+: [.\w ]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Error opening &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="61" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="62, ServiceWarning: Error processing certificate" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Error processing certificate created by ([-./\w ]+) for ([-./\w ]+): (['.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error processing certificate created by [-./\w ]+ for [-./\w ]+: [.\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Error processing certificate created by &quot;$2&quot; for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="62" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="63, ServiceWarning: Error registering mail rule" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Error registering mail rule (\d+) for database ([-./\w ]+): ([,.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error registering mail rule \d+ for database [-./\w ]+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Error registering mail rule $2 for database for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="63" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="64, ServiceWarning: Error updating view" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Error updating view '([^']+)' in ([-./\w ]+): ([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error updating view '[^']+' in [-./\w ]+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Error updating view &quot;$2: in &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="64" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="65, ServiceWarning: Error updating views" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}([()\w ]+): ([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Error updating views in Domino Directory\(s\):" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="65" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="66, ServiceWarning: Failing over" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Failing over from (.+) for replica id ([A-F\d]{8}:[A-F\d]{8}), directing open to ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Failing over from .+ for replica id [A-F\d]{8}:[A-F\d]{8}, directing open to [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Failing over from &quot;$2&quot; for replica id &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="66" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="directing open to &quot;$4&quot;" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="67, ServiceWarning: Monitor cannot find" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Monitor cannot find folder (.+) in Database: ([-./\w ]+) Enabled Filter: (\d+) MonitorID: ([A-F\d]{8}): +([:\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Monitor cannot find folder .+ in Database: [-./\w ]+ Enabled Filter: \d+ MonitorID: [A-F\d]{8}:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Monitor cannot find folder &quot;$2&quot; in database &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$10-$8-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="67" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Enabled Filter: $4, MonitorID: $5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="68, ServiceWarning: Monitor Error" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Monitor Error in Database ([-./\w ]+): ([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Monitor Error in Database [-./\w ]+:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Monitor Error in Database &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="68" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="69, ServiceWarning: No route found" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}No route found to domain ([-\w.]+)\. +([,.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}No route found to domain [-\w.]+\." version="2" version_type="int">
+			<FastField _type="null" defaultValue="No route found to domain &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="69" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="70, ServiceWarning: Router; Error generating report" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Error generating out of office report in ([-./\w ]+): ([:\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Error generating out of office report in [-./\w ]+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Error generating out of office report in &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="70" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="71, ServiceWarning: Router; Message state changing to DEAD" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Message ([A-F\d]{8}) from (.+) state changing to DEAD. Reason: ([,./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Message [A-F\d]{8} from .+ state changing to DEAD. Reason:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Message $2 from &quot;$3&quot; state changing to DEAD" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="71" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="72, ServiceWarning: Router; Message failed to be recalled" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Message ([A-F\d]{8})\. Message ([A-F\d]{8}) for ([-./\w ]+) failed to be recalled by ([-./\w ]+)\. +([:A-FNO\d ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Message [A-F\d]{8}\. Message [A-F\d]{8} for [-./\w ]+ failed to be recalled by [-./\w ]+\." version="2" version_type="int">
+			<FastField _type="null" defaultValue="Message $3 for &quot;$4&quot; failed to be recalled by &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$10-$8-$9 $11" matcherInput="$1" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="72" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Message $2, Info: &quot;$6&quot;" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="73, ServiceWarning: Router; The New Mail Agent failed" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: The New Mail Agent in ([-./\w ]+) failed: +([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: The New Mail Agent in [-./\w ]+ failed:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="The New Mail Agent in &quot;$2&quot; failed" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="73" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="74, ServiceWarning: Router; Unable to deliver" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Router: Unable to deliver message ([A-F\d, ]+) to (.+) from (.+) (OF[A-F\d]{8}:[A-F\d]{8} ON[A-F\d]{8}:[A-F\d]{8}).*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Unable to deliver message [A-F\d, ]+ to .+ from .+ OF[A-F\d]{8}:[A-F\d]{8} ON[A-F\d]{8}:[A-F\d]{8}" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unable to deliver message $2 to &quot;$3&quot; from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="74" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Router" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Info: &quot;$5&quot;" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="75, ServiceWarning: Skipping update of database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Skipping update of database '([-./\w ]+)' because a backup of it is in progress\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Skipping update of database '[-./\w ]+' because a backup of it is in progress\." version="1" version_type="int">
+			<FastField _type="null" defaultValue="Skipping update of database &quot;$2&quot; because a backup of it is in progress" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="75" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Skipping update of database &quot;$2&quot; because a backup of it is in progress" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="76, ServiceWarning: Unable to replicate" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Unable to replicate ([-./\\\w ]+): ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Unable to replicate [-./\\\w ]+: Folder is damaged\." version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unable to replicate &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="76" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="77, ServiceWarning: Unable to replicate with server" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Unable to replicate with server ([-./\w ]+): ([.\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Unable to replicate with server [-./\\\w ]+:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unable to replicate with server &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="77" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="78, ServiceWarning: Unable to update calendar entry" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Unable to update calendar entry '([^']+)' from list '([^']+)' for '([-./\w ]+)'\. +Error returned:[: ]+([\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Unable to update calendar entry '[^']+' from list '[^']+' for '[-./\w ]+'\. +Error returned:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unable to update calendar entry &quot;$2&quot; from list &quot;$3&quot; for &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="78" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$7" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="79, ServiceWarning: Unable to write to database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Unable to write to database - database ([-./\w ]+) would exceed its disk quota of (\d+) KB by (\d+ [KMG]B).*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Unable to write to database - database [-./\w ]+ would exceed its disk quota of \d+ KB by \d+ [KMG]B" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unable to write to database &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="79" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="database would exceed its disk quota of $3 KB by $4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="80, ServiceWarning: Warning database threshold" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Warning, database ([-./\w ]+) has exceeded its warning size threshold of (\d+) KB by (\d+ [KMG]B).*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Warning, database [-./\w ]+ has exceeded its warning size threshold of \d+ KB by \d+ [KMG]B" version="1" version_type="int">
+			<FastField _type="null" defaultValue="database &quot;$2&quot; has exceeded its warning size threshold" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$8-$6-$7 $9" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="80" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Domino" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="database has exceeded its warning size threshold of $3 KB by $4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="81, UserAuthAudit: Remote console command" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Remote console command issued by ([-./\w ]+): (.+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Remote console command issued by [-./\w ]+:" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Remote console command issued by &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="81" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$5" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$5" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="82, UserAuthAudit: User not listed" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}User (.+) not listed in Domino Directory" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}User .+ not listed in Domino Directory" version="2" version_type="int">
+			<FastField _type="null" defaultValue="User &quot;$2&quot; not listed in Domino Directory" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="82" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-slash-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.+?)@[-\w.]+" description="user-at-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-slash-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+?@([-\w.]+)" description="user-at-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="83, UserLogoff: Closed live remote console" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Closed live remote console session for ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Closed live remote console session for [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="83" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="live remote console session" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogoff" description="84, UserLogoff: Closed session" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Closed session for '([-./\w ]+)' SessId ([A-f\d]{8}) Databases accessed: +(\d+) Documents read: +(\d+) +Documents written: +(\d+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Closed session for '[-./\w ]+' SessId [A-f\d]{8} Databases accessed:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logoff &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$10-$8-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="84" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Databases accessed: $4, Documents read: $5, Documents written: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$8" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$8" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="85, UserLogon: Opened live remote console" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Opened live remote console session for ([-./\w ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Opened live remote console session for [-./\w ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="85" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="live remote console session" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="86, UserLogon: Opened session" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}Opened session for '([^']+)' \(Release ([\w.]+)\) SessId ([A-F\d]{8}) Ip '([\d.]+)' '(\w+)' '([A-Z])'.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Opened session for '[^']+' \(Release [\w.]+\) SessId [A-F\d]{8} Ip '[\d.]+' '\w+' '[A-Z]'" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="CN=(.+?)/OU?=.*" description="distinguished-name" format="Logon &quot;$9&quot;" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$11-$9-$10 $12" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="86" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="CN=(.+?)/OU?=.*" description="distinguished-name" format="$9" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$9" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="CN=.+?/(OU=.+)" description="distinguished-name" format="$9" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$9" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationLogonID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="87, UserLogonFailure: failed to authenticate" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}(.+) from host \[([\d.]+):(\d+)\] failed to authenticate: (['\w. ]+)" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}.+ from host \[[\d.]+:\d+\] failed to authenticate:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$2&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$9-$7-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="87" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Port: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$7" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$7" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="88, UserModifyPrivileges: granted full administrator access" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}(.+) was granted full administrator access\..*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}.+ was granted full administrator access\." version="1" version_type="int">
+			<FastField _type="null" defaultValue="User &quot;$2&quot; granted full admininstrator access" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$6-$4-$5 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="88" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+?/(.+)" description="user-domain" format="$4" matcherInput="$2" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="full administrator" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RestrictedInformationAttempt" description="89, RestrictedInformationAttempt: Attempt to access database" matcher="[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})\s{3}ATTEMPT TO ACCESS DATABASE ([-./\w ]+) by (.+) was denied.*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}ATTEMPT TO ACCESS DATABASE [-./\w ]+ by .+ was denied" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Attempt to access database by &quot;$3&quot; was denied" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$7-$5-$6 $8" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="89" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+?)/.+" description="user-domain" format="$5" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="InformationName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="90, NullAlert: Admin Process; Searching Requests" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Admin Process: Searching Administration Requests database" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="91, NullAlert: Daily Clearing Event" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}(?:Agent Manager: )?Daily Clearing Event Issued" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="92, NullAlert: Chronos" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Chronos: (?:Error opening|Full text indexer terminating|Performing hourly full text indexing)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="93, NullAlert: Finished purge log" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Finished purge of log file" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="94, NullAlert: Finished updating" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Finished updating (?:database catalog|usage statistics)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="95, NullAlert: Informational rebuilding" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Informational, rebuilding view - [\w ]+ \(reading .+ (?:default design|view)? note Title:'[^']*'\)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="96, NullAlert: Releasing unused storage" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Releasing unused storage in database [-./\w ]+\.{3}" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="97, NullAlert: RnRMgr; Error scanning database" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}RnRMgr: Error encountered while scanning database [-/.\w ]+ for events: [.\w]+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="98, NullAlert: RnRMgr; Error reservation document" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}RnRMgr: Error processing reservation document \(NoteID: \w+\) in database [-./\w ]+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="99, NullAlert: RnRMgr, SchedMgr; Error scanning calendar profile" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}(?:RnRMgr|SchedMgr): Error processing calendar profile document \(NoteID: \w+\) in database [-./\w ]+: [\w ]+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="100, NullAlert: RnRMgr, SchedMgr; validating schedule database" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}(?:RnRMgr|SchedMgr): (?:Done )?[Vv]alidating schedule database" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="101, NullAlert: Router; Out of office maintenance" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: (?:Beginning|Completed) Out of office service daily maintenance\." version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="102, NullAlert: Router; Message delivered hop" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Router: Message [,A-F\d ]+ delivered to .+ from .+  Size: \d+K Time: [\d:]+ Hop Count: \d+" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="103, NullAlert: SchedMgr; Error scanning calendar" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}SchedMgr: Error encountered while scanning calendar database [-./\w ]+ for events:" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="104, NullAlert: Starting purge/update" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Starting (?:purge of old documents in log file|update of database catalog|update of database usage statistics)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="105, NullAlert: Warning Cannot locate design" matcher=".*" pattern="[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}Warning: Cannot locate design (?:note|template)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^[,/:\w ]*?(\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2})(.*)" pattern="^[,/:\w ]*?\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}\s{3}.+" version="7" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched IBM Lotus/Domino AIX data ($Revision: #1 $)" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(\d{2})/(\d{2})/(\d{4}) (\d{2}:\d{2}:\d{2})" description="date" format="$5-$3-$4 $6" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: Black Hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

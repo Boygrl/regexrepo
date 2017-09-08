@@ -1,0 +1,276 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="St. Bernard iPrism" fullDescription="Collects events from iPrism Internet Filtering Appliances. " logInterval="1" logLocation="/var/log/local4.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="iPrism" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="iprism" toolType="Proxy Servers and Content Filters" vendor="Edgewave" version="$Revision: #6 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="St. Bernard iPrism" id="iprism" version="10" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, WebTrafficAudit: all" matcher="(\d+) ([-\w.]+) iprism: (\w+)(\^I|[\s,;])(\w+)\4(\d+)\4([BPOIS])\4([\d.]+)\4([-\w]+)\4([^\4]+)\4(\d+)\4([^\4]+)\4([^\4]*)\4(\d+)\4([A-Z]+)\4(\d+)\4(.+)" pattern="^\d+ [-\w.]+ iprism: WEB(\^I|[\s,;])https?\1\d+\1[BPOIS]\1[\d.]+\1[-\w]+\1[^\1]+\1\d+\1[^\1]+\1[^\1]*\1\d+\1[A-Z]+\1\d+\1[^\1]+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="URL request by &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="P,\[Unknown\]" description="passed-unk" format="URL Access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="P" description="passed" format="URL Access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B,\[Unknown\]" description="blocked-unk" format="Blocked URL access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B" description="blocked" format="Blocked URL access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O,\[Unknown\]" description="overridden-unk" format="Override URL access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O" description="overridden" format="Override URL access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I,\[Unknown\]" description="initiated-unk" format="URL overriden initiated by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I" description="initiated" format="URL overriden initiated by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Profile: $9, Method: $15, Code: $16, Mime: $17" fieldName="ExtraneousInfo" type="1" type_type="int" version="28" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="B" description="blocked" format="Web Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="http" description="http" format="HTTP" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="https" description="https" format="HTTPS" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, WebTrafficAudit: all - URL too long" matcher="(\d+) ([-\w.]+) iprism: (\w+)(\^I|[\s,;])(\w+)\4(\d+)\4([BPOIS])\4([\d.]+)\4([-\w]+)\4([^\4]+)\4(\d+)\4([^\4]+)" pattern="^\d+ [-\w.]+ iprism: WEB(\^I|[\s,;])https?\1\d+\1[BPOIS]\1[\d.]+\1[-\w]+\1[^\1]+\1\d+\1[^\1]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL request by &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="P,\[Unknown\]" description="passed-unk" format="URL Access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="P" description="passed" format="URL Access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B,\[Unknown\]" description="blocked-unk" format="Blocked URL access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B" description="blocked" format="Blocked URL access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O,\[Unknown\]" description="overridden-unk" format="Override URL access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O" description="overridden" format="Override URL access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I,\[Unknown\]" description="initiated-unk" format="URL overriden initiated by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I" description="initiated" format="URL overriden initiated by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Profile: $9, URL too long (incomplete)" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="B" description="blocked" format="Web Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="http" description="http" format="HTTP" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="https" description="https" format="HTTPS" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="3, ApplicationTrafficAudit: all" matcher="(\d+) ([-\w.]+) iprism: (\w+)(\^I|[\s,;])(\w+)\4(\d+)\4([BPOI])\4([\d.]+)\4([^\4]+)\4([^\4]+)\4([^\4]+)" pattern="^\d+ [-\w.]+ iprism: (?:IM|P2P)(\^I|[\s,;])\w+\1\d+\1[BPOI]\1[\d.]+\1[^\1]+\1[^\1]+\1[^\1]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 request by &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="P,\[Unknown\]" description="passed-unk" format="$5 Access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="P" description="passed" format="$5 Access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B,\[Unknown\]" description="blocked-unk" format="Blocked $5 access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B" description="blocked" format="Blocked $5 access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O,\[Unknown\]" description="overridden-unk" format="Override $5 access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O" description="overridden" format="Override $5 access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I,\[Unknown\]" description="initiated-unk" format="$5 overriden initiated by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I" description="initiated" format="$5 overriden initiated by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Profile: $9, App: $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="noapp" format="Profile: $9" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="AIM" description="aim" format="IM Aol" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Yahoo" description="yahoo" format="IM Yahoo" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="4, WebTrafficAudit: ftp" matcher="(\d+) ([-\w.]+) iprism: (\w+)(\^I|[\s,;])(\w+)\4(\d+)\4([BPOIS])\4([\d.]+)\4([^\4]+)\4([^\4]+)\4(\d+)\4([^\4]+)\4([^\4]*)\4(\d+)\4([A-Z]+)\4(\d+)\4(.+)" pattern="^\d+ [-\w.]+ iprism: WEB(\^I|[\s,;])ftp\1\d+\1[BPOIS]\1[\d.]+\1[-\w]+\1[^\1]+\1\d+\1[^\1]+\1[^\1]*\1\d+\1[A-Z]+\1\d+\1" version="1" version_type="int">
+			<FastField _type="null" defaultValue="FTP request by &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="P,\[Unknown\]" description="passed-unk" format="FTP Access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="P" description="passed" format="FTP Access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B,\[Unknown\]" description="blocked-unk" format="Blocked FTP access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B" description="blocked" format="Blocked FTP access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O,\[Unknown\]" description="overridden-unk" format="Override FTP access by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O" description="overridden" format="Override FTP access by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I,\[Unknown\]" description="initiated-unk" format="FTP overriden initiated by &quot;$8&quot;" matcherInput="$7,$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I" description="initiated" format="FTP overriden initiated by &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Profile: $9, Method: $15, Code: $16, Mime: $17" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="B" description="blocked" format="Web Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="http" description="http" format="HTTP" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="https" description="https" format="HTTPS" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ftp" description="ftp" format="FTP" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="5, MailTrafficAudit: UNKNOWN IMAPS" matcher="(\d+) ([-\w.]+) iprism: (.+) \d+ \S+ ([-\w.]+) (.+) -" pattern="^\d+ [-\w.]+ iprism: UNKNOWN IMAPS" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3. $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="IMAP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="6, WebTrafficAudit: all {format 2}" matcher="(\d+) ([-\w.]+) iprism: (\w+)#011(https?)#011\d+#011(\w+)#011([\d.]+)#011([^#]+)#011(\S+)#011(\d+)#011([^#]+)#011([^#]+)#011(\d+)#011(\S+)#011(\d+)#011(.+)" pattern="^\d+ [-\w.]+ iprism: WEB#011https?#011\d+#011[BPOI]#011[\d.]+#011[^#]+#011\S+#011\d+#011[^#]+#011[^#]+#011\d+#011\S+#011\d+#011[/\w]+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="URL request by &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="P,\[Unknown\]" description="passed-unk" format="Passed URL Access by &quot;$8&quot;" matcherInput="$7,$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="P" description="passed" format="Passed URL Access by &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B,\[Unknown\]" description="blocked-unk" format="Blocked URL access by &quot;$8&quot;" matcherInput="$7,$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B" description="blocked" format="Blocked URL access by &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O,\[Unknown\]" description="overridden-unk" format="Override URL access by &quot;$8&quot;" matcherInput="$7,$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O" description="overridden" format="Override URL access by &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I,\[Unknown\]" description="initiated-unk" format="URL overriden initiated by &quot;$8&quot;" matcherInput="$7,$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I" description="initiated" format="URL overriden initiated by &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Profile: $7, Method: $13, Code: $14, Mime: $15" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="http" description="http" format="HTTP" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="https" description="https" format="HTTPS" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="7, MailTrafficAudit: all {format 2}" matcher="(\d+) ([-\w.]+) iprism: (\w+)#011([^#]+)#011\d+#011(\w+)#011([\d.]+)#011([^#]+)#011(\S+)#011(\S+)#011.*" pattern="^\d+ [-\w.]+ iprism: \w+#011(?:IMAPS?|POPS?)?#011\d+#011[BPOI]#011[\d.]+#011[^#]+#011\S+#011\S+#011" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$7 traffic from &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="P" description="passed" format="$7 traffic from &quot;$6&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="B" description="blocked" format="$7 traffic from &quot;$6&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="O" description="overridden" format="$7 traffic from &quot;$6&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="I" description="initiated" format="$7 traffic from &quot;$6&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="(\d+) ([-\w.]+) .+" pattern="^\d+ [-\w.]+ iprism: [A-Z0-9]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched IPrism Data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,620 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Linux Sendmail" fullDescription="Collects mail-related events from devices running Sendmail software." logInterval="1" logLocation="/var/log/maillog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="LinuxSendmail" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="sendmail" toolType="Network Services" vendor="Open Source" version="$Revision: #14 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Linux Sendmail" id="sendmail" version="31" version_type="int">
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="001, MailTrafficAudit, Mail Received from" matcher="([A-Za-z0-9: ]+) (s.+) \S+.\S+ sendmail\[\d+\]: ([^:]+): from=([^,]+), size=(\d+), class=(\d+), nrcpts=(\d+), msgid=([^,]+),(.*) relay=(.+)" pattern="sendmail\[\d+\]: [^:]+: from=[^,]+, size=\d+, class=\d+, nrcpts=\d+, msgid=[^,]+,.* relay=.+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3, SendMail Status: Incoming Mail Received" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$4&quot;, MsgID: &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdaemon=(\w+),.*" description="daemon" format="From: &quot;$4&quot;, MsgID: &quot;$8&quot;, Daemon: &quot;$12&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+ \[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\]" description="host-ip" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+@([-\w.]+)" description="at" format="$12" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=(\w+),.*" description="proto" format="$12" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="002, MailTrafficAudit, Mail Sent to" matcher="(.+) (s.+) \S+.\S+ sendmail\[\d+\]: ([^:]+): to=(\S+),(?: ctladdr=([^,]+),)? delay=([\d+:]+), xdelay=([\d:]+), mailer=(\w+), pri=(\d+),(.*) dsn=([\d.]+), stat=(.+)" pattern="sendmail\[\d+\]: [^:]+: to=\S+,(?: ctladdr=[^,]+,)? delay=[\d+:]+, xdelay=[\d:]+, mailer=\w+, pri=\d+,.* dsn=[.\d]+, stat=.+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3, SendMail Status: $12" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="2\.\d+\.\d+" description="dsn-2" format="$3, SendMail Status: $12" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4\.\d+\.\d+" description="dsn-4" format="$3, SendMail Persistent Transient Failure: $12" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5\.\d+\.\d+" description="dsn-5" format="$3, SendMail Permanent Failure: $12" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[245]\.0\.0" description="X.0.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other undefined Status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.0" description="X.1.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other address status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.1" description="X.1.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad destination mailbox address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.2" description="X.1.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad destination system address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.3" description="X.1.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad destination mailbox address syntax&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.4" description="X.1.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Destination mailbox address ambiguous&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.5" description="X.1.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Destination address valid&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.6" description="X.1.6" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Destination mailbox has moved, No forwarding address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.7" description="X.1.7" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad sender's mailbox address syntax&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.8" description="X.1.8" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad sender's system address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.0" description="X.2.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined mailbox status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.1" description="X.2.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailbox disabled, not accepting messages&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.2" description="X.2.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailbox full&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.3" description="X.2.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Message length exceeds administrative limit&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.4" description="X.2.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailing list expansion problem&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.0" description="X.3.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined mail system status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.1" description="X.3.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mail system full&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.2" description="X.3.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 System not accepting network messages&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.3" description="X.3.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 System not capable of selected features&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.4" description="X.3.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Message too big for system&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.0" description="X.4.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined network or routing status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.1" description="X.4.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 No answer from host&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.2" description="X.4.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad connection&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.3" description="X.4.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Directory server failure&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.4" description="X.4.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Unable to route&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.5" description="X.4.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mail system congestion&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.6" description="X.4.6" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Routing loop detected&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.7" description="X.4.7" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Delivery time expired&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.0" description="X.5.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined protocol status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.1" description="X.5.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Invalid command&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.2" description="X.5.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Syntax error&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.3" description="X.5.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Too many recipients&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.4" description="X.5.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Invalid command arguments&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.5" description="X.5.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Wrong protocol version&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.0" description="X.6.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined media error&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.1" description="X.6.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Media not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.2" description="X.6.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion required and prohibited&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.3" description="X.6.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion required but not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.4" description="X.6.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion with loss performed&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.5" description="X.6.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion Failed&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.0" description="X.7.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined security status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.1" description="X.7.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Delivery not authorized, message refused&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.2" description="X.7.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailing list expansion prohibited&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.3" description="X.7.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Security conversion required but not possible&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.4" description="X.7.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Security features not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.5" description="X.7.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Cryptographic failure&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.6" description="X.7.6" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Cryptographic algorithm not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.7" description="X.7.7" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Message integrity failure&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\srelay=[-\w.]+ \[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="relay-host-ip" format="$14" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\srelay=\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="relay-ip" format="$14" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\srelay=(.+)," description="relay" format="$14" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="1, MailTrafficAudit, Mail Sent to" matcher="(\d+) ([-\w.]+) [-\w]+\[\d+\]: ([^:]+): to=(\S+),(?: ctladdr=([^,]+),)? delay=([\d+:]+), xdelay=([\d:]+), mailer=(\w+), pri=(\d+),(.*) dsn=([\d.]+), stat=(.+)" pattern="[-\w]+\[\d+\]: [^:]+: to=\S+,(?: ctladdr=[^,]+,)? delay=[\d+:]+, xdelay=[\d:]+, mailer=\w+, pri=\d+,.* dsn=[.\d]+, stat=.+" version="14" version_type="int">
+			<FastField _type="null" defaultValue="$3, SendMail Status: $12" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition="2\.\d+\.\d+" description="dsn-2" format="$3, SendMail Status: $12" matcherInput="$11" version="4" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4\.\d+\.\d+" description="dsn-4" format="$3, SendMail Persistent Transient Failure: $12" matcherInput="$11" version="5" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5\.\d+\.\d+" description="dsn-5" format="$3, SendMail Permanent Failure: $12" matcherInput="$11" version="5" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="[245]\.0\.0" description="X.0.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other undefined Status&quot;" matcherInput="$11" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.0" description="X.1.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other address status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.1" description="X.1.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad destination mailbox address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.2" description="X.1.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad destination system address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.3" description="X.1.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad destination mailbox address syntax&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.4" description="X.1.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Destination mailbox address ambiguous&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.5" description="X.1.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Destination address valid&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.6" description="X.1.6" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Destination mailbox has moved, No forwarding address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.7" description="X.1.7" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad sender's mailbox address syntax&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.1\.8" description="X.1.8" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad sender's system address&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.0" description="X.2.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined mailbox status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.1" description="X.2.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailbox disabled, not accepting messages&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.2" description="X.2.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailbox full&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.3" description="X.2.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Message length exceeds administrative limit&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.2\.4" description="X.2.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailing list expansion problem&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.0" description="X.3.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined mail system status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.1" description="X.3.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mail system full&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.2" description="X.3.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 System not accepting network messages&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.3" description="X.3.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 System not capable of selected features&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.3\.4" description="X.3.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Message too big for system&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.0" description="X.4.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined network or routing status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.1" description="X.4.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 No answer from host&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.2" description="X.4.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Bad connection&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.3" description="X.4.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Directory server failure&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.4" description="X.4.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Unable to route&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.5" description="X.4.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mail system congestion&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.6" description="X.4.6" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Routing loop detected&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.4\.7" description="X.4.7" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Delivery time expired&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.0" description="X.5.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined protocol status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.1" description="X.5.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Invalid command&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.2" description="X.5.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Syntax error&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.3" description="X.5.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Too many recipients&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.4" description="X.5.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Invalid command arguments&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.5\.5" description="X.5.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Wrong protocol version&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.0" description="X.6.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined media error&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.1" description="X.6.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Media not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.2" description="X.6.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion required and prohibited&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.3" description="X.6.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion required but not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.4" description="X.6.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion with loss performed&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.6\.5" description="X.6.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Conversion Failed&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.0" description="X.7.0" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Other or undefined security status&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.1" description="X.7.1" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Delivery not authorized, message refused&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.2" description="X.7.2" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Mailing list expansion prohibited&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.3" description="X.7.3" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Security conversion required but not possible&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.4" description="X.7.4" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Security features not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.5" description="X.7.5" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Cryptographic failure&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.6" description="X.7.6" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Cryptographic algorithm not supported&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[245]\.7\.7" description="X.7.7" format="To: &quot;$4&quot;, Mailer: &quot;$8&quot;, Status Code: &quot;$11 Message integrity failure&quot;" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\srelay=[-\w.]+ \[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="relay-host-ip" format="$14" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\srelay=\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="relay-ip" format="$14" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\srelay=(.+)," description="relay" format="$14" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="2, MailTrafficAudit, Mail Received from" matcher="(\d+) ([-\w.]+) sendmail\[\d+\]: ([^:]+): from=([^,]+), size=(\d+), class=(\d+), nrcpts=(\d+), msgid=([^,]+),(.*) relay=(.+)" pattern="sendmail\[\d+\]: [^:]+: from=[^,]+, size=\d+, class=\d+, nrcpts=\d+, msgid=[^,]+,.* relay=.+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$3, SendMail Status: Incoming Mail Received" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="From: &quot;$4&quot;, MsgID: &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*\bdaemon=(\w+),.*" description="daemon" format="From: &quot;$4&quot;, MsgID: &quot;$8&quot;, Daemon: &quot;$12&quot;" matcherInput="$9" version="3" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[-\w.]+ \[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\]" description="host-ip" format="$12" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".+@([-\w.]+)" description="at" format="$12" matcherInput="$10" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\bproto=(\w+),.*" description="proto" format="$12" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="3, EncryptedTraffic, STARTTLS" matcher="(\d+) ([-\w.]+) [-\w]+\[\d+\]: STARTTLS=([^,]+), relay=([^,]+), version=([/\w]+), verify=([A-Z]+), cipher=([-\w]+), bits=(\d+/\d+).*" pattern="[-\w]+\[\d+\]: STARTTLS=[^,]+, relay=[^,]+, version=[/\w]+, verify=[A-Z]+, cipher=[-\w]+, bits=\d+/\d+" version="5" version_type="int">
+			<FastField _type="null" defaultValue="SendMail $5 $3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Verify: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="OK" description="ok" format="Verify: &quot;$6 (verification succeeded)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="NO" description="no" format="Verify: &quot;$6 (no cert presented)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="NOT" description="not" format="Verify: &quot;$6 (no cert requested)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="FAIL" description="fail" format="Verify: &quot;$6 (cert presented but could not be verified)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="NONE" description="none" format="Verify: &quot;$6 (STARTTLS has not been performed)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TEMP" description="temp" format="Verify: &quot;$6 (temporary error occurred)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="PROTOCOL" description="protocol" format="Verify: &quot;$6 (some protocol error occurred at the ESMTP level)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="SOFTWARE" description="software" format="Verify: &quot;$6 (STARTTLS handshake failed, which is a fatal error for this session, the e-mail will be queued)&quot;" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="client,[-\w.]+ \[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="client-host-ip" format="$13" matcherInput="$3,$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="client,\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="client-ip2" format="$10" matcherInput="$3,$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="client,\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="client-ip" format="$13" matcherInput="$3,$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="client" description="client" format="$4" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?!client)\w+,[-\w.]+ \[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="not-client-host-ip" format="$13" matcherInput="$3,$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!client)\w+,\[(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\].*" description="not-client-ip" format="$13" matcherInput="$3,$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?!client)\w+" description="not-client" format="$4" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Cipher Suite: &quot;$7&quot;, Key Length: &quot;$8&quot;" fieldName="Parameters" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="4, ServiceWarning, Service Unavailable" matcher="(\d+) ([\w.-]+) (sendmail)\[\d+\]: ([^:]+): [^:]+: ([^:]+): (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]: [^:]+:(?: [^:]+:)? [^:]+: Service unavailable" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4, SendMail status: $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SendMail status: $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="5, ServiceWarning, cannot save rejected email anywhere" matcher="(\d+) ([\w.-]+) (sendmail)\[\d+\]: ([^:]+): [^:]+: ([^:]+): (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]: [^:]+:(?: [^:]+:)? [^:]+: cannot save rejected email anywhere" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4, SaveMail status: $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SaveMail status: $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="6, ServiceWarning, Losing, savemail panic" matcher="(\d+) ([\w.-]+) (sendmail)\[\d+\]: ([^:]+): ([^:]+): (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]: [^:]+: Losing [-/\w. ]+: savemail panic" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4, $6: $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6: $5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="7, MailTrafficAudit, tcpwrappers rejection" matcher="(\d+) ([-\w.]+) sendmail\[\d+\]: ([^:]+): tcpwrappers \(([^,]+),\s*([-\w.]+)\) rejection.*" pattern="sendmail\[\d+\]: [^:]+: tcpwrappers \([^,]+,\s*[-\w.]+\) rejection" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3, tcpwrappers denied entry for &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="8, ServiceWarning, return to sender" matcher="(\d+) ([\w.-]+) ([-\w]+)\[\d+\]: ([^:]+): ([^:]+): (.*)" pattern="\d+ [-\w.]+ [-\w]+\[\d+\]: [^:]+: [^:]+: return to sender: Cannot send message" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="9, ServiceWarning, Authentication-Warning set sender" matcher="(\d+) ([\w.-]+) (sendmail)\[\d+\]: ([^:]+): ([^:]+): (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]: [^:]+: Authentication-Warning: [-\w.]+: \S+ set sender to [-\w@.]+ using -(?:r|f)" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5: $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5: $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessStart" description="10, ProcessStart, starting daemon" matcher="(\d+) ([\w.-]+) ([-\w]+)\[(\d+)\]:.* ([^:]+): (.*)" pattern="\d+ [-\w.]+ [-\w]+\[\d+\]:.*?starting daemon \([^)]+\):" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="11, MailTrafficAudit, Mail Sent to" matcher="(\d+) ([-\w.]+) sendmail\[\d+\]: ([^:]+): to=(\S+), delay=([\d+:]+), mailer=(\w+), pri=(\d+), stat=(.+)" pattern="sendmail\[\d+\]: [^:]+: to=\S+, delay=[\d+:]+, mailer=\w+, pri=\d+, stat=.+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3, SendMail Status: $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="To: &quot;$4&quot;, Mailer: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="12, ServiceInfo, accepting new messages" matcher="(\d+) ([\w.-]+) (sendmail)\[\d+\]: (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]: accepting new messages" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="13, ProcessInfo, accepting connections again" matcher="(\d+) ([\w.-]+) (sendmail)\[(\d+)\]: (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]:.*?accepting connections again for daemon" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="14, ServiceWarning, cannot open" matcher="(\d+) ([\w.-]+) ([-\w]+)\[\d+\]: ([^:]+): ([^:]+):.*? cannot open '([^']+)': (.*)" pattern="\d+ [-\w.]+ [-\w]+\[\d+\]: [^:]+: [^:]+:.*?cannot open '[^']+'" version="2" version_type="int">
+			<FastField _type="null" defaultValue="cannot open &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="cannot open &quot;$6&quot;: $7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="15, ProcessInfo, rejecting connections on daemon" matcher="(\d+) ([\w.-]+) (sendmail)\[(\d+)\]: (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]:.*?rejecting connections on daemon" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProcessID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="16, ServiceWarning, Authentication-Warning set sender" matcher="(\d+) ([\w.-]+) (sendmail)\[\d+\]: ([^:]+): ([^:]+): (.*)" pattern="\d+ [-\w.]+ sendmail\[\d+\]: [^:]+: [^:]+: sender notify: Warning: could not send message for" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5: $6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="17, ServiceInfo, Skipping queue run" matcher="(\d+) ([\w.-]+) ([-\w]+)\[\d+\]: ([^:]+): (.*)" pattern="\d+ [-\w.]+ [-\w]+\[\d+\]: [^:]+: Skipping queue run" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="18, ServiceWarning, sender notify" matcher="(\d+) ([\w.-]+) ([-\w]+)\[\d+\]: ([^:]+): ([^:]+): ([^:]+): (.*)" pattern="\d+ [-\w.]+ [-\w]+\[\d+\]: [^:]+: [^:]+: sender notify: (?:[^:]+:\s*could not|Cannot) send message" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6: $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="19, ServiceInfo, grew Worklist" matcher="(\d+) ([\w.-]+) ([-\w]+)\[\d+\]: (.*)" pattern="\d+ [-\w.]+ [-\w]+\[\d+\]: grew WorkList" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="20, MailTrafficAudit, sent mail" matcher="(\d+) ([-\w.]+) \w+ sSMTP\[\d+\]: Sent mail for (\S+) \(.*?\) uid=(\S+) username=(\S+) outbytes=(\d+).*" pattern="sSMTP\[\d+\]: Sent mail for \S+ \(.*?\) uid=\S+ username=\S+ outbytes=\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Sent mail for &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="21, ServiceWarning, {Cannot open mail, Unable to connect}" matcher="(\d+) ([\w.-]+) \w+ ([-\w]+)\[\d+\]: (.*)" pattern="\d+ [-\w.]+ \w+ [-\w]+\[\d+\]: (?:Cannot open mail:\d+|Unable to connect to &quot;[^&quot;]+&quot;)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData, unmatched data" matcher="(\d+) ([\w.-]+).*" pattern="\d+ [-\w.]+ sendmail\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Sendmail data ($Revision: #14 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

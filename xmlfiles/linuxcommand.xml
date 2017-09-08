@@ -1,0 +1,374 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="Linux command line logging" fullDescription="" logInterval="1" logLocation="/var/log/audit/command.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="spop" readerName="Linux command" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="linuxcommand" toolType="Operating Systems" vendor="" version="$Revision: #8 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Linux Command line logging" id="linuxcommand" version="20" version_type="int">
+		<FastPattern _type="null" alertName="FileSystemAudit" description="1, FileSystemAudit; cd command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) cd (.*) *\[.*\]" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*cd" version="1" version_type="int">
+			<FastField _type="null" defaultValue="change the current working directory to &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDataWrite" description="2, FileDataWrite; vi command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) vi (.+?) *\[.*\]*$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*vi " version="1" version_type="int">
+			<FastField _type="null" defaultValue="The contents of &quot;$7&quot; file is viewed using vi editor" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="3, FileDelete; rm command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) rm (.+) *\[.*\]" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*rm" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Remove or Unlink file or directory &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="remove" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="4, ServiceStart; service {restart;start}" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) service (\S+) (\S+)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*service [-\w]+ (?:restart|start)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Service &quot;$7&quot; $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service &quot;$7&quot; $8" fieldName="StartMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="5, ServiceInfo; last message repeated" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ last message repeated \d+ times" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="6, FileSystemAudit; ls" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) ls *(.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*ls" version="1" version_type="int">
+			<FastField _type="null" defaultValue="List information about files &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="7, FileSystemAudit; exit command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) exit.*" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*exit" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Exit the shell" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="8, FileSystemAudit; grep command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) grep *(.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*grep" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Search file(s) for lines that match a given pattern &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDataWrite" description="9, FileDataWrite; cat command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) cat *(.+) *\[.*\]" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*cat" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Concatenate and print (display) the content of files" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".* &gt;(.*)" description="file_name" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileMove" description="10, FileMove; cp command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) cp *(.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*cp" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Copy one or more files to another location" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="cp $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="11, FileTransferTrafficAudit; sftp" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) sftp *(.+?) *\[.*\]" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*sftp" version="2" version_type="int">
+			<FastField _type="null" defaultValue="sftp $7" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(\S+)@\S+" description="src_user" format="User: $9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="\S+@(\S+)" description="dst @" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="12, FileSystemAudit; fdisk command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) fdisk *(.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*fdisk" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Partition table manipulator for Linux: fdisk $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="13, UserLogon; ssh command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) (\S+) (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*ssh" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Secure Shell client (remote login program)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([\w]+)@.*" description="dst_acc" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[\w]+@(\S+)\[.*\]" description="dst_domain" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="14, FileSystemAudit; history" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) (.+) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*history" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Command History" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileExecute" description="15, FileExecute; cksum command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) cksum *(.+?) *\[.*\]" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*cksum" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Print CRC checksum and byte counts" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="16, FileSystemAudit; crontab command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) crontab *(.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*crontab" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Schedule a command to run at a later time" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="17, FileSystemAudit; ifconfig command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*ifconfig" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Configure a network interface" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="18, FileSystemAudit; pwd command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*pwd" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Print Working Directory" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="19, FileSystemAudit; date command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* date" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Display or change the date &amp; time &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="20, FileSystemAudit; getent command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* getent" version="1" version_type="int">
+			<FastField _type="null" defaultValue="get entries from Name Service Switch libraries &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="21, ProcessInfo; init command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* init" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Process control initialization" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="22, FileSystemAudit; rpm command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* rpm" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="23, ProcessInfo; telinit command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)\[.*\]" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* telinit" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Process control initialization" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAttributeChange" description="24, FileAttributeChange; chmod command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ chmod (\d+) (\S+).*" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* chmod" version="1" version_type="int">
+			<FastField _type="null" defaultValue="change the permissions of files or directories." fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="24" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="25, ServiceStop; service stop" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: ([-\w: ]+) service (\S+) (\S+)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.*service [-\w]+ stop" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Service &quot;$7&quot; $8" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="25" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="StopCondition" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Service &quot;$7&quot; $8" fieldName="StopMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="26, ServiceInfo; ll command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* ll" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Gets detail information about files and directories in present working directory." fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="26" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="27, FileSystemAudit; ./ command" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* \.\/[\w. ]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="27" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemAudit" description="28, FileSystemAudit: daily update" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: root IP:([\d.]+).*\]: [-\w]+ [\d:]+ (.*)" pattern="[\w]+ *\d+ [:\w]+ [\w]+ [\w]+: root IP:[\d.]+.* daily_update" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="28" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="29, ServiceInfo; Starting Session" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) \w+: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ systemd: Start(?:ing|ed) Session \d+ of \w+ root" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="29" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="30, ServiceInfo; systemd" matcher="([\w]+) *(\d+) ([:\w]+) (\S+) \w+: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ \S+ systemd:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="30" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="31, ServiceInfo; systemd-logind" matcher="([\w]+) *(\d+) ([:\w]+) (\S+) [-\w]+: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ \S+ systemd-logind:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="31" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="32, ServiceWarning; network; Could not load file" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ network: Could not load file '\S+'" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="32" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="33, ServiceWarning; su; FAILED" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ su: FAILED SU \(to \w+\) \w+ on \S+$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="33" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="34, ServiceInfo; su; on pts" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ su: \(to \w+\) \w+ on pts/\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="34" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="35, ServiceInfo; NetworkManager" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+\[\d+\]: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ NetworkManager\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="35" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="36, ServiceInfo; su; on pts" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+\[\d+\]: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ xinetd\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="36" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="37, ServiceInfo; [OK]" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+\: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+.*?\[ *OK *\]" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="37" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="38, ServiceInfo; swlem-agent, kdumpctl" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+\: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ (?:swlem-agent|kdumpctl): (?:Starting \w+|kexec: loaded kdump kernel)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="38" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="39, ServiceInfo; auditd" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+) [-\w]+\[\d+\]: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ [\w]+ auditd\[\d+\]: Audit daemon rotating log files" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="39" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="40, ServiceWarning; fprintd" matcher="([\w]+) *(\d+) ([:\w]+) (\S+) \w+: \*\* \(fprintd:\d+\): WARNING \*\*: (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ \S+ fprintd:" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="40" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="fprintd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="41, ServiceInfo; dbus" matcher="([\w]+) *(\d+) ([:\w]+) (\S+) \w+\[\d+\]: \[\S+\] (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ \S+ dbus\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="41" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="dbus" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="42, ServiceInfo; dbus-daemon" matcher="([\w]+) *(\d+) ([:\w]+) (\S+) dbus-daemon: \w+\[\d+\]: \[\S+\] (.+?) *$" pattern="[\w]+ *\d+ [:\w]+ \S+ dbus-daemon: dbus\[\d+\]:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="42" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="dbus-daemon" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="Linux command data" matcher="([\w]+) *(\d+) ([:\w]+) ([\w]+).*" pattern="[\w]+ *\d+ [:\w]+ [\w]+" version="30" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Linux command Data ($Revision: #8 $)" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="2" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

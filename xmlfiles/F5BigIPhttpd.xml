@@ -1,0 +1,1002 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="F5 BigIP HTTPD specific" fullDescription="Collects web traffic events (primarily HTTP errors and warnings) from F5 applicances." logInterval="1" logLocation="/var/log/local6.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="F5 BigIP HTTPD" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="F5BigIPhttpd" toolType="Application Switch" vendor="F5" version="$Revision: #7 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="F5 BigIP HTTPD specific" id="F5BigIPhttpd" version="221" version_type="int">
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: logger [ssl_acc] buffer overflow " matcher=".*" pattern="(\d+) ([\d.]+) logger: .*\.\.\.$" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Invalid HTTP Format to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, WebTrafficAudit: logger [ssl_acc] (format 1)" matcher="(\d+) (\S+) \w* ?(\w+): \S+ (\S+) (\S+) (\S+) \[[^]]+\] &quot;([^&quot;]*)&quot; (\S+) (\S+).*" pattern="logger: \[ssl_acc\]\S* \S+ \S+ \S+ \[[^]]+\] &quot;[^&quot;]*&quot; \S+ \S+" version="8" version_type="int">
+			<FastField _type="null" defaultValue="URL Access to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="100" description="100" format="Response: $8 Continue" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="Response: $8 Switching Protocols" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Response: $8 OK" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="201" description="201" format="Response: $8 Created" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="Response: $8 Accepted" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="203" description="203" format="Response: $8 Non-Authoritative Information" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="204" description="204" format="Response: $8 No Content" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="205" description="205" format="Response: $8 Reset Content" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206" format="Response: $8 Partial Content" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Response: $8 Multiple Choices" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="301" description="301" format="Response: $8 Moved Permanently" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="302" description="302" format="Response: $8 Found" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="303" description="303" format="Response: $8 See Other" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="304" description="304" format="Response: $8 Not Modified" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="305" description="305" format="Response: $8 Use Proxy" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="306" description="306" format="Response: $8 (Unused)" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="307" description="307" format="Response: $8 Temporary Redirect" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="400" description="400" format="Response: $8 Bad Request" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="401" description="401" format="Response: $8 Unauthorized" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="402" description="402" format="Response: $8 Payment Required" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="403" description="403" format="Response: $8 Forbidden" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="404" description="404" format="Response: $8 Not Found" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="405" description="405" format="Response: $8 Method Not Allowed" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="406" description="406" format="Response: $8 Not Acceptable" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="407" description="407" format="Response: $8 Proxy Authentication Required" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="408" description="408" format="Response: $8 Request Timeout" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="409" description="409" format="Response: $8 Conflict" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="410" description="410" format="Response: $8 Gone" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="411" description="411" format="Response: $8 Length Required" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="412" description="412" format="Response: $8 Precondition Failed" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="413" description="413" format="Response: $8 Request Entity Too Large" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="414" description="414" format="Response: $8 Request-URI Too Long" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="415" description="415" format="Response: $8 Unsupported Media Type" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="416" description="416" format="Response: $8 Requested Range Not Satisfiable" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="417" description="417" format="Response: $8 Expectation Failed" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="Response: $8 Internal Server Error" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="Response: $8 Not Implemented" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="Response: $8 Bad Gateway" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="Response: $8 Service Unavailable" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="Response: $8 Gateway Timeout" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="505" description="505" format="Response: $8 HTTP Version Not Supported" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="unk" format="Response: $8" matcherInput="$8" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="[34]\d\d" description="300-400" format="WebContent" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\S+ (\S+) [^/]+/[\d.]+" description="get url" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, WebTrafficAudit: logger [ssl_acc], [acc]  (format2)" matcher="(\d+) (\S+) (?:info)? *(\S+): \S* (\S*) (\S*) (\S*) \[[^]]+\] &quot;(.*) ([A-Z]+)/\d+\.\d+\s*&quot; (\S*) (\S*).*" pattern="logger: \[(?:ssl_)?acc\] \S* \S* \S* \[[^]]+\] &quot;.* [A-Z]+/\d+\.\d+\s*&quot; \S*\s*\S*" version="5" version_type="int">
+			<FastField _type="null" defaultValue="URL Access to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="100" description="100" format="Response: $9 Continue" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="Response: $9 Switching Protocols" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Response: $9 OK" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="201" description="201" format="Response: $9 Created" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="Response: $9 Accepted" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="203" description="203" format="Response: $9 Non-Authoritative Information" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="204" description="204" format="Response: $9 No Content" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="205" description="205" format="Response: $9 Reset Content" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206" format="Response: $9 Partial Content" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Response: $9 Multiple Choices" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="301" description="301" format="Response: $9 Moved Permanently" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="302" description="302" format="Response: $9 Found" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="303" description="303" format="Response: $9 See Other" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="304" description="304" format="Response: $9 Not Modified" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="305" description="305" format="Response: $9 Use Proxy" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="306" description="306" format="Response: $9 (Unused)" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="307" description="307" format="Response: $9 Temporary Redirect" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="400" description="400" format="Response: $9 Bad Request" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="401" description="401" format="Response: $9 Unauthorized" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="402" description="402" format="Response: $9 Payment Required" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="403" description="403" format="Response: $9 Forbidden" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="404" description="404" format="Response: $9 Not Found" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="405" description="405" format="Response: $9 Method Not Allowed" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="406" description="406" format="Response: $9 Not Acceptable" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="407" description="407" format="Response: $9 Proxy Authentication Required" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="408" description="408" format="Response: $9 Request Timeout" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="409" description="409" format="Response: $9 Conflict" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="410" description="410" format="Response: $9 Gone" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="411" description="411" format="Response: $9 Length Required" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="412" description="412" format="Response: $9 Precondition Failed" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="413" description="413" format="Response: $9 Request Entity Too Large" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="414" description="414" format="Response: $9 Request-URI Too Long" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="415" description="415" format="Response: $9 Unsupported Media Type" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="416" description="416" format="Response: $9 Requested Range Not Satisfiable" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="417" description="417" format="Response: $9 Expectation Failed" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="Response: $9 Internal Server Error" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="Response: $9 Not Implemented" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="Response: $9 Bad Gateway" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="Response: $9 Service Unavailable" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="Response: $9 Gateway Timeout" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="505" description="505" format="Response: $9 HTTP Version Not Supported" matcherInput="$9" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="unk" format="Response: $9 Unknown" matcherInput="$9" version="3" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ (\S+)" description="get url" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="3, ServiceWarning: httpd - error File does not exist" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[\S+ (\S+)] (.*)" pattern="httpd\[\d+\]: \[error\] \[[^]]+] File does not exist" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Client: $4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="4, WebTrafficAudit: httpd - error" matcher="(\d+) (\S+) (httpd)\[\d+\]: \[[^]]+\] \[\S+ (\S+)] (.*)" pattern="^(\d+) (\S+) httpd\[\d+\]: \[[^]]+\] \[[^]]+] client sent \S+ request without hostname" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL Access from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*(?:error|failed|does not exist).*" description="error" format="URL Access Error from &quot;$4&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="client sent (\S+) request without hostname \([^)]+\):.*(referer: .*)" description="client sent requst without hostname" format="client sent $7 request without hostname: $8" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="client sent \S+ request without hostname \([^)]+\): (.*), referer: .*" description="client sent requst without hostname" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="5, UserLogonFailure: httpd - warn, Invalid password detected in cache from user" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[\S+ (\S+)] (.*)" pattern="httpd\[\d+\]: \[warn\] \[[^]]+\].*Invalid password detected in cache from user" version="2" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Invalid password detected in cache from user (.*)\s+" description="Invalid password detected" format="Logon Failure by &quot;$7&quot; from &quot;$4&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*Invalid password detected in cache from user (.*)\s+" description="Invalid password detected" format="$7" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Invalid password" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="6, ServiceWarning: httpd: error: server reached MaxClients setting" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\]\s*(.*)" pattern="httpd\[\d+\]: \[error\] server reached MaxClients setting" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^,]+)\,.*" description="first statement" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^,]+\, (.*)\s+" description="second statement" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="7, ServiceWarning: httpd: error: uriMap.mapUri() uri must start with" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\]\s*(.*)" pattern="httpd\[\d+\]: \[error\] uriMap.mapUri\(\) uri must start with" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*with (\S+)" description="add quotes" format="uriMap.mapUri() uri must start with &quot;$6&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="8, ServiceWarning: httpd: error: Error - write failed" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\]\s*(.*)" pattern="httpd\[\d+\]: \[error\] Error \S+ - write failed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\s+" description="remove trailing space" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="9, HTTPInvalidFormatAccess: logger [ssl_acc]" matcher="(\d+) (\S+) (\w+): .* HTTP/[\d.]+\s*&quot; \d+(?:\s+\d+)?" pattern="(\d+) (\S+) logger:.*\[ssl_acc\].*HTTP/[\d.]+\s*&quot; \d+(?:\s+\d+)?" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Invalid HTTP Format" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="10, HTTPInvalidFormatAccess: logger [ssl_acc] (continued ...)" matcher="(\d+) (\S+) (\w+): \S* (\S*) (\S*) (\S*) \[[^]]+\] (.*)" pattern="(\d+) (\S+) logger: \[ssl_acc\]\S* \S* - \S* \[[^]]+\] &quot;[A-Z]+.*\.\.\.$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Invalid HTTP Format to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="11, ServiceWarning: httpd: error: Error - script not found or unable to stat" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[client ([^]]+)\]\s*(.*)" pattern="httpd\[\d+\]: \[error\] .* not found or unable to stat" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12, ServiceWarning: httpd: error: Invalid &lt;something> in request" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[client ([^]]+)\]\s*(Invalid \S+ in request)\s+(.*) ([A-Z]+/[.\d]+)" pattern="httpd\[\d+\]: \[error\] .* Invalid \S+ in request" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="13, ServiceWarning: httpd: error: Invalid &lt;other>" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[client ([^]]+)\]\s*(.+)" pattern="httpd\[\d+\]: \[error\] .* Invalid" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="14, ServiceWarning: httpd: error: Client sent malformed &lt;something>" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[client ([^]]+)\]\s*(.+)" pattern="httpd\[\d+\]: \[error\] .* Client sent malformed" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="15, ServiceWarning: httpd: error: Directory index forbidden" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[client ([^]]+)\]\s*Directory index forbidden by ([^:]+.*)" pattern="httpd\[\d+\]: \[error\] .* Directory index forbidden" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Directory index forbidden" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="16, ServiceWarning: httpd: error: client denied by server configuration" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] \[client ([^]]+)\]\s*([^:]+):\s*(.*)" pattern="httpd\[\d+\]: \[error\] .* client denied by server configuration" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="17, HTTPInvalidFormatAccess: logger [ssl_acc], [acc]  (format2) (beginning URL)" matcher="(\d+) (\S+) (\w+): \S* (\S*) (\S*) (\S*) \[[^]]+\] &quot;([A-Z]+) ([^&quot;]+)$" pattern="logger: \[(?:ssl_)?acc\] \S* \S* \S* \[[^]]+\] &quot;[^&quot;]+$" version="2" version_type="int">
+			<FastField _type="null" defaultValue="Buffer overflow Attempt to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Beginning URL &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="18, HTTPInvalidFormatAccess: logger [ssl_acc], [acc]  (format2) (continued URL)" matcher="(\d+) (\S+) (\w+):\s+(\S+)$" pattern="logger:\s+\S+$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Buffer overflow attempt" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Continued URL: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="19, HTTPInvalidFormatAccess: logger [ssl_acc], [acc]  (format2) (concluded URL)" matcher="(\d+) (\S+) (\w+): (\S+) HTTP/[\d.]+\s*&quot; \d+(?:\s+\d+)?$" pattern="logger: \S+ HTTP/[\d.]+\s*&quot; \d+(?:\s+\d+)?$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Buffer overflow attempt" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Concluded URL: &quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="20, WebTrafficAudit: logger [ssl_acc], [acc]  (format3)" matcher="(\d+) (\S+) (\w+): \S* (\S*) (\S*) (\S*) \[[^]]+\] &quot;(.+)&quot; (\d+)\s+(\d+)\s*$" pattern="logger: \[(?:ssl_)?acc\] \S* \S* \S* \[[^]]+\] &quot;.+&quot; \d+\s+\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL Access to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="100" description="100" format="Response: $8 Continue" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="Response: $8 Switching Protocols" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Response: $8 OK" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="201" description="201" format="Response: $8 Created" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="Response: $8 Accepted" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="203" description="203" format="Response: $8 Non-Authoritative Information" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="204" description="204" format="Response: $8 No Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="205" description="205" format="Response: $8 Reset Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206" format="Response: $8 Partial Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Response: $8 Multiple Choices" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="301" description="301" format="Response: $8 Moved Permanently" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="302" description="302" format="Response: $8 Found" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="303" description="303" format="Response: $8 See Other" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="304" description="304" format="Response: $8 Not Modified" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="305" description="305" format="Response: $8 Use Proxy" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="306" description="306" format="Response: $8 (Unused)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="307" description="307" format="Response: $8 Temporary Redirect" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="400" description="400" format="Response: $8 Bad Request" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="401" description="401" format="Response: $8 Unauthorized" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="402" description="402" format="Response: $8 Payment Required" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="403" description="403" format="Response: $8 Forbidden" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="404" description="404" format="Response: $8 Not Found" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="405" description="405" format="Response: $8 Method Not Allowed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="406" description="406" format="Response: $8 Not Acceptable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="407" description="407" format="Response: $8 Proxy Authentication Required" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="408" description="408" format="Response: $8 Request Timeout" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="409" description="409" format="Response: $8 Conflict" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="410" description="410" format="Response: $8 Gone" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="411" description="411" format="Response: $8 Length Required" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="412" description="412" format="Response: $8 Precondition Failed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="413" description="413" format="Response: $8 Request Entity Too Large" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="414" description="414" format="Response: $8 Request-URI Too Long" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="415" description="415" format="Response: $8 Unsupported Media Type" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="416" description="416" format="Response: $8 Requested Range Not Satisfiable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="417" description="417" format="Response: $8 Expectation Failed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="Response: $8 Internal Server Error" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="Response: $8 Not Implemented" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="Response: $8 Bad Gateway" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="Response: $8 Service Unavailable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="Response: $8 Gateway Timeout" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="505" description="505" format="Response: $8 HTTP Version Not Supported" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="unk" format="Response: $8 Unknown" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="21, ServiceWarning: httpd: error: child workerEnv in error state" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] (.*)" pattern="httpd\[\d+\]: \[error\] .* child workerEnv in error state" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="22, ServiceWarning: httpd: error: no acceptable variant" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: \[[^]]+\] (.*)" pattern="httpd\[\d+\]: \[error\] .* no acceptable variant" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^,]+).*" description="up to comma" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="22 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^,]+, (.*)" description="after comma" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="23, WebTrafficAudit: logger [ssl_req]" matcher="(\d+) (\S+) \w* ?(\w+): \S*\[[^]]+\] (\S+) (\S+) (\S+) &quot;([^&quot;]*)&quot; (\S+).*" pattern="logger: \[ssl_req\]\[[^]]+\] \S+ \S+ \S+ &quot;[^&quot;]*&quot; \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="URL Access to &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="23 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="100" description="100" format="Response: $8 Continue" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="Response: $8 Switching Protocols" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="Response: $8 OK" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="201" description="201" format="Response: $8 Created" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="Response: $8 Accepted" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="203" description="203" format="Response: $8 Non-Authoritative Information" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="204" description="204" format="Response: $8 No Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="205" description="205" format="Response: $8 Reset Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206" format="Response: $8 Partial Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="Response: $8 Multiple Choices" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="301" description="301" format="Response: $8 Moved Permanently" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="302" description="302" format="Response: $8 Found" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="303" description="303" format="Response: $8 See Other" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="304" description="304" format="Response: $8 Not Modified" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="305" description="305" format="Response: $8 Use Proxy" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="306" description="306" format="Response: $8 (Unused)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="307" description="307" format="Response: $8 Temporary Redirect" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="400" description="400" format="Response: $8 Bad Request" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="401" description="401" format="Response: $8 Unauthorized" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="402" description="402" format="Response: $8 Payment Required" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="403" description="403" format="Response: $8 Forbidden" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="404" description="404" format="Response: $8 Not Found" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="405" description="405" format="Response: $8 Method Not Allowed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="406" description="406" format="Response: $8 Not Acceptable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="407" description="407" format="Response: $8 Proxy Authentication Required" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="408" description="408" format="Response: $8 Request Timeout" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="409" description="409" format="Response: $8 Conflict" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="410" description="410" format="Response: $8 Gone" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="411" description="411" format="Response: $8 Length Required" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="412" description="412" format="Response: $8 Precondition Failed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="413" description="413" format="Response: $8 Request Entity Too Large" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="414" description="414" format="Response: $8 Request-URI Too Long" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="415" description="415" format="Response: $8 Unsupported Media Type" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="416" description="416" format="Response: $8 Requested Range Not Satisfiable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="417" description="417" format="Response: $8 Expectation Failed" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="Response: $8 Internal Server Error" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="Response: $8 Not Implemented" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="Response: $8 Bad Gateway" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="Response: $8 Service Unavailable" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="Response: $8 Gateway Timeout" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="505" description="505" format="Response: $8 HTTP Version Not Supported" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="unk" format="Response: $8" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Web Traffic Server" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[34]\d\d" description="300-400" format="WebContent" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ (\S+) [^/]+/[\d.]+" description="get url" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: httpd, F5BigIPLTMmessages format" matcher=".*" pattern="httpd\[\d+\]: [a-z0-9]{8}:\d+: AUDIT - user \S+ -" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="httpd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: httpd, mod_jk.handler() Error connecting to tomcat" matcher=".*" pattern="httpd\[\d+\]: \[error\] mod_jk.handler\(\) Error connecting to tomcat" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="httpd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: httpd, ajp13.service() Error  forwarding" matcher=".*" pattern="httpd\[\d+\]: \[error\] ajp13.service\(\) Error  forwarding" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="httpd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: httpd, Can't find child in scoreboard" matcher=".*" pattern="httpd\[\d+\]:.*Can't find child \S+ in scoreboard" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="httpd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: httpd, recoverable error" matcher=".*" pattern="httpd\[\d+\]:.*[^(]+\(\) \S+ recoverable error \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="httpd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: [ssl_req]" matcher=".*" pattern="logger: [/\s.]*\[ssl_req\]" version="2" version_type="int">
+			<FastField _type="null" defaultValue="URL Access from &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="100" description="100" format="$7 Continue" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="101" description="101" format="$7 Switching Protocols" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="$7 OK" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="201" description="201" format="$7 Created" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="$7 Accepted" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="203" description="203" format="$7 Non-Authoritative Information" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="204" description="204" format="$7 No Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="205" description="205" format="$7 Reset Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="206" description="206" format="$7 Partial Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="300" description="300" format="$7 Multiple Choices" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="301" description="301" format="$7 Moved Permanently" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="302" description="302" format="$7 Found" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="303" description="303" format="$7 See Other" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="304" description="304" format="$7 Not Modified" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="305" description="305" format="$7 Use Proxy" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="306" description="306" format="$7 (Unused)" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="307" description="307" format="$7 Temporary Redirect" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="400" description="400" format="$7 Bad Request" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="401" description="401" format="$7 Unauthorized" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="402" description="402" format="$7 Payment Required" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="403" description="403" format="$7 Forbidden" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="404" description="404" format="$7 Not Found" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="405" description="405" format="$7 Method Not Allowed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="406" description="406" format="$7 Not Acceptable" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="407" description="407" format="$7 Proxy Authentication Required" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="408" description="408" format="$7 Request Timeout" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="409" description="409" format="$7 Conflict" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="410" description="410" format="$7 Gone" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="411" description="411" format="$7 Length Required" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="412" description="412" format="$7 Precondition Failed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="413" description="413" format="$7 Request Entity Too Large" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="414" description="414" format="$7 Request-URI Too Long" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="415" description="415" format="$7 Unsupported Media Type" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="416" description="416" format="$7 Requested Range Not Satisfiable" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="417" description="417" format="$7 Expectation Failed" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="$7 Internal Server Error" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="$7 Not Implemented" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="$7 Bad Gateway" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="$7 Service Unavailable" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="$7 Gateway Timeout" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="505" description="505" format="$7 HTTP Version Not Supported" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="unk" format="$7" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[34]\d\d" description="300-400" format="WebContent" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="HTTP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ \S+ ([^/]+)/\S+" description="format" format="$8" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\S+ (\S+) [^/]+/[\d.]+" description="get url" format="$10" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert, child init drops" matcher=".*" pattern="\d+ \S+ \w+\[\d+\]: \[error\] \S+ child init \d+\s*(?:-\s*)?\d+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched F5 Big IP Syslog Data ($Revision: #7 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="TOOL-NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData F5BigIP local6 NTD - logger or httpd[]" matcher="(\d+) (\S+) (\w+)(?:\[\d+\])?: (.*)" pattern="\s(logger|httpd\[\d+\]):\s" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched F5 BigIP HTTPD Data ($Revision: #7 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3 NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: Black Hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

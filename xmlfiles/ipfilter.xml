@@ -1,0 +1,196 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="IP Filter" logInterval="1" logLocation="/var/log/syslog" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="ipfilter" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="ipfilter" toolType="Firewalls" version="$Revision: #4 $" vendor="Open Source" fullDescription="Collects events from devices running IPFilter firewall software." categoryTags="syslog">
+		<file attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false" guiVersion="4"></string>
+		<integer attributeName="logManagementPort" enabled="false" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false" guiVersion="4"></integer>
+		<select attributeName="readerOutput" enabled="false" labelText="Output:" preferredOrder="90" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" selectItems="Alert;InDepth;Alert, InDepth" visible="false" guiVersion="4"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="IP Filter" id="ipfilter" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="ipf-1,  ICMPTrafficAudit: icmp traffic" matcher="^(\d+) ([.\w-]+) ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (\d+x )?(\w+) @(\d+):(\d+) (\w) ([\d.]+) -&gt; ([\d.]+) PR (?:icmp|1) len (\d+) (\d+) icmp (\w+/\w+) (.*)IN$" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (?:\d+x )?\w+ @\d+:\d+ \w [\d.]+ -&gt; [\d.]+ PR (?:icmp|1) len \d+ \d+ icmp \w+/\w+ .*IN$" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipf-1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="code=$12" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?:echoreply|0)/.*" description="echo-reply" format="ICMP Echo Reply" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[127]/.*" description="unassigned" format="ICMP Unassigned" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:net|0)" description="net-unreachable" format="ICMP CODE Net Unreachable" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:host|1)" description="host-unreachable" format="ICMP CODE Host Unreachable" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:protocol|2)" description="protocol-unreachable" format="ICMP CODE Protocol Unreachable" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:port|3)" description="port-unreachable" format="ICMP CODE Port Unreachable" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:needfrag|4)" description="fragmentation" format="ICMP CODE Fragmentation" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:srcfail|5)" description="src-route-failed" format="ICMP CODE Source Route Failed" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:net_unknown|6)" description="dest-net-unk" format="ICMP CODE Destination Network Unknown" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:host_unknown|7)" description="src-host-unk" format="ICMP CODE Source Host Unknown" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:isolated|8)" description="src-host-iso" format="ICMP CODE Source Host Isolated" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:net_prohib|9)" description="dest-unreachable" format="ICMP CODE Destination Unreachable for Service" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/(?:host_prohib|10)" description="host-unreachable" format="ICMP CODE Host Unreachable for Service" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:unreach|3)/.*" description="unreachable" format="ICMP Host Unreachable" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:sourcequench|4)/.*" description="src-quench" format="ICMP Source Quench" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:redirect|5)/(?:net|0)" description="net-redirect" format="ICMP CODE Redirect for Network" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:redirect|5)/(?:host|1)" description="host-redirect" format="ICMP CODE Redirect for Host" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:redirect|5)/(?:tosnet|2)" description="serv-net-redirect" format="ICMP CODE Redirect for Service and Network" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:redirect|5)/(?:toshost|3)" description="serv-host-redirect" format="ICMP CODE Redirect for Service and Host" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:redirect|5)/.*" description="redirect" format="ICMP Redirect" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6/0" description="host-alt-addr" format="ICMP CODE Alternate Address for Host" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6/.*" description="alt-addr" format="ICMP Alternate Host Address" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:echo|8)/.*" description="echo-request" format="ICMP Echo Request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:routeradvert|9)/.*" description="router-ad" format="ICMP Router Advertisement" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:routersolicit|10)/.*" description="router-select" format="ICMP Router Selection" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:timxceed|11)/(?:transit|0)" description="ttl-exceeded" format="ICMP CODE Time to Live exceeded in Transit" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:timxceed|11)/(?:reassem|1)" description="fragassy-exceeded" format="ICMP CODE Fragment Reassembly Time Exceeded" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:timxceed|11)/.*" description="time-exceeded" format="ICMP Time Exceeded" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:paramprob|12)/(?:errata_pointer|0)" description="ptr-to-error" format="ICMP CODE Pointer indicates the error" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:paramprob|12)/(?:optmissing|1)" description="miss-option" format="ICMP CODE Missing a Required Option" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:paramprob|12)/(?:length|2)" description="bad-length" format="ICMP CODE Bad Length" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:paramprob|12)/.*" description="param-problem" format="ICMP Parameter Problem" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:timestamp|13)/.*" description="timestamp-request" format="ICMP Timestamp Request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:timestampreply|14)/.*" description="timestamp-reply" format="ICMP Timestamp Reply" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:inforeq|15)/.*" description="info-request" format="ICMP Information Request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:inforeply|16)/.*" description="info-reply" format="ICMP Information Reply" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:maskreq|17)/.*" description="mask-request" format="ICMP Address Mask Request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(?:maskreply|18)/.*" description="mask-reply" format="ICMP Address Mask Reply" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="30/.*" description="traceroute" format="ICMP Traceroute" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="31/.*" description="data-conv-error" format="ICMP Datagram Conversion Error" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="32/.*" description="mob-host-redirect" format="ICMP Mobile Host Redirect" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="33/.*" description="ipv6-whereareyou" format="ICMP IPv6 Where-are-you" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="34/.*" description="ipv6-iamhere" format="ICMP IPv6 I-Am-Here" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="35/.*" description="mob-reg-request" format="ICMP Mobile Registration Request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="36/.*" description="mob-reg-reply" format="ICMP Mobile Registration Reply" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="37/.*" description="dom-name-request" format="ICMP Domain Name Request" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="38/.*" description="dom-name-reply" format="ICMP Domain Name Reply" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="39/.*" description="skip-discovery" format="ICMP SKIP Algorithm Discovery Protocol" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="40/.*" description="authen-failures" format="ICMP Authentication Failures" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="\d+/\d+" description="Reserved" format="ICMP Reserved" matcherInput="$12" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="group=$5 rule=$6 header=$10 total=$11 $13" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+x " description="repetitions" format="group=$5 rule=$6 header=$10 total=$11 repetitions=$3 $13" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipfilter action: $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="b" description="blocked" format="Deny ICMP traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="p" description="passed" format="Allow ICMP traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="S" description="short" format="Short ICMP packet from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="n" description="no-match" format="No rule matched for ICMP traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="L" description="log-rule" format="Log rule applied for ICMP traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[PB]" description="log-global" format="Global log for ICMP traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="ipf-2,  TCPTrafficAudit: (1) tcp traffic" matcher="^(\d+) ([.\w-]+) ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (\d+x )?(\w+) @(\d+):(\d+) (\w) ([\d.]+),(\d+) -&gt; ([\d.]+),(\d+) PR (?:tcp|6) len (\d+) (\d+) -(\w+) IN$" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (?:\d+x )?\w+ @\d+:\d+ \w [\d.]+,\d+ -&gt; [\d.]+,\d+ PR (?:tcp|6) len \d+ \d+ -\w+ IN$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipf-2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="group=$5 rule=$6 header=$12 total=$13 flags=$14" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+x " description="repetitions" format="group=$5 rule=$6 header=$12 total=$13 flags=$14 repetitions=$3" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipfilter action: $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="b" description="blocked" format="Deny TCP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="p" description="passed" format="Allow TCP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="S" description="short" format="Short TCP/$11 packet from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="n" description="no-match" format="No rule matched for TCP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="L" description="log-rule" format="Log rule applied for TCP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[PB]" description="log-global" format="Global log for TCP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="ipf-3,  TCPTrafficAudit: (2) tcp traffic frag" matcher="^(\d+) ([.\w-]+) ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (\d+x )?(\w+) @(\d+):(\d+) (\w) ([\d.]+) -&gt; ([\d.]+) PR (?:tcp|6) len (\d+) (\(\d+\)) frag ([-\d]+@\d+) IN$" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (?:\d+x )?\w+ @\d+:\d+ \w [\d.]+ -&gt; [\d.]+ PR (?:tcp|6) len \d+ \(\d+\) frag [-\d]+@\d+ IN$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipf-3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="group=$5 rule=$6 header=$10 total=$11 frag=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+x " description="repetitions" format="group=$5 rule=$6 header=$10 total=$11 frag=$12 repetitions=$3" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipfilter action: $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="b" description="blocked" format="Deny TCP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="p" description="passed" format="Allow TCP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="S" description="short" format="Short TCP packet from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="n" description="no-match" format="No rule matched for TCP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="L" description="log-rule" format="Log rule applied for TCP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[PB]" description="log-global" format="Global log for TCP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="ipf-4,  UDPTrafficAudit: (1) udp traffic" matcher="^(\d+) ([.\w-]+) ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (\d+x )?(\w+) @(\d+):(\d+) (\w) ([\d.]+),(\d+) -&gt; ([\d.]+),(\d+) PR (?:udp|17) len (\d+) (\d+)\s+IN$" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (?:\d+x )?\w+ @\d+:\d+ \w [\d.]+,\d+ -&gt; [\d.]+,\d+ PR (?:udp|17) len \d+ \d+\s+IN$" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipf-4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="group=$5 rule=$6 header=$12 total=$13" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+x " description="repetitions" format="group=$5 rule=$6 header=$12 total=$13 repetitions=$3" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipfilter action: $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="b" description="blocked" format="Deny UDP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="p" description="passed" format="Allow UDP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="S" description="short" format="Short UDP/$11 packet from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="n" description="no-match" format="No rule matched for UDP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="L" description="log-rule" format="Log rule applied for UDP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[PB]" description="log-global" format="Global log for UDP/$11 traffic from $8" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="ipf-5,  UDPTrafficAudit: (2) udp traffic frag" matcher="^(\d+) ([.\w-]+) ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (\d+x )?(\w+) @(\d+):(\d+) (\w) ([\d.]+) -&gt; ([\d.]+) PR (?:udp|17) len (\d+) (\(\d+\)) frag ([-\d]+@\d+) IN$" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+ (?:\d+x )?\w+ @\d+:\d+ \w [\d.]+ -&gt; [\d.]+ PR (?:udp|17) len \d+ \(\d+\) frag [-\d]+@\d+ IN$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipf-5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="group=$5 rule=$6 header=$10 total=$11 frag=$12" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\d+x " description="repetitions" format="group=$5 rule=$6 header=$10 total=$11 frag=$12 repetitions=$3" matcherInput="$3" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipfilter action: $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="b" description="blocked" format="Deny UDP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="p" description="passed" format="Allow UDP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="S" description="short" format="Short UDP packet from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="n" description="no-match" format="No rule matched for UDP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="L" description="log-rule" format="Log rule applied for UDP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[PB]" description="log-global" format="Global log for UDP traffic from $8 (frag)" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RoutingTrafficAudit" description="ipf-6,  RoutingTrafficAudit: igmp traffic" matcher="^(\d+) ([.\w-]+) ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+\.\d+ (\d+x )?(\w+) @(\d+):(\d+) (\w) ([\d.]+) -&gt; ([\d.]+) PR (?:igmp|2) len (\d+) \((\d+)\)\s+IN$" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+\.\d+ (?:\d+x )?\w+ @\d+:\d+ \w [\d.]+ -&gt; [\d.]+ PR (?:igmp|2) len \d+ \(\d+\)\s+IN$" version="15" version_type="int">
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipf-6" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="group=$5 rule=$6 header=$10 total=$11" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="\d+x " description="repetitions" format="group=$5 rule=$6 header=$10 total=$11 repetitions=$3" matcherInput="$3" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IGMP" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ipfilter action: $7" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="b" description="blocked" format="Deny IGMP traffic from $8" matcherInput="$7" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="p" description="passed" format="Allow IGMP traffic from $8" matcherInput="$7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="S" description="short" format="Short IGMP packet from $8" matcherInput="$7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="n" description="no-match" format="No rule matched for IGMP traffic from $8" matcherInput="$7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="L" description="log-rule" format="Log rule applied for IGMP traffic from $8" matcherInput="$7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[PB]" description="log-global" format="Global log for IGMP traffic from $8" matcherInput="$7" version="2" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher="^(\d+) ([.\w-]+).*" pattern="^\d+ [.\w-]+ ipmon\[\d+\]: \[[^]]+\] \d+:\d+:\d+.\d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched ipfilter Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

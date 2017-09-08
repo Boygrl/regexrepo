@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" allAvailableFields="Date,Time,Message-Type,User-Name,Group-Name,Caller-ID,Authen-Failure-Code,Author-Failure-Code,Author-Data,NAS-Port,NAS-IP-Address,AAA Server,Priv-lvl,Proxy-IP-Address,ExtDB Info,Source-NAS,Network Device Group,Access Device,Device Command Set,PEAP/EAP-FAST-Clear-Name,Global Message Id,Logged Remotely,EAP Type,EAP Type Name,Network Access Profile Name,Outbound Class,Shared RAC,Downloadable ACL,System-Posture-Assessment,Application-Posture-Assessment,Reason,Real Name,Description,User Field 3,User Field 4,User Field 5,cisco-av-pair,Cisco:PA:PA-Name,Cisco:PA:PA-Version,Cisco:PA:OS-Type,Cisco:PA:OS-Version,Cisco:PA:OS-Release,Cisco:PA:Kernel-Version,Cisco:PA:Machine-Posture-State,Cisco:Host:ServicePacks,Cisco:Host:HotFixes,Cisco:Host:HostFQDN,Cisco:Host:Package,Cisco:HIP:CSAVersion,Cisco:HIP:CSAOperationalState,Cisco:HIP:CSAMCName,Cisco:HIP:CSAStates,Cisco:HIP:DaysSinceLastSuccessfulPoll,Filter Information" autoStart="true" categoryTags="" currentFields="Message-Type,User-Name,Group-Name,Caller-ID,Authen-Failure-Code,Author-Failure-Code,Author-Data,NAS-Port,NAS-IP-Address,Filter Information" description="Cisco ACS Failed Attempts" fieldsTag="Date,Time," fullDescription="" logInterval="1" logLocation="C:\Program Files\CiscoSecure ACS v4.0\Logs\Failed Attempts\Failed Attempts active.csv" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="StrategyReader" node="spop" readerName="ACS Failed Attempts" readerOutput="Alert" refDateType="MM/DD/YYYY,HH:MM:SS" reformatter="RefACSDynamic,RefDate" reopenOnRead="true" stateVars="logStartPoint,readerName,allAvailableFields,currentFields,reformatter,refDateType,fieldsTag" toolId="ciscoacsfailed" toolType="Identity and Access Management" vendor="" version="$Revision: #5 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<select _type="null" attributeName="refDateType" enabled="true" formatRule="" formatted="false" labelText="Date and Time format:" preferredOrder="3" selectItems="MM/DD/YYYY,HH:MM:SS;DD/MM/YYYY,HH:MM:SS" toolTipText="Format for the Date and Time as it appears in the log" visible="true">
+		</select>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Cisco ACS Failed Attempts" id="ciscoacsfailed" version="0" version_type="int">
+		<FastPattern _type="null" alertName="" description="Log Layout (NULL: Reader should remove this)" matcher=".*" pattern="Date,Time,.*" version="69" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="UserAuthAudit             Authen failed" matcher="^(\d+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),([^,]+),,,([^,]+).*?([-\d.]+)" pattern="^(\d+),.*?Authen failed.*?(?:User exceeded max sessions|External DB user|password.*?invalid)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 for user &quot;$8&quot; from &quot;$9&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="" description="unknown username" format="Unknown" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="UserLogonFailure" matcher="^(\d+),(Auth\S+ failed|Unknown NAS|Bad request from NAS),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*),([^,]*).*" pattern="^(\d+),(Auth\S+ failed|Unknown NAS|Bad request from NAS)," version="74" version_type="int">
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="ACS Failed Attempts" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Group Name: $4, Authorization Failure Code: $7, Authorization Data: $8, NAS Port: $9" fieldName="ExtraneousInfo" type="1" type_type="int" version="5" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="" description="unknown username" format="Unknown" matcherInput="$3" version="3" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2: $6" fieldName="FailureReason" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="" description="No description set" format="$2" matcherInput="$6" version="0" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Failed Logon for user &quot;$3&quot;" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition="" description="unknown user" format="Failed Logon for Unknown User from &quot;$10&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData" matcher=".*" pattern="^(\d+),([^,]+)" version="60" version_type="int">
+			<FastField _type="null" defaultValue="ACS Failed Attempts New Tool Data" fieldName="ProviderSID" type="1" type_type="int" version="3" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched Cisco ACS Failed Auth Data ($Revision: #5 $)" fieldName="EventInfo" type="1" type_type="int" version="18" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="3" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

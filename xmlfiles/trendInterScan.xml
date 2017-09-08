@@ -1,0 +1,134 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="Trend InterScan" eventIds="all" fileFormatterType="Daily: yyyy.mm.dd" logInterval="1" logLocation="C:/InterScan/" logManagementOutput="10.254.10.18" logManagementPort="10101" logPostfix="" logPrefix="iscan.log." logStartPoint="-1" logType="DirectoryReader" node="spop" readerName="Trend InterScan" readerOutput="Alert" stateVars="logStartPoint,readerName,currentLogLocation,firstLogLocation" currentLogLocation="" firstLogLocation="" toolId="TrendIS" toolType="Anti-Virus" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Trend Micro InterScan" id="TrendIS" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="VirusAttack" description="Virus Detected (Multiple Viruses, Secondary Action Taken)" matcher="[^\\]*\\([^\\]*)\\([^\\]*)\\([^\\]*)\\([^\\]*)\\([^\\]*)\s.*d\s*-\s([^\\]*)\\([^\\]*)\\(.*)" pattern="" version="15" version_type="int">
+			<FastField _type="null" defaultValue="No default value set" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Virus Name" format="$7" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="File Name" format="$4" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="Clean File" format="Clean File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Delete File" format="Delete File" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantine File" format="Quarantine File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Leave Alone" format="Leave Alone" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus &quot;$7&quot; detected." fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*failed.*" description="Left Alone" format="Virus &quot;$7&quot; left alone." matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Left Alone" format="Virus &quot;$7&quot; left alone." matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*cleaned.*" description="Cleaned" format="Virus &quot;$7&quot; detected. File cleaned." matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Deleted" format="Virus &quot;$7&quot; detected. File deleted." matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantined" format="Virus &quot;$7&quot; quarantined." matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Other Viruses - $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*failed.*" description="Left Alone" format="Left Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Left Alone" format="Left Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*cleaned.*" description="Cleaned" format="Cleaned" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Deleted" format="Deleted" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantined" format="Quarantined" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="Clean File" format="Clean File" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Delete File" format="Delete File" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantine File" format="Quarantine File" matcherInput="$6" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Leave Alone" format="Leave Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Destination - $3" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Virus Detected (Multiple Viruses)" matcher="[^\\]*\\([^\\]*)\\([^\\]*)\\([^\\]*)\\([^\\]*)\\([^\\]*)\\([^\\]*)\\(.*)" pattern="" version="13" version_type="int">
+			<FastField _type="null" defaultValue="No default value set" fieldName="VirusDetected" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Virus Name" format="$6" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="File Name" format="$4" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="Clean File" format="Clean File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Delete File" format="Delete File" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantine File" format="Quarantine File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Leave Alone" format="Leave Alone" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Other Viruses - $7" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ActionTaken" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*failed.*" description="Left Alone" format="Left Alone" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Left Alone" format="Left Alone" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*cleaned.*" description="Cleaned" format="Cleaned" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Deleted" format="Deleted" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantined" format="Quarantined" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Destination - $3" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Virus Detected (Secondary Action Taken)" matcher=".*\\(.*)\\(.*)\\(.*)\\(.*)\\(.*)\s.*d\s*-\s(.*)\\(.*)\s*" pattern="" version="5" version_type="int">
+			<FastField _type="null" defaultValue="No default value set" fieldName="VirusDetected" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Virus Name" format="$7" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="File Name" format="$4" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="Clean File" format="Clean File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Delete File" format="Delete File" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantine File" format="Quarantine File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Leave Alone" format="Leave Alone" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ActionTaken" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*failed.*" description="Left Alone" format="Left Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Left Alone" format="Left Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*cleaned.*" description="Cleaned" format="Cleaned" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Deleted" format="Deleted" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantined" format="Quarantined" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Destination - $3" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="Clean File" format="Clean File" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Delete File" format="Delete File" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantine File" format="Quarantine File" matcherInput="$6" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Leave Alone" format="Leave Alone" matcherInput="$6" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusAttack" description="Virus Detected" matcher=".*\\(.*)\\(.*)\\(.*)\\(.*)\\(.*)\\(.*)\s*" pattern="" version="9" version_type="int">
+			<FastField _type="null" defaultValue="No default value set" fieldName="VirusDetected" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="Virus Name" format="$6" matcherInput="$6" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="InfectedFile" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)" description="File Name" format="$4" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="PrimaryActionAttempt" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*clean.*" description="Clean File" format="Clean File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Delete File" format="Delete File" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantine File" format="Quarantine File" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Leave Alone" format="Leave Alone" matcherInput="$5" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Virus Detected" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ActionTaken" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*failed.*" description="Left Alone" format="Left Alone" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*pass.*" description="Left Alone" format="Left Alone" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*cleaned.*" description="Cleaned" format="Cleaned" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*delete.*" description="Deleted" format="Deleted" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*quarantine.*" description="Quarantined" format="Quarantined" matcherInput="$5" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Destination - $3" fieldName="SourceAccount" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SecondaryActionAttempt" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="CatchAll (Ignore)" matcher=".*" pattern="" version="4" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

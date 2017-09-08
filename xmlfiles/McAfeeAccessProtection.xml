@@ -1,0 +1,151 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="McAfee Access Protection" logInterval="1" logLocation="C:\Documents and Settings\All Users\Application Data\Network Associates\VirusScan\AccessProtectionLog.txt" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="spop" readerName="McAfee Access Protection" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="McAfeeAccessProtection" toolType="Anti-Virus" version="$Revision: #4 $" vendor="" fullDescription="" categoryTags="">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="McAfee Access Protection" id="McAfeeAccessProtection" version="5" version_type="int">
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo - Blocked by rule (Action blocked)" matcher="[^\d]*(\d+)/(\d+)/(\d+)\s+(\d+):(\d+):(\d+) (AM|PM)\s*\tBlocked by (.*) rul?e?()\s+\t*(.*)\t(Action blocked\s*:\s*[^\t]*)$" pattern="\tBlocked by " version="1" version_type="int">
+			<FastField _type="null" defaultValue="McAfAP Block Mode" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*((?:Prevent|Protect).*) A(ction blocked)\s*:\s*(.*)" description="rule" format="&quot;$13&quot; $15 a$14" matcherInput="$10 $11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^:\\]+)\\[^\t]+\t.*" description="get domain" format="$13" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^:\\]+\\[^\t]+\t([^\t]+)\t([^\t]+)\t([^\t]+)\t.*" description="drop user and last field (two tab separation)" format="$13, $14, $15" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[^:\\]+\\[^\t]+\t([^\t]+)\t([^\t]+)\t.*" description="drop user and last field (one tab separation)" format="$13, $14" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[^:\\]+\\[^\t]+\t(.*)\t.*" description="drop user and last field" format="$13" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\t([^\t]+)\t([^\t]+)\t.*" description="no user - drop last field (two tab separation)" format="$13, $14, $15" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\t(.*)\t.*" description="no user - drop last field (one tab separation)" format="$13, $14" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\t.*" description="no user - drop last field" format="$13" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3-$1-$2 $4:$5:$6" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="12 AM" description="12 AM" format="$3-$1-$2 00:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1 PM" description="1 PM" format="$3-$1-$2 13:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2 PM" description="2 PM" format="$3-$1-$2 14:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3 PM" description="3 PM" format="$3-$1-$2 15:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4 PM" description="4 PM" format="$3-$1-$2 16:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5 PM" description="5 PM" format="$3-$1-$2 17:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6 PM" description="6 PM" format="$3-$1-$2 18:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7 PM" description="7 PM" format="$3-$1-$2 19:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8 PM" description="8 PM" format="$3-$1-$2 20:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9 PM" description="9 PM" format="$3-$1-$2 21:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10 PM" description="10 PM" format="$3-$1-$2 22:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11 PM" description="11 PM" format="$3-$1-$2 23:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^:\\]+\\([^\t]+)\t.*" description="get user" format="$13" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="McAffeeAccessProtection" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Action blocked by &quot;$8&quot; rule" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(Action) blocked\s*:\s*(.*)" description="action" format="&quot;$14 $13&quot; blocked by &quot;$8&quot; rule" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="ServiceInfo - Blocked by rule" matcher="[^\d]*(\d+)/(\d+)/(\d+)\s+(\d+):(\d+):(\d+) (AM|PM)\s*\tBlocked by (.*) rul?e?()\s+\t*(.*)\t(.*)\t([^\t]*)$" pattern="\tBlocked by " version="60" version_type="int">
+			<FastField _type="null" defaultValue="Action blocked by &quot;$8&quot; rule on &quot;$12&quot;" fieldName="EventInfo" type="1" type_type="int" version="20" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3-$1-$2 $4:$5:$6" fieldName="DetectionTime" type="4" type_type="int" version="22" version_type="int">
+				<FastFormatter _type="null" condition="12 AM" description="12 AM" format="$3-$1-$2 00:$5:$6" matcherInput="$4 $7" version="10" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1 PM" description="1 PM" format="$3-$1-$2 13:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2 PM" description="2 PM" format="$3-$1-$2 14:$5:$6" matcherInput="$4 $7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3 PM" description="3 PM" format="$3-$1-$2 15:$5:$6" matcherInput="$4 $7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4 PM" description="4 PM" format="$3-$1-$2 16:$5:$6" matcherInput="$4 $7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5 PM" description="5 PM" format="$3-$1-$2 17:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6 PM" description="6 PM" format="$3-$1-$2 18:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7 PM" description="7 PM" format="$3-$1-$2 19:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8 PM" description="8 PM" format="$3-$1-$2 20:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9 PM" description="9 PM" format="$3-$1-$2 21:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10 PM" description="10 PM" format="$3-$1-$2 22:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11 PM" description="11 PM" format="$3-$1-$2 23:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="McAfAP Block Mode" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="14" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="McAffeeAccessProtection" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="[^:\\]+\\([^\t]+)\t.*" description="get user" format="$13" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([^:\\]+)\\[^\t]+\t.*" description="get domain" format="$13" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="InfoMessage" type="1" type_type="int" version="5" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning - Would be blocked but...(warn mode)" matcher="[^\d]*(\d+)/(\d+)/(\d+)\s+(\d+):(\d+):(\d+) (AM|PM)\s*\tWould be blocked by ([^(]*) rule\s+\((rule is currently[^)\t]*)[)\s]*\t(.*)\t([^\t]*)$" pattern="Would be blocked.*\(rule is currently" version="56" version_type="int">
+			<FastField _type="null" defaultValue="McAfAP Warn Mode" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="([^:\\]+)\\[^\t]+\t.*" description="get domain" format="$13" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10, $11" fieldName="ExtraneousInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="[^:\\]+\\[^\t]+\t([^\t]+)\t([^\t]+)\t([^\t]+)\t.*" description="drop user and last field (two tab separation)" format="$13, $14, $15, $11" matcherInput="$10" version="12" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[^:\\]+\\[^\t]+\t([^\t]+)\t([^\t]+)\t.*" description="drop user and last field (one tab separation)" format="$13, $14, $11" matcherInput="$10" version="11" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="[^:\\]+\\[^\t]+\t(.*)\t.*" description="drop user and last field" format="$13, $11" matcherInput="$10" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\t([^\t]+)\t([^\t]+)\t.*" description="no user - drop last field (two tab separation)" format="$13, $14, $15, $11" matcherInput="$10" version="12" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\t(.*)\t.*" description="no user - drop last field (one tab separation)" format="$13, $14, $11" matcherInput="$10" version="11" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)\t.*" description="no user - drop last field" format="$13, $11" matcherInput="$10" version="12" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3-$1-$2 $4:$5:$6" fieldName="DetectionTime" type="4" type_type="int" version="22" version_type="int">
+				<FastFormatter _type="null" condition="12 AM" description="12 AM" format="$3-$1-$2 00:$5:$6" matcherInput="$4 $7" version="10" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1 PM" description="1 PM" format="$3-$1-$2 13:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2 PM" description="2 PM" format="$3-$1-$2 14:$5:$6" matcherInput="$4 $7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3 PM" description="3 PM" format="$3-$1-$2 15:$5:$6" matcherInput="$4 $7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4 PM" description="4 PM" format="$3-$1-$2 16:$5:$6" matcherInput="$4 $7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5 PM" description="5 PM" format="$3-$1-$2 17:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6 PM" description="6 PM" format="$3-$1-$2 18:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7 PM" description="7 PM" format="$3-$1-$2 19:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8 PM" description="8 PM" format="$3-$1-$2 20:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9 PM" description="9 PM" format="$3-$1-$2 21:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10 PM" description="10 PM" format="$3-$1-$2 22:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11 PM" description="11 PM" format="$3-$1-$2 23:$5:$6" matcherInput="$4 $7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceAccount" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="[^:\\]+\\([^\t]+)\t.*" description="get user" format="$13" matcherInput="$10" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="WarningMessage" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition=".*(Prevent[^\t]*).*" description="rule" format="&quot;$13&quot; $9" matcherInput="$10" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Action would be blocked by &quot;$8&quot; but $9" fieldName="EventInfo" type="1" type_type="int" version="18" version_type="int">
+				<FastFormatter _type="null" condition="(Action) blocked\s*:\s*(.*)" description="action" format="&quot;$14 $13&quot; would be blocked by &quot;$8&quot; but $9" matcherInput="$11" version="5" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="McAffeeAccessProtection" fieldName="ServiceName" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="ServiceWarning - Not scanned" matcher="[^\d]*(\d+)/(\d+)/(\d+)\s+(\d+):(\d+):(\d+) (AM|PM)\tNot scanned\s+\(([^)]*)\)\s*\t([^\t]*)\t(.*)\t([^\t]*).*" pattern="Not scanned  \(" version="1" version_type="int">
+			<FastField _type="null" defaultValue="File not scanned: &quot;$10&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$3-$1-$2 $4:$5:$6" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="12 AM" description="12 AM" format="$3-$1-$2 00:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="1 PM" description="1 PM" format="$3-$1-$2 13:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="2 PM" description="2 PM" format="$3-$1-$2 14:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="3 PM" description="3 PM" format="$3-$1-$2 15:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="4 PM" description="4 PM" format="$3-$1-$2 16:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="5 PM" description="5 PM" format="$3-$1-$2 17:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="6 PM" description="6 PM" format="$3-$1-$2 18:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="7 PM" description="7 PM" format="$3-$1-$2 19:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="8 PM" description="8 PM" format="$3-$1-$2 20:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="9 PM" description="9 PM" format="$3-$1-$2 21:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="10 PM" description="10 PM" format="$3-$1-$2 22:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="11 PM" description="11 PM" format="$3-$1-$2 23:$5:$6" matcherInput="$4 $7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="McAfAP Warn Mode" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="McAffeeAccessProtection" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\\]+\\(.*)" description="get user" format="$13" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="([^\\]+)\\.*" description="get domain" format="$13" matcherInput="$9" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert  -  Statistics / Files" matcher=".*" pattern="^[^\d]*\d+/\d+/\d{4}\t\d+:\d+:\d+ [AP]M\t(?:Statistics|Files \S+):" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert  -  detection signatures in EXTRA.DAT" matcher=".*" pattern="detection signatures in EXTRA\.DAT" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert  -  Engine|DAT version" matcher=".*" pattern="(?:Engine|DAT) [Vv]ersion" version="1" version_type="int"></FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="New Tool Data - Everything with correct date format" matcher=".*" pattern="^[^\d]*\d+/\d+/\d{4}\t\d+:\d+:\d+ [AP]M\t" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched McAfee Access Protection Log Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

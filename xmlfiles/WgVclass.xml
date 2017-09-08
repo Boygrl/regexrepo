@@ -1,0 +1,397 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" description="WatchGuard Vclass" logInterval="1" logLocation="/var/log/local2.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="WatchGuard Vclass" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="WgVclass" toolType="Firewalls" version="$Revision: #4 $" vendor="WatchGuard" fullDescription="" categoryTags="syslog">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false"></string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false"></integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false"></select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="WatchGuard Vclass" id="WgVclass" version="0" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="WgVclass-1,  WebTrafficAudit: web traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=https? sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop URL access by &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass URL access by &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block URL access by &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=&quot;$3&quot;; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="tcp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7://$6" fieldName="URL" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTrafficAudit" description="WgVclass-2,  MailTrafficAudit: mail traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=(?:smtp|pop2|pop3|imap\d?) sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="tcp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="WgVclass-3,  FileTransferTrafficAudit: file transfer traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=t?ftp(?:-data)? sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ftp.*" description="ftp" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="tftp.*" description="tftp" format="udp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PPTPTrafficAudit" description="WgVclass-4,  PPTPTrafficAudit: pptp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=pptp sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="tcp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NTPTrafficAudit" description="WgVclass-5,  NTPTrafficAudit: ntp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=ntp sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="udp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RIPTrafficAudit" description="WgVclass-6,  RIPTrafficAudit: rip traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=rip sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="udp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RPCTrafficAudit" description="WgVclass-7,  RPCTrafficAudit: rpc traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=sun-rpc sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemTrafficAudit" description="WgVclass-8,  FileSystemTrafficAudit: nfs traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=nfs sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ConfigurationTrafficAudit" description="WgVclass-9,  ConfigurationTrafficAudit: dhcp/snmp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=(?:dhcp|snmp)[-\w/]* sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="udp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NamingTrafficAudit" description="WgVclass-10, NamingTrafficAudit: dns traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=dns sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="WgVclass-11, IPSecTrafficAudit: ike/kerberos traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=(?:ike|kerberos) sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="udp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PointToPointTrafficAudit" description="WgVclass-12, PointToPointTrafficAudit: l2tp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=l2tp sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="udp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="WgVclass-13, IPTrafficAudit: (1) netbios traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=netbios[-\w]* sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="WgVclass-14, TCPTrafficAudit: port/tcp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=\d+/tcp sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="6" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="tcp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="WgVclass-15, UDPTrafficAudit: port/udp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=\d+/udp sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="udp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="WgVclass-16, ICMPTrafficAudit: icmp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=icmp[-\w]+ sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="25" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="icmp-Dest_Unreach" description="ICMP Host Unreachable" format="ICMP Host Unreachable" matcherInput="$7" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="icmp-Echo" description="ICMP Echo Request" format="ICMP Echo Request" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="icmp-EchoReply" description="ICMP Echo Reply" format="ICMP Echo Reply" matcherInput="$7" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="icmp" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="13" version_type="int">
+				<FastFormatter _type="null" condition=".*(?:firewall drop|drop this packet).*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*icmp error.*" description="icmp error" format="error on $7 traffic from &quot;$5&quot;" matcherInput="$11" version="9" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationTrafficAudit" description="WgVclass-17, ApplicationTrafficAudit: remaining app traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=[-\w]+ sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="WgVclass-17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="finger" description="finger" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="gopher" description="gopher" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ident" description="ident" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="irc" description="irc" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ldap" description="ldap" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="nntp" description="nntp" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="rlogin" description="rlogin" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="telnet" description="telnet" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="wais" description="wais" format="tcp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="radius.*" description="radius" format="udp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="syslog" description="syslog" format="udp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="tacacs" description="tacacs" format="udp" matcherInput="$7" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="WgVclass-18, IPTrafficAudit: (2) remaining tcp/udp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) sport=(\d*) dport=(\d*) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=[-\w/]+ sport=\d* dport=\d* indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; msg=&quot;$11&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$11" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$11" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$11" version="1" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RoutingTrafficAudit" description="WgVclass-19, RoutingTrafficAudit: igmp traffic" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; src=([\d.]+) dst=([\d.]+) proto=([-\w/]+) u=(0x\d+) indev=\d+ inport=([()\w]+)\s+rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; src=[\d.]+ dst=[\d.]+ proto=igmp u=0x\d+ indev=\d+ inport=[()\w]+\s+rc=\d+ msg=&quot;[^&quot;]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="0" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="0" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;; u=$8; msg=&quot;$10&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition=".*firewall drop.*" description="drop" format="drop $7 traffic from &quot;$5&quot;" matcherInput="$10" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall pass.*" description="pass" format="pass $7 traffic from &quot;$5&quot;" matcherInput="$10" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition=".*firewall block.*" description="block" format="block $7 traffic from &quot;$5&quot;" matcherInput="$10" version="0" version_type="int"></FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="CoreDenial" description="WgVclass-20, CoreDenial: dos traffic dropped" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot; fw=\S+ pri=(\d)\s+rule=&quot;([^&quot;]+)&quot; rc=\d+ msg=&quot;([^&quot;]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot; fw=\S+ pri=\d\s+rule=&quot;[^&quot;]+&quot; rc=\d+ msg=&quot; DOS [^&quot;]+&quot;" version="3" version_type="int">
+			<FastField _type="null" defaultValue="WgVclass-20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="0" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="0" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="pri=$3; rule=&quot;$4&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue=" " fieldName="Interface" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: catch missed msgs" matcher="\d+ ([-\w.]+) id=firewall time=&quot;([-\d: ]+)&quot;.*" pattern="\d+ [-\w.]+ id=firewall time=&quot;[-\d: ]+&quot;" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Unmatched Vclass Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="2" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>

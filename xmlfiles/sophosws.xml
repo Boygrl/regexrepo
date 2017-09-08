@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Sophos WS appliance" fullDescription="Collects events from the Sophos Web Security appliance." logInterval="1" logLocation="/var/log/daemon.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="SophosWS" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="sophosws" toolType="Proxy Servers and Content Filters" vendor="Sophos" version="$Revision: #6 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Sophos WS appliance" id="sophosws" version="30" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, WebTrafficAudit: ws messages" matcher="(\d+) ([-\w.]+) h=([\d.]+): u=&quot;([^&quot;]+)&quot; s=(\d+) X=([-+Xt]) t=\d+ T=-?\d+ Ts=-?\d+ act=(-?\d?) cat=&quot;([-a-fx\d]+)&quot; .+ rsn=([-\d]+) threat=&quot;([^&quot;]+)&quot; type=&quot;([-&quot;#&amp;\$%*+,./:;=?\\{}\w ]+)&quot; ctype=&quot;([-&quot;#&amp;\$'()%*+,./:;=?\\{}\w ]*)&quot; sav-ev=[-/\w.]+ sav-dv=[-/\w.]+ uri-dv=[-/\w.]+ cache=\S+ in=\d+ out=\d+ meth=(\S*) ref=&quot;.*&quot; ua=&quot;.*&quot; (req=.+)" pattern="\d+ [-\w.]+ h=[\d.]+: u=&quot;[^&quot;]+&quot; s=\d+ X=[-+Xt] t=\d+ T=-?\d+ Ts=-?\d+ act=-?\d? cat=&quot;[-a-fx\d]+&quot; .+rsn=[-\d]+ threat=&quot;[^&quot;]+&quot; type=&quot;[-&quot;#&amp;\$%*+,./:;=?\\{}\w ]+&quot; ctype=&quot;[-&quot;#&amp;\$'()%*+.,/:;=?\\{}\w ]*&quot; sav-ev=[-/\w.]+ sav-dv=[-/\w.]+ uri-dv=[-/\w.]+ cache=\S+ in=\d+ out=\d+ meth=\S* ref=&quot;.*&quot; ua=&quot;.*&quot; req=" version="10" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-.-1" description="no-user-blocked" format="Blocked URL Access by &quot;$3&quot;" matcherInput="$4,$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-1" description="user-blocked" format="Blocked URL Access by &quot;$4&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-" description="no-user" format="URL Access by &quot;$3&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1401" description="rsn-1401" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 blocked because request contained a virus&quot;, Threat: &quot;$10&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1402" description="rsn-1402" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by Local or Sophos URI list&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1403" description="rsn-1403" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by file type&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1404" description="rsn-1404" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked because request is encrypted and could not be scanned&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1405" description="rsn-1405" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked because the virus scanner timed-out when trying to scan the request&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1406" description="rsn-1406" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by policy&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1407" description="rsn-1407" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked because origin server failed SSL certificate validation&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1408" description="rsn-1408" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked Range requests&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1409" description="rsn-1409" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by tag&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="rsn-other" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 other&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-2" description="request-warned" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Action: &quot;Request was warned&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="warned-user-proceed" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Action: &quot;Request was warned and user decided to proceed&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="user-proceed" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Action: &quot;User proceeded&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="req=.+ target_ip=&quot;(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})&quot;.*" description="target-ip" format="$16" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=.+ dom=(?!&quot;-&quot;)&quot;([-\w.]+)&quot;.*" description="dom" format="$16" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-1" description="warning-blocked" format="Web Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="URL" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="req=&quot;[A-Z]+ ([-\w.]+):443 HTTP/[\d.]+&quot; dom=.*" description="meth-url-https" format="https://$16/" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=&quot;[A-Z]+ (.+) HTTP/[\d.]+&quot; dom=.*" description="meth-url-http" format="$16" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=&quot;\S* (.+) HTTP/[\d.]+&quot; dom=.*" description="non-standard-http" format="$16" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=&quot;(&lt;\?xml .+)&quot; dom=.*" description="non-standard-xml" format="$16" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=&quot;\S* (.+)&quot; dom=.*" description="non-standard" format="$16" matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=&quot;[A-Z]+ (.+)" description="meth-url--truncated" format="$16..." matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="req=&quot;\S+ (.+)" description="degenerate" format="$16..." matcherInput="$14" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0x0(\d)00000000" description="00" format="Risk Level $16, Uncategorized ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000001" description="01" format="Risk Level $16, Adult/Sexually Explicit ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000002" description="02" format="Risk Level $16, Advertisements &amp; Pop-Ups ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000003" description="03" format="Risk Level $16, Alcohol &amp; Tobacco ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000004" description="04" format="Risk Level $16, Arts ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000005" description="05" format="Risk Level $16, Blogs &amp; Forums ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000006" description="06" format="Risk Level $16, Business ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000007" description="07" format="Risk Level $16, Chat ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000008" description="08" format="Risk Level $16, Computing &amp; Internet ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000009" description="09" format="Risk Level $16, Criminal Activity ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000a" description="0A" format="Risk Level $16, Downloads ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000b" description="0B" format="Risk Level $16, Education ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000c" description="0C" format="Risk Level $16, Entertainment ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000d" description="0D" format="Risk Level $16, Fashion &amp; Beauty ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000e" description="0E" format="Risk Level $16, Finance &amp; Investment ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000f" description="0F" format="Risk Level $16, Food &amp; Dining ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000010" description="10" format="Risk Level $16, Gambling ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000011" description="11" format="Risk Level $16, Games ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000012" description="12" format="Risk Level $16, Government ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000013" description="13" format="Risk Level $16, Hacking ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000014" description="14" format="Risk Level $16, Health &amp; Medicine ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000015" description="15" format="Risk Level $16, Hobbies &amp; Recreation ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000016" description="16" format="Risk Level $16, Hosting Sites ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000017" description="17" format="Risk Level $16, Illegal Drugs ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000018" description="18" format="Risk Level $16, Infrastructure ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000019" description="19" format="Risk Level $16, Intimate Apparel &amp; Swimwear ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001a" description="1A" format="Risk Level $16, Intolerance &amp; Hate ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001b" description="1B" format="Risk Level $16, Job Search &amp; Career Development ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001c" description="1C" format="Risk Level $16, Kid's Sites ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001d" description="1D" format="Risk Level $16, Motor Vehicles ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001e" description="1E" format="Risk Level $16, News ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001f" description="1F" format="Risk Level $16, Peer-to-Peer ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000020" description="20" format="Risk Level $16, Personals and Dating ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000021" description="21" format="Risk Level $16, Philanthropic &amp; Professional Orgs. ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000022" description="22" format="Risk Level $16, Phishing &amp; Fraud ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000023" description="23" format="Risk Level $16, Photo Searches ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000024" description="24" format="Risk Level $16, Politics ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000025" description="25" format="Risk Level $16, Proxies &amp; Translators ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000026" description="26" format="Risk Level $16, Real Estate ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000027" description="27" format="Risk Level $16, Reference ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000028" description="28" format="Risk Level $16, Religion ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000029" description="29" format="Risk Level $16, Ringtones/Mobile Phone Downloads ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002a" description="2A" format="Risk Level $16, Search Engines ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002b" description="2B" format="Risk Level $16, Sex Education ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002c" description="2C" format="Risk Level $16, Shopping ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002d" description="2D" format="Risk Level $16, Society &amp; Culture ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002e" description="2E" format="Risk Level $16, Spam URLs ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002f" description="2F" format="Risk Level $16, Sports ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000030" description="30" format="Risk Level $16, Spyware ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000031" description="31" format="Risk Level $16, Streaming Media ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000032" description="32" format="Risk Level $16, Tasteless &amp; Offensive ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000033" description="33" format="Risk Level $16, Travel ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000034" description="34" format="Risk Level $16, Violence ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000035" description="35" format="Risk Level $16, Weapons ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000036" description="36" format="Risk Level $16, Web-based E-mail ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)10000037" description="37" format="Risk Level $16, Custom ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-" description="empty" format="" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="no-user" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, WebTrafficAudit: ws messages, truncated ref" matcher="(\d+) ([-\w.]+) h=([\d.]+): u=&quot;([^&quot;]+)&quot; s=(\d+) X=([-+Xt]) t=\d+ T=-?\d+ Ts=-?\d+ act=(-?\d?) cat=&quot;([-a-fx\d]+)&quot; rsn=([-\d]+) threat=&quot;([^&quot;]+)&quot; type=&quot;([-&quot;#&amp;\$%*+,./:;=?\\{}\w ]+)&quot; ctype=&quot;([-&quot;#&amp;\$'()%*+,./:;=?\\{}\w ]*)&quot; sav-ev=[-/\w.]+ sav-dv=[-/\w.]+ uri-dv=[-/\w.]+ cache=\S+ in=\d+ out=\d+ meth=(\S*) ref=&quot;.*" pattern="\d+ [-\w.]+ h=[\d.]+: u=&quot;[^&quot;]+&quot; s=\d+ X=[-+Xt] t=\d+ T=-?\d+ Ts=-?\d+ act=-?\d? cat=&quot;[-a-fx\d]+&quot; rsn=[-\d]+ threat=&quot;[^&quot;]+&quot; type=&quot;[-&quot;#&amp;\$%*+,./:;=?\\{}\w ]+&quot; ctype=&quot;[-&quot;#&amp;\$'()%*+.,/:;=?\\{}\w ]*&quot; sav-ev=[-/\w.]+ sav-dv=[-/\w.]+ uri-dv=[-/\w.]+ cache=\S+ in=\d+ out=\d+ meth=\S* ref=&quot;.*" version="2" version_type="int">
+			<FastField _type="null" defaultValue="URL Access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-.-1" description="no-user-blocked" format="Blocked URL Access by &quot;$3&quot;" matcherInput="$4,$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-1" description="user-blocked" format="Blocked URL Access by &quot;$4&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-" description="no-user" format="URL Access by &quot;$3&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1401" description="rsn-1401" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 blocked because request contained a virus&quot;, Threat: &quot;$10&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1402" description="rsn-1402" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by Local or Sophos URI list&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1403" description="rsn-1403" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by file type&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1404" description="rsn-1404" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked because request is encrypted and could not be scanned&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1405" description="rsn-1405" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked because the virus scanner timed-out when trying to scan the request&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1406" description="rsn-1406" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by policy&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1407" description="rsn-1407" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked because origin server failed SSL certificate validation&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1408" description="rsn-1408" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked Range requests&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1409" description="rsn-1409" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 Blocked by tag&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+" description="rsn-other" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Reason: &quot;$9 other&quot;" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-2" description="request-warned" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Action: &quot;Request was warned&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="warned-user-proceed" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Action: &quot;Request was warned and user decided to proceed&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="user-proceed" format="Method: &quot;$13&quot;, Result: $5, MIME: &quot;$11&quot;, Content: &quot;$12&quot;, Action: &quot;User proceeded&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-1" description="warning-blocked" format="Web Content" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0x0(\d)00000000" description="00" format="Risk Level $15, Uncategorized ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000001" description="01" format="Risk Level $15, Adult/Sexually Explicit ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000002" description="02" format="Risk Level $15, Advertisements &amp; Pop-Ups ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000003" description="03" format="Risk Level $15, Alcohol &amp; Tobacco ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000004" description="04" format="Risk Level $15, Arts ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000005" description="05" format="Risk Level $15, Blogs &amp; Forums ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000006" description="06" format="Risk Level $15, Business ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000007" description="07" format="Risk Level $15, Chat ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000008" description="08" format="Risk Level $15, Computing &amp; Internet ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000009" description="09" format="Risk Level $15, Criminal Activity ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000a" description="0A" format="Risk Level $15, Downloads ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000b" description="0B" format="Risk Level $15, Education ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000c" description="0C" format="Risk Level $15, Entertainment ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000d" description="0D" format="Risk Level $15, Fashion &amp; Beauty ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000e" description="0E" format="Risk Level $15, Finance &amp; Investment ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000000f" description="0F" format="Risk Level $15, Food &amp; Dining ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000010" description="10" format="Risk Level $15, Gambling ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000011" description="11" format="Risk Level $15, Games ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000012" description="12" format="Risk Level $15, Government ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000013" description="13" format="Risk Level $15, Hacking ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000014" description="14" format="Risk Level $15, Health &amp; Medicine ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000015" description="15" format="Risk Level $15, Hobbies &amp; Recreation ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000016" description="16" format="Risk Level $15, Hosting Sites ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000017" description="17" format="Risk Level $15, Illegal Drugs ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000018" description="18" format="Risk Level $15, Infrastructure ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000019" description="19" format="Risk Level $15, Intimate Apparel &amp; Swimwear ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001a" description="1A" format="Risk Level $15, Intolerance &amp; Hate ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001b" description="1B" format="Risk Level $15, Job Search &amp; Career Development ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001c" description="1C" format="Risk Level $15, Kid's Sites ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001d" description="1D" format="Risk Level $15, Motor Vehicles ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001e" description="1E" format="Risk Level $15, News ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000001f" description="1F" format="Risk Level $15, Peer-to-Peer ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000020" description="20" format="Risk Level $15, Personals and Dating ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000021" description="21" format="Risk Level $15, Philanthropic &amp; Professional Orgs. ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000022" description="22" format="Risk Level $15, Phishing &amp; Fraud ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000023" description="23" format="Risk Level $15, Photo Searches ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000024" description="24" format="Risk Level $15, Politics ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000025" description="25" format="Risk Level $15, Proxies &amp; Translators ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000026" description="26" format="Risk Level $15, Real Estate ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000027" description="27" format="Risk Level $15, Reference ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000028" description="28" format="Risk Level $15, Religion ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000029" description="29" format="Risk Level $15, Ringtones/Mobile Phone Downloads ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002a" description="2A" format="Risk Level $15, Search Engines ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002b" description="2B" format="Risk Level $15, Sex Education ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002c" description="2C" format="Risk Level $15, Shopping ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002d" description="2D" format="Risk Level $15, Society &amp; Culture ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002e" description="2E" format="Risk Level $15, Spam URLs ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)0000002f" description="2F" format="Risk Level $15, Sports ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000030" description="30" format="Risk Level $15, Spyware ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000031" description="31" format="Risk Level $15, Streaming Media ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000032" description="32" format="Risk Level $15, Tasteless &amp; Offensive ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000033" description="33" format="Risk Level $15, Travel ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000034" description="34" format="Risk Level $15, Violence ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000035" description="35" format="Risk Level $15, Weapons ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)00000036" description="36" format="Risk Level $15, Web-based E-mail ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0x2(\d)10000037" description="37" format="Risk Level $15, Custom ($8)" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="-" description="empty" format="" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="no-user" format="" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ h=\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}: u=" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Sophos WS data ($Revision: #6 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$09" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Checkpoint Safe@Office Firewall" fullDescription="Collects events from CheckPoint appliances that are running the safe@office firmware. " logInterval="1" logLocation="/var/log/syslog.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="CheckpointSafeatoffice" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="safeatoffice" toolType="Firewalls" vendor="Checkpoint" version="$Revision: #7 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Enter the log file to read from." visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="InDepth Host:" preferredOrder="91" toolTipText="Hostname of the InDepth appliance to receive log data." visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="InDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the InDepth appliance to receive log data." visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="The data output this reader feeds." visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Enter the number of seconds between log reads." visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="The tool version." visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="The tool wrapper id." visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Checkpoint Safe@Office Firewall" id="safeatoffice" version="28" version_type="int">
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="1, ICMPTrafficAudit: icmp" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (\w+) (Out|In)bound packet \((.+)\) Src:([\d.]+) Dst:([\d.]+) Type:(\d+) Code:(\d+) IPP:(\d+) Rule:([-\d]+) Interface:(.+?) *$" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w.:]+ &lt;\d+> \w+ (?:Out|In)bound packet \(.+\) Src:[\d.]+ Dst:[\d.]+ Type:\d+ Code:\d+ IPP:1 Rule:[-\d]+ Interface:.+" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 ICMP traffic from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Rejected" description="rejected" format="Blocked ICMP traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Accepted" description="allowed" format="Allowed ICMP traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Rule: &quot;$13&quot;, Direction: $6bound, Device: &quot;$3&quot;, Reason: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Rule: &quot;$13&quot;, Direction: $6bound, Device MAC: &quot;$3&quot;, Reason: &quot;$7&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="0,\d+" description="0,*" format="ICMP Echo Reply" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1,\d+" description="1,*" format="ICMP Unassigned" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2,\d+" description="2,*" format="ICMP Unassigned" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,0" description="3,0" format="ICMP CODE Net Unreachable" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,1" description="3,1" format="ICMP CODE Host Unreachable" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,2" description="3,2" format="ICMP CODE Protocol Unreachable" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,3" description="3,3" format="ICMP CODE Port Unreachable" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,4" description="3,4" format="ICMP CODE Fragmentation" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,5" description="3,5" format="ICMP CODE Source Route Failed" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,6" description="3,6" format="ICMP CODE Destination Network Unknown" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,7" description="3,7" format="ICMP CODE Source Host Unknown" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,8" description="3,8" format="ICMP CODE Source Host Isolated" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,9" description="3,9" format="ICMP CODE Destination is Administratively Prohibited" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,10" description="3,10" format="ICMP CODE Destination is Administratively Prohibited" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,11" description="3,11" format="ICMP CODE Destination Unreachable for Service" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,12" description="3,12" format="ICMP CODE Destination Host Unreachable for Service" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,13" description="3,13" format="ICMP CODE Communication Administratively Prohibited" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,14" description="3,14" format="ICMP CODE Host Precedence Violation" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,15" description="3,15" format="ICMP CODE Precedence Cutoff in Effect" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3,\d+" description="3,*" format="ICMP Host Unreachable" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4,\d+" description="4,*" format="ICMP Source Quench" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,0" description="5,0" format="ICMP CODE Redirect for Network" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,1" description="5,1" format="ICMP CODE Redirect for the Host" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,2" description="5,2" format="ICMP CODE Redirect for Service and Network" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,3" description="5,3" format="ICMP CODE Redirect for Service and Host" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5,\d+" description="5,*" format="ICMP Redirect" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6,0" description="6,0" format="ICMP CODE Alternate Address for Host" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6,\d+" description="6,*" format="ICMP Alternate Host Address" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="7,\d+" description="7,*" format="ICMP Unassigned" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="8,\d+" description="8,*" format="ICMP Echo Request" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="9,\d+" description="9,*" format="ICMP Router Advertisement" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="10,\d+" description="10,*" format="ICMP Router Selection" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="11,0" description="11,0" format="ICMP CODE Time to Live exceeded in Transit" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="11,1" description="11,1" format="ICMP CODE Fragment Reassembly Time Exceeded" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="11,\d+" description="11,*" format="ICMP Time Exceeded" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="12,0" description="12,0" format="ICMP CODE Pointer indicates the error" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="12,1" description="12,1" format="ICMP CODE Missing a Required Option" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="12,2" description="12,2" format="ICMP CODE Bad Length" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="12,\d+" description="12,*" format="ICMP Parameter Problem" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="13,\d+" description="13,*" format="ICMP Timestamp Request" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="14,\d+" description="14,*" format="ICMP Timestamp Reply" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="15,\d+" description="15,*" format="ICMP Information Request" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="16,\d+" description="16,*" format="ICMP Information Reply" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="17,\d+" description="17,*" format="ICMP Address Mask Request" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="18,\d+" description="18,*" format="ICMP Address Mask Reply" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="30,\d+" description="30,*" format="ICMP Traceroute" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="31,\d+" description="31,*" format="ICMP Datagram Conversion Error" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="32,\d+" description="32,*" format="ICMP Mobile Host Redirect" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="33,\d+" description="33,*" format="ICMP IPv6 Where-are-you" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="34,\d+" description="34,*" format="ICMP Ipv6 I-Am-Here" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="35,\d+" description="35,*" format="ICMP Mobile Registration Request" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="36,\d+" description="36,*" format="ICMP Mobile Registration Reply" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="37,\d+" description="37,*" format="ICMP Domain Name Request" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="38,\d+" description="38,*" format="ICMP Domain Name Reply" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="39,\d+" description="39,*" format="ICMP SKIP Algorithm Discovery Protocol" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="40,\d+" description="40,*" format="ICMP Authentication Failures" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\d+,\d+" description="*,*" format="ICMP Reserved" matcherInput="$10,$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="Interface" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UDPTrafficAudit" description="2, UDPTrafficAudit: udp" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (\w+) (Out|In)bound packet \((.+)\) Src:([\d.]+) SPort:(\d+) Dst:([\d.]+) DPort:(\d+) IPP:(\d+) Rule:([-\d]+) Interface:(.+?) *$" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;\d+> \w+ (?:Out|In)bound packet \(.+\) Src:[\d.]+ SPort:\d+ Dst:[\d.]+ DPort:\d+ IPP:17 Rule:[-\d]+ Interface:.+" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$5 UDP traffic from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Rejected" description="rejected" format="Blocked UDP traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Accepted" description="allowed" format="Allowed UDP traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Rule: &quot;$13&quot;, Direction: $6bound, Device: &quot;$3&quot;, Reason: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Rule: &quot;$13&quot;, Direction: $6bound, Device MAC: &quot;$3&quot;, Reason: &quot;$7&quot;" matcherInput="$3" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="Interface" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPTrafficAudit" description="3, TCPTrafficAudit: udp" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:]+) &lt;(\d+)> (\w+) (Out|In)bound packet \((.+)\) Src:([\d.]+) SPort:(\d+) Dst:([\d.]+) DPort:(\d+) IPP:(\d+) Rule:([-\d]+) Interface:(.+?) *$" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:]+ &lt;\d+> \w+ (?:Out|In)bound packet \(.+\) Src:[\d.]+ SPort:\d+ Dst:[\d.]+ DPort:\d+ IPP:6 Rule:[-\d]+ Interface:.+" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5 TCP traffic from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="Rejected" description="rejected" format="Blocked TCP traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Accepted" description="allowed" format="Allowed TCP traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Rule: &quot;$13&quot;, Direction: $6bound, Device: &quot;$3&quot;, Reason: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Rule: &quot;$13&quot;, Direction: $6bound, Device MAC: &quot;$3&quot;, Reason: &quot;$7&quot;" matcherInput="$3" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="Interface" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="4, IPTrafficAudit: catchall" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (\w+) (Out|In)bound packet \((.+)\) Src:([\d.]+)(?: SPort:(\d+))? Dst:([\d.]+)(?: DPort:(\d+))? IPP:(\d+) Rule:([-\d]+) Interface:(.+?) *$" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;\d+> \w+ (?:Out|In)bound packet \(.+\) Src:[\d.]+(?: SPort:\d+)? Dst:[\d.]+(?: DPort:\d+)? IPP:\d+ Rule:[-\d]+ Interface:.+" version="9" version_type="int">
+			<FastField _type="null" defaultValue="$5 Protocol $12 traffic from &quot;$8&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="Rejected" description="rejected" format="Blocked Protocol $12 traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Accepted" description="allowed" format="Allowed Protocol $12 traffic from &quot;$8&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Rule: &quot;$13&quot;, Direction: $6bound, Device: &quot;$3&quot;, Reason: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Rule: &quot;$13&quot;, Direction: $6bound, Device MAC: &quot;$3&quot;, Reason: &quot;$7&quot;" matcherInput="$3" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="DestinationPort" type="2" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="null" description="null" format="" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="4" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$14" fieldName="Interface" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="5, IPSecTrafficAudit: 60037" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:]+) &lt;(\d+)> Closed VPN tunnel with ([\d.]+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:]+ &lt;60037> Closed VPN tunnel with [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Closed VPN tunnel with &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPSecTrafficAudit" description="6, IPSecTrafficAudit: 60075, 60076" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> IKE Phase(\d+): Completed successfully with VPN peer ([\d.]+) \[(.+)\].*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;6007[56]> IKE Phase\d: Completed successfully with VPN peer [\d.]+ \[.+\]" version="3" version_type="int">
+			<FastField _type="null" defaultValue="IKE Phase$5 completed successfully with VPN peer &quot;$6&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2},My Ranges: ([\d.]+)-([\d.]+) Peer Ranges: ([\d.]+)-([\d.]+) Security: ([-/\w]+) Expire time: \d+ NAT-T: (.+)" description="mac-info-1" format="Device MAC: &quot;$3&quot;, My IP Ranges: &quot;$9 - $10, Peer IP Ranges: &quot;$11 - $12&quot;, Security: &quot;$13&quot;, NAT-T: &quot;$14&quot;" matcherInput="$3,$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2},Security: ([-/\w]+) Expire time: \d+ NAT-T: (.+)" description="mac-info-2" format="Device MAC: &quot;$3&quot;, Security: &quot;$9&quot;, NAT-T: &quot;$10&quot;" matcherInput="$3,$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="My Ranges: ([\d.]+)-([\d.]+) Peer Ranges: ([\d.]+)-([\d.]+) Security: ([-/\w]+) Expire time: \d+ NAT-T: (.+)" description="info-1" format="Device: &quot;$3&quot;, My IP Ranges: &quot;$9 - $10, Peer IP Ranges: &quot;$11 - $12&quot;, Security: &quot;$13&quot;, NAT-T: &quot;$14&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Security: ([-/\w]+) Expire Time: \d+ NAT-T: (.+)" description="info-2" format="Device: &quot;$3&quot;, Security: &quot;$9&quot;, NAT-T: &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="7, ServiceInfo: 60040" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:]+) &lt;(\d+)> Logging was set: Syslog Server  IP is ([\d.]+) and Syslog Port is (\d+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:]+ &lt;60040> Logging was set: Syslog Server  IP is [\d.]+ and Syslog Port is \d+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logging was set" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Syslog Server IP: $5, Port: $6" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="8, LinkControlTrafficAudit: 10025" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN MAC filter blocked client: ([A-F\d:]+) from (\w+) network.*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10025> WLAN MAC filter blocked client: [A-F\d:]+ from \w+ network" version="1" version_type="int">
+			<FastField _type="null" defaultValue="WLAN MAC filter blocked client: $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="9, LinkControlTrafficAudit: 10037" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN client ([A-F\d:]+) received group key \((\w+)\) from (\w+) network.*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10037> WLAN client [A-F\d:]+ received group key \(\w+\) from \w+ network" version="1" version_type="int">
+			<FastField _type="null" defaultValue="WLAN client $5 received group key $6 from $7 network" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogonFailure" description="10, MachineLogonFailure: 10050" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN client ([A-F\d:]+) authentication failed \(([\w ]+)\) on (\w+) network\. User credentials: (\S+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10050> WLAN client [A-F\d:]+ authentication failed \([\w ]+\) on \w+ network" version="1" version_type="int">
+			<FastField _type="null" defaultValue="logon failure $5 from $7" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="authentication failed" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogon" description="11, MachineLogon: 10048" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN client ([A-F\d:]+) authorized to (\w+) network using (\w+) \S+\. User credentials: (\S+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10048> WLAN client [A-F\d:]+ authorized to \w+ network using \w+ \S+\. User credentials" version="1" version_type="int">
+			<FastField _type="null" defaultValue="logon $5 from $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*\\(.*)" description="desacc" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\\.*" description="desdom" format="$10" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="12, ServiceWarning: 40018" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (.+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;40018> Disconnected from Service Center" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="13, ServiceWarning: 60038" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (.+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;60038> Primary Local Area Network \S+ connection (?:terminated|established)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="14, UserLogon: 60031" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> User (\w+) logged in \(Source IP:([\d.]+) Via:(\w+)\).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;60031> User \w+ logged in \(Source IP:[\d.]+ Via:\w+\)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="logon $5 from $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="LogonType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemReboot" description="15, SystemReboot: 60178" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (.+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;60178> Rebooting gateway" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="StatusMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="16, SystemReboot: 40016" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (.+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;40016> Successfully connected to the Service Center" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="17, LinkControlTrafficAudit: 10029" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN client ([A-F\d:]+) associated to (\w+) network.*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10029> WLAN client [A-F\d:]+ associated to \w+ network" version="1" version_type="int">
+			<FastField _type="null" defaultValue="WLAN client $5 associated to $6 network" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="18, LinkControlTrafficAudit: 10040, 10041" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN client ([a-f\d:]+) disconnected from (\w+) network\. Initiator: (\w+)\. Reason: (.+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;1004[01]> WLAN client [a-f\d:]+ disconnected from \w+ network" version="1" version_type="int">
+			<FastField _type="null" defaultValue="WLAN client $5 disconnected from $6 network" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot; Reason: $8" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot; Reason: $8" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineLogoff" description="19, MachineLogoff: 10049, 10050" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> WLAN client ([A-F\d:]+) (?:authentication timed out \S+ on|deauthorized from|authentication failed on) \w+ network\. User credentials: (.+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;100(?:50|49)> WLAN client [A-F\d:]+ (?:authentication timed out \S+ on|deauthorized from|authentication failed on) \w+ network\. User credentials" version="2" version_type="int">
+			<FastField _type="null" defaultValue="logoff $5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$5&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".*\\(.*)" description="desacc" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="(.*)\\.*" description="desacc" format="$8" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="20, ServiceWarning: 60022" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> (.+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;60022> You are exceeding your node limit" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NTPTrafficAudit" description="21, ServiceInfo: 60093" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> NTP server ([\d.]+) updated the time by (\d+) seconds.*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;60093> NTP server [\d.]+ updated the time by \d+ seconds" version="1" version_type="int">
+			<FastField _type="null" defaultValue="NTP Server updated the time by &quot;$6&quot; seconds" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="NTP" fieldName="Protocol" type="1" type_type="int" version="0" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="22, LinkControlTrafficAudit: 10016" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> Detected that ([a-f\d:]+) \((.*)\) is otherwise configured to use ([\d.]+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10016> Detected that [a-f\d:]+ \(.*\) is otherwise configured to use [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Detected that &quot;$5&quot; ($6) is otherwise configured to use &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="LinkControlTrafficAudit" description="23, LinkControlTrafficAudit: 10016" matcher="^(\d+) ([-\w.]+) \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} ([\w:.]+) &lt;(\d+)> Detected ([a-f\d:]+) \S+ using IP address ([\d.]+)" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;10016> Detected [a-f\d:]+ \S+ using IP address [\d.]+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Detected $5 using IP address $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Device: &quot;$3&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}:[a-f\d]{2}" description="mac" format="Device MAC: &quot;$3&quot;" matcherInput="$3" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMACAddress" type="8" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ \d{4} \w{3} +\d{1,2} \d{2}:\d{2}:\d{2} [\w:.]+ &lt;\d+>" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Safe@Office data ($Revision: #7 $)" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

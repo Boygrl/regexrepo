@@ -1,0 +1,270 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="DO_NOT_USE_FOR_CONNECTOR_DISCOVERY" description="SecureSphere Database Gateway 6.0" fullDescription="Collects events from Imperva SecureSphere Database Gateways using firmware version 6.0+." logInterval="1" logLocation="/var/log/local4.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="1" logType="UnixSyslogFileReader" node="manager,spop" readerName="SecureSphere Database" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="securespheredb" toolType="Data Loss Prevention" vendor="Imperva" version="$Revision: #4 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="SecureSphere Database Gateway 6.0" id="securespheredb" version="152" version_type="int">
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="1, UserModifyPrivileges, select operation is allowed for table in profile" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="select operation is allowed for (?:table) .* in the profile of " version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="select operation is allowed for (table) (.*) in the profile of (.*)\. .*" description="parse for table and " format="Select operation is allowed for $12 &quot;$13&quot; in the profile of &quot;$14&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SELECT operation" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AccessTarget" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="select operation is allowed for table \S+ in the profile of [^\.]+\. [^:]+: ([^\s]+)\s- ([^\s]+) - ([^\.]+)\s\." description="remove space and dashes from target path" format="$12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyPrivileges" description="2, UserModifyPrivileges, Table was added to profile" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^\s]*)" pattern="Table .* was added to the profile of" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Table (.*) was added to the profile of (.*)\s\. .*" description="parse for table and " format="Table &quot;$12&quot; was added to the profile of &quot;$13&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Table addition" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="AccessTarget" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="[^\.]+\. [^:]+: ([^\s]+)\s- ([^\s]+) - ([^\.]+)\s\s\." description="New Formatter" format="$12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="3, UserLogon, Unauthorized Database User (Blocked)" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Unauthorized Database User:.*Action=None" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unauthorized Database User: (.*)" description="parse for user info" format="Unauthorized Database User &quot;$19&quot; from &quot;$10&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SrcPort: $11; DstPort: $9; $15/$16/$17" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unauthorized User" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="4, UserLogonFailure, Unauthorized Database User (Blocked)" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Unauthorized Database User:.*Action=Block" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unauthorized Database User: (.*)" description="parse for user info" format="Blocked Unauthorized Database User &quot;$19&quot; from &quot;$10&quot;" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SrcPort: $11; DstPort: $9; $15/$16/$17" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$13" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Unauthorized User" fieldName="FailureReason" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="FailureCount" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="5, PolicyModify, Query was added to Query Group" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);EventNum=([^;]*);UpdateTime=([^;]*);Message=([^;]*);Username=([^;]*);Subsystem=([^;]*);Sev=([^;]*)" pattern="Message=Query .* was added to Query Group" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Query was added to Query Group" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*SQL application: ([^\s]+)\s- ([^\s]+) - ([^\.]+)\s{2}\." description="parse for the query statement" format="$12/$13/$14" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Query .* was added to Query Group ([^.]+)\..*" description="parse for the query statement" format="$12" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DataBaseAccess" description="6, DataBaseAccess, SQL Injection" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Desc=SQL Injection" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Block" description="block" format="Blocked SQL Injection by &quot;$13&quot; from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="SQL Injection - (.*)" description="sql injection details" format="$19" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DataBaseAccess" description="7, DataBaseAccess, Attempt to Execute Privileged Operation" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Desc=Attempt to Execute Privileged Operation" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="None:Attempt to Execute Privileged Operation '([^']+)' by (.*)" description="action = None" format="Attempt to execute privileged operation &quot;$19&quot; by &quot;$20&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block:Attempt to Execute Privileged Operation '([^']+)' by (.*)" description="action = Block" format="Blocked attempt to execute privileged operation &quot;$19&quot; by &quot;$20&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DataBaseAccess" description="8, DataBaseAccess, Unauthorized \S+ by user" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Desc=Unauthorized .* by [^:]+: [^;]+;" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="None:Unauthorized (.+) by ([^:]+):.*" description="action = None" format="Unauthorized &quot;$19&quot; by &quot;$20&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block:Unauthorized (.+) by ([^:]+):.*" description="action = Block" format="Blocked Unauthorized &quot;$19&quot; by &quot;$20&quot;" matcherInput="$7:$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="No default value set" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="Unauthorized .+ by [^:]+: (.*)" description="parse for unauthorized details" format="$19" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DataBaseAccess" description="9, DataBaseAccess, PCI - Violations of privileged commands" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Desc=\s*PCI - Violations of privileged commands" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="None" description="action = None" format="PCI - Violations of privileged commands from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block" description="action = Block" format="Blocked PCI - Violations of privileged commands from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DataBaseAccess" description="10, DataBaseAccess, PCI - Violations caused by admin" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);Desc=([^;]*);Sev=([^;]*);Action=([^;]*);DstIP=([^;]*);DstPort=([^;]*);SrcIP=([^;]*);SrcPort=([^;]*);Proto=([^;]*);DBUser=([^;]*);RuleName=([^;]*);SvrGrp=([^;]*);ServiceName=([^;]*);AppName=([^;]*).*" pattern="Desc=\s*PCI - Violations caused by admin" version="1" version_type="int">
+			<FastField _type="null" defaultValue="" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="None" description="action = None" format="PCI - Violations caused by admin from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Block" description="action = Block" format="Blocked PCI - Violations caused by admin from &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10 $3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$10" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$11" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$12" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: Query (select | set)" matcher=".*" pattern="Message=Query (select|set)" version="1" version_type="int">
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData SecureSphere-NTD" matcher="^(\d+) (\S+) DB:Type=([^;]*);EventTime=([^;]*);.*" pattern="" version="7" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched securespheredb Data ($Revision: #4 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DetectionTime" type="4" type_type="int" version="2" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="SecureSphere-NTD" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Black Hole" matcher=".*" pattern="" version="30" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

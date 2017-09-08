@@ -1,0 +1,566 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="" description="ProFTPD Access" fullDescription="" logInterval="1" logLocation="/var/log/proftpd/access.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="BufferedReader" node="spop" readerName="Proftpd Access" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="proftpd-access" toolType="File Transfer and Sharing" vendor="" version="$Revision: #7 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="ProFTPD Access" id="proftpd-access" version="1" version_type="int">
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="1, FileTransferTrafficAudit: template" matcher="^(\[[^]]+\]) ::[^:]+:([\d.]+) (\S+) &quot;(.+?)&quot; (.+) ([-\d]+) ([-\d]+).*" pattern="^\[[^]]+\] ::[^:]+:[\d.]+ \S+ &quot;.+?&quot; .+ [-\d]+ [-\d]+" version="10" version_type="int">
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="SITE.*" description="site" format="FTP SITE Command" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="SYST.*" description="syst" format="FTP SYST Command" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CWD.*" description="cwd" format="FTP CWD Command" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="PORT.*" description="port" format="FTP PORT Command" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="URL: $5, Bytes: $7, Response: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="110" description="110" format="URL: $5, Bytes: $7, Response: $6 Restart marker reply" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="120" description="120" format="URL: $5, Bytes: $7, Response: $6 Service ready in nnn minutes" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="125" description="125" format="URL: $5, Bytes: $7, Response: $6 Data connection already open; transfer starting" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="150" description="150" format="URL: $5, Bytes: $7, Response: $6 File status okay; about to open data connection" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="200" description="200" format="URL: $5, Bytes: $7, Response: $6 Command okay" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="202" description="202" format="URL: $5, Bytes: $7, Response: $6 Command not implemented, superfluous at this site" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="211" description="211" format="URL: $5, Bytes: $7, Response: $6 System status, or system help reply" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="212" description="212" format="URL: $5, Bytes: $7, Response: $6 Directory status" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="213" description="213" format="URL: $5, Bytes: $7, Response: $6 File status" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="214" description="214" format="URL: $5, Bytes: $7, Response: $6 Help message" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="215" description="215" format="URL: $5, Bytes: $7, Response: $6 NAME system type" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="220" description="220" format="URL: $5, Bytes: $7, Response: $6 Service ready for new user" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="221" description="221" format="URL: $5, Bytes: $7, Response: $6 Service closing control connection" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="225" description="225" format="URL: $5, Bytes: $7, Response: $6 Data connection open; no transfer in progress" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="226" description="226" format="URL: $5, Bytes: $7, Response: $6 Closing data connection" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="227" description="227" format="URL: $5, Bytes: $7, Response: $6 Entering Passive Mode" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="230" description="230" format="URL: $5, Bytes: $7, Response: $6 User logged in, proceed" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="250" description="250" format="URL: $5, Bytes: $7, Response: $6 Requested file action okay, completed" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="257" description="257" format="URL: $5, Bytes: $7, Response: $6 " matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="331" description="331" format="URL: $5, Bytes: $7, Response: $6 User name okay, need password" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="332" description="332" format="URL: $5, Bytes: $7, Response: $6 Need account for login" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="350" description="350" format="URL: $5, Bytes: $7, Response: $6 Requested file action pending further information" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="421" description="421" format="URL: $5, Bytes: $7, Response: $6 Service not available, closing control connection" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="425" description="425" format="URL: $5, Bytes: $7, Response: $6 Can't open data connection" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="426" description="426" format="URL: $5, Bytes: $7, Response: $6 Connection closed; transfer aborted" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="450" description="450" format="URL: $5, Bytes: $7, Response: $6 Requested file action not taken" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="451" description="451" format="URL: $5, Bytes: $7, Response: $6 Requested action aborted: local error in processing" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="452" description="452" format="URL: $5, Bytes: $7, Response: $6 Requested action not taken: Insufficient storage space in system" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="500" description="500" format="URL: $5, Bytes: $7, Response: $6 Syntax error, command unrecognized" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="501" description="501" format="URL: $5, Bytes: $7, Response: $6 Syntax error in parameters or arguments" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="502" description="502" format="URL: $5, Bytes: $7, Response: $6 Command not implemented" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="503" description="503" format="URL: $5, Bytes: $7, Response: $6 Bad sequence of commands" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="504" description="504" format="URL: $5, Bytes: $7, Response: $6 Command not implemented for that parameter" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="530" description="530" format="URL: $5, Bytes: $7, Response: $6 Not logged in" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="532" description="532" format="URL: $5, Bytes: $7, Response: $6 Need account for storing files" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="550" description="550" format="URL: $5, Bytes: $7, Response: $6 Requested action not taken: File unavailable" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="551" description="551" format="URL: $5, Bytes: $7, Response: $6 Requested action aborted: page type unknown" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="552" description="552" format="URL: $5, Bytes: $7, Response: $6 Requested file action aborted: Exceeded storage allocation" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="553" description="553" format="URL: $5, Bytes: $7, Response: $6 Requested action not taken: File name not allowed" matcherInput="$6" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$10-01-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$10-02-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$10-03-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$10-04-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$10-05-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$10-06-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$10-07-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$10-08-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$10-09-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$10-10-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$10-11-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$10-12-$9 $11" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="FTP command &quot;$4&quot; by user $3" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="ABOR.*" description="abor" format="FTP command &quot;$4&quot; by $3 (abort)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ACCT.*" description="acct" format="FTP command &quot;$4&quot; by $3 (account)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLO.*" description="allo" format="FTP command &quot;$4&quot; by $3 (allocate)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="APPE.*" description="appe" format="FTP command &quot;$4&quot; by $3 (append)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CDUP.*" description="cdup" format="FTP command &quot;$4&quot; by $3 (go parent directory)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="CWD.*" description="cwd" format="FTP command &quot;$4&quot; by $3 (go working directory)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DELE.*" description="dele" format="FTP command &quot;$4&quot; by $3 (delete)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="HELP.*" description="help" format="FTP command &quot;$4&quot; by $3 (help)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="LIST.*" description="list" format="FTP command &quot;$4&quot; by $3 (list)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="MKD.*" description="mkd" format="FTP command &quot;$4&quot; by $3 (make directory)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="MODE.*" description="mode" format="FTP command &quot;$4&quot; by $3 (mode)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="NLST.*" description="nlst" format="FTP command &quot;$4&quot; by $3 (name list)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="NOOP.*" description="noop" format="FTP command &quot;$4&quot; by $3 (no op)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="PASS.*" description="pass" format="FTP command &quot;$4&quot; by $3 (password)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="PASV.*" description="pasv" format="FTP command &quot;$4&quot; by $3 (passive)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="PORT.*" description="port" format="FTP command &quot;$4&quot; by $3 (data port)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="PWD.*" description="pwd" format="FTP command &quot;$4&quot; by $3 (print working directory)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="QUIT.*" description="quit" format="FTP command &quot;$4&quot; by $3 (logout)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="REIN.*" description="rein" format="FTP command &quot;$4&quot; by $3 (reinitialize)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="REST.*" description="rest" format="FTP command &quot;$4&quot; by $3 (restart)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="RETR.*" description="retr" format="FTP command &quot;$4&quot; by $3 (retrieve)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="RMD.*" description="rmd" format="FTP command &quot;$4&quot; by $3 (remove directory)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="RNFR.*" description="rnfr" format="FTP command &quot;$4&quot; by $3 (rename from)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="RNTO.*" description="rnto" format="FTP command &quot;$4&quot; by $3 (rename to)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="SITE.*" description="site" format="FTP command &quot;$4&quot; by $3 (site parameters)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="SMNT.*" description="smnt" format="FTP command &quot;$4&quot; by $3 (structure mount)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="STAT.*" description="stat" format="FTP command &quot;$4&quot; by $3 (status)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="STOR.*" description="stor" format="FTP command &quot;$4&quot; by $3 (store)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="STOU.*" description="stou" format="FTP command &quot;$4&quot; by $3 (store unique)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="STRU.*" description="stru" format="FTP command &quot;$4&quot; by $3 (file structure)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="SYST.*" description="syst" format="FTP command &quot;$4&quot; by $3 (system)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="TYPE.*" description="type" format="FTP command &quot;$4&quot; by $3 (presentation type)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="USER.*" description="user" format="FTP command &quot;$4&quot; by $3 (user name)" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAudit" description="11, FileAudit: OPEN, CLOSE, STOR, READ, RETR" matcher="^(\[[^]]+\]) *([-\w.]+) *(\S+) *(\S+) *(\S+) *(\S+) *(\S+).*" pattern="\[[^]]+\].+(?:OPEN|CLOSE|STOR|READ|RETR)" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 file &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$9-01-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$9-02-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$9-03-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$9-04-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$9-05-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$9-06-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$9-07-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$9-08-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$9-09-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$9-10-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$9-11-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$9-12-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jan (\d+) ([\d:]+)" description="Jan2" format="2014-01-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Feb (\d+) ([\d:]+)" description="Feb2" format="2014-02-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Mar (\d+) ([\d:]+)" description="Mar2" format="2014-03-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Apr (\d+) ([\d:]+)" description="Apr2" format="2014-04-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="May (\d+) ([\d:]+)" description="May2" format="2014-05-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jun (\d+) ([\d:]+)" description="Jun2" format="2014-06-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jul (\d+) ([\d:]+)" description="Jul2" format="2014-07-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Aug (\d+) ([\d:]+)" description="Aug2" format="2014-08-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Sep (\d+) ([\d:]+)" description="Sep2" format="2014-09-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Oct (\d+) ([\d:]+)" description="Oct2" format="2014-10-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Nov (\d+) ([\d:]+)" description="Nov2" format="2014-11-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Dec (\d+) ([\d:]+)" description="Dec2" format="2014-12-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="proftpd" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileDelete" description="12, FileDelete: REMOVE, DELE" matcher="^(\[[^]]+\]) *([-\w.]+) *(\S+) *(\S+) *(\S+) *(\S+) *(\S+)" pattern="\[[^]]+\].+(?:REMOVE|DELE)" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$4 file &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="no_filename" format="$4 file" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$9-01-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$9-02-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$9-03-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$9-04-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$9-05-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$9-06-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$9-07-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$9-08-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$9-09-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$9-10-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$9-11-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$9-12-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jan (\d+) ([\d:]+)" description="Jan2" format="2014-01-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Feb (\d+) ([\d:]+)" description="Feb2" format="2014-02-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Mar (\d+) ([\d:]+)" description="Mar2" format="2014-03-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Apr (\d+) ([\d:]+)" description="Apr2" format="2014-04-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="May (\d+) ([\d:]+)" description="May2" format="2014-05-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jun (\d+) ([\d:]+)" description="Jun2" format="2014-06-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jul (\d+) ([\d:]+)" description="Jul2" format="2014-07-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Aug (\d+) ([\d:]+)" description="Aug2" format="2014-08-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Sep (\d+) ([\d:]+)" description="Sep2" format="2014-09-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Oct (\d+) ([\d:]+)" description="Oct2" format="2014-10-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Nov (\d+) ([\d:]+)" description="Nov2" format="2014-11-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Dec (\d+) ([\d:]+)" description="Dec2" format="2014-12-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="no_filename" format="" matcherInput="$5" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="proftpd" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="10, ServiceInfo: LSTAT" matcher="^(\[[^]]+\]) ([-\w.]+) (\S+) (\S+).*" pattern="\[[^]]+\].+LSTAT" version="1" version_type="int">
+			<FastField _type="null" defaultValue="User &quot;$3&quot; is trying to check the file status using $4 command" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$9-01-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$9-02-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$9-03-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$9-04-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$9-05-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$9-06-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$9-07-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$9-08-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$9-09-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$9-10-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$9-11-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$9-12-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jan (\d+) ([\d:]+)" description="Jan2" format="2014-01-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Feb (\d+) ([\d:]+)" description="Feb2" format="2014-02-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Mar (\d+) ([\d:]+)" description="Mar2" format="2014-03-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Apr (\d+) ([\d:]+)" description="Apr2" format="2014-04-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="May (\d+) ([\d:]+)" description="May2" format="2014-05-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jun (\d+) ([\d:]+)" description="Jun2" format="2014-06-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jul (\d+) ([\d:]+)" description="Jul2" format="2014-07-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Aug (\d+) ([\d:]+)" description="Aug2" format="2014-08-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Sep (\d+) ([\d:]+)" description="Sep2" format="2014-09-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Oct (\d+) ([\d:]+)" description="Oct2" format="2014-10-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Nov (\d+) ([\d:]+)" description="Nov2" format="2014-11-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Dec (\d+) ([\d:]+)" description="Dec2" format="2014-12-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="proftpd" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="User &quot;$3&quot; is trying to check the file status using $4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileWrite" description="13, FileWrite: Write" matcher="^(\[[^]]+\]) *([-\w.]+) *(\S+) *(\S+) *(.+) *(\d+) *(\d+)" pattern="\[[^]]+\].+WRITE" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 file &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$9-01-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$9-02-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$9-03-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$9-04-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$9-05-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$9-06-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$9-07-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$9-08-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$9-09-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$9-10-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$9-11-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$9-12-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jan (\d+) ([\d:]+)" description="Jan2" format="2014-01-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Feb (\d+) ([\d:]+)" description="Feb2" format="2014-02-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Mar (\d+) ([\d:]+)" description="Mar2" format="2014-03-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Apr (\d+) ([\d:]+)" description="Apr2" format="2014-04-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="May (\d+) ([\d:]+)" description="May2" format="2014-05-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jun (\d+) ([\d:]+)" description="Jun2" format="2014-06-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jul (\d+) ([\d:]+)" description="Jul2" format="2014-07-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Aug (\d+) ([\d:]+)" description="Aug2" format="2014-08-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Sep (\d+) ([\d:]+)" description="Sep2" format="2014-09-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Oct (\d+) ([\d:]+)" description="Oct2" format="2014-10-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Nov (\d+) ([\d:]+)" description="Nov2" format="2014-11-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Dec (\d+) ([\d:]+)" description="Dec2" format="2014-12-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="proftpd" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: empty msgs" matcher=".*" pattern="\[[^]]+\] *[-\w.]+ *\S+ *\S+ *-" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4 file &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$9-01-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$9-02-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$9-03-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$9-04-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$9-05-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$9-06-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$9-07-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$9-08-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$9-09-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$9-10-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$9-11-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$9-12-$8 $10" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jan (\d+) ([\d:]+)" description="Jan2" format="2014-01-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Feb (\d+) ([\d:]+)" description="Feb2" format="2014-02-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Mar (\d+) ([\d:]+)" description="Mar2" format="2014-03-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Apr (\d+) ([\d:]+)" description="Apr2" format="2014-04-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="May (\d+) ([\d:]+)" description="May2" format="2014-05-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jun (\d+) ([\d:]+)" description="Jun2" format="2014-06-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Jul (\d+) ([\d:]+)" description="Jul2" format="2014-07-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Aug (\d+) ([\d:]+)" description="Aug2" format="2014-08-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Sep (\d+) ([\d:]+)" description="Sep2" format="2014-09-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Oct (\d+) ([\d:]+)" description="Oct2" format="2014-10-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Nov (\d+) ([\d:]+)" description="Nov2" format="2014-11-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="Dec (\d+) ([\d:]+)" description="Dec2" format="2014-12-$6 $7" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="proftpd" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\[[^]]+\]).+" pattern="^\[[^]]+\].+" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jan/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jan" format="$4-01-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Feb/(\d{4}):(\d\d:\d\d:\d\d).*" description="Feb" format="$4-02-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Mar/(\d{4}):(\d\d:\d\d:\d\d).*" description="Mar" format="$4-03-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Apr/(\d{4}):(\d\d:\d\d:\d\d).*" description="Apr" format="$4-04-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/May/(\d{4}):(\d\d:\d\d:\d\d).*" description="May" format="$4-05-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jun/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jun" format="$4-06-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Jul/(\d{4}):(\d\d:\d\d:\d\d).*" description="Jul" format="$4-07-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Aug/(\d{4}):(\d\d:\d\d:\d\d).*" description="Aug" format="$4-08-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Sep/(\d{4}):(\d\d:\d\d:\d\d).*" description="Sep" format="$4-09-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Oct/(\d{4}):(\d\d:\d\d:\d\d).*" description="Oct" format="$4-10-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Nov/(\d{4}):(\d\d:\d\d:\d\d).*" description="Nov" format="$4-11-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\[ ?(\d+)/Dec/(\d{4}):(\d\d:\d\d:\d\d).*" description="Dec" format="$4-12-$3 $5" matcherInput="$1" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="Unmatched ProFTPD Access Data ($Revision: #7 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

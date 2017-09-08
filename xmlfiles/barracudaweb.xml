@@ -1,0 +1,1276 @@
+<?xml version="1.0" ?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="Barracuda Web Filter" fullDescription="Collects Web traffic analysis events, by user, source, destination, configuration, and authentication, from Barracuda devices. Recommend using this connector along with the BarracudaAdmin and BarracudaWebAppFV connectors." logInterval="1" logLocation="/var/log/local4.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Barracuda Web" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="barracudaweb" toolType="Proxy Servers and Content Filters" vendor="Barracuda" version="$Revision: #5 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Barracuda Web Filter" id="barracudaweb" version="89" version_type="int">
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, byf, WebTrafficAudit: http_scan, sniff, barracuda_pqman, logger" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [A-Z]+ ([A-Z]+) ([A-Z]+) +\d \d \d (\d+) \d .+ (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+).*$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)[]\d[]*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [A-Z]+ [A-Z]+ [A-Z]+ +\d \d \d \d+ \d .+ \d \S+ \d \S+ \d+ \S+ \S+ \S+.*$" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, \[ANON\]" description="malware-polact0 ANON" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, [^:]*[:\[]([^]:]+).*" description="malware-polact0 user" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, \[ANON\]" description="malware-polact1 ANON" format="Malware Detected in denied URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, [^:]*[:\[]([^]:]+).*" description="malware-polact1 user" format="Malware Detected in denied URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, \[ANON\]" description="malware-polact2 ANON" format="Malware Detected in redirected URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, [^:]*[:\[]([^]:]+).*" description="malware-polact2 user" format="Malware Detected in redirected URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], \[ANON\]" description="malware-polact3&amp;4 ANON" format="Malware Detected in rewritten URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], [^:]*[:\[]([^]:]+).*" description="malware-polact3&amp;4 user" format="Malware Detected in rewritten URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, \[ANON\]" description="malware-polact5 ANON" format="Malware Detected in monitored URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, [^:]*[:\[]([^]:]+).*" description="malware-polact5 user" format="Malware Detected in monitored URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, \[ANON\]" description="malware-polact6 ANON" format="Malware Detected in branched rule set URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, [^:]*[:\[]([^]:]+).*" description="malware-polact6 user" format="Malware Detected in branched rule set URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, \[ANON\]" description="polact0 ANON" format="URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, [^:]*[:\[]([^]:]+).*" description="polact0 user" format="URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, \[ANON\]" description="polact1 ANON" format="Denied URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, [^:]*[:\[]([^]:]+).*" description="polact1 user" format="Denied URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, \[ANON\]" description="polact2 ANON" format="Redirected URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, [^:]*[:\[]([^]:]+).*" description="polact2 user" format="Redirected URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], \[ANON\]" description="polact3&amp;4 ANON" format="Rewritten URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], [^:]*[:\[]([^]:]+).*" description="polact3&amp;4 user" format="Rewritten URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, \[ANON\]" description="polact5 ANON" format="Monitored URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [^:]*[:\[]([^]:]+).*" description="polact5 user" format="Monitored URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, \[ANON\]" description="polact6 ANON" format="Branched rule set URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, [^:]*[:\[]([^]:]+).*" description="polact6 user" format="Branched rule set URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="empty-category" format="" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, byf, WebTrafficAudit: http_scan, sniff, barracuda_pqman, logger - non-translatable characters (-)" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [A-Z]+ ([A-Z]+) ([A-Z]+) +()\S+ \(-\) (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+).*$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)[]\d[]*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [A-Z]+ [A-Z]+ [A-Z]+ +\S+ \(-\) \d \S+ \d \S+ \d+ \S+ \S+ \S+.*$" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, \[ANON\]" description="malware-polact0 ANON" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, [^:]*[:\[]([^]:]+).*" description="malware-polact0 user" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, \[ANON\]" description="malware-polact1 ANON" format="Malware Detected in denied URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, [^:]*[:\[]([^]:]+).*" description="malware-polact1 user" format="Malware Detected in denied URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, \[ANON\]" description="malware-polact2 ANON" format="Malware Detected in redirected URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, [^:]*[:\[]([^]:]+).*" description="malware-polact2 user" format="Malware Detected in redirected URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], \[ANON\]" description="malware-polact3&amp;4 ANON" format="Malware Detected in rewritten URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], [^:]*[:\[]([^]:]+).*" description="malware-polact3&amp;4 user" format="Malware Detected in rewritten URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, \[ANON\]" description="malware-polact5 ANON" format="Malware Detected in monitored URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, [^:]*[:\[]([^]:]+).*" description="malware-polact5 user" format="Malware Detected in monitored URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, \[ANON\]" description="malware-polact6 ANON" format="Malware Detected in branched rule set URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, [^:]*[:\[]([^]:]+).*" description="malware-polact6 user" format="Malware Detected in branched rule set URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, \[ANON\]" description="polact0 ANON" format="URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, [^:]*[:\[]([^]:]+).*" description="polact0 user" format="URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, \[ANON\]" description="polact1 ANON" format="Denied URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, [^:]*[:\[]([^]:]+).*" description="polact1 user" format="Denied URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, \[ANON\]" description="polact2 ANON" format="Redirected URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, [^:]*[:\[]([^]:]+).*" description="polact2 user" format="Redirected URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], \[ANON\]" description="polact3&amp;4 ANON" format="Rewritten URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], [^:]*[:\[]([^]:]+).*" description="polact3&amp;4 user" format="Rewritten URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, \[ANON\]" description="polact5 ANON" format="Monitored URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [^:]*[:\[]([^]:]+).*" description="polact5 user" format="Monitored URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, \[ANON\]" description="polact6 ANON" format="Branched rule set URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, [^:]*[:\[]([^]:]+).*" description="polact6 user" format="Branched rule set URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="empty-category" format="" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="1, byf, WebTrafficAudit: http_scan, sniff, barracuda_pqman, logger - non-translatable characters (no action fields)" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [A-Z]+ ([A-Z]+) ([A-Z]+) +.*https?://\S+$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)[]\d[]*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [A-Z]+ [A-Z]+ [A-Z]+ +.*https?://\S+$" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="ALLOWED" description="allow" format="URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="block" format="Block URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED" description="detect" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, byf, WebTrafficAudit: http_scan" matcher="^(\d+) ([-\w.]+) \w+\[\d+\]: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (\S+) \d+ [A-Z]+ ([A-Z]+) ([A-Z]+) *$" pattern="^\d+ [-\w.]+ http_?scan\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ \S+ \d+ [A-Z]+ [A-Z]+ [A-Z]+ *$" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ALLOWED" description="allow" format="URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="block" format="Block URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED" description="detect" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="error:(.+)" description="error" format="Content Type: &quot;$6&quot;, Error: &quot;$11&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="2, byf, WebTrafficAudit: http_scan (referrer at end)" matcher="^(\d+) ([-\w.]+) \w+\[\d+\]: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (\S+) \d+ [A-Z]+ ([A-Z]+) ([A-Z]+)  .*$" pattern="^\d+ [-\w.]+ http_?scan\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ \S+ \d+ [A-Z]+ [A-Z]+ [A-Z]+  .*$" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ALLOWED" description="allow" format="URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="block" format="Block URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED" description="detect" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:(.+)" description="error" format="Content Type: &quot;$6&quot;, Error: &quot;$11&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="3, md5, WebTrafficAudit: http_scan, sniff, barracuda_pqman, logger {block url}" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [a-f\d]+ ([A-Z]+) ([A-Z]+) \S+ +\d \d \d (\d+) \d .+ (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+) *$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)[]\d[]*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ BLOCKED URL \S+ +\d \d \d \d+ \d .+ \d \S+ \d \S+ \d+ \S+ \S+ \S+ *$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, \[ANON\]" description="malware-polact0 ANON" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, [^:]*[:\[]([^]:]+).*" description="malware-polact0 user" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, \[ANON\]" description="malware-polact1 ANON" format="Malware Detected in denied URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, [^:]*[:\[]([^]:]+).*" description="malware-polact1 user" format="Malware Detected in denied URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, \[ANON\]" description="malware-polact2 ANON" format="Malware Detected in redirected URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, [^:]*[:\[]([^]:]+).*" description="malware-polact2 user" format="Malware Detected in redirected URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], \[ANON\]" description="malware-polact3&amp;4 ANON" format="Malware Detected in rewritten URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], [^:]*[:\[]([^]:]+).*" description="malware-polact3&amp;4 user" format="Malware Detected in rewritten URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, \[ANON\]" description="malware-polact5 ANON" format="Malware Detected in monitored URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, [^:]*[:\[]([^]:]+).*" description="malware-polact5 user" format="Malware Detected in monitored URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, \[ANON\]" description="malware-polact6 ANON" format="Malware Detected in branched rule set URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, [^:]*[:\[]([^]:]+).*" description="malware-polact6 user" format="Malware Detected in branched rule set URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, \[ANON\]" description="polact0 ANON" format="URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, [^:]*[:\[]([^]:]+).*" description="polact0 user" format="URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, \[ANON\]" description="polact1 ANON" format="Denied URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, [^:]*[:\[]([^]:]+).*" description="polact1 user" format="Denied URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, \[ANON\]" description="polact2 ANON" format="Redirected URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, [^:]*[:\[]([^]:]+).*" description="polact2 user" format="Redirected URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], \[ANON\]" description="polact3&amp;4 ANON" format="Rewritten URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], [^:]*[:\[]([^]:]+).*" description="polact3&amp;4 user" format="Rewritten URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, \[ANON\]" description="polact5 ANON" format="Monitored URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [^:]*[:\[]([^]:]+).*" description="polact5 user" format="Monitored URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, \[ANON\]" description="polact6 ANON" format="Branched rule set URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, [^:]*[:\[]([^]:]+).*" description="polact6 user" format="Branched rule set URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="empty-category" format="" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="4, md5, VirusTrafficAccess: http_scan, sniff, barracuda_pqman, logger {block virus}" matcher="(\d+) ([-\w.]+) \w+\S*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [a-zA-Z\d]+ ([A-Z]+) [A-Z]+ (.+) +\d \d \d (\d+) \d .+ (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+).*" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)\S*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-zA-Z\d]+ BLOCKED VIRUS .+ +\d \d \d \d+ \d .+ \d \S+ \d \S+ \d+ \S+ \S+ \S+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Blocked URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, \[ANON\]" description="malware-polact0 ANON" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, [^:]*[:\[]([^]:]+).*" description="malware-polact0 user" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, \[ANON\]" description="malware-polact1 ANON" format="Malware Detected in denied URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, [^:]*[:\[]([^]:]+).*" description="malware-polact1 user" format="Malware Detected in denied URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, \[ANON\]" description="malware-polact2 ANON" format="Malware Detected in redirected URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, [^:]*[:\[]([^]:]+).*" description="malware-polact2 user" format="Malware Detected in redirected URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], \[ANON\]" description="malware-polact3&amp;4 ANON" format="Malware Detected in rewritten URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], [^:]*[:\[]([^]:]+).*" description="malware-polact3&amp;4 user" format="Malware Detected in rewritten URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, \[ANON\]" description="malware-polact5 ANON" format="Malware Detected in monitored URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, [^:]*[:\[]([^]:]+).*" description="malware-polact5 user" format="Malware Detected in monitored URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, \[ANON\]" description="malware-polact6 ANON" format="Malware Detected in branched rule set URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, [^:]*[:\[]([^]:]+).*" description="malware-polact6 user" format="Malware Detected in branched rule set URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, \[ANON\]" description="polact0 ANON" format="URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, [^:]*[:\[]([^]:]+).*" description="polact0 user" format="URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, \[ANON\]" description="polact1 ANON" format="Denied URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, [^:]*[:\[]([^]:]+).*" description="polact1 user" format="Denied URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, \[ANON\]" description="polact2 ANON" format="Redirected URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, [^:]*[:\[]([^]:]+).*" description="polact2 user" format="Redirected URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], \[ANON\]" description="polact3&amp;4 ANON" format="Rewritten URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], [^:]*[:\[]([^]:]+).*" description="polact3&amp;4 user" format="Rewritten URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, \[ANON\]" description="polact5 ANON" format="Monitored URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [^:]*[:\[]([^]:]+).*" description="polact5 user" format="Monitored URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, \[ANON\]" description="polact6 ANON" format="Branched rule set URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, [^:]*[:\[]([^]:]+).*" description="polact6 user" format="Branched rule set URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Virus Info: &quot;$9&quot;, URL &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6, URL &quot;$7&quot;" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="VirusName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="stream=&gt;(.*) FOUND" description="stream" format="$18" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="5, md5, WebTrafficAudit: http_scan, sniff, barracuda_pqman, logger" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (\S+) \d+ [a-f\d]+ ([A-Z]+) ([A-Z]+) +\d \d \d (\d+) \d .+ (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+) *$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)[]\d[]*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ [A-Z]+ [A-Z]+ +\d \d \d \d+ \d .+ \d \S+ \d \S+ \d+ \S+ \S+ \S+ *$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, \[ANON\]" description="malware-polact0 ANON" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, [^:]*[:\[]([^]:]+).*" description="malware-polact0 user" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, \[ANON\]" description="malware-polact1 ANON" format="Malware Detected in denied URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, [^:]*[:\[]([^]:]+).*" description="malware-polact1 user" format="Malware Detected in denied URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, \[ANON\]" description="malware-polact2 ANON" format="Malware Detected in redirected URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, [^:]*[:\[]([^]:]+).*" description="malware-polact2 user" format="Malware Detected in redirected URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], \[ANON\]" description="malware-polact3&amp;4 ANON" format="Malware Detected in rewritten URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], [^:]*[:\[]([^]:]+).*" description="malware-polact3&amp;4 user" format="Malware Detected in rewritten URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, \[ANON\]" description="malware-polact5 ANON" format="Malware Detected in monitored URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, [^:]*[:\[]([^]:]+).*" description="malware-polact5 user" format="Malware Detected in monitored URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, \[ANON\]" description="malware-polact6 ANON" format="Malware Detected in branched rule set URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, [^:]*[:\[]([^]:]+).*" description="malware-polact6 user" format="Malware Detected in branched rule set URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, \[ANON\]" description="polact0 ANON" format="URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, [^:]*[:\[]([^]:]+).*" description="polact0 user" format="URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, \[ANON\]" description="polact1 ANON" format="Denied URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, [^:]*[:\[]([^]:]+).*" description="polact1 user" format="Denied URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, \[ANON\]" description="polact2 ANON" format="Redirected URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, [^:]*[:\[]([^]:]+).*" description="polact2 user" format="Redirected URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], \[ANON\]" description="polact3&amp;4 ANON" format="Rewritten URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], [^:]*[:\[]([^]:]+).*" description="polact3&amp;4 user" format="Rewritten URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, \[ANON\]" description="polact5 ANON" format="Monitored URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [^:]*[:\[]([^]:]+).*" description="polact5 user" format="Monitored URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, \[ANON\]" description="polact6 ANON" format="Branched rule set URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, [^:]*[:\[]([^]:]+).*" description="polact6 user" format="Branched rule set URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="empty-category" format="" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="5, md5, WebTrafficAudit: http_scan, sniff, barracuda_pqman, logger" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (\S+) \d+ [a-f\d]+ ([A-Z]+) ([A-Z]+) +\d \d \d (\d+) \d .+ (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+) *$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff|barracuda_pqman|logger)[]\d[]*: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ [A-Z]+ [A-Z]+ +\d \d \d \d+ \d .+ \d \S+ \d \S+ \d+ \S+ \S+ \S+ *$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, \[ANON\]" description="malware-polact0 ANON" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, [^:]*[:\[]([^]:]+).*" description="malware-polact0 user" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, \[ANON\]" description="malware-polact1 ANON" format="Malware Detected in denied URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, [^:]*[:\[]([^]:]+).*" description="malware-polact1 user" format="Malware Detected in denied URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, \[ANON\]" description="malware-polact2 ANON" format="Malware Detected in redirected URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, [^:]*[:\[]([^]:]+).*" description="malware-polact2 user" format="Malware Detected in redirected URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], \[ANON\]" description="malware-polact3&amp;4 ANON" format="Malware Detected in rewritten URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [34], [^:]*[:\[]([^]:]+).*" description="malware-polact3&amp;4 user" format="Malware Detected in rewritten URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, \[ANON\]" description="malware-polact5 ANON" format="Malware Detected in monitored URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, [^:]*[:\[]([^]:]+).*" description="malware-polact5 user" format="Malware Detected in monitored URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, \[ANON\]" description="malware-polact6 ANON" format="Malware Detected in branched rule set URL access by &quot;$4&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, [^:]*[:\[]([^]:]+).*" description="malware-polact6 user" format="Malware Detected in branched rule set URL access by &quot;$18&quot;" matcherInput="$11, $10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, \[ANON\]" description="polact0 ANON" format="URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0, [^:]*[:\[]([^]:]+).*" description="polact0 user" format="URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, \[ANON\]" description="polact1 ANON" format="Denied URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1, [^:]*[:\[]([^]:]+).*" description="polact1 user" format="Denied URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, \[ANON\]" description="polact2 ANON" format="Redirected URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2, [^:]*[:\[]([^]:]+).*" description="polact2 user" format="Redirected URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], \[ANON\]" description="polact3&amp;4 ANON" format="Rewritten URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="[34], [^:]*[:\[]([^]:]+).*" description="polact3&amp;4 user" format="Rewritten URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, \[ANON\]" description="polact5 ANON" format="Monitored URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, [^:]*[:\[]([^]:]+).*" description="polact5 user" format="Monitored URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, \[ANON\]" description="polact6 ANON" format="Branched rule set URL access by &quot;$4&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6, [^:]*[:\[]([^]:]+).*" description="polact6 user" format="Branched rule set URL access by &quot;$18&quot;" matcherInput="$10, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in URL access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in URL access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="\s*\((.*)\).*" description="parens" format="$6" matcherInput="$4" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="Web Content" format="Web Content" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$15" fieldName="Category" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="-" description="empty-category" format="" matcherInput="$15" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="6, md5, WebTrafficAudit: http_scan" matcher="^(\d+) ([-\w.]+) \w+\[\d+\]: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [a-f\d]+ ([A-Z]+) ([A-Z]+) *$" pattern="^\d+ [-\w.]+ http_?scan\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ [A-Z]+ [A-Z]+ *$" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ALLOWED" description="allow" format="URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="block" format="Block URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED" description="detect" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="Content Type: &quot;$6&quot;, Error: &quot;$10&quot;" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="error:.*" description="error" format="" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="7, md5, WebTrafficAudit: http_scan, sniff  {too big}" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [a-f\d]+ ([A-Z]+) ([A-Z]+) &quot;(\S{800,})$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff)\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ [A-Z]+ [A-Z]+ &quot;(\S{800,})$" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ALLOWED" description="allow" format="URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED" description="block" format="Block URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED" description="detect" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="BLOCKED" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="8, md5, WebTrafficAudit: pcaptor" matcher="^(\d+) ([-\w.]+) \w+\[\d+\]: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ ([A-Z]+) \d+ [A-Za-f\d]+ ?DETECTED IP [\d.]+ (\S+) *$" pattern="^\d+ [-\w.]+ pcaptor\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ [A-Z]+ \d+ [A-Za-f\d]+ ?DETECTED IP [\d.]+ \S+ *$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Malware Detected in URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Spy ID: &quot;$8&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="\[(.+)\]" description="brackets" format="Content Type: &quot;$6&quot;, Spy ID: &quot;$10&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Adware" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="UNKNOWN" description="unknown" format="" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferTrafficAudit" description="9, md5, FileTransferTrafficAudit: ftpscan" matcher="^(\d+) ([-\w.]+) \w+\[\d+\]: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [a-f\d]+ ([A-Z]+) ([A-Z]+) +\d \d \d (\d+) \d \S+ (\d) \S+ (\d) (\S+) \d+ (\S+) (\S+) (\S+) *$" pattern="^\d+ [-\w.]+ ftpscan\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ [A-Z]+ [A-Z]+ +\d \d \d \d+ \d \S+ \d \S+ \d \S+ \d+ \S+ \S+ \S+ *$" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8 URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ALLOWED, ANON" description="allow-anon" format="FTP access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, ANON" description="block-anon" format="Block FTP access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, ANON" description="detect-anon" format="Malware Detected in FTP access by &quot;$4&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, \[?(local|ldap\d*):\[?([^]]+).*" description="allow-typed" format="FTP access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, \[?(local|ldap\d*):\[?([^]]+).*" description="block-typed" format="Block FTP access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, \[?(local|ldap\d*):\[?([^]]+).*" description="detect-typed" format="Malware Detected in FTP access by &quot;$19&quot; ($18)" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="ALLOWED, [^:]*[:\[]([^]:]+).*" description="allow" format="FTP access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="BLOCKED, [^:]*[:\[]([^]:]+).*" description="block" format="Block FTP access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="DETECTED, [^:]*[:\[]([^]:]+).*" description="detect" format="Malware Detected in FTP access by &quot;$18&quot;" matcherInput="$8, $16" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;, Policy Action: &quot;$10&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" fieldName="ExtraneousInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="5, 0, 0" description="polact0-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 1" description="polact0-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 0, 2" description="polact0-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 0" description="polact1-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 1" description="polact1-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 1, 2" description="polact1-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 0" description="polact2-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 1" description="polact2-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 2, 2" description="polact2-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 0" description="polact3-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 1" description="polact3-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 3, 2" description="polact3-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 0" description="polact4-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 1" description="polact4-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 4, 2" description="polact4-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 0" description="polact5-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 1" description="polact5-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 5, 2" description="polact5-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 0" description="polact6-spy0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;allow&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 1" description="polact6-spy1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;block&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5, 6, 2" description="polact6-spy2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;, Spy Type: &quot;infection&quot;, Spy ID: &quot;$13&quot;" matcherInput="$11, $10, $12" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="0" description="polact0" format="Content Type: &quot;$6&quot;, Policy Action: &quot;allowed&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="1" description="polact1" format="Content Type: &quot;$6&quot;, Policy Action: &quot;denied&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="2" description="polact2" format="Content Type: &quot;$6&quot;, Policy Action: &quot;redirected&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="3" description="polact3" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by add/set a new parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="4" description="polact4" format="Content Type: &quot;$6&quot;, Policy Action: &quot;rewrote by delete an existing parameter in query&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="5" description="polact5" format="Content Type: &quot;$6&quot;, Policy Action: &quot;matched a rule and allowed but marked as monitored&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="6" description="polact6" format="Content Type: &quot;$6&quot;, Policy Action: &quot;branched to another rule set&quot;, Matched On: &quot;$14&quot;, Category: &quot;$15&quot;, File: &quot;$7&quot;" matcherInput="$10" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="5" description="adware" format="Adware" matcherInput="$11" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="10, md5, ServiceWarning: http_scan, sniff {null}" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (.+) \d+ [a-f\d]+ \(null\) *$" pattern="^\d+ [-\w.]+ (?:http_?scan|sniff)\[\d+\]: \d+ \d [\d.]+ \S+ \S+ [\d.]+ .+ \d+ [a-f\d]+ \(null\) *$" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Error on URL access by &quot;$5&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$7&quot;, Dst IP: $6" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebTrafficAudit" description="11, WebTrafficAudit: http_scan, sniff  {truncated lines}" matcher="^(\d+) ([-\w.]+) \w+[]\d[]*: (\d+) \d ([\d.]+) (\S+) (\S+) [\d.]+ (\S+)(.+)" pattern="^.{1024,}" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Unknown action taken for URL access by &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*ALLOWED.*" description="allow" format="URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*BLOCKED.*" description="block" format="Block URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition=".*DETECTED.*" description="detect" format="Malware Detected in URL access by &quot;$4&quot;" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Content Type: &quot;$6&quot;; Truncated Log Line" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*BLOCKED.*" description="blocked" format="Web Content" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="URL" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched data" matcher="^(\d+) ([-\w.]+) (\w+)\[.*" pattern="^\d+ [-\w.]+ \w+(?:\[\d+\])?: \d+ \d \S+ \S+ \S+ [\d.]+ \S+ \d+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched Barracuda Web Filter data ($Revision: #5 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: the ultimate black hole" matcher=".*" pattern=".*" version="3" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

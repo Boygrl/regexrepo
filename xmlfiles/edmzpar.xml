@@ -1,0 +1,1086 @@
+<?xml version='1.0' encoding='UTF-8'?><FASTConfiguration _type="null">
+	<DefaultReaderConfiguration _type="null" autoStart="true" categoryTags="syslog" description="eDMZ Password Auto Repository" fullDescription="Collects events from eDMZ appliances (also called Quest Privileged Password Manager)." logInterval="1" logLocation="/var/log/user.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="eDMZ_PAR" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="edmzpar" toolType="Identity and Access Management" vendor="Quest/eDMZ" version="$Revision: #5 $">
+		<file _type="null" attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true">
+		</file>
+		<string _type="null" attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" guiVersion="4" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false">
+		</string>
+		<integer _type="null" attributeName="logManagementPort" enabled="false" guiVersion="4" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false">
+		</integer>
+		<select _type="null" attributeName="readerOutput" enabled="false" guiVersion="4" labelText="Output:" preferredOrder="90" selectItems="Alert;InDepth;Alert, InDepth" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" visible="false">
+		</select>
+		<integer _type="null" attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true">
+		</integer>
+		<string _type="null" attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true">
+		</string>
+		<string _type="null" attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true">
+		</string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="eDMZ Password Auto Repository" id="edmzpar" version="43" version_type="int">
+		<FastPattern _type="null" alertName="ChangeDomainMember" description="1, ChangeDomainMember: user; Update, ManagedAccount" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Update ObjectType: ManagedAccount Target: .+ Role: [/\w]+ Failed\?" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="1" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ChangeType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChangeGroupAttribute" description="2, ChangeGroupAttribute: user; Update, Group" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Update ObjectType: Group Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="2" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteDomainMember" description="3, DeleteDomainMember: admin; Delete, Sys-Admin User" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Delete ObjectType: Sys-Admin User ObjectName: .+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="3" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-mem" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteDomainMember" description="4, DeleteDomainMember: admin; Delete, User" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Delete ObjectType: User ObjectName: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-mem" format="$9" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteDomainMember" description="5, DeleteDomainMember: user; Delete, User" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Delete ObjectType: User Target: .+ Role: [/\w]+ Failed\?" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="5" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteDomainMember" description="6, DeleteDomainMember: user; Soft-Delete, ManagedSystem" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Soft-Delete ObjectType: ManagedSystem Target: .+ Role: [/\w]+ Failed\?" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="6" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteGroup" description="7, DeleteGroup: user; Delete Member, Group" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Delete Member ObjectType: Group Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="7" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="DeleteGroupMember" description="8, DeleteGroupMember: user; Delete, CollectionMember" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Delete ObjectType: CollectionMember Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="8" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="grp-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="grp-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="9, FileAuditFailure: user; Add, ManagedFile" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: ManagedFile Target: .+ Role: [/\w]+ Failed\? 1" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="9" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="10, FileAuditFailure: user; Replace, Historical File" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Replace ObjectType: Historical File Target: .+ Role: [/\w]+ Failed\? 1" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="10" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileAuditFailure" description="11, FileAuditFailure: user; Retrieve File, File" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Retrieve File ObjectType: File Target: .+ Role: [/\w]+ Failed\? 1" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="11" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileCreate" description="12, FileCreate: user; Add, ManagedFile" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: ManagedFile Target: .+ Role: [/\w]+ Failed\? 0" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="12" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileRead" description="13, FileRead: user; Retrieve File, File" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Retrieve File ObjectType: File Target: .+ Role: [/\w]+ Failed\? 0" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="13" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileWrite" description="14, FileWrite: user; Replace, Historical File" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Replace ObjectType: Historical File Target: .+ Role: [/\w]+ Failed\? 0" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="14" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="FileName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="GroupPolicyModify" description="15, GroupPolicyModify: user; Grant, Collection Permission" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Grant ObjectType: Collection Permission Target: .+ Role: [/\w]+ Failed\?" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 $6 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 $6 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="15" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesUsed" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineAuthAudit" description="16, MachineAuthAudit: user; Clear, System" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Clear ObjectType: System Target: .+ Role: [/\w]+ Failed\?" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="16" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-acct" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-acct" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineAuthAudit" description="17, MachineAuthAudit: user; Test System, System" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Test System ObjectType: System Target: .+ Role: [/\w]+ Failed\?" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="17" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-acct" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-acct" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineModifyAttribute" description="18, MachineModifyAttribute: user; Update, System" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Update ObjectType: System Target: .+ Role: [/\w]+ Failed\?" version="3" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="18" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="2" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-acct" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-acct" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MachineModifyPrivileges" description="19, MachineModifyPrivileges: user; Revoke, System Permission" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Revoke ObjectType: System Permission Target: .+ Role: [/\w]+ Failed\?" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 $6 on &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 $6 on &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="19" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="AccessGranted" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="AccessTarget" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewDomainMember" description="20, NewDomainMember: user; Add, ManagedAccount" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: ManagedAccount Target: .+ Role: [/\w]+ Failed\?" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="20" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewDomainMember" description="21, NewDomainMember: user; Add, System" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: System Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="21" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="DestinationAccountType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DomainMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroup" description="22, NewGroup: user; Add, Collection" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: Collection Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="22" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroup" description="23, NewGroup: user; Add, Group" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: Group Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="23" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroupMember" description="24, NewGroupMember: user; Add, CollectionMember" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add ObjectType: CollectionMember Target: .+ Role: [/\w]+ Failed\?" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="24" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="grp-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupMember" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="grp-mem" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NewGroupMember" description="25, NewGroupMember: user; Add Member, Group" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Add Member ObjectType: Group Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 to &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="25" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="GroupName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="GroupType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="26, PolicyModify: admin; Change, Backup Settings" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Change ObjectType: Backup Settings ObjectName: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="26" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5 $6 on target &quot;$7&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="$5 $6" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="27, PolicyModify: admin; Change, Daily maintenance Start Time" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Change ObjectType: Daily maintenance Start Time ObjectName: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="27" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5 $6 on target &quot;$7&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="$5 $6" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PolicyModify" description="28, PolicyModify: admin; Change, SysLog Config Settings" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Change ObjectType: SysLog Config Settings ObjectName: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="28" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5 $6 on target &quot;$7&quot;" fieldName="ChangeDetails" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="$5 $6" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ProcessInfo" description="29, ProcessInfo: admin; Run, Backup" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Run ObjectType: Backup ObjectName: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 $6" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="29" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5 $6 on target &quot;$7&quot;" fieldName="EventMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="$5 $6" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="30, UserAuthAudit: user; Check Password, Account Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Check Password ObjectType: Account Password Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="30" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="31, UserAuthAudit: user; Expired early, Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Expired early ObjectType: Password Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$6 $5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$6 $5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="31" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="32, UserAuthAudit: user; Retrieve Password, Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) *Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Retrieve [\w ]+ ObjectType: Password Target: .+ Role: [/\w]+ *Failed\?" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="32" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="33, UserModifyAttribute: user; Force Change, Account Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Force Change ObjectType: Account Password Target: .+ Role: [/\w]+ Failed\?" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="33" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="34, UserModifyAttribute: user; Force Change, Account Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Force Change Manual ObjectType: Account Password Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="34" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserModifyAttribute" description="35, UserModifyAttribute: user; Manual Entry, Account Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Manual Entry ObjectType: Account Password Target: .+ Role: [/\w]+ Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="35" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="Modification" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="36, UserLogon: admin" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: Logon ObjectType: Authentication ObjectName: .+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="36" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogon" description="37, UserLogon: user" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Logon ObjectType: Authentication Target: .+ Role: [/\w]+ Failed\? 0" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="37" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserLogonFailure" description="38, UserLogonFailure: user" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Logon ObjectType: Authentication Target: .+ Role: [/\w]+ Failed\? 1" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Logon Failure &quot;$4&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="38" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="LogonProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectDelete" description="39, ObjectDelete: admin" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: (?:Delete Member|Delete|Soft-Delete) ObjectType: [-\w ]+ ObjectName: .+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Operation &quot;$5&quot; on target &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="Operation &quot;$5&quot; on &quot;$6&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="39" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="AccessRequested" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectDelete" description="40, ObjectDelete: user" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: (?:Delete Member|Delete|Soft-Delete) ObjectType: [-\w ]+ Target: .+ Role: [/\w]+ Failed\? 0" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Operation &quot;$5&quot; on target &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="Operation &quot;$5&quot; on &quot;$6&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="40" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:None|N/A)" description="none" format="" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="41, ObjectAudit: admin" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: AdminName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) ObjectName: (.+?) *$" pattern="^\d+ [-\w.]+ PAR\[\d+\]: AdminName: .+ Operation: [-\w ]+ ObjectType: [-\w ]+ ObjectName: .+" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Operation &quot;$5&quot; on target &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="Operation &quot;$5&quot; on &quot;$6&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="41" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="Admin" fieldName="AccessRequested" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAudit" description="42, ObjectAudit: user" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.*) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: [-\w ]+ ObjectType: [-\w ]+ Target: .* Role: [/\w]+ Failed\? 0" version="4" version_type="int">
+			<FastField _type="null" defaultValue="Operation &quot;$5&quot; on target &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="Operation &quot;$5&quot; on &quot;$6&quot;" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+				<FastFormatter _type="null" condition="" description="target" format="Operation &quot;$5&quot; on target" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="42" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:None|N/A)" description="none" format="" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ObjectAuditFailure" description="43, ObjectAuditFailure: user" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: [-\w ]+ ObjectType: [-\w ]+ Target: .+ Role: [/\w]+ Failed\? 1" version="3" version_type="int">
+			<FastField _type="null" defaultValue="Operation &quot;$5&quot; on target &quot;$7&quot; failed" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:N/A|None)" description="na" format="Operation &quot;$5&quot; on &quot;$6&quot; failed" matcherInput="$7" version="2" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="43" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="ObjectType" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="ObjectName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="OperationType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(?i)(?:None|N/A)" description="none" format="" matcherInput="$8" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SystemShutdown" description="44, SystemShutdown: shutting down" matcher="^(\d+) ([-\w.]+) shutdown\[\d+\]: (.+)" pattern="^\d+ [-\w.]+ shutdown\[\d+\]: shutting down for system \w+" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$3" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="44" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="45, ServiceInfo: kernel, static data" matcher="^(\d+) ([-\w.]+) (\w+): (.+)" pattern="^\d+ [-\w.]+ kernel: [a-f\d]+, static data \d+ bytes" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="45" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="InfoMessage" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UserAuthAudit" description="46, UserAuthAudit: user; start session, session Password" matcher="^(\d+) ([-\w.]+) (\w+)\[\d+\]: UserName: (.+) Operation: ([-\w ]+) ObjectType: ([-\w ]+) Target: (.+) Role: ([/\w]+) *Failed\? (\d).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: UserName: .+ Operation: Start Session ObjectType: Session Target: .+ Role: [/\w]+ *Failed\?" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$5 for &quot;$7&quot;" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="1" description="fail" format="$5 for &quot;$7&quot; failed" matcherInput="$9" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="46" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="SourceAccount" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationAccount" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".+/(.+)" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="" fieldName="DestinationDomain" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="(.+)/.+" description="dom-user" format="$11" matcherInput="$7" version="1" version_type="int">
+				</FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="PrivilegesExercised" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="InternalNewToolData" description="InternalNewToolData: unmatched" matcher="^(\d+) ([-\w.]+).*" pattern="^\d+ [-\w.]+ PAR\[\d+\]: \w+Name: .+ Operation: .+ ObjectType:" version="1" version_type="int">
+			<FastField _type="null" defaultValue="Unmatched eDMZ PAR data ($Revision: #5 $)" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="DetectionIP" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$0" fieldName="ExtraneousInfo" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="OperationID" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+			<FastField _type="null" defaultValue="$3" fieldName="ServingProcess" type="1" type_type="int" version="1" version_type="int">
+			</FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" alertName_type="null" description="NullAlert: black hole" matcher=".*" pattern=".*" version="1" version_type="int">
+		</FastPattern>
+	</FastToolId>
+</FASTConfiguration>

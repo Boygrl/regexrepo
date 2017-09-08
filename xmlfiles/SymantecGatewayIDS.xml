@@ -1,0 +1,597 @@
+<?xml version="1.0" ?><FASTConfiguration>
+	<DefaultReaderConfiguration autoStart="true" description="Symantec Gateway IDS" logInterval="1" logLocation="/var/log/symantec.log" logManagementOutput="10.254.10.18" logManagementPort="10101" logStartPoint="-1" logType="UnixSyslogFileReader" node="manager,spop" readerName="Symantec Gateway IDS" readerOutput="Alert" stateVars="logStartPoint,readerName" toolId="SymantecGatewayIDS" toolType="IDS and IPS" version="$Revision: #4 $" vendor="Symantec" fullDescription="Collects events from the Symantec Gateway IDS." categoryTags="syslog">
+		<file attributeName="logLocation" enabled="true" formatRule="" formatted="false" labelText="Log File:" preferredOrder="1" toolTipText="Directory or path to read from" visible="true"></file>
+		<string attributeName="logManagementOutput" enabled="false" formatRule="" formatted="false" labelText="nDepth Host:" preferredOrder="91" toolTipText="Hostname of the nDepth appliance to receive log data" visible="false" guiVersion="4"></string>
+		<integer attributeName="logManagementPort" enabled="false" labelText="nDepth Port:" maxValue="32000" minValue="0" preferredOrder="92" toolTipText="Port number of the nDepth appliance to receive log data" visible="false" guiVersion="4"></integer>
+		<select attributeName="readerOutput" enabled="false" labelText="Output:" preferredOrder="90" toolTipText="Data routing (normalized alerts to Manager and/or raw data to nDepth)" selectItems="Alert;InDepth;Alert, InDepth" visible="false" guiVersion="4"></select>
+		<integer attributeName="logInterval" enabled="true" labelText="Sleep Time:" maxValue="3660" minValue="1" preferredOrder="97" toolTipText="Number of seconds between log reads" visible="true"></integer>
+		<string attributeName="version" enabled="false" formatRule="" formatted="false" labelText="Tool Version:" preferredOrder="99" toolTipText="Tool version" visible="true"></string>
+		<string attributeName="toolId" enabled="false" formatRule="" formatted="false" labelText="Wrapper Name:" preferredOrder="98" toolTipText="Tool Identifier" visible="true"></string>
+	</DefaultReaderConfiguration>
+	<FastToolId _type="null" description="Symantec Gateway IDS" id="SymantecGatewayIDS" version="-1" version_type="int">
+		<FastPattern _type="null" alertName="ApplicationAccess" description="High/Med ApplicationAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(NOOP_String.*|mIRC_Nickname.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="NOOP_String" description="NOOP_String" format="NOOP String Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="mIRC_Nickname_Buffer_Overflow" description="mIRC_Nickname_Buffer_Overflow" format="mIRC Nickname Buffer Overflow Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationEnumerate" description="Low ApplicationEnumerate" matcher="(\d+) [\w\.]+ kernel: 525 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(DNS_.*Probe):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="DNS_Port_Probe" description="DNS_Port_Probe" format="DNS Port Probe Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ApplicationDenial" description="Med ApplicationDenial" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Ascend_Reboot.*|Oracle.*DoS):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="Ascend_Reboot_Sequence" description="Ascend_Reboot_Sequence" format="Ascend Reboot Sequence DoS Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Oracle_8i_dbsnmp_DoS" description="Oracle_8i_dbsnmp_DoS" format="Oracle 8i &quot;dbsnmp&quot; DoS Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChargenDenial" description="Med ChargenDenial" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Echo_Chargen.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="Echo_Chargen_Loop" description="Echo_Chargen_Loop" format="Echo/Chargen Loop DoS Attack Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChargenDenial" description="Med ConfigurationAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:50|25|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Bootp.*|SNMP.*|.*snmp.*|UPnP.*|Remote_.*_Access):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="9" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition="Bootp_Remote_Exec" description="Bootp_Remote_Exec" format="BootP Service Remote Execution Attempt Detected" matcherInput="$4" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Remote_PWL_Access" description="Remote_PWL_Access" format="Remote Password List Access Attempt Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Remote_Registry_Access" description="Remote_Registry_Access" format="Remote Registry Access Attempt Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Remote_SAM_Access" description="Remote_SAM_Access" format="Remote SAM Access Attempt Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SNMP_Community_Name_Root_Access" description="SNMP_Community_Name_Root_Access" format="SNMP Community Name Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="UPnP_NOTIFY_Buffer_Overflow" description="UPnP_NOTIFY_Buffer_Overflow" format="UPnP NOTIFY Buffer Overflow Attempt Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ChargenDenial" description="High/Med CoreDenial" matcher="(\d+) [\w\.]+ kernel: 5(?:75|50) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Cisco_IOS.*DoS|Bonk|Land|WinNuke):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="9" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="8" version_type="int">
+				<FastFormatter _type="null" condition="Cisco_IOS_Unusual_Proto_DoS" description="Cisco_IOS_Unusual_Proto_DoS" format="Cisco IOS Unusual Protocol DoS Attack Detected" matcherInput="$4" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Bonk" description="Bonk" format="Bonk DoS Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Land" description="Land" format="Land DoS Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="WinNuke" description="WinNuke" format="WinNuke DoS Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileSystemDenial" description="Med FileSystemDenial" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(NFS_Export):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="9" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="9" version_type="int">
+				<FastFormatter _type="null" condition="NFS_Export" description="NFS_Export" format="NFS Export DoS Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FTPFileAccess" description="Med FTPFileAccess" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(TFTP_Download):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="13" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="TFTP_Download" description="TFTP_Download" format="TFTP Download Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FTPCommandAccess" description="Med FTPCommandAccess" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(TFTP_Download):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="13" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="TFTP_Download" description="TFTP_Download" format="TFTP Download Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FTPInvalidFormatAccess" description="Med/High FTPInvalidFormatAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:FTP|ftp|Ftp).*(?:BO|Overflow|overflow)):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="13" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="AIX_FTPD_Buffer_Overflow" description="AIX_FTPD_Buffer_Overflow" format="AIX FTPd Buffer Overflow Attack Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="BFTP_SITE_CHOWN_BO" description="BFTP_SITE_CHOWN_BO" format="BFTP Site Chown Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Wuftpd_Site_Exec_Overflow" description="Wuftpd_Site_Exec_Overflow" format="WU-FTPd Site Exec Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="FileTransferAccess" description="Other FTP Stuff" matcher="(\d+) [\w\.]+ kernel: 5(?:50|75|25) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*FTP.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="14" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="11" version_type="int">
+				<FastFormatter _type="null" condition="TFTP_Download" description="TFTP_Download" format="TFTP Download Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPClientAccess" description="Med HTTPClientAccess" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:Cache_|Cookie_|_Control).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="16" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="12" version_type="int">
+				<FastFormatter _type="null" condition="Son_Of_Cache_Cow" description="Son_Of_Cache_Cow" format="Son of Cache Cow Attack Detected" matcherInput="$4" version="4" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Cache_Cow" description="Cache_Cow" format="Cache Cow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Cookie_Monster" description="Cookie_Monster" format="Cookie Monster Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Typelib_Or_Eyedog_Control" description="Typelib_Or_Eyedog_Control" format="Typelib or Eyedog Control Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPFileRequestAccess" description="Med/High HTTPFileRequestAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:Traversal|_[hH]t|_File_|_Exec|Download).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="19" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition="AltaVista_Traversal" description="AltaVista_Traversal" format="AltaVista Directory Traversal Attack Detected" matcherInput="$4" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Raq_Apache_dot_htaccess" description="Raq_Apache_dot_htaccess" format="Cobalt Raq .htaccess Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="URL_Directory_Traversal" description="URL_Directory_Traversal" format="URL Directory Traversal Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ASP_Download" description="ASP_Download" format="ASP File Download Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="BAT_EXecution_Via_HTTP" description="BAT_Execution_Via_HTTP" format="Batch File Download/Execution Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_CGI_Htgrep_File_Access" description="HTTP_CGI_Htgrep_File_Access" format="HTGrep File Access Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_Etc_Passwd_Download" description="HTTP_Etc_Passwd_Download" format="/etc/passwd Download Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_WinApache_Bat_Exec" description="HTTP_WinApache_Bat_Exec" format="Windows Apache Batch File Execution Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Php_Nuke_Remote_File_Copy" description="Php_Nuke_Remote_File_Copy" format="PHP-Nuke Remote File Copy Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPServiceAccess" description="Low/Med/High HTTPServiceAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:ISAPI|EZShop|QuickStore|SoftCart).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="20" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="14" version_type="int">
+				<FastFormatter _type="null" condition="HTTP_IIS_ISAPI_Extension" description="HTTP_IIS_ISAPI_Extension" format="IIS ISAPI Extension Attack Detected" matcherInput="$4" version="6" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_CGI_EZShopper_CmdExecution" description="HTTP_CGI_EZShopper_CmdExecution" format="EZShopper Command Execution Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_IIS_ISAPI_Printer" description="HTTP_IIS_ISAPI_Printer" format="IIS ISAPI Printer Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_CGI_QuickStore_Request" description="HTTP_CGI_QuickStore_Request" format="QuickStore Request Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_CGI_SoftCart_FileRequest" description="HTTP_CGI_SoftCart_FileRequest" format="SoftCart File Request Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPInvalidFormatAccess" description="Low/Med/High HTTPInvalidFormatAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:HTTP_.*_BO|Compaq_|HTTP_.*_Exploit|RDS|HTTP_.*_Overflow|Malformed_HTR|Redundant_Slashes).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="22" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="15" version_type="int">
+				<FastFormatter _type="null" condition="HTTP_MS_IIS_RAD_BO" description="HTTP_MS_IIS_RAD_BO" format="IIS RAD Buffer Overflow Attack Detected" matcherInput="$4" version="7" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Compaq_Agent_Traversal" description="Compaq_Agent_Traversal" format="Compaq Agent Traversal Attack Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_MS_IIS_Translate_Exploit" description="HTTP_MS_IIS_Translate_Exploit" format="IIS Translation Exploit Attack Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="RDS_Shell" description="RDS_Shell" format="IIS RDS Shell Attack Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_ActivePerl_Overflow" description="HTTP_ActivePerl_Overflow" format="ActivePerl Overflow Attack Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Malformed_HTR_IDC_Or_STM_Query" description="Malformed_HTR_IDC_Or_STM_Query" format="Malformed HTR IDC or STM Query Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Redundant_Slashes_In_URI" description="Redundant_Slashes_In_URI" format="Redundant Slashes in URI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="HTTPDynamicContentAccess" description="Low/Med/High HTTPDynamicContentAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:50|25|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:_CGI|ColdFusion|ASP_Data).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="17" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="13" version_type="int">
+				<FastFormatter _type="null" condition="Infosrch_CGI" description="Infosrch_CGI" format="InfoSearch CGI Attack Detected" matcherInput="$4" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_CGI_CFCache_Request" description="HTTP_CGI_CFCache_Request" format="ColdFusion Cache Request Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="PHF_CGI" description="PHF_CGI" format="PHF CGI Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Campas_CGI" description="Campas_CGI" format="Campas CGI Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ColdFusion_Path_Disclosure" description="ColdFusion_Path_Disclosure" format="ColdFusion Path Disclosure Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Convert_CGI" description="Convert_CGI" format="Convert CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="GetTempDirectory_CGI" description="GetTempDirectory_CGI" format="GetTempDirectory CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Glimpse_CGI" description="Glimpse_CGI" format="Glimpse CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="HTTP_ASP_DataSuffix_Request" description="HTTP_ASP_DataSuffix_Request" format="ASP DataSuffix Request Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="IIS_CGI_Decode_Command_Execution" description="IIS_CGI_Decode_Command_Execution" format="IIS CGI Decode Command Execution Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="NPH_Test_CGI" description="NPH_Test_CGI" format="NPH Test CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Test_CGI" description="Test_CGI" format="Test CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Uploader_CGI" description="Uploader_CGI" format="Uploader CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="View_Source_CGI" description="View_Source_CGI" format="View Source CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="WebGais_Remote_Command_Exec" description="WebGais_Remote_Comand_Exec" format="WebGais Remote Command Execution Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Win_C_Sample_CGI" description="Win_C_Sample_CGI" format="Win-C-Sample CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Wrap_CGI" description="Wrap_CGI" format="Wrap CGI Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ICMPTrafficAudit" description="Low/Med ICMP Audits" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(ICMP_.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP Traffic" fieldName="AlertActivityType" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition="ICMP_Mask_Request" description="ICMP_Mask_Request" format="ICMP Address Mask Request" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_Time_Request" description="ICMP_Time_Request" format="ICMP Timestamp Request" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_Dest_Proto_Unreachable" description="ICMP_Dest_Proto_Unreachable" format="ICMP Protocol Unreachable" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_*_Redirect" description="ICMP_*_Redirect" format="ICMP Redirect" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="ICMP_Mask_Request" description="ICMP_Mask_Request" format="ICMP Mask Request Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_Time_Request" description="ICMP_Time_Request" format="ICMP Time Request Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_Dest_Proto_Unreachable" description="ICMP_Dest_Proto_Unreachable" format="ICMP Destination Protocol Unreachable Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_Host_Redirect" description="ICMP_Host_Redirect" format="ICMP Host Redirect Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_Net_Redirect" description="ICMP_Net_Redirect" format="ICMP Net Redirect Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_TOS_Host_Redirect" description="ICMP_TOS_Host_Redirect" format="ICMP TOS Host Redirect Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="ICMP_TOS_Net_Rediret" description="ICMP_TOS_Net_Redirect" format="ICMP TOS Net Redirect Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="ICMP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="IPTrafficAudit" description="Low/Med IP Audits" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:_Timestamp|_Route)):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP Traffic" fieldName="AlertActivityType" type="1" type_type="int" version="3" version_type="int">
+				<FastFormatter _type="null" condition="IP_Timestamp" description="IP_Timestamp" format="IP Timestamp" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)_Source_Route" description="Loose/Strict_Source_Route" format="IP $9 Source Route" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Record_Route" description="Record_Route" format="IP Record Packet Route" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="IP_Timestamp" description="IP_Timestamp" format="IP Timestamp Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)_Source_Route" description="Loose/Strict_Source_Route" format="$9 Source Route Detected" matcherInput="$4" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Record_Route" description="Record_Route" format="Record Route Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailDeliveryAccess" description="High MailDeliveryAccess" matcher="(\d+) [\w\.]+ kernel: 575 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*POP.*[oO]verflow):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="UW_POP2d_FOLD_buffer_overflow" description="UW_POP2d_FOLD_Buffer_Overflow" format="UW POP2d FOLD Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="MailTransferAccess" description="Med/High MailTransferAccess" matcher="(\d+) [\w\.]+ kernel: 5(?:50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:Sendmail|Lotus).*(?:Bypass|[oO]verflow)):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="SMTP_Sendmail_Field_Overflow" description="SMTP_Sendmail_Field_Overflow" format="Sendmail Field Overflow Attack Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SMTP_Sendmail_From_Overflow" description="SMTP_Sendmail_From_Overflow" format="Sendmail From Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Lotus_Domino_Password_Bypass" description="Lotus_Domino_Password_Bypass" format="Lotus Domino Password Bypass Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NamingAccess" description="Low/Med/High Naming Access" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:DNS_|Madx).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="DNS_NXT_Buffer_Overflow" description="DNS_NXT_Buffer_overflow" format="DNS NXT Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="DNS_Tsig_Buffer_Overflow" description="DNS_Tsig_Buffer_Overflow" format="DNS TSig Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Madxname" description="Madxname" format="Madxname Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Null_DNS_Query" description="Null_DNS_Query" format="Null DNS Query Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="UDP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="PrinterAccess" description="High PrinterAccess" matcher="(\d+) [\w\.]+ kernel: 575 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*LPR.*Root):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Linux_LPRng_Root" description="Linux_LPRng_Root" format="Linux LPRng Root Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RemoteConsoleAccess" description="Med RemoteConsoleAccess" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:CDE|Rusers|SSH|Login_Buffer).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="CDE_Subprocess_Control_Buffer_Overflow" description="CDE_Subprocess_Control_Buffer_Overflow" format="CDE Subprocess Control Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Login_Buffer_Overflow" description="Login_Buffer_Overflow" format="Login Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Rusers_Query" description="Rusers_Query" format="RUsers Query Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SSH1_CRC32_Boundary_Overflow" description="SSH1_CRC32_Boundary_Overflow" format="SSH1 CRC32 Boundary Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="RemoteProcedureAccess" description="High RemoteProcedure" matcher="(\d+) [\w\.]+ kernel: 575 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:Statd|RPC|sadmind).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Linux_Statd_Root" description="Linux_Statd_Root" format="Linux rpc.statd Root Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="MS_RPC_DCOM_BufferOverflow" description="MS_RPC_DCOM_BufferOverflow" format="Windows RPC DCOM Buffer Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="RPC_Rwall_Exec" description="RPC_Rwall_Exec" format="RPC rwall Execution Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Solaris_sadmind_Root" description="Solaris_sadmind_Root" format="Solaris sadmind Root Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="SMBAccess" description="High SMBAccess" matcher="(\d+) [\w\.]+ kernel: 575 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*SMB.*[oO]verflow):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="SMB_Trans2Open_Overflow" description="SMB_Trans2Open_Overflow" format="SMB Trans2Open Overflow Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TCPPortScan" description="Low TCP Scan" matcher="(\d+) [\w\.]+ kernel: 525 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*T[cC][pP].*Scan):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="5" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Tcp_Xmas_Scan" description="Tcp_Xmas_Scan" format="TCP Xmas Scan Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TeardropDenial" description="Medium Teardrop" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*Teardrop.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Teardrop" description="Teardrop" format="Teardrop DoS Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TrojanCommandAccess" description="Medium TrojanCommand" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(Deep_Throat|Stacheldraht|TFN|Trinoo).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$7" fieldName="SourcePort" type="2" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="ProviderSID" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$9" fieldName="DestinationPort" type="2" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="Deep_Throat" description="Deep_Throat" format="Deep Throat DoS Client Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Stacheldraht_Agent" description="Stacheldraht_Agent" format="Stacheldraht DoS Agent Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Stacheldraht_Handler" description="Stacheldraht_Handler" format="Stacheldraht DoS Handler Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Stacheldraht" description="Stacheldraht" format="Stacheldraht DoS Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="TFN_Shell" description="TFN_Shell" format="TFN DoS Shell Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Trinoo_Daemon_Handshake" description="Trinoo_Daemon_Handshake" format="Trinoo DoS Daemon Handshake Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="Trinoo_Daemon_Suspected" description="Trinoo_Daemon_Suspected" format="Trinoo DoS Daemon Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourceMachine" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="TrojanName" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="TrojanInfectionAccess" description="Med TrojanInfection" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Girlfriend):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Girlfriend" description="Girlfriend" format="Girlfriend DoS Client Infection Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="TrojanName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualTCPTraffic" description="Med Unusual TCP Traffic" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Conflicting_TCP_Flags):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="Conflicting_TCP_Flags" description="Conflicting_TCP_Flags" format="Conflicting TCP Flags Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualIPTraffic" description="Med Unusual IP Traffic" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Zero_TTL):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="Zero_TTL" description="Zero_TTL" format="Outgoing Packet with Zero TTL Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="UnusualProtocol" description="Med Unusual Protocol" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:Rare|Unknown).*Protocol):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="6" version_type="int">
+				<FastFormatter _type="null" condition="Rare_Or_Unknown_IP_Protocol" description="Rare_Or_Unknown_IP_Protocol" format="Rare or Unknown IP Protocol Detected" matcherInput="$4" version="2" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="VirusTrafficAccess" description="High Virus Traffic" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*(?:W32|Propagation).*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Virus" fieldName="VirusName" type="1" type_type="int" version="7" version_type="int">
+				<FastFormatter _type="null" condition="W32_(.*)_Worm_Propagation" description="W32_.*_Worm_Propagation" format="$10" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="W32(?:_HLLW)?_(.*)" description="W32_HLLW" format="$10" matcherInput="$4" version="5" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="(.*)_Worm_Propagation" description="_Worm_Propagation" format="$10" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SMTP_(.*)_Propagation" description="SMTP_.*_Propagation" format="$10" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="BugBearB_Worm_Propagation" description="BugBearB_Worm_Propagation" format="BugBear.B Worm Propagation Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="W32_HLLW_Deloder" description="W32_HLLW_Deloder" format="Deloder Virus Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="W32_HLLW_Fizzer_mm" description="W32_HLLW_Fizzer_mm" format="Fizzer Virus Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="W32_HLLW_Lovgate_Cmm" description="W32_HLLW_Lovgate_Cmm" format="Lovgate Virus Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="W32_SQLEXP_Worm_Propagation" description="W32_SQLEXP_Worm_Propagation" format="SQLEXP Worm Propagation Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="SMTP_Klez_Propagation" description="SMTP_Klez_Propagation" format="Klez Propagation Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="W32_Dumaru_mm" description="W32_Dumaru_mm" format="Dumaru Virus Traffic Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebDenial" description="Med WebDenial" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(HTTP.*DoS):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="6" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="4" version_type="int">
+				<FastFormatter _type="null" condition="HTTP_Cisco_IOS_DoS" description="HTTP_Cisco_IOS_DoS" format="Cisco IOS HTTP DoS Attack Detected" matcherInput="$4" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="WebEnumerate" description="Med WebEnumerate" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(Whisker):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="Whisker" description="Whisker" format="Whisker Scan Tool Detected" matcherInput="$4" version="1" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="TCP" fieldName="Protocol" type="1" type_type="int" version="2" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NetworkAttack" description="High Priority IDS Alert" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 575 IDS Alert" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="High IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NetworkAttack" description="Med Priority IDS Alert" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 550 IDS Alert" version="1" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Medium IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NetworkAttack" description="Low Priority IDS Alert" matcher="(\d+) [\w\.]+ kernel: 550 IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 525 IDS Alert" version="2" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="Low IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="2" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="NetworkAttack" description="IDS Alert" matcher="(\d+) [\w\.]+ kernel: 5(?:25|50|75) IDS Alert: (\d+)\.(\d{3})\d+:\d+:(.*):(\d+\.\d+\.\d+\.\d+):(\d+):(\d+\.\d+\.\d+\.\d+):(\d+).*" pattern="\d+ \w+ kernel: 5\d\d IDS Alert" version="4" version_type="int">
+			<FastField _type="null" defaultValue="$8" fieldName="DestinationPort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS Alert: $4" fieldName="EventInfo" type="1" type_type="int" version="3" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$4" fieldName="ProviderSID" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$6" fieldName="SourcePort" type="2" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$5" fieldName="SourceMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$7" fieldName="DestinationMachine" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStart" description="IDS Startup" matcher="(\d+) [\w\.]+ kernel: 100 IDS Info: (.*startup)\s*" pattern="\d+ \w+ kernel: 100 IDS Info" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceStop" description="IDS Shutdown" matcher="(\d+) [\w\.]+ kernel: 100 IDS Info: (.*shutdown)\s*" pattern="\d+ \w+ kernel: 100 IDS Info" version="12" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="IDS LiveUpdate Failure Info" matcher="(\d+) [\w\.]+ (?:kernel|lograptor): 100 IDS Info: (IDS LiveUpdate.*(?:failed|out of sync).*)" pattern="\d+ \w+ (kernel|lograptor): 100 IDS Info" version="10" version_type="int">
+			<FastField _type="null" defaultValue="$2" fieldName="WarningMessage" type="1" type_type="int" version="5" version_type="int">
+				<FastFormatter _type="null" condition="IDS LiveUpdate: IDS LiveUpdate process completed, (.*)" description="process completed" format="$4" matcherInput="$2" version="3" version_type="int"></FastFormatter>
+				<FastFormatter _type="null" condition="IDS LiveUpdate: (.*)" description="other failures" format="$4" matcherInput="$2" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$2" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="IDS LiveUpdate Info" matcher="(\d+) [\w\.]+ (?:kernel|lograptor): 100 IDS Info: (IDS LiveUpdate.*)" pattern="\d+ \w+ (kernel|lograptor): 100 IDS Info" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceWarning" description="IDS Signature Config" matcher="(\d+) [\w\.]+ (?:kernel|lograptor): 100 IDS Info: (.*)" pattern="\d+ \w+ (kernel|lograptor): 100 IDS Info" version="8" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="WarningMessage" type="1" type_type="int" version="1" version_type="int">
+				<FastFormatter _type="null" condition=".*IDS Signature Config: (.*)" description="stuff" format="$4" matcherInput="$1" version="0" version_type="int"></FastFormatter>
+			</FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="ServiceInfo" description="IDS Info" matcher="(\d+) [\w\.]+ (?:kernel|lograptor): 100 IDS Info: (.*)" pattern="\d+ \w+ (kernel|lograptor): 100 IDS Info" version="7" version_type="int">
+			<FastField _type="null" defaultValue="$1" fieldName="EventInfo" type="1" type_type="int" version="5" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="$1" fieldName="DetectionTime" type="4" type_type="int" version="1" version_type="int"></FastField>
+			<FastField _type="null" defaultValue="IDS" fieldName="ServiceName" type="1" type_type="int" version="1" version_type="int"></FastField>
+		</FastPattern>
+		<FastPattern _type="null" alertName="" description="Everything Else (Should get caught by VR wrap)" matcher=".*" pattern="" version="1" version_type="int"></FastPattern>
+	</FastToolId>
+</FASTConfiguration>
